@@ -3,3 +3,4 @@ appVersion: "1.0"
 description: Nexus stack for MOLGENIS
 name: nexus
 version: 0.1.0
+icon: catalogicon-molgenis-nexus.svg
