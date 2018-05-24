@@ -11,7 +11,13 @@ image:
 
 service:
   type: ClusterIP
-  port: 8080
+  ports:
+    - port: 8080
+      protocol: TCP
+      name: {{ .Values.service.name }}
+    - port: 5000
+      protocol: TCP
+      name: {{ .Values.service.name }}
 
 ingress:
   enabled: false
