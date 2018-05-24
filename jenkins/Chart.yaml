@@ -3,4 +3,4 @@ appVersion: "1.0"
 description: Jenkins stack for MOLGENIS
 name: jenkins
 version: 0.1.0
-icon: catalogicon-molgenis-jenkins.svg
+icon: https://github.com/sidohaakma/molgenis-docker-helm/blob/master/jenkins/catalogicon-molgenis-jenkins.svg
