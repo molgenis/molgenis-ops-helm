@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry.molgenis.org/molgenis-ops-releases/jenkins-master:lts
-  tag: stable
+  tag: lts
   pullPolicy: IfNotPresent
 
 service:

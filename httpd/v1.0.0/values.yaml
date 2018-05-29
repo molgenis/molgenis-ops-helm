@@ -1,23 +1,17 @@
-# Default values for nexus.
+# Default values for httpd.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: sonatype/nexus3
-  tag: stable
+  repository: registry.webhosting.rug.nl/molgenis/httpd
+  tag: lts
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  ports:
-    - port: 8080
-      protocol: TCP
-      name: {{ .Values.service.name }}
-    - port: 5000
-      protocol: TCP
-      name: {{ .Values.service.name }}
+  port: 80
 
 ingress:
   enabled: false
@@ -26,7 +20,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - registry.molgenis.local
+    - chart-example.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
