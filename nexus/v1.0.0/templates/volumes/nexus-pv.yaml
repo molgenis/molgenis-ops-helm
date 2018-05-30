@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: molgenis-nexus-data
+  labels:
+    name: nfs2
+spec:
+  storageClassName: nfs-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.64.10
+    path: /home/gcc/molgenis-nexus-data

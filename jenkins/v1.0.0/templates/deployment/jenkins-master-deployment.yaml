@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.13.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: jenkins-master
+  name: jenkins-master
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: jenkins-master
+    spec:
+      containers:
+      - env:
+        - name: JENKINS_ADMIN_PASS
+        - name: JENKINS_ADMIN_USER
+        image: registry.molgenis.org/molgenis-ops-releases/jenkins-master:lts
+        name: jenkins-master
+        ports:
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/jenkins-home
+          name: jenkins-master-claim
+        - mountPath: /var/run/docker.sock
+          name: jenkins-master-claim
+      restartPolicy: Always
+      volumes:
+      - name: jenkins-master-claim
+        persistentVolumeClaim:
+          claimName: jenkins-master-claim
+status: {}
