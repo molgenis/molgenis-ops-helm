@@ -1,0 +1,50 @@
+categories:
+- MOLGENIS
+questions:
+- variable: molgenisUsername
+  default: "user"
+  description: "User of the application"
+  type: string
+  required: true
+  label: MOLGENIS username
+  group: "MOLGENIS Settings"
+- variable: molgenisEmail
+  default: "admin@molgenis.org"
+  description: "Admin email"
+  type: string
+  required: true
+  label: MOLGENIS admin email
+  group: "MOLGENIS Settings"
+- variable: persistence.enabled
+  default: "false"
+  description: "Enable persistent volume for MOLGENIS"
+  type: boolean
+  required: true
+  label: MOLGENIS Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "MOLGENIS Settings"
+  subquestions:
+  - variable: persistence.size
+    default: "10Gi"
+    description: "MOLGENIS Persistent Volume Size"
+    type: string
+    label: Webhosting Volume Size
+  - variable: persistence.storageClass
+    default: ""
+    description: "If undefined or null, uses the default StorageClass. Default to null"
+    type: storageclass
+    label: Default StorageClass for Webhosting
+- variable: ingress.enabled
+  default: "true"
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose app using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: ingress.hosts[0].name
+    default: ""
+    description: "Hostname to your MOLGENIS installation"
+    type: hostname
+    required: true
+    label: Hostname

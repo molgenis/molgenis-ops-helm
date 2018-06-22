@@ -1,4 +1,4 @@
-# Default values for httpd.
+# Default values for jenkins.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -8,6 +8,9 @@ image:
   repository: registry.webhosting.rug.nl/molgenis/httpd
   tag: lts
   pullPolicy: IfNotPresent
+
+molgenisUsername: molgenis
+molgenisEmail: admin@molgenis.org
 
 service:
   type: ClusterIP
@@ -20,7 +23,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - chart-example.local
+    - molgenis.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
