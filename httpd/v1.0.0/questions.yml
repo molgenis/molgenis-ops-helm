@@ -43,14 +43,20 @@ questions:
   group: "Services and Load Balancing"
   subquestions:
   - variable: ingress.hosts[0].name
-    default: ""
-    description: "Hostname to your stack"
+    default: "test.molgenis.org"
+    description: "Hostname for your stack"
     type: hostname
     required: true
     label: Hostname
   - variable: httpd.proxy
     default: "[service]:[port]:[path]"
-    description: "Proxy to services (comma separated)"
+    description: "Proxy for your services (comma separated)"
     type: string
     required: false
+    label: Proxy
+  - variable: httpd.hostname
+    default: "test.molgenis.org"
+    description: "Hostname for your stack (comma separated)"
+    type: string
+    required: true
     label: Proxy
