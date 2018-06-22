@@ -17,7 +17,7 @@ service:
   port: 80
 
 httpd:
-  proxy: service:port:path
+  proxy: httpd:80:/
   hostname: test.molgenis.org
 
 ingress:

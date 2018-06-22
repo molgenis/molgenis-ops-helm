@@ -59,4 +59,4 @@ questions:
     description: "Hostname for your stack (comma separated)"
     type: string
     required: true
-    label: Proxy
+    label: Hostname (for HTTPD)
