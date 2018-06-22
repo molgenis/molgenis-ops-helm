@@ -7,11 +7,9 @@ metadata:
     app: nexus
 spec:
   ports:
-  - name: "8081"
+  - name: "ui"
     port: 8081
-    targetPort: 8081
-  - name: "5000"
+  - name: "docker"
     port: 5000
-    targetPort: 5000
   selector:
     app: nexus

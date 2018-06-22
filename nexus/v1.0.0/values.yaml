@@ -14,13 +14,13 @@ service:
   type: ClusterIP
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - registry.molgenis.local
+    - registry.molgenis.org
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

@@ -2,7 +2,7 @@ categories:
 - MOLGENIS
 questions:
 - variable: molgenisUsername
-  default: "user"
+  default: "molgenis"
   description: "User of the application"
   type: string
   required: true
@@ -45,12 +45,12 @@ questions:
   - variable: httpd.hostname
     default: ""
     description: "Hostname to your stack (comma separated)"
-    type: hostname
+    type: string
     required: true
     label: Hostname
   - variable: httpd.proxy
     default: "[service]:[port]:[path]"
     description: "Proxy to services (comma separated)"
     type: string
-    required: true
+    required: false
     label: Proxy
