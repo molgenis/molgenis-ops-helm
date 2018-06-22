@@ -26,14 +26,14 @@ questions:
   subquestions:
   - variable: persistence.size
     default: "10Gi"
-    description: "MOLGENIS Persistent Volume Size"
+    description: "Persistent Volume Size"
     type: string
-    label: Webhosting Volume Size
+    label: MOLGENIS Volume Size
   - variable: persistence.storageClass
     default: ""
     description: "If undefined or null, uses the default StorageClass. Default to null"
     type: storageclass
-    label: Default StorageClass for Webhosting
+    label: Default StorageClass for MOLGENIS
 - variable: ingress.enabled
   default: "true"
   description: "Expose app using Layer 7 Load Balancer - ingress"
@@ -42,9 +42,15 @@ questions:
   show_subquestion_if: true
   group: "Services and Load Balancing"
   subquestions:
-  - variable: ingress.hosts[0].name
+  - variable: httpd.hostname
     default: ""
-    description: "Hostname to your MOLGENIS installation"
+    description: "Hostname to your stack (comma separated)"
     type: hostname
     required: true
     label: Hostname
+  - variable: httpd.proxy
+    default: "[service]:[port]:[path]"
+    description: "Proxy to services (comma separated)"
+    type: string
+    required: true
+    label: Proxy

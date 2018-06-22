@@ -16,6 +16,10 @@ service:
   type: ClusterIP
   port: 80
 
+httpd:
+  proxy: service:port:path
+  hostname: test.molgenis.org
+
 ingress:
   enabled: false
   annotations: {}
@@ -23,7 +27,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - molgenis.local
+    - { httpd.hostname }
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

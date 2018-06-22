@@ -27,6 +27,11 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          env:
+            - name: SERVER_NAME
+              value: {{ .Values.ingress.hosts[0].name | quote }}
+            - name: PROXY_SERVICE
+              values: {{ .Values.httpd.proxy | quote }}
           livenessProbe:
             httpGet:
               path: /
