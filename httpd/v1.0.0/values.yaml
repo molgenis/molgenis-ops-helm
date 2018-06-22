@@ -27,7 +27,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - { httpd.hostname }
+    - molgenis.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
