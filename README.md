@@ -1,7 +1,7 @@
 # MOLGENIS Helm templates
 
 
-## Usefull commands for Kubernetes
+## Useful commands for Kubernetes
 
 - kubectl get pods
   Gets alls running instances of containers from a certain deployment
@@ -14,7 +14,7 @@
 - kubectl get deployments
   Gets all deployments (comparable with docker-compose)
 
-## Usefull commands for Helm
+## Useful commands for Helm
 
 - helm install .
   Do it in the root of the project where the Chart.yaml is located
@@ -22,4 +22,4 @@
 - helm list
   Lists all installed releases
 - helm delete #release#
-  Performs a sort of mvn clean on your workspace. Very handy for zombie persistant volumes or claims.
+  Performs a sort of mvn clean on your workspace. Very handy for zombie persistent volumes or claims.
