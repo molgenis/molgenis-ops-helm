@@ -13,8 +13,8 @@ service:
   type: ClusterIP
   port: 80
   proxy: httpd:80:/
-  redirect: redirect.molgenis.org
-  hostname: test.molgenis.org
+  redirect: redirect.molgenis.local
+  hostname: test.molgenis.local
   volume:
     username: molgenis
     email: admin@molgenis.org

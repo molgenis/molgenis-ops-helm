@@ -32,7 +32,7 @@ spec:
               value: "{{ .Values.service.hostname }}"
             - name: PROXY_SERVICE
               value: "{{ .Values.service.proxy }}"
-            - name: PROXY_SERVICE
+            - name: REDIRECT_URL
               value: "{{ .Values.service.redirect }}"
           livenessProbe:
             httpGet:

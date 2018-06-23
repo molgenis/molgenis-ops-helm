@@ -61,7 +61,7 @@ questions:
     required: false
     label: Hostname
   - variable: service.redirect
-    default: "test.molgenis.org"
+    default: ""
     description: "Redirection urls for your services (comma separated, example: [redirection_url])"
     type: string
     required: false
