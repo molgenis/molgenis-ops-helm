@@ -29,9 +29,9 @@ spec:
               protocol: TCP
           env:
             - name: SERVER_NAME
-              value: sido.molgenis.org
+              value: "{{ .Values.httpd.hostname }}"
             - name: PROXY_SERVICE
-              value: {{ .Values.httpd.proxy | quote }}
+              value: "{{ .Values.httpd.proxy }}"
           livenessProbe:
             httpGet:
               path: /
