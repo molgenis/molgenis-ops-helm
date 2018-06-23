@@ -9,7 +9,13 @@ image:
   tag: stable
   pullPolicy: IfNotPresent
 
-service:
+httpd:
+  name: httpd
+  type: ClusterIP
+  port: 80
+  proxy: httpd:80:/
+
+nexus:
   name: nexus
   type: ClusterIP
 

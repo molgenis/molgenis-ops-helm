@@ -9,16 +9,14 @@ image:
   tag: lts
   pullPolicy: IfNotPresent
 
-molgenisUsername: molgenis
-molgenisEmail: admin@molgenis.org
-
-service:
+httpd:
   type: ClusterIP
   port: 80
-
-httpd:
   proxy: httpd:80:/
   hostname: test.molgenis.org
+  volume:
+    username: molgenis
+    email: admin@molgenis.org
 
 ingress:
   enabled: false
