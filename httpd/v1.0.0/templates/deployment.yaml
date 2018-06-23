@@ -29,9 +29,9 @@ spec:
               protocol: TCP
           env:
             - name: SERVER_NAME
-              value: "{{ .Values.httpd.hostname }}"
+              value: "{{ .Values.service.hostname }}"
             - name: PROXY_SERVICE
-              value: "{{ .Values.httpd.proxy }}"
+              value: "{{ .Values.service.proxy }}"
           livenessProbe:
             httpGet:
               path: /
