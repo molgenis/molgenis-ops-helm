@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.molgenis.org/molgenis-ops-releases/jenkins-master:lts
   tag: lts
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: ClusterIP
