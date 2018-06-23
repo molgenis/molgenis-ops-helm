@@ -29,7 +29,7 @@ spec:
               protocol: TCP
           env:
             - name: SERVER_NAME
-              value: "{{ .Values.httpd.hostname }}"
+              value: "{{ .Values.ingress.hosts[0].name }}"
             - name: PROXY_SERVICE
               value: "{{ .Values.httpd.proxy }}"
           livenessProbe:

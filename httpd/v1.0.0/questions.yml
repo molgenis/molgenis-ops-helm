@@ -49,14 +49,8 @@ questions:
     required: true
     label: Hostname
   - variable: httpd.proxy
-    default: "[service]:[port]:[path]"
-    description: "Proxy for your services (comma separated)"
+    default: ""
+    description: "Proxy for your services (comma separated, example: [service]:[port]:[path])"
     type: string
     required: false
     label: Proxy
-  - variable: httpd.hostname
-    default: "test.molgenis.org"
-    description: "Hostname for your stack (comma separated)"
-    type: string
-    required: true
-    label: Hostname (for HTTPD)
