@@ -12,6 +12,8 @@ image:
 service:
   type: ClusterIP
   port: 80
+
+httpd:
   proxy: httpd:80:/
   redirect: redirect.molgenis.local
   hostname: test.molgenis.local
