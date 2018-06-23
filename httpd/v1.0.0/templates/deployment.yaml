@@ -29,11 +29,11 @@ spec:
               protocol: TCP
           env:
             - name: SERVER_NAME
-              value: "{{ .Values.service.hostname }}"
+              value: "{{ .Values.httpd.hostname }}"
             - name: PROXY_SERVICE
-              value: "{{ .Values.service.proxy }}"
+              value: "{{ .Values.httpd.proxy }}"
             - name: REDIRECT_URL
-              value: "{{ .Values.service.redirect }}"
+              value: "{{ .Values.httpd.redirect }}"
           livenessProbe:
             httpGet:
               path: /
