@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry.webhosting.rug.nl/molgenis/httpd
-  tag: lts
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
