@@ -60,3 +60,9 @@ questions:
     type: string
     required: false
     label: Hostname
+  - variable: service.redirect
+    default: "test.molgenis.org"
+    description: "Redirection urls for your services (comma separated, example: [redirection_url])"
+    type: string
+    required: false
+    label: Redirection
