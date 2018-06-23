@@ -48,21 +48,24 @@ questions:
     type: hostname
     required: true
     label: Hostname
-  - variable: httpd.hostname
-    default: "test.molgenis.org"
-    description: "Hostname for your services (comma separated, example: [hostname]:[port])"
-    type: string
-    required: false
-    label: Hostname
-  - variable: httpd.proxy
-    default: ""
-    description: "Proxy for your services (comma separated, example: [service]:[port]:[path])"
-    type: string
-    required: false
-    label: Proxy
-  - variable: httpd.redirect
-    default: ""
-    description: "Redirection urls for your services (comma separated, example: [redirection_url])"
-    type: string
-    required: false
-    label: Redirection
+- variable: httpd.hostname
+  default: "test.molgenis.org"
+  description: "Hostname for your services (comma separated, example: [hostname]:[port])"
+  type: string
+  required: false
+  group: "Apache configuration"
+  label: Hostname
+- variable: httpd.proxy
+  default: ""
+  description: "Proxy for your services (comma separated, example: [service]:[port]:[path])"
+  type: string
+  required: false
+  group: "Apache configuration"
+  label: Proxy
+- variable: httpd.redirect
+  default: ""
+  description: "Redirection urls for your services (comma separated, example: [redirection_url])"
+  type: string
+  required: false
+  group: "Apache configuration"
+  label: Redirection
