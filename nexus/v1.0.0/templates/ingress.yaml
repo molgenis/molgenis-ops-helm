@@ -23,7 +23,7 @@ spec:
       paths:
         - path: {{ default "/" .path }}
           backend:
-            serviceName: nexus
+            serviceName: httpd
             servicePort: 80
 {{- if .tls }}
   tls:
