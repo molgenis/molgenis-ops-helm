@@ -8,7 +8,8 @@ metadata:
     environment: {{ .Values.environment }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  strategy: {{ .Values.nexus.strategy.type }}
+  strategy:
+    type: {{ .Values.nexus.strategy.type }}
   selector:
     matchLabels:
       app: {{ .Values.nexus.selector }}
