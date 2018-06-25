@@ -17,16 +17,6 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - name: httpd
-        image: registry.webhosting.rug.nl/molgenis/httpd:lts
-        env:
-        - name: PROXY_SERVICE
-          value: nexus:8081,nexus:5000:v2
-        - name: SERVER_NAME
-          value: registry.molgenis.org
-        ports:
-        - containerPort: 80
-        resources: {}
       - name: nexus
         image: sonatype/nexus:latest
         ports:
