@@ -1,12 +1,36 @@
+{{- if .Values.ingress.enabled }}
+{{- range .Values.ingress.hosts }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress-nexus
+  name: "{{ $.Release.Name }}-ingress"
+  labels:
+    app: {{ template "nexus.fullname" $ }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+  annotations:
+    {{- if .tls }}
+    ingress.kubernetes.io/secure-backends: "true"
+    {{- end }}
+    {{- range $key, $value := .annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
 spec:
   rules:
-  - host: registry.molgenis.org
+  - host: {{ .name }}
     http:
       paths:
-      - backend:
-          serviceName: httpd
-          servicePort: 80
+        - path: {{ default "/" .path }}
+          backend:
+            serviceName: {{ template "nexus.fullname" $ }}
+            servicePort: 80
+{{- if .tls }}
+  tls:
+  - hosts:
+    - {{ .name }}
+    secretName: {{ .tlsSecret }}
+{{- end }}
+---
+{{- end }}
+{{- end }}

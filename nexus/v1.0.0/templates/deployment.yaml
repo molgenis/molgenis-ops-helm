@@ -2,28 +2,34 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: httpd
+  name: nexus
   labels:
-    app: httpd
+    app: nexus
+    environment: production
 spec:
   replicas: 1
   strategy: {}
   template:
     metadata:
       labels:
-        app: httpd
+        app: nexus
       creationTimestamp: null
     spec:
       containers:
-      - env:
+      - name: httpd
+        image: registry.webhosting.rug.nl/molgenis/httpd:lts
+        env:
         - name: PROXY_SERVICE
           value: nexus:8081,nexus:5000:v2
         - name: SERVER_NAME
-          value: httpd:80
-        image: registry.webhosting.rug.nl/molgenis/httpd:lts
-        name: httpd
+          value: registry.molgenis.org
         ports:
         - containerPort: 80
         resources: {}
-      restartPolicy: Always
+        restartPolicy: Always
+      - name: nexus
+        image: sonatype/nexus:latest
+        ports:
+        - containerPort: 8081
+        - containerPort: 5000
 status: {}

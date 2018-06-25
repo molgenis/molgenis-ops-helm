@@ -7,17 +7,11 @@ replicaCount: 1
 image:
   repository: sonatype/nexus3
   tag: stable
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
-httpd:
-  name: httpd
+service:
   type: ClusterIP
   port: 80
-  proxy: httpd:80:/
-
-nexus:
-  name: nexus
-  type: ClusterIP
 
 ingress:
   enabled: true
