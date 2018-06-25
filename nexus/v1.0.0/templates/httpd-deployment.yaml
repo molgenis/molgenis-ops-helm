@@ -2,13 +2,16 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: nexus
+  name: httpd
   labels:
     app: nexus
     environment: production
 spec:
   replicas: 1
   strategy: {}
+  selector:
+    matchLabels:
+      app: httod
   template:
     metadata:
       labels:
