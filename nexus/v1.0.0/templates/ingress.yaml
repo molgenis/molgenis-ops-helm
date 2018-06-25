@@ -25,8 +25,8 @@ spec:
       paths:
         - path: {{ default "/" .path }}
           backend:
-            serviceName: httpd
-            servicePort: 80
+            serviceName: {{ .Values.httpd.name }}
+            servicePort: {{ .Values.httpd.port }}
 {{- if .tls }}
   tls:
   - hosts:

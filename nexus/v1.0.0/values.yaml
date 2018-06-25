@@ -7,7 +7,7 @@ replicaCount: 1
 environment: production
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
 
 nexus:
