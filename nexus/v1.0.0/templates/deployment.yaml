@@ -15,6 +15,7 @@ spec:
         app: nexus
       creationTimestamp: null
     spec:
+      restartPolicy: Always
       containers:
       - name: httpd
         image: registry.webhosting.rug.nl/molgenis/httpd:lts
@@ -26,11 +27,8 @@ spec:
         ports:
         - containerPort: 80
         resources: {}
-        restartPolicy: Always
       - name: nexus
         image: sonatype/nexus:latest
         ports:
         - containerPort: 8081
         - containerPort: 5000
-        restartPolicy: Always
-status: {}
