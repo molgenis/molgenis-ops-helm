@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.webhosting.rug.nl/molgenis/httpd
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: always
 
 service:
   type: ClusterIP
