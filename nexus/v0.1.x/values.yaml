@@ -12,6 +12,8 @@ service:
 
 nexus:
   name: nexus
+  strategy:
+    type: Recreate
   selector: nexus
   restartPolicy: Always
   image:
@@ -21,9 +23,14 @@ nexus:
   port:
     docker: 5000
     ui: 8081
+  path:
+    dockerV2: v2
 
 httpd:
   name: httpd
+  hostname: registry.molgenis.org
+  strategy:
+    type: Recreate
   selector: httpd
   restartPolicy: Always
   image:
@@ -31,6 +38,7 @@ httpd:
     tag: lts
     pullPolicy: Always
   port: 80
+
 
 ingress:
   enabled: true

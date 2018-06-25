@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.jenkins.master.name }}
+  labels:
+    app: {{ .Values.jenkins.master.name }}
+spec:
+  type: NodePort
+  ports:
+  - name: {{ .Values.jenkins.master.name }}
+    port: {{ .Values.jenkins.master.port }}
+  selector:
+    app: {{ .Values.jenkins.master.selector }}

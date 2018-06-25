@@ -7,8 +7,9 @@ metadata:
     app: {{ .Values.httpd.name }}
     environment: {{ .Values.environment }}
 spec:
-  replicas: 1
-  strategy: {}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.httpd.strategy.type }}
   selector:
     matchLabels:
       app: {{ .Values.httpd.selector }}
@@ -25,9 +26,9 @@ spec:
         imagePullPolicy: {{ .Values.httpd.image.pullPolicy }}
         env:
         - name: PROXY_SERVICE
-          value: "{{ .Values.nexus.name }}:{{ .Values.nexus.port.ui }},{{ .Values.nexus.name }}:{{ .Values.nexus.port.docker }}:v2"
+          value: "{{ .Values.nexus.name }}:{{ .Values.nexus.port.ui }},{{ .Values.nexus.name }}:{{ .Values.nexus.port.docker }}:{{ .Values.nexus.path.dockerV2 }}"
         - name: SERVER_NAME
-          value: registry.molgenis.org
+          value: {{ .Values.httpd.hostname }}
         ports:
         - containerPort: {{ .Values.httpd.port }}
         resources: {}

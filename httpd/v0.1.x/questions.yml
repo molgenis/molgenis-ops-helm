@@ -34,20 +34,13 @@ questions:
     description: "If undefined or null, uses the default StorageClass. Default to null"
     type: storageclass
     label: Default StorageClass for MOLGENIS
-- variable: ingress.enabled
-  default: "true"
-  description: "Expose app using Layer 7 Load Balancer - ingress"
-  type: boolean
-  label: Expose app using Layer 7 Load Balancer
-  show_subquestion_if: true
+- variable: ingress.hosts[0].name
+  default: "test.molgenis.org"
+  description: "Hostname for your stack"
+  type: hostname
+  required: true
   group: "Services and Load Balancing"
-  subquestions:
-  - variable: ingress.hosts[0].name
-    default: "test.molgenis.org"
-    description: "Hostname for your stack"
-    type: hostname
-    required: true
-    label: Hostname
+  label: Hostname
 - variable: httpd.hostname
   default: "test.molgenis.org"
   description: "Hostname for your services (comma separated, example: [hostname]:[port])"
