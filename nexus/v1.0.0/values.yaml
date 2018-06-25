@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: sonatype/nexus3
-  tag: stable
+  tag: latest
   pullPolicy: Always
 
 service:
