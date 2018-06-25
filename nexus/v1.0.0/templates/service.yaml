@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nexus
+  name: {{ template "nexus.fullname" . }}
   labels:
     app: {{ template "nexus.name" . }}
     chart: {{ template "nexus.chart" . }}
