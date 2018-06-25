@@ -7,6 +7,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 80
+  - name: httpd
+    port: 80
   selector:
     app: httpd

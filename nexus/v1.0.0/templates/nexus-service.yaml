@@ -7,7 +7,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8081
-    - port: 5000
+  - name: ui
+    port: 8081
+  - name: docker
+    port: 5000
   selector:
     app: nexus
