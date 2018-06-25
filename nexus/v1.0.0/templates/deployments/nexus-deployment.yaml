@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ .Values.nexus.name }}
+  labels:
+    app: {{ .Values.nexus.name }}
+    environment: {{ .Values.environment }}
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels:
+      app: {{ .Values.nexus.selector }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.nexus.name }}
+      creationTimestamp: null
+    spec:
+      restartPolicy: {{ .Values.nexus.restartPolicy }}
+      containers:
+      - name: {{ .Values.nexus.name }}
+        image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
+        imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.nexus.port.ui }}
+        - containerPort: {{ .Values.nexus.port.docker }}

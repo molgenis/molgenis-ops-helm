@@ -4,13 +4,32 @@
 
 replicaCount: 1
 
-image:
-  repository: sonatype/nexus3
-  tag: latest
-  pullPolicy: Always
+environment: production
 
 service:
   type: ClusterIP
+  port: 80
+
+nexus:
+  name: nexus
+  selector: nexus
+  restartPolicy: Always
+  image:
+    repository: sonatype/nexus3
+    tag: latest
+    pullPolicy: Always
+  port:
+    docker: 5000
+    ui: 8081
+
+httpd:
+  name: httpd
+  selector: httpd
+  restartPolicy: Always
+  image:
+    repository: registry.webhosting.rug.nl/molgenis/httpd
+    tag: lts
+    pullPolicy: Always
   port: 80
 
 ingress:
