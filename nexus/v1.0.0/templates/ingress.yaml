@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
   name: "{{ $.Release.Name }}-ingress"
   labels:
-    app: {{ template "nexus.fullname" $ }}
+    app: httpd
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
@@ -25,7 +25,7 @@ spec:
       paths:
         - path: {{ default "/" .path }}
           backend:
-            serviceName: {{ template "nexus.fullname" $ }}
+            serviceName: httpd
             servicePort: 80
 {{- if .tls }}
   tls:
