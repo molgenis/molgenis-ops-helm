@@ -32,4 +32,5 @@ spec:
         ports:
         - containerPort: 8081
         - containerPort: 5000
+        restartPolicy: Always
 status: {}
