@@ -11,7 +11,7 @@ spec:
   strategy: {}
   selector:
     matchLabels:
-      app: httod
+      app: httpd
   template:
     metadata:
       labels:
