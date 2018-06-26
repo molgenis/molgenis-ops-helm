@@ -42,4 +42,4 @@ spec:
       name: {{ template "jenkins.fullname" . }}-tests
   - name: tools
     emptyDir: {}
-  restartPolicy: Never
+  restartPolicy: OnFailure
