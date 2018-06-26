@@ -43,7 +43,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - registry.molgenis.org
+    - jenkins.molgenis.org
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
