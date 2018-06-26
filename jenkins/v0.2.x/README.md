@@ -10,20 +10,21 @@ Inspired by the awesome work of Carlos Sanchez <mailto:carlos@apache.org>
 
 This chart will do the following:
 
-* 1 x Jenkins Master with port 8080 exposed on an external LoadBalancer
+* 1 x Jenkins Master with port 8080 exposed on an external ClusterIP
 * All using Kubernetes Deployments
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
-
-```bash
-$ helm install --name my-release stable/jenkins
-```
+In the rancher UI, choose the molgenis-jenkins app from the catalog and deploy it.
 
 ## Configuration
 
 The following tables list the configurable parameters of the Jenkins chart and their default values.
+You can paste these values into the Rancher Answers if you like.
+Array values can be added as {value, value, value}, e.g.
+```
+Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1}
+```
 
 ### Jenkins Master
 | Parameter                         | Description                          | Default                                                                      |

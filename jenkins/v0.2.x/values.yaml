@@ -38,12 +38,13 @@ Master:
   ServicePort: 8080
   # For minikube, set this to NodePort, elsewhere use LoadBalancer
   # Use ClusterIP if your setup includes ingress controller
-  ServiceType: LoadBalancer
+  ServiceType: ClusterIP
   # Master Service annotations
   ServiceAnnotations: {}
   #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
   # Used to create Ingress record (should used with ServiceType: ClusterIP)
   # HostName: jenkins.cluster.local
+  HostName: jenkins.molgenis.org
   # NodePort: <to set explicitly, choose port between 30000-32767
   ContainerPort: 8080
   # Enable Kubernetes Liveness and Readiness Probes
@@ -78,11 +79,11 @@ Master:
   # JMXPort: 4000
   # List of plugins to be install during Jenkins master start
   InstallPlugins:
-    - kubernetes:1.1
+    - kubernetes:1.8.4
     - workflow-aggregator:2.5
-    - workflow-job:2.15
-    - credentials-binding:1.13
-    - git:3.6.4
+    - workflow-job:2.21
+    - credentials-binding:1.16
+    - git:3.9.1
   # Used to approve a list of groovy functions in pipelines used the script-security plugin. Can be viewed under /scriptApproval
   # ScriptApproval:
   #   - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
@@ -101,6 +102,59 @@ Master:
   # Jobs: |-
   #   test: |-
   #     <<xml here>>
+#  Jobs: |-
+#    molgenis: |-
+#      <?xml version='1.1' encoding='UTF-8'?>
+#      <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.19">
+#          <actions/>
+#          <description></description>
+#          <properties>
+#              <org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig plugin="pipeline-model-definition@1.3">
+#                  <dockerLabel></dockerLabel>
+#                  <registry plugin="docker-commons@1.13"/>
+#              </org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig>
+#          </properties>
+#          <folderViews class="jenkins.branch.MultiBranchProjectViewHolder" plugin="branch-api@2.0.20">
+#              <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+#          </folderViews>
+#          <healthMetrics>
+#              <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.5.1">
+#                  <nonRecursive>false</nonRecursive>
+#              </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
+#          </healthMetrics>
+#          <icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.0.20">
+#              <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+#          </icon>
+#          <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.5.1">
+#              <pruneDeadBranches>true</pruneDeadBranches>
+#              <daysToKeep>-1</daysToKeep>
+#              <numToKeep>-1</numToKeep>
+#          </orphanedItemStrategy>
+#          <triggers/>
+#          <disabled>false</disabled>
+#          <sources class="jenkins.branch.MultiBranchProject$BranchSourceList" plugin="branch-api@2.0.20">
+#              <data>
+#                  <jenkins.branch.BranchSource>
+#                      <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.9.1">
+#                          <id>a1f535cd-ab83-4d42-8993-0c3e59cf139f</id>
+#                          <remote>http://github.com/molgenis/molgenis.git</remote>
+#                          <credentialsId></credentialsId>
+#                          <traits>
+#                              <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
+#                          </traits>
+#                      </source>
+#                      <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+#                          <properties class="empty-list"/>
+#                      </strategy>
+#                  </jenkins.branch.BranchSource>
+#              </data>
+#              <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+#          </sources>
+#          <factory class="org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory">
+#              <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+#              <scriptPath>Jenkinsfile</scriptPath>
+#          </factory>
+#      </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>
   CustomConfigMap: false
   # Node labels and tolerations for pod assignment
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
@@ -143,7 +197,7 @@ Agent:
   # jenkins-agent: v1
 
 Persistence:
-  Enabled: true
+  Enabled: false
   ## A manually managed Persistent Volume and Claim
   ## Requires Persistence.Enabled: true
   ## If defined, PVC must be created manually before volume will be bound
