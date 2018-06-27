@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: molgenis-nexus-data
+  annotations:
+    pv.beta.kubernetes.io/gid: "200"
   labels:
     name: nfs2
 spec:
