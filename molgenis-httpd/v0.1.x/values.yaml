@@ -10,6 +10,7 @@ image:
   pullPolicy: Always
 
 service:
+  name: httpd
   type: ClusterIP
   port: 80
 
@@ -17,12 +18,9 @@ httpd:
   proxy: httpd:80:/
   redirect: redirect.molgenis.local
   hostname: test.molgenis.local
-  volume:
-    username: molgenis
-    email: admin@molgenis.org
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
