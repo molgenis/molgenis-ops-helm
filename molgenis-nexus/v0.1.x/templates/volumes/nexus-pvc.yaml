@@ -1,11 +1,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: molgenis-nexus-data
+  name: {{ .Values.persistance.name }}
 spec:
   storageClassName: nfs-class
   accessModes:
-    - ReadWriteMany
+    - {{ .Values.persistance.accessMode }}
   resources:
     requests:
-      storage: 50Gi
+      storage: {{ .Values.persistance.size }}

@@ -20,17 +20,17 @@ spec:
       creationTimestamp: null
     spec:
       volumes:
-      - name: molgenis-nexus-data
+      - name: {{ .Values.persistance.name }}
         persistentVolumeClaim:
-          claimName: molgenis-nexus-data
+          claimName: {{ .Values.persistance.name }}
       restartPolicy: {{ .Values.nexus.restartPolicy }}
       initContainers:
       - name: volume-mount-nexus
         image: busybox
-        command: ["sh", "-c", "chown -R 200:200 /gcc/molgenis/nexus"]
+        command: ["sh", "-c", "chown -R 200:200 {{ .Values.persistance.mountPath }}"]
         volumeMounts:
-        - name: molgenis-nexus-data
-          mountPath: "/gcc/molgenis/nexus"
+        - name: {{ .Values.persistance.name }}
+          mountPath: "{{ .Values.persistance.mountPath }}"
       containers:
       - name: {{ .Values.nexus.name }}
         image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
@@ -39,6 +39,6 @@ spec:
         - containerPort: {{ .Values.nexus.port.ui }}
         - containerPort: {{ .Values.nexus.port.docker }}
         volumeMounts:
-        - name: molgenis-nexus-data
+        - name: {{ .Values.persistance.name }}
           mountPath: "/nexus-data"
 

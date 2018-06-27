@@ -53,6 +53,15 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+persistence:
+  name: molgenis-nexus-data
+  size: 30G
+  reclaimPolicy: Retain
+  server: 192.168.64.12
+  accessMode: ReadWriteMany
+  mountPath: /gcc/molgenis/nexus
+
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
