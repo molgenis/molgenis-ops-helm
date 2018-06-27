@@ -91,60 +91,67 @@ data:
 {{- end }}
               <nodeProperties/>
             </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+{{- end -}}
+{{- if .Values.Pod.Enabled }}
             <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
               <inheritFrom></inheritFrom>
-              <name></name>
-              <namespace></namespace>
-              <privileged>false</privileged>
-              <capOnlyOnAlivePods>false</capOnlyOnAlivePods>
-              <alwaysPullImage>false</alwaysPullImage>
+              <name>{{ .Values.Pod.Label }}</name>
               <instanceCap>2147483647</instanceCap>
-              <slaveConnectTimeout>100</slaveConnectTimeout>
               <idleMinutes>0</idleMinutes>
-              <activeDeadlineSeconds>0</activeDeadlineSeconds>
-              <label>molgenis-maven</label>
-              <nodeSelector></nodeSelector>
-              <nodeUsageMode>EXCLUSIVE</nodeUsageMode>
-              <customWorkspaceVolumeEnabled>false</customWorkspaceVolumeEnabled>
-              <workspaceVolume class="org.csanchez.jenkins.plugins.kubernetes.volumes.workspace.EmptyDirWorkspaceVolume">
-                <memory>false</memory>
-              </workspaceVolume>
+              <label>{{ .Values.Pod.Label }}</label>
+              <nodeSelector>
+                {{- $local := dict "first" true }}
+                {{- range $key, $value := .Values.Pod.NodeSelector }}
+                  {{- if not $local.first }},{{- end }}
+                  {{- $key }}={{ $value }}
+                  {{- $_ := set $local "first" false }}
+                {{- end }}</nodeSelector>
+                <nodeUsageMode>NORMAL</nodeUsageMode>
               <volumes>
-                <org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
-                  <mountPath>/var/run/docker.sock</mountPath>
-                  <hostPath>/var/run/docker.sock</hostPath>
-                </org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
+{{- range $index, $volume := .Values.Pod.volumes }}
+                <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
+{{- range $key, $value := $volume }}{{- if not (eq $key "type") }}
+                  <{{ $key }}>{{ $value }}</{{ $key }}>
+{{- end }}{{- end }}
+                </org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
+{{- end }}
               </volumes>
               <containers>
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
-                  <name>maven</name>
-                  <image>webhost12.service.rug.nl/molgenis/molgenis-maven:latest</image>
+                  <name>{{ .Values.Pod.Label }}</name>
+                  <image>{{ .Values.Pod.Image }}:{{ .Values.Pod.ImageTag }}</image>
+{{- if .Values.Pod.Privileged }}
+                  <privileged>true</privileged>
+{{- else }}
                   <privileged>false</privileged>
-                  <alwaysPullImage>true</alwaysPullImage>
+{{- end }}
+                  <alwaysPullImage>{{ .Values.Pod.AlwaysPullImage }}</alwaysPullImage>
                   <workingDir>/home/jenkins</workingDir>
-                  <command>/bin/sh -c</command>
-                  <args>cat</args>
+                  <command>{{ .Values.Pod.Command }}</command>
+                  <args>{{ .Values.Pod.Args }}</args>
+{{- if .Values.Pod.TTY }}
                   <ttyEnabled>true</ttyEnabled>
-                  <resourceRequestCpu></resourceRequestCpu>
-                  <resourceRequestMemory></resourceRequestMemory>
-                  <resourceLimitCpu></resourceLimitCpu>
-                  <resourceLimitMemory></resourceLimitMemory>
-                  <envVars/>
-                  <ports/>
-                  <livenessProbe>
-                    <execArgs></execArgs>
-                    <timeoutSeconds>0</timeoutSeconds>
-                    <initialDelaySeconds>0</initialDelaySeconds>
-                    <failureThreshold>0</failureThreshold>
-                    <periodSeconds>0</periodSeconds>
-                    <successThreshold>0</successThreshold>
-                  </livenessProbe>
+{{- else }}
+                  <ttyEnabled>false</ttyEnabled>
+{{- end }}
+                  <resourceRequestCpu>{{.Values.Pod.Cpu}}</resourceRequestCpu>
+                  <resourceRequestMemory>{{.Values.Pod.Memory}}</resourceRequestMemory>
+                  <resourceLimitCpu>{{.Values.Pod.Cpu}}</resourceLimitCpu>
+                  <resourceLimitMemory>{{.Values.Pod.Memory}}</resourceLimitMemory>
                 </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
               </containers>
               <envVars/>
               <annotations/>
+{{- if .Values.Pod.ImagePullSecret }}
+              <imagePullSecrets>
+                <org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
+                  <name>{{ .Values.Pod.ImagePullSecret }}</name>
+                </org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
+              </imagePullSecrets>
+{{- else }}
               <imagePullSecrets/>
-              <yaml></yaml>
+{{- end }}
+              <nodeProperties/>
             </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
 {{- end -}}
           </templates>
