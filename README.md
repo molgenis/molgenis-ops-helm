@@ -73,14 +73,17 @@ kubectl config use-context molgenis --kubeconfig=*full path to molgenis config*
   *Example:*
 ```bash
 kubectl get pods --namespace=*#namespace of application#*
-
 ```
 
 ## Helm
 
+This repository is serves also as a catalogue for Rancher. We have serveral apps that are served through this repoistory. e.g.
+
+- [Jenkins](molgenis-jenkins/README.md)
+- [NEXUS](molgenis-nexus/README.md)
+- [HTTPD](molgenis-httpd/README.md)
+
 ### Useful commands
-
-
 
 - ```helm install .```
   
@@ -92,3 +95,4 @@ kubectl get pods --namespace=*#namespace of application#*
 - ```helm delete #release#a```
   
   Performs a sort of mvn clean on your workspace. Very handy for zombie persistent volumes or claims.
+  
