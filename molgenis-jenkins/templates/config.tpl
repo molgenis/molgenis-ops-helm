@@ -42,7 +42,7 @@ data:
                   {{- $key }}={{ $value }}
                   {{- $_ := set $local "first" false }}
                 {{- end }}</nodeSelector>
-                <nodeUsageMode>NORMAL</nodeUsageMode>
+                <nodeUsageMode>EXCLUSIVE</nodeUsageMode>
               <volumes>
 {{- range $index, $volume := .Values.Agent.volumes }}
                 <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
