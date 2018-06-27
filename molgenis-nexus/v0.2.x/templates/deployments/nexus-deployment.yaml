@@ -29,7 +29,7 @@ spec:
         image: busybox
         command: ["sh", "-c", "chown -R 200:200 {{ .Values.persistence.mountPath }}"]
         volumeMounts:
-        - name: {{ .Values.persistance.name }}
+        - name: {{ .Values.persistence.name }}
           mountPath: "{{ .Values.persistence.mountPath }}"
       containers:
       - name: {{ .Values.nexus.name }}
