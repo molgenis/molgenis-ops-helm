@@ -34,4 +34,6 @@ spec:
         volumeMounts:
         - name: molgenis-nexus-data
           mountPath: "/nexus-data"
+        - name: molgenis-nexus-data
+          mountPath: "/sonatype-work"
 
