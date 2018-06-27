@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: {{ .Values.persistence.size }}
   accessModes:
-    - {{ .Values.persistence.accessModes }}
+    - {{ .Values.persistence.accessMode }}
   persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
   nfs:
     server: {{ .Values.persistence.server }}
