@@ -92,6 +92,61 @@ data:
 {{- end }}
               <nodeProperties/>
             </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+            <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+              <inheritFrom></inheritFrom>
+              <name></name>
+              <namespace></namespace>
+              <privileged>false</privileged>
+              <capOnlyOnAlivePods>false</capOnlyOnAlivePods>
+              <alwaysPullImage>false</alwaysPullImage>
+              <instanceCap>2147483647</instanceCap>
+              <slaveConnectTimeout>100</slaveConnectTimeout>
+              <idleMinutes>0</idleMinutes>
+              <activeDeadlineSeconds>0</activeDeadlineSeconds>
+              <label>molgenis-maven</label>
+              <nodeSelector></nodeSelector>
+              <nodeUsageMode>EXCLUSIVE</nodeUsageMode>
+              <customWorkspaceVolumeEnabled>false</customWorkspaceVolumeEnabled>
+              <workspaceVolume class="org.csanchez.jenkins.plugins.kubernetes.volumes.workspace.EmptyDirWorkspaceVolume">
+                <memory>false</memory>
+              </workspaceVolume>
+              <volumes>
+                <org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
+                  <mountPath>/var/run/docker.sock</mountPath>
+                  <hostPath>/var/run/docker.sock</hostPath>
+                </org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
+              </volumes>
+              <containers>
+                <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                  <name>maven</name>
+                  <image>webhost12.service.rug.nl/molgenis/molgenis-maven:latest</image>
+                  <privileged>false</privileged>
+                  <alwaysPullImage>true</alwaysPullImage>
+                  <workingDir>/home/jenkins</workingDir>
+                  <command>/bin/sh -c</command>
+                  <args>cat</args>
+                  <ttyEnabled>true</ttyEnabled>
+                  <resourceRequestCpu></resourceRequestCpu>
+                  <resourceRequestMemory></resourceRequestMemory>
+                  <resourceLimitCpu></resourceLimitCpu>
+                  <resourceLimitMemory></resourceLimitMemory>
+                  <envVars/>
+                  <ports/>
+                  <livenessProbe>
+                    <execArgs></execArgs>
+                    <timeoutSeconds>0</timeoutSeconds>
+                    <initialDelaySeconds>0</initialDelaySeconds>
+                    <failureThreshold>0</failureThreshold>
+                    <periodSeconds>0</periodSeconds>
+                    <successThreshold>0</successThreshold>
+                  </livenessProbe>
+                </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+              </containers>
+              <envVars/>
+              <annotations/>
+              <imagePullSecrets/>
+              <yaml></yaml>
+            </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
 {{- end -}}
           </templates>
           <serverUrl>https://kubernetes.default</serverUrl>
