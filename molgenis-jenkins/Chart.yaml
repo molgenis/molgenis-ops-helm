@@ -1,10 +1,8 @@
-name: jenkins
+name: molgenis-jenkins
 home: https://jenkins.io/
-version: 0.2.0
+version: 0.2.1
 appVersion: 2.107
-description: Open source continuous integration server. It supports multiple SCM tools
-  including CVS, Subversion and Git. It can execute Apache Ant and Apache Maven-based
-  projects as well as arbitrary scripts.
+description: Molgenis installation for the jenkins chart.
 sources:
 - https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
 icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/jenkins/catalogIcon-molgenis-jenkins.svg
