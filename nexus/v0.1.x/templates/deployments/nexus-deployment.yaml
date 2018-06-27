@@ -19,6 +19,10 @@ spec:
         app: {{ .Values.nexus.name }}
       creationTimestamp: null
     spec:
+      volumes:
+      - name: molgenis-nexus-data
+        persistentVolumeClaim:
+          claimName: molgenis-nexus-data
       restartPolicy: {{ .Values.nexus.restartPolicy }}
       containers:
       - name: {{ .Values.nexus.name }}
@@ -27,3 +31,7 @@ spec:
         ports:
         - containerPort: {{ .Values.nexus.port.ui }}
         - containerPort: {{ .Values.nexus.port.docker }}
+        volumeMounts:
+        - name: molgenis-nexus-data
+          mountPath: "/nexus-data"
+

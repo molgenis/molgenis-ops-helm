@@ -7,10 +7,10 @@ metadata:
 spec:
   storageClassName: nfs-class
   capacity:
-    storage: 5Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.64.10
-    path: /home/gcc/molgenis-nexus-data
+    server: 192.168.64.12
+    path: /gcc/molgenis/nexus-data
