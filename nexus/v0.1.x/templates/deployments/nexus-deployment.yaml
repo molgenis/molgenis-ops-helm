@@ -19,9 +19,6 @@ spec:
         app: {{ .Values.nexus.name }}
       creationTimestamp: null
     spec:
-      securityContext:
-        runAsUser: 200
-        fsGroup: 200
       volumes:
       - name: molgenis-nexus-data
         persistentVolumeClaim:
@@ -29,6 +26,13 @@ spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
       containers:
       - name: {{ .Values.nexus.name }}
+        initContainers:
+        - name: volume-mount-nexus
+          image: busybox
+          command: ["sh", "-c", "chown -R 200:200 /gcc/molgenis/nexus"]
+          volumeMounts:
+          - name: molgenis-nexus-data
+            mountPath: "/nexus-data"
         image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
         imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
         ports:
@@ -37,6 +41,4 @@ spec:
         volumeMounts:
         - name: molgenis-nexus-data
           mountPath: "/nexus-data"
-#        securityContext:
-#          allowPrivilegeEscalation: false
 
