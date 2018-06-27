@@ -67,6 +67,6 @@ jenkins:
     # useful to manage encryption keys used for credentials.xml for instance (such as
     # master.key and hudson.util.Secret)
     # SecretsFilesSecret: jenkins-secrets
-    CustomConfigMap: false
+    CustomConfigMap: true
   rbac:
     install: true
