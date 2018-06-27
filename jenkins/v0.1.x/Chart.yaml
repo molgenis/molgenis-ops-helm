@@ -1,6 +1,0 @@
-apiVersion: v1
-appVersion: "1.0"
-description: Jenkins stack for MOLGENIS
-name: jenkins
-version: 0.1.0
-icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/jenkins/v0.1.x/catalogIcon-molgenis-jenkins.svg

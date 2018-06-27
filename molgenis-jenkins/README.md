@@ -1,4 +1,4 @@
-# Jenkins Helm Chart
+# Molgenis Jenkins Helm Chart
 
 Jenkins master and slave cluster utilizing the Jenkins Kubernetes plugin
 
@@ -23,8 +23,9 @@ The following tables list the configurable parameters of the Jenkins chart and t
 You can paste these values into the Rancher Answers if you like.
 Array values can be added as {value, value, value}, e.g.
 ```
-Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1}
+jenkins.Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1}
 ```
+> Because we use jenkins as a sub-chart, you should prefix all values with `jenkins`!
 
 ### Jenkins Master
 | Parameter                         | Description                          | Default                                                                      |
