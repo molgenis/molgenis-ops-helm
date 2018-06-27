@@ -30,7 +30,7 @@ spec:
         command: ["sh", "-c", "chown -R 200:200 /gcc/molgenis/nexus"]
         volumeMounts:
         - name: molgenis-nexus-data
-          mountPath: "/nexus-data"
+          mountPath: "/gcc/molgenis/nexus"
       containers:
       - name: {{ .Values.nexus.name }}
         image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
