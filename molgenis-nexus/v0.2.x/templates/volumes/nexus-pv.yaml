@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ .Values.persistance.volumeName }}
+  name: {{ .Values.persistence.volumeName }}
   labels:
     name: nfs2
 spec:
-  storageClassName: nfs-class
+  storageClassName: {{ .Values.persistence.storageClass }}
   capacity:
-    storage: {{ .Values.persistance.size }}
+    storage: {{ .Values.persistence.size }}
   accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: {{ .Values.persistance.reclaimPolicy }}
+    - {{ .Values.persistence.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
   nfs:
-    server: {{ .Values.persistance.server }}
-    path: {{ .Values.persistance.mountPath }}
+    server: {{ .Values.persistence.server }}
+    path: {{ .Values.persistence.mountPath }}

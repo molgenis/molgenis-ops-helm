@@ -1,11 +1,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.persistance.name }}
+  name: {{ .Values.persistence.name }}
 spec:
-  storageClassName: nfs-class
+  storageClassName: {{ .Values.persistence.storageClass }}
   accessModes:
-    - {{ .Values.persistance.accessMode }}
+    - {{ .Values.persistence.accessMode }}
   resources:
     requests:
-      storage: {{ .Values.persistance.size }}
+      storage: {{ .Values.persistence.size }}

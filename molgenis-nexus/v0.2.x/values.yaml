@@ -55,6 +55,7 @@ ingress:
 
 persistence:
   name: molgenis-nexus-data
+  storageClass: nfs-class
   size: 30G
   reclaimPolicy: Retain
   server: 192.168.64.12
