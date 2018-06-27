@@ -19,6 +19,9 @@ spec:
         app: {{ .Values.nexus.name }}
       creationTimestamp: null
     spec:
+      securityContext:
+        runAsUser: 200
+        fsGroup: 200
       volumes:
       - name: molgenis-nexus-data
         persistentVolumeClaim:
@@ -35,5 +38,5 @@ spec:
         - name: molgenis-nexus-data
           mountPath: "/nexus-data"
         securityContext:
-          fsGroup: 2000
+          allowPrivilegeEscalation: false
 
