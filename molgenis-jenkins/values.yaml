@@ -70,7 +70,7 @@ jenkins:
     CustomConfigMap: true
   rbac:
     install: true
-  # A second agent to configure a second pod template
+  # A second pod template for maven builds
   Pod:
     Enabled: true
     Image: "webhost12.service.rug.nl/molgenis/molgenis-maven"
@@ -78,10 +78,10 @@ jenkins:
   # ImagePullSecret: jenkins
     Label: "molgenis-maven"
     Privileged: false
-    Cpu: "200m"
-    Memory: "256Mi"
+    Cpu: ""
+    Memory: ""
     # You may want to change this to true while testing a new image
-    AlwaysPullImage: true
+    AlwaysPullImage: false
     Command: "/bin/sh -c"
     Args: "cat"
     TTY: true
@@ -90,12 +90,56 @@ jenkins:
     # Configure the attributes as they appear in the corresponding Java class for that type
     # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
     volumes:
-      - type: "HostPath"
-        mountPath: "/var/run/docker.sock"
+      - type: HostPath
         hostPath: "/var/run/docker.sock"
-    # - type: Secret
-    #   secretName: mysecret
-    #   mountPath: /var/myapp/mysecret
+        mountPath: "/var/run/docker.sock"
+      - type: Secret
+        secretName: molgenis-pipeline-file-secret
+        mountPath: "keyfile:/root/.m2"
     NodeSelector: {}
     # Key Value selectors. Ex:
     # jenkins-agent: v1
+PipelineSecrets:
+  Env:
+    # Passphrase for the pgp private key file
+    pgpPassphrase: xxxx
+    # Token for codecov.io service
+    codecovToken: xxxx
+    # Token for github bot account
+    githubToken: xxxx
+    # Token for sonarcloud.io
+    sonarToken: xxxx
+  File:
+    # PGP Private key in ascii format used to sign artifacts
+    PGPPrivateKeyAsc: |-
+      -----BEGIN PGP PRIVATE KEY BLOCK-----
+      xxxxx
+      -----END PGP PRIVATE KEY BLOCK-----
+    # maven.settings file
+    MavenSettingsXML: |-
+      <settings>
+        <!-- sets the local maven repository outside of the ~/.m2 folder for easier mounting of secrets and repo -->
+        <localRepository>${user.home}/.mvnrepository</localRepository>
+        <!-- lets disable the download progress indicator that fills up logs -->
+        <interactiveMode>false</interactiveMode>
+        <mirrors>
+          <mirror>
+            <id>nexus</id>
+            <mirrorOf>external:*</mirrorOf>
+            <url>https://registry.molgenis.org/repository/maven-central/</url>
+          </mirror>
+        </mirrors>
+        <servers>
+          <server>
+            <id>local-nexus</id>
+            <url>https://registry.molgenis.org/repository/maven-central/</url>
+            <username>admin</username>
+            <password>xxxxx</password>
+          </server>
+          <server>
+            <id>oss-sonatype-staging</id>
+            <username>molgenis</username>
+            <password>xxxxx</password>
+          </server>
+        </servers>
+      </settings>

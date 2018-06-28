@@ -140,7 +140,32 @@ data:
                   <resourceLimitMemory>{{.Values.Pod.Memory}}</resourceLimitMemory>
                 </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
               </containers>
-              <envVars/>
+              <envVars>
+                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                  <key>PGP_PASSPHRASE</key>
+                  <secretName>molgenis-pipeline-env-secret</secretName>
+                  <secretKey>pgpPassphrase</secretKey>
+                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                <org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
+                  <key>PGP_SECRETKEY</key>
+                  <value>keyfile:/root/.m2/key.asc</value>
+                </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
+                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                  <key>SONAR_TOKEN</key>
+                  <secretName>molgenis-pipeline-env-secret</secretName>
+                  <secretKey>sonarToken</secretKey>
+                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                  <key>CODECOV_TOKEN</key>
+                  <secretName>molgenis-pipeline-env-secret</secretName>
+                  <secretKey>codecovToken</secretKey>
+                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+                  <key>GITHUB_TOKEN</key>
+                  <secretName>molgenis-pipeline-env-secret</secretName>
+                  <secretKey>githubToken</secretKey>
+                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+              </envVars>
               <annotations/>
 {{- if .Values.Pod.ImagePullSecret }}
               <imagePullSecrets>
