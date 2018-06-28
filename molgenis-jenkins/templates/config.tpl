@@ -139,8 +139,37 @@ data:
                   <resourceLimitCpu>{{.Values.Pod.Cpu}}</resourceLimitCpu>
                   <resourceLimitMemory>{{.Values.Pod.Memory}}</resourceLimitMemory>
                 </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                  <name>alpine</name>
+                  <image>spotify/alpine</image>
+                  <privileged>false</privileged>
+                  <alwaysPullImage>false</alwaysPullImage>
+                  <workingDir>/home/jenkins</workingDir>
+                  <command>/bin/sh -c</command>
+                  <args>cat</args>
+                  <ttyEnabled>true</ttyEnabled>
+                  <resourceRequestCpu></resourceRequestCpu>
+                  <resourceRequestMemory></resourceRequestMemory>
+                  <resourceLimitCpu></resourceLimitCpu>
+                  <resourceLimitMemory></resourceLimitMemory>
+                  <ports/>
+                  <livenessProbe>
+                    <execArgs></execArgs>
+                    <timeoutSeconds>0</timeoutSeconds>
+                    <initialDelaySeconds>0</initialDelaySeconds>
+                    <failureThreshold>0</failureThreshold>
+                    <periodSeconds>0</periodSeconds>
+                    <successThreshold>0</successThreshold>
+                  </livenessProbe>
+                </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
               </containers>
               <envVars>
+                <envVars>
+                  <org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
+                    <key>JENKINS_URL</key>
+                    <value>http://{{ template "jenkins.fullname" . }}:{{.Values.Master.ServicePort}}{{ default "" .Values.Master.JenkinsUriPrefix }}</value>
+                  </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
+                </envVars>
                 <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
                   <key>PGP_PASSPHRASE</key>
                   <secretName>molgenis-pipeline-env-secret</secretName>
