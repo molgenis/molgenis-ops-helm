@@ -95,7 +95,7 @@ jenkins:
         mountPath: "/var/run/docker.sock"
       - type: Secret
         secretName: molgenis-pipeline-file-secret
-        mountPath: "keyfile:/root/.m2"
+        mountPath: "/root/.m2"
     NodeSelector: {}
     # Key Value selectors. Ex:
     # jenkins-agent: v1
