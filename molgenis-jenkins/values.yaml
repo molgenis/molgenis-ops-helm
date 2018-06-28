@@ -101,6 +101,8 @@ jenkins:
     # jenkins-agent: v1
 PipelineSecrets:
   Env:
+    # Set to false to keep existing secret
+    Replace: true
     # Passphrase for the pgp private key file
     pgpPassphrase: xxxx
     # Token for codecov.io service
@@ -110,6 +112,8 @@ PipelineSecrets:
     # Token for sonarcloud.io
     sonarToken: xxxx
   File:
+    # Set to false to keep existing secret
+    Replace: true
     # PGP Private key in ascii format used to sign artifacts
     PGPPrivateKeyAsc: |-
       -----BEGIN PGP PRIVATE KEY BLOCK-----
