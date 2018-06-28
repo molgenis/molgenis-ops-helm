@@ -104,13 +104,13 @@ PipelineSecrets:
     # Set to false to keep existing secret
     Replace: true
     # Passphrase for the pgp private key file
-    pgpPassphrase: xxxx
+    PGPPassphrase: xxxx
     # Token for codecov.io service
-    codecovToken: xxxx
+    CodecovToken: xxxx
     # Token for github bot account
-    githubToken: xxxx
+    GithubToken: xxxx
     # Token for sonarcloud.io
-    sonarToken: xxxx
+    SonarToken: xxxx
   File:
     # Set to false to keep existing secret
     Replace: true
