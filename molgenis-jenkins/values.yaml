@@ -103,8 +103,8 @@ PipelineSecrets:
   Env:
     # Set to false to keep existing secret
     Replace: true
-    # Passphrase for the pgp private key file
-    PGPPassphrase: xxxx
+    # Passphrase for the pgp private key file, prefixed with literal:
+    PGPPassphrase: literal:xxxx
     # Token for codecov.io service
     CodecovToken: xxxx
     # Token for github bot account
@@ -122,9 +122,7 @@ PipelineSecrets:
     # maven.settings file
     MavenSettingsXML: |-
       <settings>
-        <!-- sets the local maven repository outside of the ~/.m2 folder for easier mounting of secrets and repo -->
         <localRepository>${user.home}/.mvnrepository</localRepository>
-        <!-- lets disable the download progress indicator that fills up logs -->
         <interactiveMode>false</interactiveMode>
         <mirrors>
           <mirror>
@@ -134,16 +132,23 @@ PipelineSecrets:
           </mirror>
         </mirrors>
         <servers>
+          <!-- for snapshot builds of the master -->
+          <server>
+            <id>sonatype-nexus-staging</id>
+            <username>molgenis</username>
+            <password>xxxx</password>
+          </server>
           <server>
             <id>local-nexus</id>
-            <url>https://registry.molgenis.org/repository/maven-central/</url>
+            <url>https://registry.molgenis.org/repository/maven-snapshots/</url>
             <username>admin</username>
             <password>xxxxx</password>
           </server>
+          <!-- for docker images-->
           <server>
-            <id>oss-sonatype-staging</id>
-            <username>molgenis</username>
-            <password>xxxxx</password>
+            <id>registry.molgenis.org</id>
+            <username>admin</username>
+            <password>xxxx</password>
           </server>
         </servers>
       </settings>
