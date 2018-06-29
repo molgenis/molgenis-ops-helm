@@ -11,6 +11,18 @@ This chart will deploy:
 
 ## Installing the Chart
 
-etc.
+You can test in install the chart by executing:
+
+```helm lint .```
+
+To test if your helm chart-syntax is right and:
+
+```helm install . --dry-run --debug```
+
+To test if your hem chart works and:
+
+```helm install .```
+
+To deploy it on the cluster.
 
 
