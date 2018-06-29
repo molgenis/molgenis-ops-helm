@@ -77,7 +77,7 @@ data:
                   <alwaysPullImage>false</alwaysPullImage>
 {{- end }}
                   <workingDir>/home/jenkins</workingDir>
-                  <command>{{ .Command | default "cat" }}</command>
+                  <command>{{ .Command | default "" }}</command>
                   <args>{{ .Args | default "" }}</args>
 {{- if .TTY }}
                   <ttyEnabled>true</ttyEnabled>
