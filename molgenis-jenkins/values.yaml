@@ -95,7 +95,7 @@ jenkins:
           mountPath: "/root/.m2"
       Containers:
         maven:
-          Image: "webhost12.service.rug.nl/molgenis/molgenis-maven"
+          Image: "registry.webhosting.rug.nl/molgenis/maven"
           resources:
             requests:
               cpu: "1000m"
@@ -103,6 +103,16 @@ jenkins:
               memory: "1Gi"
         alpine:
           Image: "spotify/alpine"
+        elasticsearch:
+          Image: "elasticsearch"
+          ImageTag: "5.5.1"
+          Ports:
+            - name: rest
+              containerPort: "9200"
+              hostPort: "9200"
+            - name: api
+              containerPort: "9300"
+              hostPort: "9300"
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
@@ -125,7 +135,7 @@ jenkins:
           secretKey: githubToken
       # If needed
       # ImagePullSecret: jenkins
-    NodeSelector: {}
+      NodeSelector: {}
 PipelineSecrets:
   Env:
     # Set to false to keep existing secret

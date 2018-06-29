@@ -42,7 +42,7 @@ data:
                   {{- $key }}={{ $value }}
                   {{- $_ := set $local "first" false }}
                 {{- end }}</nodeSelector>
-                <nodeUsageMode>.NodeUsageMode</nodeUsageMode>
+                <nodeUsageMode>{{ .NodeUsageMode }}</nodeUsageMode>
               <volumes>
 {{- range $index, $volume := .volumes }}
                 <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ .type }}Volume>
@@ -57,6 +57,15 @@ data:
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
                   <name>{{ $containerName }}</name>
                   <image>{{ .Image }}:{{ .ImageTag | default "latest" }}</image>
+                  <ports>
+{{- range $index, $envVar := .Ports }}
+                    <org.csanchez.jenkins.plugins.kubernetes.PortMapping>
+                      <name>{{ .name }}</name>
+                      <containerPort>{{ .containerPort }}</containerPort>
+                      <hostPort>{{ .hostPort }}</hostPort>
+                    </org.csanchez.jenkins.plugins.kubernetes.PortMapping>
+{{- end }}
+                  </ports>
 {{- if .Privileged }}
                   <privileged>true</privileged>
 {{- else }}
@@ -77,12 +86,12 @@ data:
 {{- end }}
 {{- if .resources }}
 {{- if .resources.requests }}
-                  <resourceRequestCpu>{{ $container.resources.requests.cpu | default "" }}</resourceRequestCpu>
-                  <resourceRequestMemory>{{ $container.resources.requests.memory | default "" }}</resourceRequestMemory>
+                  <resourceRequestCpu>{{ .resources.requests.cpu | default "" }}</resourceRequestCpu>
+                  <resourceRequestMemory>{{ .resources.requests.memory | default "" }}</resourceRequestMemory>
 {{- end }}
 {{- if .resources.limits }}
-                  <resourceLimitCpu>{{ $container.resources.limits.cpu | default "" }}</resourceLimitCpu>
-                  <resourceLimitMemory>{{ $container.resources.limits.memory | default "" }}</resourceLimitMemory>
+                  <resourceLimitCpu>{{ .resources.limits.cpu | default "" }}</resourceLimitCpu>
+                  <resourceLimitMemory>{{ .resources.limits.memory | default "" }}</resourceLimitMemory>
 {{- end }}
 {{- end }}
                 </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
