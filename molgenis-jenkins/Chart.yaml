@@ -1,6 +1,6 @@
 name: molgenis-jenkins
 home: https://jenkins.io/
-version: 0.2.2
+version: 0.2.5
 appVersion: 2.107
 description: Molgenis installation for the jenkins chart.
 sources:
