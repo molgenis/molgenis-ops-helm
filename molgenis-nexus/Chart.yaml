@@ -3,4 +3,6 @@ appVersion: "1.0"
 description: Nexus stack for MOLGENIS
 name: molgenis-nexus
 version: 0.2.0
-icon: https://github.com/sidohaakma/molgenis-docker-helm/blob/master/nexus/catalogIcon-molgenis-nexus.svg
+sources:
+- https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
+icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis-nexus/catalogIcon-molgenis-nexus.svg
