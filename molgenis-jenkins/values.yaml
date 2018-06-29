@@ -164,6 +164,8 @@ PipelineSecrets:
     CodecovToken: xxxx
     # Token for github bot account
     GitHubToken: xxxx
+    # Token for github bot account
+    GogsToken: xxxx
     # Token for sonarcloud.io
     SonarToken: xxxx
   File:
