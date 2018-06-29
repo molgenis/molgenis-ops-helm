@@ -34,7 +34,7 @@ data:
               <name>{{ $podName }}</name>
               <instanceCap>2147483647</instanceCap>
               <idleMinutes>0</idleMinutes>
-              <label>{{ $.Release.Name }}-{{ .Label }}</label>
+              <label>{{ .Label }}</label>
               <nodeSelector>
                 {{- $local := dict "first" true }}
                 {{- range $key, $value := .NodeSelector }}

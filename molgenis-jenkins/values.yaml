@@ -10,6 +10,7 @@ jenkins:
       - git:3.9.1
       - github-branch-source:2.3.6
       - kubernetes-credentials-provider:0.9
+      - blueocean:1.6.1
     Jobs: |-
       molgenis: |-
         <?xml version='1.1' encoding='UTF-8'?>
@@ -83,8 +84,8 @@ jenkins:
   rbac:
     install: true
   Pods:
-    default:
-      Label: "default"
+    molgenis:
+      Label: molgenis
       NodeUsageMode: NORMAL
       volumes:
         - type: HostPath
@@ -96,6 +97,7 @@ jenkins:
       Containers:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
+          TTY: true
           resources:
             requests:
               cpu: "1000m"
@@ -103,9 +105,11 @@ jenkins:
               memory: "1Gi"
         alpine:
           Image: "spotify/alpine"
+          TTY: true
         elasticsearch:
           Image: "elasticsearch"
           ImageTag: "5.5.1"
+          TTY: true
           Ports:
             - name: rest
               containerPort: "9200"
@@ -113,6 +117,14 @@ jenkins:
             - name: api
               containerPort: "9300"
               hostPort: "9300"
+        postgres:
+          Image: "postgres"
+          ImageTag: "9.6-alpine"
+          TTY: true
+          Ports:
+            - name: postgres
+              containerPort: "5432"
+              hostPort: "5432"
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
@@ -121,6 +133,12 @@ jenkins:
         - type: KeyValue
           key: PGP_SECRETKEY
           value: "keyfile:/root/.m2/key.asc"
+        - type: KeyValue
+          key: npm_config_registry
+          value: "http://nexus.molgenis-nexus:8081/repository/npm-central"
+        - type: KeyValue
+          key: yarn_proxy
+          value: "http://nexus.molgenis-nexus:8081/repository/npm-central"
         - type: Secret
           key: SONAR_TOKEN
           secretName: molgenis-pipeline-env-secret
@@ -165,7 +183,7 @@ PipelineSecrets:
           <mirror>
             <id>nexus</id>
             <mirrorOf>external:*</mirrorOf>
-            <url>https://registry.molgenis.org/repository/maven-central/</url>
+            <url>http://nexus.molgenis-nexus:8081/repository/maven-central/</url>
           </mirror>
         </mirrors>
         <servers>
@@ -177,7 +195,7 @@ PipelineSecrets:
           </server>
           <server>
             <id>local-nexus</id>
-            <url>https://registry.molgenis.org/repository/maven-snapshots/</url>
+            <url>http://nexus.molgenis-nexus:8081/repository/maven-snapshots/</url>
             <username>admin</username>
             <password>xxxxx</password>
           </server>
