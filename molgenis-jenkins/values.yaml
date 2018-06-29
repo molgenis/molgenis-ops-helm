@@ -116,6 +116,14 @@ jenkins:
             - name: api
               containerPort: "9300"
               hostPort: "9300"
+        postgres:
+          Image: "postgres"
+          ImageTag: "9.6-alpine"
+          TTY: true
+          Ports:
+            - name: postgres
+              containerPort: "5432"
+              hostPort: "5432"
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
