@@ -99,11 +99,6 @@ jenkins:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
           Command: cat
           TTY: true
-          resources:
-            requests:
-              cpu: "1000m"
-            limits:
-              memory: "1Gi"
         alpine:
           Image: "spotify/alpine"
           Command: cat
