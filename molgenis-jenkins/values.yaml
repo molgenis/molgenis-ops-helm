@@ -135,7 +135,7 @@ PipelineSecrets:
     # Token for codecov.io service
     CodecovToken: xxxx
     # Token for github bot account
-    GithubToken: xxxx
+    GitHubToken: xxxx
     # Token for sonarcloud.io
     SonarToken: xxxx
   File:

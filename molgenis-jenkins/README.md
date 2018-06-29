@@ -51,7 +51,7 @@ in the slave pods.
 | `PipelineSecrets.Env.Replace`      | Replace molgenis-pipeline-env secret | `true`          |
 | `PipelineSecrets.Env.PGPPassphrase`| passphrase for the pgp signing key   | `literal:xxxx`  |
 | `PipelineSecrets.Env.CodecovToken` | token for codecov.io                 | `xxxx`          |
-| `PipelineSecrets.Env.GithubToken`  | token for GH molgenis-jenkins user   | `xxxx`          |
+| `PipelineSecrets.Env.GitHubToken`  | token for GH molgenis-jenkins user   | `xxxx`          |
 | `PipelineSecrets.Env.SonarToken`   | token for sonarcloud.io              | `xxxx`          |                                                            |
 
 ### File
