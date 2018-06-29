@@ -82,35 +82,50 @@ jenkins:
     CustomConfigMap: true
   rbac:
     install: true
-  # A second pod template for maven builds
-  Pod:
-    Enabled: true
-    Image: "webhost12.service.rug.nl/molgenis/molgenis-maven"
-    ImageTag: latest
-  # ImagePullSecret: jenkins
-    Label: "molgenis-maven"
-    Privileged: false
-    Cpu: ""
-    Memory: ""
-    # You may want to change this to true while testing a new image
-    AlwaysPullImage: false
-    Command: "/bin/sh -c"
-    Args: "cat"
-    TTY: true
-    # You can define the volumes that you want to mount for this container
-    # Allowed types are: ConfigMap, EmptyDir, HostPath, Nfs, Pod, Secret
-    # Configure the attributes as they appear in the corresponding Java class for that type
-    # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
-    volumes:
-      - type: HostPath
-        hostPath: "/var/run/docker.sock"
-        mountPath: "/var/run/docker.sock"
-      - type: Secret
-        secretName: molgenis-pipeline-file-secret
-        mountPath: "/root/.m2"
+  Pods:
+    default:
+      Label: "default"
+      NodeUsageMode: NORMAL
+      volumes:
+        - type: HostPath
+          hostPath: "/var/run/docker.sock"
+          mountPath: "/var/run/docker.sock"
+        - type: Secret
+          secretName: molgenis-pipeline-file-secret
+          mountPath: "/root/.m2"
+      Containers:
+        maven:
+          Image: "webhost12.service.rug.nl/molgenis/molgenis-maven"
+          resources:
+            requests:
+              cpu: "1000m"
+            limits:
+              memory: "1Gi"
+        alpine:
+          Image: "spotify/alpine"
+      EnvVars:
+        - type: Secret
+          key: PGP_PASSPHRASE
+          secretName: molgenis-pipeline-env-secret
+          secretKey: pgpPassphrase
+        - type: KeyValue
+          key: PGP_SECRETKEY
+          value: "keyfile:/root/.m2/key.asc"
+        - type: Secret
+          key: SONAR_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: sonarToken
+        - type: Secret
+          key: CODECOV_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: codecovToken
+        - type: Secret
+          key: GITHUB_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: githubToken
+      # If needed
+      # ImagePullSecret: jenkins
     NodeSelector: {}
-    # Key Value selectors. Ex:
-    # jenkins-agent: v1
 PipelineSecrets:
   Env:
     # Set to false to keep existing secret

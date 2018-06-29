@@ -28,23 +28,23 @@ data:
         <org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin="kubernetes@{{ template "jenkins.kubernetes-version" . }}">
           <name>kubernetes</name>
           <templates>
-{{- if .Values.Agent.Enabled }}
+{{- range $podName, $pod := .Values.Pods }}
             <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
               <inheritFrom></inheritFrom>
-              <name>default</name>
+              <name>{{ $podName }}</name>
               <instanceCap>2147483647</instanceCap>
               <idleMinutes>0</idleMinutes>
-              <label>{{ .Release.Name }}-{{ .Values.Agent.Component }}</label>
+              <label>{{ $.Release.Name }}-{{ $pod.Label }}</label>
               <nodeSelector>
                 {{- $local := dict "first" true }}
-                {{- range $key, $value := .Values.Agent.NodeSelector }}
+                {{- range $key, $value := $pod.NodeSelector }}
                   {{- if not $local.first }},{{- end }}
                   {{- $key }}={{ $value }}
                   {{- $_ := set $local "first" false }}
                 {{- end }}</nodeSelector>
-                <nodeUsageMode>EXCLUSIVE</nodeUsageMode>
+                <nodeUsageMode>$pod.NodeUsageMode</nodeUsageMode>
               <volumes>
-{{- range $index, $volume := .Values.Agent.volumes }}
+{{- range $index, $volume := $pod.volumes }}
                 <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
 {{- range $key, $value := $volume }}{{- if not (eq $key "type") }}
                   <{{ $key }}>{{ $value }}</{{ $key }}>
@@ -53,153 +53,59 @@ data:
 {{- end }}
               </volumes>
               <containers>
+{{- range $containerName, $container := $pod.Containers }}
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
-                  <name>jnlp</name>
-                  <image>{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}</image>
-{{- if .Values.Agent.Privileged }}
+                  <name>{{ $containerName }}</name>
+                  <image>{{ $container.Image }}:{{ $container.ImageTag | default "latest" }}</image>
+{{- if $container.Privileged }}
                   <privileged>true</privileged>
 {{- else }}
                   <privileged>false</privileged>
 {{- end }}
-                  <alwaysPullImage>{{ .Values.Agent.AlwaysPullImage }}</alwaysPullImage>
-                  <workingDir>/home/jenkins</workingDir>
-                  <command></command>
-                  <args>${computer.jnlpmac} ${computer.name}</args>
-                  <ttyEnabled>false</ttyEnabled>
-                  <resourceRequestCpu>{{.Values.Agent.Cpu}}</resourceRequestCpu>
-                  <resourceRequestMemory>{{.Values.Agent.Memory}}</resourceRequestMemory>
-                  <resourceLimitCpu>{{.Values.Agent.Cpu}}</resourceLimitCpu>
-                  <resourceLimitMemory>{{.Values.Agent.Memory}}</resourceLimitMemory>
-                  <envVars>
-                    <org.csanchez.jenkins.plugins.kubernetes.ContainerEnvVar>
-                      <key>JENKINS_URL</key>
-                      <value>http://{{ template "jenkins.fullname" . }}:{{.Values.Master.ServicePort}}{{ default "" .Values.Master.JenkinsUriPrefix }}</value>
-                    </org.csanchez.jenkins.plugins.kubernetes.ContainerEnvVar>
-                  </envVars>
-                </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
-              </containers>
-              <envVars/>
-              <annotations/>
-{{- if .Values.Agent.ImagePullSecret }}
-              <imagePullSecrets>
-                <org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
-                  <name>{{ .Values.Agent.ImagePullSecret }}</name>
-                </org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
-              </imagePullSecrets>
+{{- if $container.AlwaysPullImage }}
+                  <alwaysPullImage>true</alwaysPullImage>
 {{- else }}
-              <imagePullSecrets/>
-{{- end }}
-              <nodeProperties/>
-            </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
-{{- end -}}
-{{- if .Values.Pod.Enabled }}
-            <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
-              <inheritFrom></inheritFrom>
-              <name>{{ .Values.Pod.Label }}</name>
-              <instanceCap>2147483647</instanceCap>
-              <idleMinutes>0</idleMinutes>
-              <label>{{ .Values.Pod.Label }}</label>
-              <nodeSelector>
-                {{- $local := dict "first" true }}
-                {{- range $key, $value := .Values.Pod.NodeSelector }}
-                  {{- if not $local.first }},{{- end }}
-                  {{- $key }}={{ $value }}
-                  {{- $_ := set $local "first" false }}
-                {{- end }}</nodeSelector>
-                <nodeUsageMode>NORMAL</nodeUsageMode>
-              <volumes>
-{{- range $index, $volume := .Values.Pod.volumes }}
-                <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
-{{- range $key, $value := $volume }}{{- if not (eq $key "type") }}
-                  <{{ $key }}>{{ $value }}</{{ $key }}>
-{{- end }}{{- end }}
-                </org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
-{{- end }}
-              </volumes>
-              <containers>
-                <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
-                  <name>{{ .Values.Pod.Label }}</name>
-                  <image>{{ .Values.Pod.Image }}:{{ .Values.Pod.ImageTag }}</image>
-{{- if .Values.Pod.Privileged }}
-                  <privileged>true</privileged>
-{{- else }}
-                  <privileged>false</privileged>
-{{- end }}
-                  <alwaysPullImage>{{ .Values.Pod.AlwaysPullImage }}</alwaysPullImage>
-                  <workingDir>/home/jenkins</workingDir>
-                  <command>{{ .Values.Pod.Command }}</command>
-                  <args>{{ .Values.Pod.Args }}</args>
-{{- if .Values.Pod.TTY }}
-                  <ttyEnabled>true</ttyEnabled>
-{{- else }}
-                  <ttyEnabled>false</ttyEnabled>
-{{- end }}
-                  <resourceRequestCpu>{{.Values.Pod.Cpu}}</resourceRequestCpu>
-                  <resourceRequestMemory>{{.Values.Pod.Memory}}</resourceRequestMemory>
-                  <resourceLimitCpu>{{.Values.Pod.Cpu}}</resourceLimitCpu>
-                  <resourceLimitMemory>{{.Values.Pod.Memory}}</resourceLimitMemory>
-                </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
-                <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
-                  <name>alpine</name>
-                  <image>spotify/alpine</image>
-                  <privileged>false</privileged>
                   <alwaysPullImage>false</alwaysPullImage>
+{{- end }}
                   <workingDir>/home/jenkins</workingDir>
-                  <command>/bin/sh -c</command>
-                  <args>cat</args>
+                  <command>{{ $container.Command | default "cat" }}</command>
+                  <args>{{ $container.Args | default "" }}</args>
+{{- if $container.TTY }}
                   <ttyEnabled>true</ttyEnabled>
-                  <resourceRequestCpu></resourceRequestCpu>
-                  <resourceRequestMemory></resourceRequestMemory>
-                  <resourceLimitCpu></resourceLimitCpu>
-                  <resourceLimitMemory></resourceLimitMemory>
-                  <ports/>
-                  <livenessProbe>
-                    <execArgs></execArgs>
-                    <timeoutSeconds>0</timeoutSeconds>
-                    <initialDelaySeconds>0</initialDelaySeconds>
-                    <failureThreshold>0</failureThreshold>
-                    <periodSeconds>0</periodSeconds>
-                    <successThreshold>0</successThreshold>
-                  </livenessProbe>
+{{- else }}
+                  <ttyEnabled>false</ttyEnabled>
+{{- end }}
+{{- if $container.resources }}
+{{- if $container.resources.requests }}
+                  <resourceRequestCpu>{{ $container.resources.requests.cpu | default "" }}</resourceRequestCpu>
+                  <resourceRequestMemory>{{ $container.resources.requests.memory | default "" }}</resourceRequestMemory>
+{{- end }}
+{{- if $container.resources.limits }}
+                  <resourceLimitCpu>{{ $container.resources.limits.cpu | default "" }}</resourceLimitCpu>
+                  <resourceLimitMemory>{{ $container.resources.limits.memory | default "" }}</resourceLimitMemory>
+{{- end }}
+{{- end }}
                 </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+{{- end }}
               </containers>
               <envVars>
-                <envVars>
                   <org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
                     <key>JENKINS_URL</key>
-                    <value>http://{{ template "jenkins.fullname" . }}:{{.Values.Master.ServicePort}}{{ default "" .Values.Master.JenkinsUriPrefix }}</value>
+                    <value>http://{{ template "jenkins.fullname" $ }}:{{$.Values.Master.ServicePort}}{{ default "" $.Values.Master.JenkinsUriPrefix }}</value>
                   </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
-                </envVars>
-                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                  <key>PGP_PASSPHRASE</key>
-                  <secretName>molgenis-pipeline-env-secret</secretName>
-                  <secretKey>pgpPassphrase</secretKey>
-                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                <org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
-                  <key>PGP_SECRETKEY</key>
-                  <value>keyfile:/root/.m2/key.asc</value>
-                </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
-                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                  <key>SONAR_TOKEN</key>
-                  <secretName>molgenis-pipeline-env-secret</secretName>
-                  <secretKey>sonarToken</secretKey>
-                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                  <key>CODECOV_TOKEN</key>
-                  <secretName>molgenis-pipeline-env-secret</secretName>
-                  <secretKey>codecovToken</secretKey>
-                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                <org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
-                  <key>GITHUB_TOKEN</key>
-                  <secretName>molgenis-pipeline-env-secret</secretName>
-                  <secretKey>githubToken</secretKey>
-                </org.csanchez.jenkins.plugins.kubernetes.model.SecretEnvVar>
+{{- range $index, $envVar := $pod.EnvVars }}
+                <org.csanchez.jenkins.plugins.kubernetes.model.{{ $envVar.type }}EnvVar>
+{{- range $key, $value := $envVar }}{{- if not (eq $key "type") }}
+                  <{{ $key }}>{{ $value }}</{{ $key }}>
+{{- end }}{{- end }}
+                </org.csanchez.jenkins.plugins.kubernetes.model.{{ $envVar.type }}EnvVar>
+{{- end }}
               </envVars>
               <annotations/>
-{{- if .Values.Pod.ImagePullSecret }}
+{{- if $pod.ImagePullSecret }}
               <imagePullSecrets>
                 <org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
-                  <name>{{ .Values.Pod.ImagePullSecret }}</name>
+                  <name>{{ $pod.ImagePullSecret }}</name>
                 </org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
               </imagePullSecrets>
 {{- else }}
@@ -207,7 +113,7 @@ data:
 {{- end }}
               <nodeProperties/>
             </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
-{{- end -}}
+{{- end }}
           </templates>
           <serverUrl>https://kubernetes.default</serverUrl>
           <skipTlsVerify>false</skipTlsVerify>
