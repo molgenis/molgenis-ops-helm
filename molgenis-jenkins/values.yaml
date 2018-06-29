@@ -97,19 +97,15 @@ jenkins:
       Containers:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
+          Command: cat
           TTY: true
-          resources:
-            requests:
-              cpu: "1000m"
-            limits:
-              memory: "1Gi"
         alpine:
           Image: "spotify/alpine"
+          Command: cat
           TTY: true
         elasticsearch:
           Image: "elasticsearch"
           ImageTag: "5.5.1"
-          TTY: true
           Ports:
             - name: rest
               containerPort: "9200"
@@ -120,7 +116,6 @@ jenkins:
         postgres:
           Image: "postgres"
           ImageTag: "9.6-alpine"
-          TTY: true
           Ports:
             - name: postgres
               containerPort: "5432"

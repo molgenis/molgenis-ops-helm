@@ -77,7 +77,7 @@ data:
                   <alwaysPullImage>false</alwaysPullImage>
 {{- end }}
                   <workingDir>/home/jenkins</workingDir>
-                  <command>{{ .Command | default "cat" }}</command>
+                  <command>{{ .Command | default "" }}</command>
                   <args>{{ .Args | default "" }}</args>
 {{- if .TTY }}
                   <ttyEnabled>true</ttyEnabled>
@@ -129,7 +129,7 @@ data:
           <namespace>{{ .Release.Namespace }}</namespace>
           <jenkinsUrl>http://{{ template "jenkins.fullname" . }}:{{.Values.Master.ServicePort}}{{ default "" .Values.Master.JenkinsUriPrefix }}</jenkinsUrl>
           <jenkinsTunnel>{{ template "jenkins.fullname" . }}-agent:50000</jenkinsTunnel>
-          <containerCap>10</containerCap>
+          <containerCap>50</containerCap>
           <retentionTimeout>5</retentionTimeout>
           <connectTimeout>0</connectTimeout>
           <readTimeout>0</readTimeout>
