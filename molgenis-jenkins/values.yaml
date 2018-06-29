@@ -83,8 +83,8 @@ jenkins:
   rbac:
     install: true
   Pods:
-    default:
-      Label: "default"
+    molgenis:
+      Label: molgenis
       NodeUsageMode: NORMAL
       volumes:
         - type: HostPath
