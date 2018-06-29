@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.nexus.name }}
+  labels:
+    app: {{ .Values.nexus.name }}
+spec:
+  type: ClusterIP
+  ports:
+  - name: ui
+    port: {{ .Values.nexus.port.ui }}
+  - name: docker
+    port: {{ .Values.nexus.port.docker }}
+  selector:
+    app: {{ .Values.nexus.selector }}
