@@ -33,21 +33,43 @@ When you want to use kubernetes there are some commands you need to know. Also r
 
 Commands that can be used to get information from a kubernetes cluster
 
-- ```kubectl get pods```
+**Pods**
+
+- ```kubectl get pods (optional: [--all-namspaces])```
   
   Gets alls running instances of containers from a certain deployment
-- ```kubectl get services```
+
+- ```kubectl describe pod #pod name# --namespace=#namesspace#```
+
+  Describes the pod initialization, also displays error messages more accurately if they occur
+
+- ```kubectl remove pod #pod name# --namespace=#namespace# (optional: [--force] [--grace-period=0])```
+
+  Removes a pod from the system (but will restart if the option is set in the deployment,yaml *[see note]*). 
   
+  **note:** You can not do this while the deployment of the service is still there
+
+**Services**
+
+- ```kubectl get services```
+
   Gets all services from a deployment
+
+**Volumes**
+  
 - ```kubectl get pv```
   
   Gets all persistant volumes
 - ```kubectl get pvc```
   
   Gets all persistent volume claims
+
+**Deployments**
+
 - ```kubectl get deployments```
   
   Gets all deployments (comparable with docker-compose)
+    
 
 ## Remote clusters
 
@@ -63,7 +85,7 @@ MOLGENIS kubernetes cluster.
   *Example*: 
 ```bash
 # When you added the MOLGENIS configuration to the original configuration
-kubectl config user-context molgenis
+kubectl config use-context molgenis
 
 # or when you placed the MOLGENIS configuration besides the original one
 kubectl config use-context molgenis --kubeconfig=*full path to molgenis config*
@@ -84,6 +106,15 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [HTTPD](molgenis-httpd/README.md)
 
 ### Useful commands
+You can you need to know to easily develop and deploy helm-charts
+
+- ```helm lint .```
+
+  To test your helm chart for code errors.
+
+- ```helm install . --dry-run --debug```
+
+  Check if your configuration deploys on a kubernetes cluster and check the configuration
 
 - ```helm install .```
   
@@ -92,7 +123,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - ```helm list```
   
   Lists all installed releases
-- ```helm delete #release#a```
+- ```helm delete #release#```
   
   Performs a sort of mvn clean on your workspace. Very handy for zombie persistent volumes or claims.
   
