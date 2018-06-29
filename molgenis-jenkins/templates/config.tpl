@@ -34,53 +34,53 @@ data:
               <name>{{ $podName }}</name>
               <instanceCap>2147483647</instanceCap>
               <idleMinutes>0</idleMinutes>
-              <label>{{ $.Release.Name }}-{{ $pod.Label }}</label>
+              <label>{{ $.Release.Name }}-{{ .Label }}</label>
               <nodeSelector>
                 {{- $local := dict "first" true }}
-                {{- range $key, $value := $pod.NodeSelector }}
+                {{- range $key, $value := .NodeSelector }}
                   {{- if not $local.first }},{{- end }}
                   {{- $key }}={{ $value }}
                   {{- $_ := set $local "first" false }}
                 {{- end }}</nodeSelector>
-                <nodeUsageMode>$pod.NodeUsageMode</nodeUsageMode>
+                <nodeUsageMode>.NodeUsageMode</nodeUsageMode>
               <volumes>
-{{- range $index, $volume := $pod.volumes }}
-                <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
+{{- range $index, $volume := .volumes }}
+                <org.csanchez.jenkins.plugins.kubernetes.volumes.{{ .type }}Volume>
 {{- range $key, $value := $volume }}{{- if not (eq $key "type") }}
                   <{{ $key }}>{{ $value }}</{{ $key }}>
 {{- end }}{{- end }}
-                </org.csanchez.jenkins.plugins.kubernetes.volumes.{{ $volume.type }}Volume>
+                </org.csanchez.jenkins.plugins.kubernetes.volumes.{{ .type }}Volume>
 {{- end }}
               </volumes>
               <containers>
-{{- range $containerName, $container := $pod.Containers }}
+{{- range $containerName, $container := .Containers }}
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
                   <name>{{ $containerName }}</name>
-                  <image>{{ $container.Image }}:{{ $container.ImageTag | default "latest" }}</image>
-{{- if $container.Privileged }}
+                  <image>{{ .Image }}:{{ .ImageTag | default "latest" }}</image>
+{{- if .Privileged }}
                   <privileged>true</privileged>
 {{- else }}
                   <privileged>false</privileged>
 {{- end }}
-{{- if $container.AlwaysPullImage }}
+{{- if .AlwaysPullImage }}
                   <alwaysPullImage>true</alwaysPullImage>
 {{- else }}
                   <alwaysPullImage>false</alwaysPullImage>
 {{- end }}
                   <workingDir>/home/jenkins</workingDir>
-                  <command>{{ $container.Command | default "cat" }}</command>
-                  <args>{{ $container.Args | default "" }}</args>
-{{- if $container.TTY }}
+                  <command>{{ .Command | default "cat" }}</command>
+                  <args>{{ .Args | default "" }}</args>
+{{- if .TTY }}
                   <ttyEnabled>true</ttyEnabled>
 {{- else }}
                   <ttyEnabled>false</ttyEnabled>
 {{- end }}
-{{- if $container.resources }}
-{{- if $container.resources.requests }}
+{{- if .resources }}
+{{- if .resources.requests }}
                   <resourceRequestCpu>{{ $container.resources.requests.cpu | default "" }}</resourceRequestCpu>
                   <resourceRequestMemory>{{ $container.resources.requests.memory | default "" }}</resourceRequestMemory>
 {{- end }}
-{{- if $container.resources.limits }}
+{{- if .resources.limits }}
                   <resourceLimitCpu>{{ $container.resources.limits.cpu | default "" }}</resourceLimitCpu>
                   <resourceLimitMemory>{{ $container.resources.limits.memory | default "" }}</resourceLimitMemory>
 {{- end }}
@@ -93,19 +93,19 @@ data:
                     <key>JENKINS_URL</key>
                     <value>http://{{ template "jenkins.fullname" $ }}:{{$.Values.Master.ServicePort}}{{ default "" $.Values.Master.JenkinsUriPrefix }}</value>
                   </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
-{{- range $index, $envVar := $pod.EnvVars }}
-                <org.csanchez.jenkins.plugins.kubernetes.model.{{ $envVar.type }}EnvVar>
+{{- range $index, $envVar := .EnvVars }}
+                <org.csanchez.jenkins.plugins.kubernetes.model.{{ .type }}EnvVar>
 {{- range $key, $value := $envVar }}{{- if not (eq $key "type") }}
                   <{{ $key }}>{{ $value }}</{{ $key }}>
 {{- end }}{{- end }}
-                </org.csanchez.jenkins.plugins.kubernetes.model.{{ $envVar.type }}EnvVar>
+                </org.csanchez.jenkins.plugins.kubernetes.model.{{ .type }}EnvVar>
 {{- end }}
               </envVars>
               <annotations/>
-{{- if $pod.ImagePullSecret }}
+{{- if .ImagePullSecret }}
               <imagePullSecrets>
                 <org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
-                  <name>{{ $pod.ImagePullSecret }}</name>
+                  <name>{{ .ImagePullSecret }}</name>
                 </org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
               </imagePullSecrets>
 {{- else }}
