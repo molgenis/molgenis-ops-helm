@@ -235,10 +235,7 @@ jenkins:
           value: "keyfile:/root/.m2/key.asc"
         - type: KeyValue
           key: npm_config_registry
-          value: "http://nexus.molgenis-nexus:8081/repository/npm-central"
-        - type: KeyValue
-          key: yarn_proxy
-          value: "http://nexus.molgenis-nexus:8081/repository/npm-central"
+          value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
         - type: Secret
           key: SONAR_TOKEN
           secretName: molgenis-pipeline-env-secret
