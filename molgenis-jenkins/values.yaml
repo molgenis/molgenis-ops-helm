@@ -262,6 +262,8 @@ PipelineSecrets:
     GogsToken: xxxx
     # Token for sonarcloud.io
     SonarToken: xxxx
+    # Password Local NEXUS
+    NexusPassword: xxxx
   File:
     # Set to false to keep existing secret
     Replace: true
