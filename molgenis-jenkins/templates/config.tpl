@@ -15,12 +15,12 @@ data:
       <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
         <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
       </authorizationStrategy>
-{{- if .Values.Security.UseGitHub }}
+{{- if .Values.jenkins.Master.Security.UseGitHub }}
       <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
         <githubWebUri>https://github.com</githubWebUri>
         <githubApiUri>https://api.github.com</githubApiUri>
-        <clientID>{{ .Values.Master.Security.Github.ClientID }}</clientID>
-        <clientSecret>{{ .Values.Master.Security.Github.ClientSecret }}</clientSecret>
+        <clientID>{{ .Values.jenkins.Master.Security.Github.ClientID }}</clientID>
+        <clientSecret>{{ .Values.jenkins.Master.Security.Github.ClientSecret }}</clientSecret>
         <oauthScopes>read:org,user:email</oauthScopes>
       </securityRealm>
 {{- else }}
