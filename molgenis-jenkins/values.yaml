@@ -275,6 +275,8 @@ PipelineSecrets:
     SonarToken: xxxx
     # Password Local NEXUS
     NexusPassword: xxxx
+    # Password hub.docker.com
+    DockerHubPassword: xxxx
   File:
     # Set to false to keep existing secret
     Replace: true

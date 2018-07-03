@@ -57,14 +57,15 @@ There is one additional group of configuration items specific for this chart, so
    Environment variables stored in molgenis-pipeline-env secret, to be added as environment variables
    in the slave pods.
 
-   | Parameter                          | Description                              | Default         |
-   | ---------------------------------- | ---------------------------------------- | --------------- |
-   | `PipelineSecrets.Env.Replace`      | Replace molgenis-pipeline-env secret     | `true`          |
-   | `PipelineSecrets.Env.PGPPassphrase`| passphrase for the pgp signing key       | `literal:xxxx`  |
-   | `PipelineSecrets.Env.CodecovToken` | token for codecov.io                     | `xxxx`          |
-   | `PipelineSecrets.Env.GitHubToken`  | token for GH molgenis-jenkins user       | `xxxx`          |
-   | `PipelineSecrets.Env.NexusPassword`| token for molgenis-jenkins user in NEXUS | `xxxx`          |
-   | `PipelineSecrets.Env.SonarToken`   | token for sonarcloud.io                  | `xxxx`          |                                                            |
+   | Parameter                              | Description                               | Default         |
+   | -------------------------------------- | ----------------------------------------- | --------------- |
+   | `PipelineSecrets.Env.Replace`          | Replace molgenis-pipeline-env secret      | `true`          |
+   | `PipelineSecrets.Env.PGPPassphrase`    | passphrase for the pgp signing key        | `literal:xxxx`  |
+   | `PipelineSecrets.Env.CodecovToken`     | token for codecov.io                      | `xxxx`          |
+   | `PipelineSecrets.Env.GitHubToken`      | token for GH molgenis-jenkins user        | `xxxx`          |
+   | `PipelineSecrets.Env.NexusPassword`    | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
+   | `PipelineSecrets.Env.DockerHubPassword`| token for molgenis user in hub.docker.com | `xxxx`          |
+   | `PipelineSecrets.Env.SonarToken`       | token for sonarcloud.io                   | `xxxx`          |                                                            |
 
 * File
 
@@ -88,5 +89,5 @@ For example,
 $ helm install --name jenkins -f values.yaml molgenis-jenkins
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml) 
+> **Tip**: You can use the default [values.yaml](values.yaml)
 
