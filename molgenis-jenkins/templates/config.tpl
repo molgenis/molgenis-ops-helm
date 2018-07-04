@@ -15,7 +15,17 @@ data:
       <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
         <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
       </authorizationStrategy>
+{{- if .Values.jenkins.Master.Security.UseGitHub }}
+      <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
+        <githubWebUri>https://github.com</githubWebUri>
+        <githubApiUri>https://api.github.com</githubApiUri>
+        <clientID>{{ .Values.jenkins.Master.Security.Github.ClientID }}</clientID>
+        <clientSecret>{{ .Values.jenkins.Master.Security.Github.ClientSecret }}</clientSecret>
+        <oauthScopes>read:org,user:email</oauthScopes>
+      </securityRealm>
+{{- else }}
       <securityRealm class="hudson.security.LegacySecurityRealm"/>
+{{- end }}
       <disableRememberMe>false</disableRememberMe>
       <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
       <workspaceDir>${JENKINS_HOME}/workspace/${ITEM_FULLNAME}</workspaceDir>

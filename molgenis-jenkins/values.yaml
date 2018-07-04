@@ -10,7 +10,13 @@ jenkins:
       - git:3.9.1
       - github-branch-source:2.3.6
       - kubernetes-credentials-provider:0.9
-      - blueocean:1.6.1
+      - blueocean:1.6.2
+      - github-oauth:0.29
+    Security:
+      UseGitHub: false
+      GitHub:
+        ClientID: ""
+        ClienSecret: ""
     Jobs: |-
       molgenis: |-
         <?xml version='1.1' encoding='UTF-8'?>

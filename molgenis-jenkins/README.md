@@ -25,49 +25,59 @@ Array values can be added as {value, value, value}.
 jenkins.Master.HostName=jenkins.molgenis.org
 jenkins.Master.AdminPassword=pa$$word
 jenkins.Persistence.Enabled=false
-jenkins.Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1}
+jenkins.Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1, blueocean:1.6.2, github-oauth:0.29}
+jenkins.Master.Security.UseGitHub=false
+## if UseGitHub=true
+jenkins.Master.Security.GitHub.ClientID=id
+jenkins.Master.Security.GitHub.ClientSecret=S3cr3t
+## end UseGitHub=true
 PipelineSecrets.Env.PGPPassphrase=literal:S3cr3t
 ```
 
 You can use [all configuration values of the jenkins subchart](https://github.com/kubernetes/charts/tree/master/stable/jenkins).
 > Because we use jenkins as a sub-chart, you should prefix all value keys with `jenkins`!
 
+### GitHub Authentication delegation
+You need to setup a MOLGENIS - Jenkins GitHub OAuth App. You can do this by accessing this url: [add new OAuth app](https://github.com/settings/applications/new).
+
+### Additional configuration
 There is one additional group of configuration items specific for this chart, so not prefixed with `jenkins`:
-## PipelineSecrets
 
-When deployed, the chart creates a couple of kubernetes secrets that get used by jenkins and mounted in the jenkins 
-build pods. The secrets, like the rest of the deployment, is namespaced so multiple instances can run beside
-each other with their own secrets.
+* PipelineSecrets
 
-You can override the values at deploy time but otherwise also configure them 
-[in Rancher](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/secrets) or through kubectl.
+   When deployed, the chart creates a couple of kubernetes secrets that get used by jenkins and mounted in the jenkins 
+   build pods. The secrets, like the rest of the deployment, is namespaced so multiple instances can run beside
+   each other with their own secrets.
 
-### Env
-Environment variables stored in molgenis-pipeline-env secret, to be added as environment variables
-in the slave pods.
+   You can override the values at deploy time but otherwise also configure them 
+   [in Rancher](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/secrets) or through kubectl.
 
-| Parameter                              | Description                               | Default         |
-| -------------------------------------- | ----------------------------------------- | --------------- |
-| `PipelineSecrets.Env.Replace`          | Replace molgenis-pipeline-env secret      | `true`          |
-| `PipelineSecrets.Env.PGPPassphrase`    | passphrase for the pgp signing key        | `literal:xxxx`  |
-| `PipelineSecrets.Env.CodecovToken`     | token for codecov.io                      | `xxxx`          |
-| `PipelineSecrets.Env.GitHubToken`      | token for GH molgenis-jenkins user        | `xxxx`          |
-| `PipelineSecrets.Env.NexusPassword`    | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
-| `PipelineSecrets.Env.DockerHubPassword`| token for molgenis user in hub.docker.com | `xxxx`          |
-| `PipelineSecrets.Env.SonarToken`       | token for sonarcloud.io                   | `xxxx`          |                                                            |
+*  Env
+   
+   Environment variables stored in molgenis-pipeline-env secret, to be added as environment variables
+   in the slave pods.
 
-### File
+   | Parameter                              | Description                               | Default         |
+   | -------------------------------------- | ----------------------------------------- | --------------- |
+   | `PipelineSecrets.Env.Replace`          | Replace molgenis-pipeline-env secret      | `true`          |
+   | `PipelineSecrets.Env.PGPPassphrase`    | passphrase for the pgp signing key        | `literal:xxxx`  |
+   | `PipelineSecrets.Env.CodecovToken`     | token for codecov.io                      | `xxxx`          |
+   | `PipelineSecrets.Env.GitHubToken`      | token for GH molgenis-jenkins user        | `xxxx`          |
+   | `PipelineSecrets.Env.NexusPassword`    | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
+   | `PipelineSecrets.Env.DockerHubPassword`| token for molgenis user in hub.docker.com | `xxxx`          |
+   | `PipelineSecrets.Env.SonarToken`       | token for sonarcloud.io                   | `xxxx`          |                                                            |
 
-Environment variables stored in molgenis-pipeline-file secret, to be mounted as files
-in the `/root/.m2` directory of the slave pods.
-> The settings.xml file references the 
+* File
 
-| Parameter                              | Description                           | Default                                                                         |
-| -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
-| `PipelineSecrets.File.Replace`         | Replace molgenis-pipeline-file secret | `true`                                                                          |
-| `PipelineSecrets.File.PGPPrivateKeyAsc`| pgp signing key in ascii form         | `-----BEGIN PGP PRIVATE KEY BLOCK-----xxxxx-----END PGP PRIVATE KEY BLOCK-----` |
-| `PipelineSecrets.File.MavenSettingsXML`| Maven settings.xml file               | `<settings>[...]</settings>` (see actual [values.yaml](values.yaml))            |
+  Environment variables stored in molgenis-pipeline-file secret, to be mounted as files
+  in the `/root/.m2` directory of the slave pods.
+  > The settings.xml file references the 
 
+  | Parameter                              | Description                           | Default                                                                         |
+  | -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
+  | `PipelineSecrets.File.Replace`         | Replace molgenis-pipeline-file secret | `true`                                                                          |
+  | `PipelineSecrets.File.PGPPrivateKeyAsc`| pgp signing key in ascii form         | `-----BEGIN PGP PRIVATE KEY BLOCK-----xxxxx-----END PGP PRIVATE KEY BLOCK-----` |
+  | `PipelineSecrets.File.MavenSettingsXML`| Maven settings.xml file               | `<settings>[...]</settings>` (see actual [values.yaml](values.yaml))            |
 
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
