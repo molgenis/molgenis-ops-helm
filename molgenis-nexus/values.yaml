@@ -6,10 +6,6 @@ replicaCount: 1
 
 environment: production
 
-service:
-  type: NodePort
-  port: 80
-
 nexus:
   name: nexus
   strategy:
@@ -25,6 +21,8 @@ nexus:
     ui: 8081
   path:
     dockerV2: v2
+  service:
+    type: ClusterIP
 
 httpd:
   name: httpd
@@ -38,6 +36,8 @@ httpd:
     tag: lts
     pullPolicy: Always
   port: 80
+  service:
+    type: LoadBalancer
 
 
 ingress:

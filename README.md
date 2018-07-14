@@ -104,6 +104,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Jenkins](molgenis-jenkins/README.md)
 - [NEXUS](molgenis-nexus/README.md)
 - [HTTPD](molgenis-httpd/README.md)
+- [MOLNIGES preview](molgenis-preview/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts
@@ -116,7 +117,7 @@ You can you need to know to easily develop and deploy helm-charts
 
   Check if your configuration deploys on a kubernetes cluster and check the configuration
 
-- ```helm install .```
+- ```helm install . #release name# --namespace #remote namespace#```
   
   Do it in the root of the project where the Chart.yaml is located
   It installs a release of a kubernetes stack. You also store this as an artifact in a kubernetes repository
@@ -126,4 +127,13 @@ You can you need to know to easily develop and deploy helm-charts
 - ```helm delete #release#```
   
   Performs a sort of mvn clean on your workspace. Very handy for zombie persistent volumes or claims.
+
+- ```install tiller on remote cluster```
+
+  To install tiller on a remote cluster you need an rbac-config.yml.
+  ```kubectl create -f rbac-config.yaml```
+
+  When you have defined the yaml you can add the tiller to the cluster by following the steps below.
+  ```helm init --service-account tiller```  
+  
   

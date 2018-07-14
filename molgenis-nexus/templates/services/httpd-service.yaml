@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.httpd.name }}
 spec:
-  type: NodePort
+  type: {{ .Values.httpd.service.type }}
   ports:
   - name: {{ .Values.httpd.name }}
     port: {{ .Values.httpd.port }}

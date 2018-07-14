@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.nexus.name }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.nexus.service.type }}
   ports:
   - name: ui
     port: {{ .Values.nexus.port.ui }}
