@@ -15,12 +15,12 @@ data:
       <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
         <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
       </authorizationStrategy>
-{{- if .Values.jenkins.Master.Security.UseGitHub }}
+{{- if .Values.Master.Security.UseGitHub }}
       <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
         <githubWebUri>https://github.com</githubWebUri>
         <githubApiUri>https://api.github.com</githubApiUri>
-        <clientID>{{ .Values.jenkins.Master.Security.Github.ClientID }}</clientID>
-        <clientSecret>{{ .Values.jenkins.Master.Security.Github.ClientSecret }}</clientSecret>
+        <clientID>{{ .Values.Master.Security.GitHub.ClientID }}</clientID>
+        <clientSecret>{{ .Values.Master.Security.GitHub.ClientSecret }}</clientSecret>
         <oauthScopes>read:org,user:email</oauthScopes>
       </securityRealm>
 {{- else }}
@@ -40,7 +40,7 @@ data:
           <templates>
 {{- range $podName, $pod := .Values.Pods }}
             <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
-              <inheritFrom></inheritFrom>
+              <inheritFrom>{{ $pod.InheritFrom | default "" }}</inheritFrom>
               <name>{{ $podName }}</name>
               <instanceCap>2147483647</instanceCap>
               <idleMinutes>0</idleMinutes>
@@ -94,6 +94,15 @@ data:
 {{- else }}
                   <ttyEnabled>false</ttyEnabled>
 {{- end }}
+                  <envVars>
+{{- range $index, $envVar := .EnvVars }}
+                    <org.csanchez.jenkins.plugins.kubernetes.model.{{ .type }}EnvVar>
+{{- range $key, $value := $envVar }}{{- if not (eq $key "type") }}
+                      <{{ $key }}>{{ $value }}</{{ $key }}>
+{{- end }}{{- end }}
+                    </org.csanchez.jenkins.plugins.kubernetes.model.{{ .type }}EnvVar>
+{{- end }}
+                  </envVars>
 {{- if .resources }}
 {{- if .resources.requests }}
                   <resourceRequestCpu>{{ .resources.requests.cpu | default "" }}</resourceRequestCpu>

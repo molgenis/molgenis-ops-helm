@@ -218,21 +218,6 @@ jenkins:
           Image: "spotify/alpine"
           Command: cat
           TTY: true
-# Hard to get these right memorywise!
-#        elasticsearch:
-#          Image: "elasticsearch"
-#          ImageTag: "5.5.1"
-#          Ports:
-#            - name: rest
-#              containerPort: "9200"
-#            - name: api
-#              containerPort: "9300"
-#        postgres:
-#          Image: "postgres"
-#          ImageTag: "9.6-alpine"
-#          Ports:
-#            - name: postgres
-#              containerPort: "5432"
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
@@ -256,8 +241,68 @@ jenkins:
           key: GITHUB_TOKEN
           secretName: molgenis-pipeline-env-secret
           secretKey: githubToken
-      # If needed
-      # ImagePullSecret: jenkins
+      NodeSelector: {}
+    molgenis-it:
+      InheritFrom: molgenis
+      Label: molgenis-it
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        elasticsearch:
+          Image: docker.elastic.co/elasticsearch/elasticsearch
+          ImageTag: 5.5.3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "1500Mi"
+          EnvVars:
+          - type: KeyValue
+            key: ES_JAVA_OPTS
+            value: "-Xms512m -Xmx512m"
+          - type: KeyValue
+            key: cluster.name
+            value: molgenis
+          - type: KeyValue
+            key: bootstrap.memory_lock
+            value: "true"
+          - type: KeyValue
+            key: xpack.security.enabled
+            value: "false"
+          - type: KeyValue
+            key: discovery.type
+            value: single-node
+        postgres:
+          Image: postgres
+          ImageTag: 9.6-alpine
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "250Mi"
+            limits:
+              cpu: "1"
+              memory: "250Mi"
+          EnvVars:
+          - type: KeyValue
+            key: POSTGRES_USER
+            value: molgenis
+          - type: KeyValue
+            key: POSTGRES_PASSWORD
+            value: molgenis
+          - type: KeyValue
+            key: POSTGRES_DB
+            value: molgenis
+        opencpu:
+          Image: molgenis/opencpu
+          AlwaysPullImage: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
       NodeSelector: {}
 PipelineSecrets:
   Env:

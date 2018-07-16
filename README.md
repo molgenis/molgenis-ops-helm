@@ -77,7 +77,7 @@ When you want to see what is running on the clusters at the CIT you have to make
 You can access the cluster with kubeconfig-files. You can obtain these by downloading them from the 
 MOLGENIS kubernetes cluster.
 
-- Go to https://rancher.molgenis.org:7443 and login
+- Go to https://rancher.molgenis.org:7777 and login
 - Go to Rancher --> Cluster: *#name#* --> *Kubeconfig File*
 - Go to a **Terminal** where ```kubectl``` is available
 - Add this configuration to ~/.kube/config (or place a new file besides this one)
