@@ -19,8 +19,8 @@ data:
       <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
         <githubWebUri>https://github.com</githubWebUri>
         <githubApiUri>https://api.github.com</githubApiUri>
-        <clientID>{{ .Values.Master.Security.Github.ClientID }}</clientID>
-        <clientSecret>{{ .Values.Master.Security.Github.ClientSecret }}</clientSecret>
+        <clientID>{{ .Values.Master.Security.GitHub.ClientID }}</clientID>
+        <clientSecret>{{ .Values.Master.Security.GitHub.ClientSecret }}</clientSecret>
         <oauthScopes>read:org,user:email</oauthScopes>
       </securityRealm>
 {{- else }}
