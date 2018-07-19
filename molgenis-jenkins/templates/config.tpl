@@ -165,7 +165,7 @@ data:
           <filterQueue>false</filterQueue>
           <properties class="hudson.model.View$PropertyList"/>
         </hudson.model.AllView>
-{{- range $viewName, $view := .Views }}
+{{- range $viewName, $view := .Values.Master.Views }}
         <listView>
           <owner class="hudson" reference="../../.."/>
           <name>$viewName</name>
