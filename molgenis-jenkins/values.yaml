@@ -116,7 +116,7 @@ jenkins:
                 <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.9.1">
                   <id>a756941d-6c9d-4492-bcf9-327041764be6</id>
                   <remote>https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-httpd.git</remote>
-                  <credentialsId>molgenis-jenkins-github-secret</credentialsId>
+                  <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
                   </traits>
@@ -167,8 +167,8 @@ jenkins:
               <jenkins.branch.BranchSource>
                 <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.9.1">
                   <id>4702479a-6988-4a85-b4b7-e77fa2d05ffa</id>
-                  <remote>https://git.webhosting.rug.nl/molgenis/molgenis=ops-docker-maven.git</remote>
-                  <credentialsId></credentialsId>
+                  <remote>https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-maven.git</remote>
+                  <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
                   </traits>

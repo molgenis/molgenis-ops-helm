@@ -1,7 +1,7 @@
 name: molgenis-jenkins
 home: https://jenkins.io/
-version: 0.3.1
-appVersion: 2.107
+version: 0.3.2
+appVersion: 2.121
 description: Molgenis installation for the jenkins chart.
 sources:
 - https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
