@@ -21,11 +21,11 @@ jenkins:
     Views:
       dev:
         Jobs:
-          - molgenis
+          - name: molgenis
       ops:
         Jobs:
-          - molgenis-ops-docker-httpd
-          - molgenis-ops-docker-maven
+          - name: molgenis-ops-docker-httpd
+          - name: molgenis-ops-docker-maven
     Jobs: |-
       molgenis: |-
         <?xml version='1.1' encoding='UTF-8'?>
