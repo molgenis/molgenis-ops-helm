@@ -143,7 +143,7 @@ data:
 {{- else }}
                   <alwaysPullImage>false</alwaysPullImage>
 {{- end }}
-                  <workingDir>/home/jenkins</workingDir>
+                  <workingDir>{{ .WorkingDir | default "" }}</workingDir>
                   <command>{{ .Command | default "" }}</command>
                   <args>{{ .Args | default "" }}</args>
 {{- if .TTY }}
