@@ -219,6 +219,11 @@ jenkins:
           Image: "spotify/alpine"
           Command: cat
           TTY: true
+        node:
+          Image: "node"
+          ImageTag: "9.11.2"
+          Command: cat
+          TTY: true
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
