@@ -229,12 +229,6 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
-        node:
-          Image: "node"
-          ImageTag: "9.11.2"
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
@@ -250,6 +244,34 @@ jenkins:
           key: SONAR_TOKEN
           secretName: molgenis-pipeline-env-secret
           secretKey: sonarToken
+        - type: Secret
+          key: CODECOV_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: codecovToken
+        - type: Secret
+          key: GITHUB_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: githubToken
+      NodeSelector: {}
+    node:
+      Label: node-carbon
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        node:
+          Image: "node"
+          ImageTag: carbon
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        alpine:
+          Image: "spotify/alpine"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+      EnvVars:
+        - type: KeyValue
+          key: npm_config_registry
+          value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
         - type: Secret
           key: CODECOV_TOKEN
           secretName: molgenis-pipeline-env-secret
