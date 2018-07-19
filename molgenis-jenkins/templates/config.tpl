@@ -174,8 +174,8 @@ data:
           <properties class="hudson.model.View$PropertyList"/>
           <jobNames>
              <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-{{- range $index, $job := .Jobs }}
-             <string>{{ .name }}</string>
+{{- range $index, $job := $view }}
+             <string>{{ $job }}</string>
 {{- end }}
           </jobNames>
           <jobFilters/>
@@ -193,7 +193,7 @@ data:
         </listView>
 {{- end }}
       </views>
-      <primaryView>dev</primaryView>
+      <primaryView>{{ .Values.Master.DefaultView }}</primaryView>
       <slaveAgentPort>50000</slaveAgentPort>
       <disabledAgentProtocols>
 {{- range .Values.Master.DisabledAgentProtocols }}

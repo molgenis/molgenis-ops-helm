@@ -18,14 +18,13 @@ jenkins:
       GitHub:
         ClientID: ""
         ClienSecret: ""
+    DefaultView: dev
     Views:
       dev:
-        Jobs:
-          - name: molgenis
+        - molgenis
       ops:
-        Jobs:
-          - name: molgenis-ops-docker-httpd
-          - name: molgenis-ops-docker-maven
+        - molgenis-ops-docker-httpd
+        - molgenis-ops-docker-maven
     Jobs: |-
       molgenis: |-
         <?xml version='1.1' encoding='UTF-8'?>
