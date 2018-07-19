@@ -12,6 +12,7 @@ jenkins:
       - kubernetes-credentials-provider:0.9
       - blueocean:1.6.2
       - github-oauth:0.29
+      - gogs-webhook:1.0.14
     Security:
       UseGitHub: false
       GitHub:
