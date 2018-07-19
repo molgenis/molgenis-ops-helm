@@ -174,7 +174,7 @@ data:
           <properties class="hudson.model.View$PropertyList"/>
           <jobNames>
              <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-{{- range index, $job := .Jobs }}
+{{- range $index, $job := .Jobs }}
              <string>$job</string>
 {{- end }}
           </jobNames>
