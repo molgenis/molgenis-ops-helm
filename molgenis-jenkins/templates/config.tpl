@@ -48,7 +48,7 @@ data:
           <properties class="hudson.model.View$PropertyList"/>
           <jobNames>
             <comparator class="hudson.util.CaseInsensitiveComparator"/>
-            <string>molgenis-operations</string>
+            <string>molgenis-ops-docker-httpd</string>
             <string>molgenis-ops-docker-maven</string>
           </jobNames>
           <jobFilters/>
