@@ -168,14 +168,14 @@ data:
 {{- range $viewName, $view := .Values.Master.Views }}
         <listView>
           <owner class="hudson" reference="../../.."/>
-          <name>$viewName</name>
+          <name>{{ $viewName }}</name>
           <filterExecutors>false</filterExecutors>
           <filterQueue>false</filterQueue>
           <properties class="hudson.model.View$PropertyList"/>
           <jobNames>
              <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
 {{- range $index, $job := .Jobs }}
-             <string>$job</string>
+             <string>{{ $job }}</string>
 {{- end }}
           </jobNames>
           <jobFilters/>
