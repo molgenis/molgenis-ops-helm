@@ -279,6 +279,10 @@ jenkins:
           key: GITHUB_TOKEN
           secretName: molgenis-pipeline-env-secret
           secretKey: githubToken
+        - type: Secret
+          key: NPM_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: npmToken
       NodeSelector: {}
     molgenis-it:
       InheritFrom: molgenis
@@ -356,6 +360,8 @@ PipelineSecrets:
     GogsToken: xxxx
     # Token for sonarcloud.io
     SonarToken: xxxx
+    # Token for npmjs.org
+    NpmToken: xxxx
     # Password Local NEXUS
     NexusPassword: xxxx
     # Password hub.docker.com
