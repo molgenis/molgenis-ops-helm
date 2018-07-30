@@ -13,11 +13,11 @@ questions:
   default: 1
   description: "CPU limit for this MOLGENIS instance"
   type: enum
-    options:
-    - "1"
-    - "2"
-    - "3"
-    - "4"
+  options:
+  - "1"
+  - "2"
+  - "3"
+  - "4"
   required: true
   group: "Resource limits"
   label: CPU limit
@@ -25,11 +25,11 @@ questions:
   default: 1250Mi
   description: "Memory limit for this MOLGENIS instance"
   type: enum
-    options:
-    - "1250Mi"
-    - "1500Mi"
-    - "2000Mi"
-    - "2500Mi"
+  options:
+  - "1250Mi"
+  - "1500Mi"
+  - "2000Mi"
+  - "2500Mi"
   required: true
   group: "Resource limits"
   label: Memory limit
