@@ -1,0 +1,11 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: ingress.hosts[0].name
+  default: "test.molgenis.org"
+  description: "Hostname for your stack"
+  type: hostname
+  required: true
+  group: "Services and Load Balancing"
+  label: Hostname
