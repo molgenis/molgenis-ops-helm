@@ -19,7 +19,7 @@ questions:
   - "3"
   - "4"
   required: true
-  group: "Resource limits"
+  group: "MOLGENIS - Resource limits"
   label: CPU limit
 - variable: molgenis.resources.limits.memory
   default: 1250Mi
@@ -31,5 +31,14 @@ questions:
   - "2000Mi"
   - "2500Mi"
   required: true
-  group: "Resource limits"
+  group: "MOLGENIS - Resource limits"
   label: Memory limit
+- variable: molgenis.javaOpts
+  default: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  description: "Java runtime options for the MOLGENIS instance"
+  type: enum
+  options:
+  - "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  group: "MOLGENIS - Resource limits"
+  label: Java memory options
