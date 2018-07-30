@@ -33,3 +33,11 @@ questions:
   required: true
   group: "MOLGENIS - Resource limits"
   label: Memory limit
+- variable: molgenis.javaOpts
+  default: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  description: "Java runtime options for the MOLGENIS instance"
+  type: enum
+  options:
+  - "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  label: Java memory options
