@@ -40,4 +40,5 @@ questions:
   options:
   - "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
   - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  group: "MOLGENIS - Resource limits"
   label: Java memory options
