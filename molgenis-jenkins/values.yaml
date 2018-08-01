@@ -216,6 +216,8 @@ jenkins:
       Containers:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
+          ImageTag: lts
+          AlwaysPullImage: true
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -223,11 +225,6 @@ jenkins:
             requests:
               cpu: "1"
               memory: "4Gi"
-        alpine:
-          Image: "spotify/alpine"
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
@@ -257,13 +254,9 @@ jenkins:
       NodeUsageMode: EXCLUSIVE
       Containers:
         node:
-          Image: "node"
-          ImageTag: carbon
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-        alpine:
-          Image: "spotify/alpine"
+          Image: "registry.webhosting.rug.nl/molgenis/node"
+          ImageTag: lts
+          AlwaysPullImage: true
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
