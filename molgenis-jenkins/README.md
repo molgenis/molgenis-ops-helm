@@ -65,7 +65,9 @@ There is one additional group of configuration items specific for this chart, so
    | `PipelineSecrets.Env.GitHubToken`      | token for GH molgenis-jenkins user        | `xxxx`          |
    | `PipelineSecrets.Env.NexusPassword`    | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
    | `PipelineSecrets.Env.DockerHubPassword`| token for molgenis user in hub.docker.com | `xxxx`          |
-   | `PipelineSecrets.Env.SonarToken`       | token for sonarcloud.io                   | `xxxx`          |                                                            |
+   | `PipelineSecrets.Env.SonarToken`       | token for sonarcloud.io                   | `xxxx`          |
+   | `PipelineSecrets.Env.NpmToken`         | token for npmjs.org                       | `xxxx`          | 
+   | `PipelineSecrets.Env.SauceAccessKey`   | token for saucelabs.com                   | `xxxx`          |
 
 * File
 
