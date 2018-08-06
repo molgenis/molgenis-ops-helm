@@ -3,3 +3,6 @@ appVersion: "1.0"
 description: HTTPD for MOLGENIS
 name: molgenis-httpd
 version: 0.1.0
+sources:
+- https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
+icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis-httpd/catalogIcon-molgenis-httpd.svg
