@@ -380,6 +380,8 @@ jenkins:
       Containers:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
+          ImageTag: lts
+          AlwaysPullImage: true
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -421,13 +423,9 @@ jenkins:
       NodeUsageMode: EXCLUSIVE
       Containers:
         node:
-          Image: "node"
-          ImageTag: carbon
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-        alpine:
-          Image: "spotify/alpine"
+          Image: "registry.webhosting.rug.nl/molgenis/node"
+          ImageTag: lts
+          AlwaysPullImage: true
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -443,6 +441,10 @@ jenkins:
           key: GITHUB_TOKEN
           secretName: molgenis-pipeline-env-secret
           secretKey: githubToken
+        - type: Secret
+          key: NPM_TOKEN
+          secretName: molgenis-pipeline-env-secret
+          secretKey: npmToken
       NodeSelector: {}
     molgenis-it:
       InheritFrom: molgenis
@@ -520,6 +522,8 @@ PipelineSecrets:
     GogsToken: xxxx
     # Token for sonarcloud.io
     SonarToken: xxxx
+    # Token for npmjs.org
+    NpmToken: xxxx
     # Password Local NEXUS
     NexusPassword: xxxx
     # Password hub.docker.com
