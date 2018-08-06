@@ -13,6 +13,7 @@ jenkins:
       - blueocean:1.6.2
       - github-oauth:0.29
       - gogs-webhook:1.0.14
+      - sauce-ondemand:1.176
     Security:
       UseGitHub: false
       GitHub:
@@ -360,6 +361,8 @@ PipelineSecrets:
     NexusPassword: xxxx
     # Password hub.docker.com
     DockerHubPassword: xxxx
+    # Access key for saucelabs.com
+    SauceAccessKey: xxxx
   File:
     # Set to false to keep existing secret
     Replace: true
