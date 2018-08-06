@@ -389,6 +389,11 @@ jenkins:
             requests:
               cpu: "1"
               memory: "4Gi"
+        alpine:
+          Image: "spotify/alpine"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
