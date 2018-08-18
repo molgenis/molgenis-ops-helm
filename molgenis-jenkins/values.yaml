@@ -368,15 +368,12 @@ jenkins:
     install: true
   Pods:
     molgenis:
-      Label: molgenis
-      NodeUsageMode: NORMAL
+      Label: molgenisv2
+      NodeUsageMode: EXCLUSIVE
       volumes:
         - type: HostPath
           hostPath: "/var/run/docker.sock"
           mountPath: "/var/run/docker.sock"
-        - type: Secret
-          secretName: molgenis-pipeline-file-secret
-          mountPath: "/root/.m2"
       Containers:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
@@ -394,6 +391,34 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
+        vault:
+          Image: "vault"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          EnvVars:
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
+      NodeSelector: {}
+    molgenis-legacy:
+      InheritFrom: molgenis
+      Label: molgenis
+      NodeUsageMode: NORMAL
+      volumes:
+        - type: Secret
+          secretName: molgenis-pipeline-file-secret
+          mountPath: "/root/.m2"
+      Containers:
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
