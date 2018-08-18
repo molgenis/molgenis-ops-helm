@@ -52,6 +52,17 @@ There is one additional group of configuration items specific for this chart, so
    You can override the values at deploy time but otherwise also configure them 
    [in Rancher](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/secrets) or through kubectl.
 
+*  Vault
+
+   New vault token to be used by the pods to retrieve their tokens from the vault.
+   
+   | Parameter                         | Description                                | Default                                       |
+   | ----------------------------------|--------------------------------------------|-----------------------------------------------|
+   | `PipelineSecrets.Vault.Replace`   | Replace the molgenis-pipeline-vault secret |`true`                                         |
+   | `PipelineSecrets.Vault.Token`     | Token to log into the hashicorp vault      |`xxxx`                                         |
+   | `PipelineSecrets.Vault.Addr`      | Address of the vault                       |`https:vault-operator.vault-operator.svc:8200` |
+   | `PipelineSecrets.Vault.skipVerify`| Skip verification of the https connection  |`1`                                            |
+
 *  Env
    
    Environment variables stored in molgenis-pipeline-env secret, to be added as environment variables

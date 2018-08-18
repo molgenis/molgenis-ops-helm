@@ -509,6 +509,10 @@ jenkins:
               memory: "512Mi"
       NodeSelector: {}
 PipelineSecrets:
+  Vault:
+    Replace: true
+    Token: xxxx
+    Addr: "https://vault-operator.vault-operator.svc:8200"
   Env:
     # Set to false to keep existing secret
     Replace: true
