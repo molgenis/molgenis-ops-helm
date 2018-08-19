@@ -386,6 +386,13 @@ jenkins:
             requests:
               cpu: "1"
               memory: "4Gi"
+          EnvVars:
+            - type: KeyValue
+              key: MAVEN_OPTS
+              value: "-Duser.home=/home/jenkins"
+            - type: KeyValue
+              key: MAVEN_CONFIG
+              value: "/home/jenkins/.m2"
         alpine:
           Image: "spotify/alpine"
           Command: cat
@@ -417,7 +424,7 @@ jenkins:
       volumes:
         - type: Secret
           secretName: molgenis-pipeline-file-secret
-          mountPath: "/root/.m2"
+          mountPath: "/home/jenkins/.m2"
       Containers:
       EnvVars:
         - type: Secret
@@ -426,7 +433,7 @@ jenkins:
           secretKey: pgpPassphrase
         - type: KeyValue
           key: PGP_SECRETKEY
-          value: "keyfile:/root/.m2/key.asc"
+          value: "keyfile:/home.jenkins/.m2/key.asc"
         - type: KeyValue
           key: npm_config_registry
           value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
