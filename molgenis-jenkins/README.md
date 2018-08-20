@@ -52,22 +52,33 @@ There is one additional group of configuration items specific for this chart, so
    You can override the values at deploy time but otherwise also configure them 
    [in Rancher](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/secrets) or through kubectl.
 
+*  Vault
+
+   New vault token to be used by the pods to retrieve their tokens from the vault.
+   
+   | Parameter                          | Description                                | Default                                        |
+   | ---------------------------------- | ------------------------------------------ | ---------------------------------------------- |
+   | `PipelineSecrets.Vault.Replace`    | Replace the molgenis-pipeline-vault secret | `true`                                         |
+   | `PipelineSecrets.Vault.Token`      | Token to log into the hashicorp vault      | `xxxx`                                         |
+   | `PipelineSecrets.Vault.Addr`       | Address of the vault                       | `https:vault-operator.vault-operator.svc:8200` |
+   | `PipelineSecrets.Vault.SkipVerify` | Skip verification of the https connection  | `1`                                            |
+
 *  Env
    
    Environment variables stored in molgenis-pipeline-env secret, to be added as environment variables
    in the slave pods.
 
-   | Parameter                              | Description                               | Default         |
-   | -------------------------------------- | ----------------------------------------- | --------------- |
-   | `PipelineSecrets.Env.Replace`          | Replace molgenis-pipeline-env secret      | `true`          |
-   | `PipelineSecrets.Env.PGPPassphrase`    | passphrase for the pgp signing key        | `literal:xxxx`  |
-   | `PipelineSecrets.Env.CodecovToken`     | token for codecov.io                      | `xxxx`          |
-   | `PipelineSecrets.Env.GitHubToken`      | token for GH molgenis-jenkins user        | `xxxx`          |
-   | `PipelineSecrets.Env.NexusPassword`    | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
-   | `PipelineSecrets.Env.DockerHubPassword`| token for molgenis user in hub.docker.com | `xxxx`          |
-   | `PipelineSecrets.Env.SonarToken`       | token for sonarcloud.io                   | `xxxx`          |
-   | `PipelineSecrets.Env.NpmToken`         | token for npmjs.org                       | `xxxx`          | 
-   | `PipelineSecrets.Env.SauceAccessKey`   | token for saucelabs.com                   | `xxxx`          |
+   | Parameter                               | Description                               | Default         |
+   | --------------------------------------- | ----------------------------------------- | --------------- |
+   | `PipelineSecrets.Env.Replace`           | Replace molgenis-pipeline-env secret      | `true`          |
+   | `PipelineSecrets.Env.PGPPassphrase`     | passphrase for the pgp signing key        | `literal:xxxx`  |
+   | `PipelineSecrets.Env.CodecovToken`      | token for codecov.io                      | `xxxx`          |
+   | `PipelineSecrets.Env.GitHubToken`       | token for GH molgenis-jenkins user        | `xxxx`          |
+   | `PipelineSecrets.Env.NexusPassword`     | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
+   | `PipelineSecrets.Env.DockerHubPassword` | token for molgenis user in hub.docker.com | `xxxx`          |
+   | `PipelineSecrets.Env.SonarToken`        | token for sonarcloud.io                   | `xxxx`          |
+   | `PipelineSecrets.Env.NpmToken`          | token for npmjs.org                       | `xxxx`          | 
+   | `PipelineSecrets.Env.SauceAccessKey`    | token for saucelabs.com                   | `xxxx`          |
 
 * File
 

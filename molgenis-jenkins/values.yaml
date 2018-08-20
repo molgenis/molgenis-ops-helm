@@ -368,15 +368,12 @@ jenkins:
     install: true
   Pods:
     molgenis:
-      Label: molgenis
-      NodeUsageMode: NORMAL
+      Label: molgenisv2
+      NodeUsageMode: EXCLUSIVE
       volumes:
         - type: HostPath
           hostPath: "/var/run/docker.sock"
           mountPath: "/var/run/docker.sock"
-        - type: Secret
-          secretName: molgenis-pipeline-file-secret
-          mountPath: "/root/.m2"
       Containers:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
@@ -389,11 +386,46 @@ jenkins:
             requests:
               cpu: "1"
               memory: "4Gi"
+          EnvVars:
+            - type: KeyValue
+              key: MAVEN_OPTS
+              value: "-Duser.home=/home/jenkins"
+            - type: KeyValue
+              key: MAVEN_CONFIG
+              value: "/home/jenkins/.m2"
         alpine:
           Image: "spotify/alpine"
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
+        vault:
+          Image: "vault"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          EnvVars:
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
+      NodeSelector: {}
+    molgenis-legacy:
+      InheritFrom: molgenis
+      Label: molgenis
+      NodeUsageMode: NORMAL
+      volumes:
+        - type: Secret
+          secretName: molgenis-pipeline-file-secret
+          mountPath: "/home/jenkins/.m2"
+      Containers:
       EnvVars:
         - type: Secret
           key: PGP_PASSPHRASE
@@ -401,7 +433,7 @@ jenkins:
           secretKey: pgpPassphrase
         - type: KeyValue
           key: PGP_SECRETKEY
-          value: "keyfile:/root/.m2/key.asc"
+          value: "keyfile:/home.jenkins/.m2/key.asc"
         - type: KeyValue
           key: npm_config_registry
           value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
@@ -509,6 +541,11 @@ jenkins:
               memory: "512Mi"
       NodeSelector: {}
 PipelineSecrets:
+  Vault:
+    Replace: true
+    Token: xxxx
+    Addr: "https://vault-operator.vault-operator.svc:8200"
+    SkipVerify: 1
   Env:
     # Set to false to keep existing secret
     Replace: true
