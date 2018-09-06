@@ -606,10 +606,9 @@ PipelineSecrets:
             <username>admin</username>
             <password>xxxx</password>
           </server>
-          <!-- to authenticate against GOGS for MAVEN release -->
           <server>
-            <id>gogs</id>
-            <username>xxxx</username>
+            <id>registry.hub.docker.com</id>
+            <username>molgenisci</username>
             <password>xxxx</password>
           </server>
         </servers>
