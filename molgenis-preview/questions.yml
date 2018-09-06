@@ -9,7 +9,7 @@ questions:
   required: true
   group: "Services and Load Balancing"
   label: Hostname
-- variable: molgenis.image.registry
+- variable: molgenis.image.repository
   default: "registry.hub.docker.com"
   description: "Select a registry to pull from"
   type: enum
