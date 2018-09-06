@@ -9,6 +9,28 @@ questions:
   required: true
   group: "Services and Load Balancing"
   label: Hostname
+- variable: molgenis.image.repository
+  default: "registry.hub.docker.com"
+  description: "Select a registry to pull from"
+  type: enum
+  options:
+  - "registry.hub.docker.com"
+  - "registry.molgenis.org"
+  required: true
+  group: "MOLGENIS - Version"
+  label: Registry
+- variable: molgenis.image.tag
+  default: "stable"
+  description: "Select a MOLGENIS version"
+  type: enum
+  options:
+  - "latest"
+  - "stable"
+  - "7.1-stable"
+  - "7.0-stable"
+  required: true
+  group: "MOLGENIS - Version"
+  label: Version
 - variable: molgenis.resources.limits.cpu
   default: 1
   description: "CPU limit for this MOLGENIS instance"

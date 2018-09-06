@@ -17,7 +17,8 @@ ingress:
 
 molgenis:
   image:
-    repository: registry.molgenis.org/molgenis/molgenis-app
+    repository: registry.molgenis.org
+    name: molgenis/molgenis-app
     tag: 7.0.0-SNAPSHOT
     pullPolicy: Always
   adminPassword: admin
