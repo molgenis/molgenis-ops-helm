@@ -17,7 +17,7 @@ questions:
   - "registry.hub.docker.com"
   - "registry.molgenis.org"
   required: true
-  group: "MOLGENIS - version"
+  group: "MOLGENIS - Version"
   label: Registry
 - variable: molgenis.image.tag
   default: "stable"
@@ -28,6 +28,8 @@ questions:
   - "stable"
   - "7.1-stable"
   - "7.0-stable"
+  required: true
+  group: "MOLGENIS - Version"
   label: Version
 - variable: molgenis.resources.limits.cpu
   default: 1
