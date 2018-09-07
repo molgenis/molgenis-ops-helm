@@ -21,13 +21,8 @@ questions:
   label: Registry
 - variable: molgenis.image.tag
   default: "stable"
-  description: "Select a MOLGENIS version"
-  type: enum
-  options:
-  - "latest"
-  - "stable"
-  - "7.1-stable"
-  - "7.0-stable"
+  description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for other tags)"
+  type: string
   required: true
   group: "MOLGENIS - Version"
   label: Version
