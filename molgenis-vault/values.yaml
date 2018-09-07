@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-#abs details of the credentials to reach the azure backup storage
+# abs gives details of the credentials to reach the azure backup storage
 abs:
   # account is the name of the Storage account
   account: fdlkops
@@ -10,6 +10,13 @@ abs:
   accessKey: xxxx
   # default cloud
   cloud: AzurePublicCloud
+
+# backupjob describes the backup cronjob
+backupJob:
+  # enable enables the backup job
+  enable: true
+  # schedule gives the cron schedule for the backup job
+  schedule: "0 0 0 ? * MON *"
 
 ###
 # All of the config variables related to setting up the etcd-operator

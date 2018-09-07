@@ -23,3 +23,11 @@ See [etcd-operator documentation](https://github.com/coreos/etcd-operator/blob/m
 | `abs.account`   | name of storage account       | `fdlkops`          |
 | `abs.accessKey` | access key of storage account | `xxxx`             |
 | `abs.cloud`     | name of cloud environment     | `AzurePublicCloud` |
+
+### Backup job
+Define the schedule of the backup job
+
+| Parameter            | Description                  | Default            |
+| -------------------- | ---------------------------- | ------------------ |
+| `backupJob.enable`   | Enable backup cronjob        | `true`             |
+| `backupJob.schedule` | cron schedule for the backup | `0 0 0 ? * MON *`  |

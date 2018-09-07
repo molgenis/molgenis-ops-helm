@@ -1,3 +1,4 @@
+# Use kubectl create -f restore.yaml to manually execute a restore of the vault
 apiVersion: "etcd.database.coreos.com/v1beta2"
 kind: "EtcdRestore"
 metadata:
@@ -10,5 +11,5 @@ spec:
     name: vault-etcd
   backupStorageType: ABS
   abs:
-    path: vault/backup
+    path: vault/backup-<specify the backup name>
     absSecret: abs
