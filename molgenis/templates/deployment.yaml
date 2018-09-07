@@ -26,27 +26,27 @@ spec:
       containers:
         - name: molgenis
         {{- with .Values.molgenis }}
-          image: "{{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}"
+          image: {{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}
           imagePullPolicy: {{ .image.pullPolicy }}
           env:
             - name: molgenis.home
               value: /home/molgenis
             - name: opencpu.uri.host
-              value: localhost
+              value: {{ .services.opencpu.uriHost }}
             - name: elasticsearch.transport.addresses
-              value: localhost:9300
+              value: {{ .services.elasticsearch.transportAddresses }}
             - name: elasticsearch.cluster.name
-              value: {{ $.Values.elasticsearch.clusterName }}
+              value: {{ .services.elasticsearch.clusterName }}
             - name: db_uri
-              value: "jdbc:postgresql://localhost/{{ $.Values.postgres.db }}"
+              value: jdbc:postgresql://{{ .services.postgres.host }}/{{ .services.postgres.scheme }}
             - name: db_user
-              value: {{ $.Values.postgres.user }}
+              value: {{ .services.postgres.user }}
             - name: db_password
-              value: {{ $.Values.postgres.password }}
+              value: {{ .services.postgres.password }}
             - name: admin.password
               value: {{ .adminPassword }}
             - name: CATALINA_OPTS
-              value: "{{ .javaOpts }}"
+              value: {{ .javaOpts }}
           ports:
             - containerPort: 8080
 #          livenessProbe:
