@@ -1,0 +1,38 @@
+# Default values for molgenis.
+
+replicaCount: 1
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  path: /
+  hosts:
+  - name: test.molgenis.org
+  tls: []
+
+molgenis:
+  image:
+    repository: registry.molgenis.org
+    name: molgenis/molgenis-app
+    tag: 7.0.0-SNAPSHOT
+    pullPolicy: Always
+  adminPassword: admin
+  javaOpts: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  resources:
+   limits:
+    cpu: 1
+    memory: 1250Mi
+   requests:
+    cpu: 200m
+    memory: 1Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

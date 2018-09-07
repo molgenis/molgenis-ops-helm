@@ -1,0 +1,76 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  {{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  name: {{ template "molgenis.fullname" . }}
+  labels:
+    app: {{ template "molgenis.name" . }}
+    chart: {{ template "molgenis.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "molgenis.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "molgenis.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: molgenis
+        {{- with .Values.molgenis }}
+          image: "{{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}"
+          imagePullPolicy: {{ .image.pullPolicy }}
+          env:
+            - name: molgenis.home
+              value: /home/molgenis
+            - name: opencpu.uri.host
+              value: localhost
+            - name: elasticsearch.transport.addresses
+              value: localhost:9300
+            - name: elasticsearch.cluster.name
+              value: {{ $.Values.elasticsearch.clusterName }}
+            - name: db_uri
+              value: "jdbc:postgresql://localhost/{{ $.Values.postgres.db }}"
+            - name: db_user
+              value: {{ $.Values.postgres.user }}
+            - name: db_password
+              value: {{ $.Values.postgres.password }}
+            - name: admin.password
+              value: {{ .adminPassword }}
+            - name: CATALINA_OPTS
+              value: "{{ .javaOpts }}"
+          ports:
+            - containerPort: 8080
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: 8080
+#          readinessProbe:
+#            httpGet:
+#              path: /api/v2/version
+#              port: 8080
+          resources:
+{{ toYaml .resources | indent 12 }}
+        {{- end }}
+
+
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

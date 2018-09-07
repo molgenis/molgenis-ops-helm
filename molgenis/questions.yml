@@ -1,0 +1,66 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: ingress.hosts[0].name
+  default: "test.molgenis.org"
+  description: "Hostname for your stack"
+  type: hostname
+  required: true
+  group: "Services and Load Balancing"
+  label: Hostname
+- variable: molgenis.image.repository
+  default: "registry.hub.docker.com"
+  description: "Select a registry to pull from"
+  type: enum
+  options:
+  - "registry.hub.docker.com"
+  - "registry.molgenis.org"
+  required: true
+  group: "MOLGENIS - Version"
+  label: Registry
+- variable: molgenis.image.tag
+  default: "stable"
+  description: "Select a MOLGENIS version"
+  type: enum
+  options:
+  - "latest"
+  - "stable"
+  - "7.1-stable"
+  - "7.0-stable"
+  required: true
+  group: "MOLGENIS - Version"
+  label: Version
+- variable: molgenis.resources.limits.cpu
+  default: 1
+  description: "CPU limit for this MOLGENIS instance"
+  type: enum
+  options:
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  required: true
+  group: "MOLGENIS - Resource limits"
+  label: CPU limit
+- variable: molgenis.resources.limits.memory
+  default: 1250Mi
+  description: "Memory limit for this MOLGENIS instance"
+  type: enum
+  options:
+  - "1250Mi"
+  - "1500Mi"
+  - "2000Mi"
+  - "2500Mi"
+  required: true
+  group: "MOLGENIS - Resource limits"
+  label: Memory limit
+- variable: molgenis.javaOpts
+  default: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  description: "Java runtime options for the MOLGENIS instance"
+  type: enum
+  options:
+  - "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  group: "MOLGENIS - Resource limits"
+  label: Java memory options
