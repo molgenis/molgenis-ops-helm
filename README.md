@@ -104,7 +104,8 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Jenkins](molgenis-jenkins/README.md)
 - [NEXUS](molgenis-nexus/README.md)
 - [HTTPD](molgenis-httpd/README.md)
-- [MOLNIGES preview](molgenis-preview/README.md)
+- [MOLGENIS preview](molgenis-preview/README.md)
+- [MOLGENIS vault](molgenis-vault/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts

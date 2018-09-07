@@ -1,1 +1,13 @@
-Good luck!
+Vault operator created
+
+Next steps:
+
+* Manually create a vault using resources/vault.yaml
+* Manually restore a backup using resources/backup.yaml
+* Unseal the vault pods
+
+{{ if .Values.backupJob.enable }}
+!! Make sure to check if the backups succeed !!
+{{ else }}
+!!!!!! NO BACKUPS CONFIGURED !!!!!!
+{{ end }}

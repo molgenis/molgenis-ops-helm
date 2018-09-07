@@ -1,3 +1,4 @@
+# Use kubectl create -f vault.yaml to manually create a vault
 apiVersion: "vault.security.coreos.com/v1alpha1"
 kind: "VaultService"
 metadata:

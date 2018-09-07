@@ -1,3 +1,4 @@
+# configmap to use as a template by the backup cronjob to create etcdbackup instances
 apiVersion: v1
 kind: ConfigMap
 metadata:
