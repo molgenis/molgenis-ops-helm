@@ -10,8 +10,6 @@ That creates a new vault with two vault pods.
 
 See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
 
-The UI will be exposed on the host name you specify.
-
 ## Parameters
 
 ### Azure cloud credentials
