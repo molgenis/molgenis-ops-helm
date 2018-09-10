@@ -368,8 +368,8 @@ jenkins:
     install: true
   Pods:
     molgenis:
-      Label: molgenisv2
-      NodeUsageMode: EXCLUSIVE
+      Label: molgenis
+      NodeUsageMode: NORMAL
       volumes:
         - type: HostPath
           hostPath: "/var/run/docker.sock"
@@ -417,39 +417,6 @@ jenkins:
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
       NodeSelector: {}
-    molgenis-legacy:
-      InheritFrom: molgenis
-      Label: molgenis
-      NodeUsageMode: NORMAL
-      volumes:
-        - type: Secret
-          secretName: molgenis-pipeline-file-secret
-          mountPath: "/home/jenkins/.m2"
-      Containers:
-      EnvVars:
-        - type: Secret
-          key: PGP_PASSPHRASE
-          secretName: molgenis-pipeline-env-secret
-          secretKey: pgpPassphrase
-        - type: KeyValue
-          key: PGP_SECRETKEY
-          value: "keyfile:/home.jenkins/.m2/key.asc"
-        - type: KeyValue
-          key: npm_config_registry
-          value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
-        - type: Secret
-          key: SONAR_TOKEN
-          secretName: molgenis-pipeline-env-secret
-          secretKey: sonarToken
-        - type: Secret
-          key: CODECOV_TOKEN
-          secretName: molgenis-pipeline-env-secret
-          secretKey: codecovToken
-        - type: Secret
-          key: GITHUB_TOKEN
-          secretName: molgenis-pipeline-env-secret
-          secretKey: githubToken
-      NodeSelector: {}
     node:
       Label: node-carbon
       NodeUsageMode: EXCLUSIVE
@@ -461,155 +428,45 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
-      EnvVars:
-        - type: KeyValue
-          key: npm_config_registry
-          value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
-        - type: Secret
-          key: CODECOV_TOKEN
-          secretName: molgenis-pipeline-env-secret
-          secretKey: codecovToken
-        - type: Secret
-          key: GITHUB_TOKEN
-          secretName: molgenis-pipeline-env-secret
-          secretKey: githubToken
-        - type: Secret
-          key: NPM_TOKEN
-          secretName: molgenis-pipeline-env-secret
-          secretKey: npmToken
-      NodeSelector: {}
-    molgenis-it:
-      InheritFrom: molgenis
-      Label: molgenis-it
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        elasticsearch:
-          Image: docker.elastic.co/elasticsearch/elasticsearch
-          ImageTag: 5.5.3
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "1Gi"
-            limits:
-              cpu: "1"
-              memory: "1500Mi"
+        vault:
+          Image: "vault"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
           EnvVars:
-          - type: KeyValue
-            key: ES_JAVA_OPTS
-            value: "-Xms512m -Xmx512m"
-          - type: KeyValue
-            key: cluster.name
-            value: molgenis
-          - type: KeyValue
-            key: bootstrap.memory_lock
-            value: "true"
-          - type: KeyValue
-            key: xpack.security.enabled
-            value: "false"
-          - type: KeyValue
-            key: discovery.type
-            value: single-node
-        postgres:
-          Image: postgres
-          ImageTag: 9.6-alpine
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "250Mi"
-            limits:
-              cpu: "1"
-              memory: "250Mi"
-          EnvVars:
-          - type: KeyValue
-            key: POSTGRES_USER
-            value: molgenis
-          - type: KeyValue
-            key: POSTGRES_PASSWORD
-            value: molgenis
-          - type: KeyValue
-            key: POSTGRES_DB
-            value: molgenis
-        opencpu:
-          Image: molgenis/opencpu
-          AlwaysPullImage: true
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "256Mi"
-            limits:
-              cpu: "1"
-              memory: "512Mi"
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
       NodeSelector: {}
-PipelineSecrets:
-  Vault:
-    Replace: true
-    Token: xxxx
-    Addr: "https://vault-operator.vault-operator.svc:8200"
-    SkipVerify: 1
-  Env:
-    # Set to false to keep existing secret
-    Replace: true
-    # Passphrase for the pgp private key file, prefixed with literal:
-    PGPPassphrase: literal:xxxx
-    # Token for codecov.io service
-    CodecovToken: xxxx
-    # Token for github bot account
-    GitHubToken: xxxx
-    # Token for github bot account
-    GogsToken: xxxx
-    # Token for sonarcloud.io
-    SonarToken: xxxx
-    # Token for npmjs.org
-    NpmToken: xxxx
-    # Password Local NEXUS
-    NexusPassword: xxxx
-    # Password hub.docker.com
-    DockerHubPassword: xxxx
-    # Access key for saucelabs.com
-    SauceAccessKey: xxxx
-  File:
-    # Set to false to keep existing secret
-    Replace: true
-    # PGP Private key in ascii format used to sign artifacts
-    PGPPrivateKeyAsc: |-
-      -----BEGIN PGP PRIVATE KEY BLOCK-----
-      xxxxx
-      -----END PGP PRIVATE KEY BLOCK-----
-    # maven.settings file
-    MavenSettingsXML: |-
-      <settings>
-        <localRepository>${user.home}/.mvnrepository</localRepository>
-        <interactiveMode>false</interactiveMode>
-        <mirrors>
-          <mirror>
-            <id>nexus</id>
-            <mirrorOf>external:*</mirrorOf>
-            <url>http://nexus.molgenis-nexus:8081/repository/maven-central/</url>
-          </mirror>
-        </mirrors>
-        <servers>
-          <!-- for snapshot builds of the master -->
-          <server>
-            <id>sonatype-nexus-staging</id>
-            <username>molgenis</username>
-            <password>xxxx</password>
-          </server>
-          <server>
-            <id>local-nexus</id>
-            <url>http://nexus.molgenis-nexus:8081/repository/maven-snapshots/</url>
-            <username>admin</username>
-            <password>xxxxx</password>
-          </server>
-          <!-- for docker images-->
-          <server>
-            <id>registry.molgenis.org</id>
-            <username>admin</username>
-            <password>xxxx</password>
-          </server>
-          <server>
-            <id>registry.hub.docker.com</id>
-            <username>molgenisci</username>
-            <password>xxxx</password>
-          </server>
-        </servers>
-      </settings>
+#secret contains configuration for the kubernetes secrets that jenkins can access
+secret:
+  # vault configures the vault secret
+  vault:
+    token: xxxx
+    addr: "https://vault-operator.vault-operator.svc:8200"
+    skipVerify: "1"
+  # githubToken contains access token for jenkins bot account on github.com
+  gitHub:
+    user: "molgenis-jenkins"
+    token: xxxx
+  # gogs contains access token for jenkins bot account on RuG GoGs
+  gogs:
+    user: p281392
+    token: xxxx
+  # registry contains credentials for registry.molgenis.org
+  registry:
+    user: admin
+    password: xxxx
+  # dockerHubPassword contains password for hub.docker.com
+  dockerHub:
+    user: molgenisci
+    password: xxxx
