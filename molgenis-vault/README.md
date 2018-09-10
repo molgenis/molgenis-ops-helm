@@ -25,7 +25,7 @@ See [etcd-operator documentation](https://github.com/coreos/etcd-operator/blob/m
 ### Backup job
 Define the schedule of the backup job
 
-| Parameter            | Description                  | Default            |
-| -------------------- | ---------------------------- | ------------------ |
-| `backupJob.enable`   | Enable backup cronjob        | `true`             |
-| `backupJob.schedule` | cron schedule for the backup | `0 0 0 ? * MON *`  |
+| Parameter            | Description                  | Default       |
+| -------------------- | ---------------------------- | ------------- |
+| `backupJob.enable`   | Enable backup cronjob        | `true`        |
+| `backupJob.schedule` | cron schedule for the backup | `0 12 * * 1`  |
