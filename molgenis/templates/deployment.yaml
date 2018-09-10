@@ -49,14 +49,14 @@ spec:
               value: {{ .javaOpts }}
           ports:
             - containerPort: 8080
-#          livenessProbe:
-#            httpGet:
-#              path: /
-#              port: 8080
-#          readinessProbe:
-#            httpGet:
-#              path: /api/v2/version
-#              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /api/v2/version
+              port: 8080
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
