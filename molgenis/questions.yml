@@ -94,10 +94,10 @@ questions:
   - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
   group: "Resources"
   label: Java memory options
-- variable: molgenis.resources.persistence.enabled
+- variable: molgenis.persistence.enabled
   default: false
   description: "Do you want to use persistance"
   type: boolean
   required: true
-  group: "Resources"
+  group: "Persistence"
   label: Persistence

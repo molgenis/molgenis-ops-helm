@@ -30,15 +30,15 @@ molgenis:
     requests:
       cpu: 200m
       memory: 1Gi
-    persistence:
-      enabled: false
-      name: molgenis-nexus-data
-      storageClass: nfs-class
-      size: 30G
-      reclaimPolicy: Retain
-      server: 192.168.64.12
-      accessMode: ReadWriteMany
-      mountPath: /gcc/molgenis/nexus
+  persistence:
+    enabled: false
+    name: molgenis-nexus-data
+    storageClass: nfs-class
+    size: 30G
+    reclaimPolicy: Retain
+    server: 192.168.64.12
+    accessMode: ReadWriteMany
+    mountPath: /gcc/molgenis/nexus
   services:
     opencpu:
       host: localhost
@@ -65,8 +65,6 @@ elasticsearch:
    requests:
     cpu: 100m
     memory: 1Gi
-
-
 
 nodeSelector: {}
 
