@@ -34,7 +34,7 @@ questions:
   group: "Services"
   label: OpenCPU cluster
 - variable: molgenis.services.postgres.host
-  default: "localhost"
+  default: "postgresql.molgenis-postgresql.svc"
   description: "Set the location of the postgres cluster"
   type: string
   required: true
