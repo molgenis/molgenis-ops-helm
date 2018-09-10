@@ -102,6 +102,7 @@ questions:
   group: "Persistence"
   label: Persistence
   show_subquestion_if: true
+  subquestions:
   - variable: molgenis.persistence.size
     default: "10Gi"
     description: "Size of MOLGENIS filestore (not the database size)"
