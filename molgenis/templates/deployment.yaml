@@ -68,11 +68,11 @@ spec:
             periodSeconds: 5
           resources:
 {{ toYaml .resources | indent 12 }}
-        {{- if .persistence.enabled }}
+        {{- if .persistence.enabled -}}
         volumes:
-        - name: molgenis-nfs
-          persistentVolumeClaim:
-            claimName: {{ .persistence.name }}
+          - name: molgenis-nfs
+            persistentVolumeClaim:
+              claimName: {{ .persistence.name }}
         {{- end }}
         {{- end }}
 

@@ -1,4 +1,4 @@
-{{- if .Values.molgenis.persistence.enabled }}
+{{- if .Values.molgenis.persistence.enabled -}}
 apiVersion: extensions/v1beta1
 kind: PersistentVolumeClaim
 apiVersion: v1
