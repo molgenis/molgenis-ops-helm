@@ -33,20 +33,6 @@ questions:
   required: true
   group: "Services"
   label: OpenCPU cluster
-- variable: molgenis.services.elasticsearch.clusterName
-  default: "molgenis"
-  description: "Set the index name of MOLGENIS"
-  type: string
-  required: true
-  group: "Services"
-  label: Elasticsearch clustername
-- variable: molgenis.services.elasticsearch.transportAddress
-  default: "localhost:9300"
-  description: "Set the transport address for the elasticsearch node communication port and low-level api (which we use)"
-  type: string
-  required: true
-  group: "Services"
-  label: Elasticsearch transport address
 - variable: molgenis.services.postgres.host
   default: "localhost"
   description: "Set the location of the postgres cluster"

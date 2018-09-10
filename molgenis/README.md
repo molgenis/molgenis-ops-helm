@@ -47,9 +47,21 @@ You can specify credentials for the database scheme by specifying the following 
 - ```molgenis.services.postgres.user: molgenis```
 - ```molgenis.services.postgres.password: molgenis```
 
+To test you can use the **PostgreSQL**-helm chart of Kubernetes and specify these answers:
+
+```bash
+# answers for postgresql chart
+postgresUser=molgenis
+postgresPassword=molgenis
+postgresDatabase=molgenis
+persistence.enabled=false
+```
+
 ### OpenCPU
 You can specify the location of the OpenCPU cluster by specifying this property:
 - ```molgenis.services.opencpu.host: localhost```
+
+You can test OpenCPU settings using the **OpenCPU**-helm chart of MOLGENIS.
 
 ## Resources
 You can specify resources by resource type. There are 3 resource types.
@@ -66,10 +78,7 @@ Specify memory usage of container:
 Specify memory usage for Java JVM:
 - ```molgenis.javaOpts```
 
-
-
-
-
+Select the resources you need dependant on the customer you need to serve.
 
 ## Firewall
 Is defined at cluster level. This chart does not facilitate firewall configuration.
