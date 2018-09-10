@@ -75,4 +75,5 @@ ui:
     #  memory: 128Mi
   nodeSelector: {}
   vault:
-    auth: TOKEN
+    auth: GITHUB
+    url: https://vault.vault-operator:8200

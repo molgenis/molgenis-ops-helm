@@ -1,3 +1,17 @@
+{{/*
+Define vault ui fullname
+*/}}
+{{- define "vault.ui.fullname" -}}
+{{- printf "%s-ui" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Define vault service url for the ui
+*/}}
+{{- define "vault.service.url" -}}
+{{- printf "https://%s:8200" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
 {{/* See https://github.com/helm/helm/issues/4535 */}}
 {{- define "call-nested" }}
 {{- $dot := index . 0 }}
