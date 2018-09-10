@@ -28,8 +28,8 @@ molgenis:
       cpu: 1
       memory: 1250Mi
     requests:
-     cpu: 200m
-     memory: 1Gi
+      cpu: 200m
+      memory: 1Gi
     persistence:
       enabled: false
       name: molgenis-nexus-data
