@@ -53,10 +53,14 @@ spec:
             httpGet:
               path: /
               port: 8080
+            initialDelaySeconds: 180
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /api/v2/version
               port: 8080
+            initialDelaySeconds: 180
+            periodSeconds: 5
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
