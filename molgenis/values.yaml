@@ -32,13 +32,8 @@ molgenis:
       memory: 1Gi
   persistence:
     enabled: false
-    name: molgenis-nexus-data
-    storageClass: nfs-class
+    name: molgenis-nfs-claim
     size: 30G
-    reclaimPolicy: Retain
-    server: 192.168.64.12
-    accessMode: ReadWriteMany
-    mountPath: /gcc/molgenis/nexus
   services:
     opencpu:
       host: localhost
