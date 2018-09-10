@@ -1,0 +1,18 @@
+# configmap to use as a template by the backup cronjob to create etcdbackup instances
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-config
+data:
+  backup_cr.yaml: |
+    apiVersion: "etcd.database.coreos.com/v1beta2"
+    kind: "EtcdBackup"
+    metadata:
+      generateName: vault-backup-
+    spec:
+      etcdEndpoints: ["https://vault-etcd-client:2379"]
+      storageType: ABS
+      clientTLSSecret: vault-etcd-client-tls
+      abs:
+        path: vault/backup.<NOW>
+        absSecret: abs
