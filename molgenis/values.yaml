@@ -33,7 +33,7 @@ molgenis:
   persistence:
     enabled: false
     name: molgenis-nfs-claim
-    size: 30G
+    size: 30Gi
   services:
     opencpu:
       host: localhost

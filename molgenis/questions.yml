@@ -104,7 +104,7 @@ questions:
   show_subquestion_if: true
   subquestions:
   - variable: molgenis.persistence.size
-    default: "10Gi"
+    default: "30Gi"
     description: "Size of MOLGENIS filestore (not the database size)"
     type: string
     label: Size filestore

@@ -72,7 +72,7 @@ spec:
         volumes:
         - name: molgenis-nfs
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.name }}
+            claimName: {{ .persistence.name }}
         {{- end }}
         {{- end }}
 
