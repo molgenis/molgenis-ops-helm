@@ -29,3 +29,24 @@ Define the schedule of the backup job
 | -------------------- | ---------------------------- | ------------- |
 | `backupJob.enable`   | Enable backup cronjob        | `true`        |
 | `backupJob.schedule` | cron schedule for the backup | `0 12 * * 1`  |
+
+### UI
+
+Parameter | Description | Default
+--------- | ----------- | ------- 
+`ui.replicaCount` | desired number of Vault UI pod | `1`
+`ui.image.repository` | Vault UI container image repository | `djenriquez/vault-ui`
+`ui.image.tag` | Vault UI container image tag | `latest`
+`ui.resources` | Vault UI pod resource requests & limits | `{}`
+`ui.nodeSelector` | node labels for Vault UI pod assignment | `{}`
+`ui.ingress.enabled` | If true, Vault UI Ingress will be created | `true`
+`ui.ingress.annotations` | Vault UI Ingress annotations | `{}`
+`ui.ingress.host` | Vault UI Ingress hostname | `vault.molgenis.org`
+`ui.ingress.tls` | Vault UI Ingress TLS configuration (YAML) | `[]`
+`ui.vault.url` | Vault UI default vault url | `https://vault.vault-operator:8200`
+`ui.vault.auth` | Vault UI login method | `GITHUB`
+`ui.service.name` | Vault UI service name | `vault-ui`
+`ui.service.type` | type of ui service to create | `ClusterIP`
+`ui.service.externalPort` | Vault UI service target port | `8000`
+`ui.service.internalPort` | Vault UI container port | `8000`
+`ui.service.nodePort` | Port to be used as the service NodePort (ignored if `server.service.type` is not `NodePort`) | `0`
