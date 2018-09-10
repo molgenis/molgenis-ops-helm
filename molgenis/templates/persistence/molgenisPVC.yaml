@@ -4,8 +4,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .Values.molgenis.persistence.name }}
-annotations:
-  volume.beta.kubernetes.io/storage-class: "nfs-provisioner"
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs-provisioner"
 spec:
   accessModes:
     - ReadWriteMany
