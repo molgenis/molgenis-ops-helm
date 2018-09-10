@@ -27,7 +27,7 @@ questions:
   group: "Version"
   label: Version
 - variable: molgenis.services.opencpu.host
-  default: ""
+  default: "localhost"
   description: "Specify the OpenCPU cluster"
   type: string
   required: true
