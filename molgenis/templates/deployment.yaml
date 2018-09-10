@@ -49,6 +49,10 @@ spec:
               value: {{ .javaOpts }}
           ports:
             - containerPort: 8080
+          volumeMounts:
+          - name: molgenis-nfs
+            mountPath: "/home/molgenis"
+          restartPolicy: "Never"
           livenessProbe:
             httpGet:
               path: /
@@ -63,6 +67,10 @@ spec:
             periodSeconds: 5
           resources:
 {{ toYaml .resources | indent 12 }}
+        volumes:
+        - name: molgenis-nfs
+          persistentVolumeClaim:
+            claimName: molgenis-nfs-claim
         {{- end }}
 
         - name: elasticsearch
