@@ -32,7 +32,7 @@ spec:
             - name: molgenis.home
               value: /home/molgenis
             - name: opencpu.uri.host
-              value: {{ .services.opencpu.uriHost }}
+              value: {{ .services.opencpu.host }}
             - name: elasticsearch.transport.addresses
               value: {{ .services.elasticsearch.transportAddresses }}
             - name: elasticsearch.cluster.name

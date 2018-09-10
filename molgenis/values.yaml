@@ -32,7 +32,7 @@ molgenis:
     memory: 1Gi
   services:
     opencpu:
-      uriHost: localhost
+      host: localhost
     elasticsearch:
       transportAddresses: localhost:9300
       clusterName: molgenis

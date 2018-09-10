@@ -7,7 +7,7 @@ questions:
   description: "Hostname for your stack"
   type: hostname
   required: true
-  group: "Services and Load Balancing"
+  group: "Load Balancing"
   label: Hostname
 - variable: molgenis.image.repository
   default: "registry.hub.docker.com"
@@ -17,63 +17,63 @@ questions:
   - "registry.hub.docker.com"
   - "registry.molgenis.org"
   required: true
-  group: "MOLGENIS"
+  group: "Version"
   label: Registry
 - variable: molgenis.image.tag
   default: "stable"
   description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for other tags)"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Version"
   label: Version
-- variable: molgenis.services.opencpu.uriHost
+- variable: molgenis.services.opencpu.host
   default: ""
   description: "Specify the OpenCPU cluster"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: OpenCPU cluster
 - variable: molgenis.services.elasticsearch.clusterName
   default: "molgenis"
   description: "Set the index name of MOLGENIS"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: Elasticsearch clustername
 - variable: molgenis.services.elasticsearch.transportAddress
   default: "localhost:9300"
   description: "Set the transport address for the elasticsearch node communication port and low-level api (which we use)"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: Elasticsearch transport address
 - variable: molgenis.services.postgres.host
   default: "localhost"
   description: "Set the location of the postgres cluster"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: Postgres cluster location
 - variable: molgenis.services.postgres.scheme
   default: "molgenis"
   description: "Set the database scheme"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: Database scheme
 - variable: molgenis.services.postgres.user
   default: "molgenis"
   description: "Set user of the database scheme"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: Database username
 - variable: molgenis.services.postgres.password
   default: "molgenis"
   description: "Set the password of the database scheme"
   type: string
   required: true
-  group: "MOLGENIS"
+  group: "Services"
   label: Database password
 - variable: molgenis.resources.limits.cpu
   default: 1
@@ -85,7 +85,7 @@ questions:
   - "3"
   - "4"
   required: true
-  group: "MOLGENIS - Resource limits"
+  group: "Resources"
   label: CPU limit
 - variable: molgenis.resources.limits.memory
   default: 1250Mi
@@ -97,7 +97,7 @@ questions:
   - "2000Mi"
   - "2500Mi"
   required: true
-  group: "MOLGENIS - Resource limits"
+  group: "Resources"
   label: Memory limit
 - variable: molgenis.javaOpts
   default: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
@@ -106,5 +106,5 @@ questions:
   options:
   - "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
   - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
-  group: "MOLGENIS - Resource limits"
+  group: "Resources"
   label: Java memory options
