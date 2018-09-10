@@ -69,12 +69,6 @@ spec:
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
-      {{- if .Values.molgenis.persistence.enabled }}
-      volumes:
-        - name: molgenis-nfs
-          persistentVolumeClaim:
-            claimName: {{ .Values.molgenis.persistence.name }}
-      {{- end }}
 
         - name: elasticsearch
         {{- with .Values.elasticsearch }}
@@ -98,6 +92,12 @@ spec:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
 
+{{- if .Values.molgenis.persistence.enabled }}
+      volumes:
+        - name: molgenis-nfs
+          persistentVolumeClaim:
+            claimName: {{ .Values.molgenis.persistence.name }}
+{{- end }}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:
