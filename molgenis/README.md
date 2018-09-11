@@ -21,8 +21,6 @@ The three properties you need to specify are:
 Besides determining which image you want to pull, you also have to set an administrator password. You can do this by specifying the following property. 
 - ```molgenis.adminPassword```
 
-If you do not specify a password. You can find a one time password in the MOLGENIS container logging.
-
 ## Services
 When you start MOLGENIS you need:
 - an elasticsearch instance (5.5.6) 

@@ -31,7 +31,7 @@ questions:
   default: ""
   description: "Enter an administrator password"
   type: password
-  required: false
+  required: true
   group: "Provisioning"
 - variable: molgenis.services.opencpu.host
   label: OpenCPU cluster
