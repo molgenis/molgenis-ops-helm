@@ -1,0 +1,65 @@
+# Default values for molgenis.
+
+replicaCount: 1
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  path: /
+  hosts:
+  - name: test.molgenis.org
+  tls: []
+
+molgenis:
+  image:
+    repository: registry.hub.docker.com
+    name: molgenis/molgenis-app
+    tag: stable
+    pullPolicy: Always
+  adminPassword:
+  javaOpts:
+    maxHeapSpace: "1g"
+  resources:
+   limits:
+    cpu: 1
+    memory: 1250Mi
+   requests:
+    cpu: 200m
+    memory: 1250Mi
+  services:
+    opencpu:
+      host: localhost
+    elasticsearch:
+      transportAddresses: localhost:9300
+      clusterName: molgenis
+    postgres:
+      host: localhost
+      scheme: molgenis
+      user: molgenis
+      password: molgenis
+
+elasticsearch:
+  image:
+    repository: docker.elastic.co/elasticsearch/elasticsearch
+    tag: 5.5.3
+    pullPolicy: IfNotPresent
+  javaOpts: "-Xms1g -Xmx1g"
+  clusterName: molgenis
+  resources:
+   limits:
+    cpu: 2
+    memory: 3Gi
+   requests:
+    cpu: 100m
+    memory: 1Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
