@@ -111,3 +111,8 @@ questions:
     description: "Size of MOLGENIS filestore (not the database size)"
     type: string
     label: Size filestore
+  - variable: molgenis.persistence.retain
+    default: false
+    description: "Do you want to retain the persistence volume"
+    type: boolean
+    label: Retain volume

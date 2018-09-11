@@ -1,15 +1,21 @@
-{{- if .Values.molgenis.persistence.enabled -}}
+{{- with .Values.molgenis.persistence }}
+{{- if .enabled -}}
 apiVersion: extensions/v1beta1
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.molgenis.persistence.name }}
+  name: {{ .name }}
   annotations:
+    {{- if .retain }}
+    volume.beta.kubernetes.io/storage-class: "nfs-provisioner-retain"
+    {{- else }}
     volume.beta.kubernetes.io/storage-class: "nfs-provisioner"
+    {{- end }}
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.molgenis.persistence.size }}
+      storage: {{ .size }}
+{{- end }}
 {{- end }}

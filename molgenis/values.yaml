@@ -33,6 +33,7 @@ molgenis:
       memory: 1250Mi
   persistence:
     enabled: false
+    retain: false
     name: molgenis-nfs-claim
     size: 30Gi
   services:
