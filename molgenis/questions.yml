@@ -3,13 +3,14 @@ categories:
 - MOLGENIS
 questions:
 - variable: ingress.hosts[0].name
+  label: Hostname
   default: "test.molgenis.org"
   description: "Hostname for your stack"
   type: hostname
   required: true
   group: "Load Balancing"
-  label: Hostname
 - variable: molgenis.image.repository
+  label: Registry
   default: "registry.hub.docker.com"
   description: "Select a registry to pull from"
   type: enum
@@ -18,50 +19,50 @@ questions:
   - "registry.molgenis.org"
   required: true
   group: "Version"
-  label: Registry
 - variable: molgenis.image.tag
+  label: Version
   default: ""
   description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true
   group: "Version"
-  label: Version
 - variable: molgenis.services.opencpu.host
+  label: OpenCPU cluster
   default: "localhost"
   description: "Specify the OpenCPU cluster"
   type: string
   required: true
   group: "Services"
-  label: OpenCPU cluster
 - variable: molgenis.services.postgres.host
+  label: Postgres cluster location
   default: "postgresql.molgenis-postgresql.svc"
   description: "Set the location of the postgres cluster"
   type: string
   required: true
   group: "Services"
-  label: Postgres cluster location
 - variable: molgenis.services.postgres.scheme
+  label: Database scheme
   default: "molgenis"
   description: "Set the database scheme"
   type: string
   required: true
   group: "Services"
-  label: Database scheme
 - variable: molgenis.services.postgres.user
+  label: Database username
   default: "molgenis"
   description: "Set user of the database scheme"
   type: string
   required: true
   group: "Services"
-  label: Database username
 - variable: molgenis.services.postgres.password
+  label: Database password
   default: "molgenis"
   description: "Set the password of the database scheme"
   type: string
   required: true
   group: "Services"
-  label: Database password
 - variable: molgenis.resources.limits.memory
+  label: Container memory limit
   default: 1250Mi
   description: "Memory limit for this MOLGENIS container"
   type: enum
@@ -70,8 +71,8 @@ questions:
   - "2500Mi"
   required: true
   group: "Resources"
-  label: Container memory reservation
 - variable: molgenis.resources.requests.memory
+  label: Container memory reservation
   default: 1250Mi
   description: "Memory reservation for this MOLGENIS container"
   type: enum
@@ -80,8 +81,8 @@ questions:
   - "2500Mi"
   required: true
   group: "Resources"
-  label: Container memory reservation
 - variable: molgenis.javaOpts.maxHeapSpace
+  label: Maximum heap space (JVM)
   default: "1g"
   description: "Maximum heap space MOLGENIS container JVM. Please not this should fit in your container memory limit"
   type: enum
@@ -89,4 +90,3 @@ questions:
   - "1g"
   - "2g"
   group: "Resources"
-  label: Maximum heap space (JVM)
