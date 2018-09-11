@@ -70,7 +70,17 @@ questions:
   - "2500Mi"
   required: true
   group: "Resources"
-  label: Container memory limit
+  label: Container memory reservation
+- variable: molgenis.resources.requests.memory
+  default: 1250Mi
+  description: "Memory reservation for this MOLGENIS container"
+  type: enum
+  options:
+  - "1250Mi"
+  - "2500Mi"
+  required: true
+  group: "Resources"
+  label: Container memory reservation
 - variable: molgenis.javaOpts.maxHeapSpace
   default: "1g"
   description: "Maximum heap space MOLGENIS container JVM. Please not this should fit in your container memory limit"
@@ -79,4 +89,4 @@ questions:
   - "1g"
   - "2g"
   group: "Resources"
-  label: Maximum heap space
+  label: Maximum heap space (JVM)

@@ -30,7 +30,7 @@ molgenis:
     memory: 1250Mi
    requests:
     cpu: 200m
-    memory: 1Gi
+    memory: 1250Mi
   services:
     opencpu:
       host: localhost
@@ -48,7 +48,7 @@ elasticsearch:
     repository: docker.elastic.co/elasticsearch/elasticsearch
     tag: 5.5.3
     pullPolicy: IfNotPresent
-  javaOpts: "-Xms1024m -Xmx1024m"
+  javaOpts: "-Xms1g -Xmx1g"
   clusterName: molgenis
   resources:
    limits:
