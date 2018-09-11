@@ -21,7 +21,7 @@ molgenis:
     name: molgenis/molgenis-app
     tag: stable
     pullPolicy: Always
-  adminPassword: admin
+  adminPassword:
   javaOpts:
     maxHeapSpace: "1g"
   resources:

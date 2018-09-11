@@ -6,8 +6,8 @@ This chart spins up a MOLGENIS instance with HTTPD. The created containers are:
 
 - MOLGENIS
 
-## Versions
-You can choose from which registry you want to pull from. There are 2:
+## Provisioning
+You can choose from which registry you want to pull. There are 2 registries:
 - https://registry.molgenis.org
 - https://hub.docker.com
 
@@ -17,7 +17,12 @@ The three properties you need to specify are:
 - ```molgenis.image.repository```
 - ```molgenis.image.name```
 - ```molgenis.image.tag```
- 
+
+Besides determining which image you want to pull, you also have to set an administrator password. You can do this by specifying the following property. 
+- ```molgenis.adminPassword```
+
+If you do not specify a password. You can find a one time password in the MOLGENIS container logging.
+
 ## Services
 When you start MOLGENIS you need:
 - an elasticsearch instance (5.5.6) 
