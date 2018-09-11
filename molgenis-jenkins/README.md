@@ -40,57 +40,62 @@ You can use [all configuration values of the jenkins subchart](https://github.co
 ### GitHub Authentication delegation
 You need to setup a MOLGENIS - Jenkins GitHub OAuth App. You can do this by accessing this url: [add new OAuth app](https://github.com/settings/applications/new).
 
-### Additional configuration
-There is one additional group of configuration items specific for this chart, so not prefixed with `jenkins`:
+### Secrets
 
-* PipelineSecrets
-
-   When deployed, the chart creates a couple of kubernetes secrets that get used by jenkins and mounted in the jenkins 
-   build pods. The secrets, like the rest of the deployment, is namespaced so multiple instances can run beside
-   each other with their own secrets.
+   When deployed, the chart creates a couple of kubernetes secrets that get used by jenkins.
 
    You can override the values at deploy time but otherwise also configure them 
    [in Rancher](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/secrets) or through kubectl.
 
-*  Vault
+#### Vault
 
-   New vault token to be used by the pods to retrieve their tokens from the vault.
+The vault secret gets mounted in the vault pod so pipeline scripts can retrieve secrets from the vault.
+
+| Parameter                 | Description                                | Default                                        |
+| ------------------------- | ------------------------------------------ | ---------------------------------------------- |
+| `secret.vault.token`      | Token to log into the hashicorp vault      | `xxxx`                                         |
+| `secret.vault.addr`       | Address of the vault                       | `https:vault-operator.vault-operator.svc:8200` |
+| `secret.vault.skipVerify` | Skip verification of the https connection  | `1`                                            |
+
+#### GitHub
+
+Token used by Jenkins to authenticate on GitHub.
+
+| Parameter             | Description              | Default            |
+| --------------------- | ------------------------ | ------------------ |
+| `secret.gitHub.user`  | username for the account | `molgenis-jenkins` |
+| `secret.gitHub.token` | token for the account    | `xxxx`             |
+
+#### Gogs
+
+Token used by Jenkins to authenticate on the [RuG Webhosting Gogs](https://git.webhosting.rug.nl).
+
+| Parameter           | Description              | Default   |
+| ------------------- | ------------------------ | --------- |
+| `secret.gogs.user`  | username for the account | `p281392` |
+| `secret.gogs.token` | token for the account    | `xxxx`    |
+
+#### Legacy:
+
+##### Docker Hub
    
-   | Parameter                          | Description                                | Default                                        |
-   | ---------------------------------- | ------------------------------------------ | ---------------------------------------------- |
-   | `PipelineSecrets.Vault.Replace`    | Replace the molgenis-pipeline-vault secret | `true`                                         |
-   | `PipelineSecrets.Vault.Token`      | Token to log into the hashicorp vault      | `xxxx`                                         |
-   | `PipelineSecrets.Vault.Addr`       | Address of the vault                       | `https:vault-operator.vault-operator.svc:8200` |
-   | `PipelineSecrets.Vault.SkipVerify` | Skip verification of the https connection  | `1`                                            |
+Account used in pipeline builds to push docker images to `hub.docker.com`.
+> They should read `secret/gcc/account/dockerhub` from vault instead!
 
-*  Env
+| Parameter                   | Description              | Default         |
+| --------------------------- | ------------------------ | --------------- |
+| `secret.dockerHub.user`     | username for the account | `molgenisci`    |
+| `secret.dockerHub.password` | password for the account | `xxxx`          |
+
+##### Registry
    
-   Environment variables stored in molgenis-pipeline-env secret, to be added as environment variables
-   in the slave pods.
+Account used in pipeline builds to push docker images to `registry.molgenis.org`.
+> They should read `secret/ops/account/nexus` from vault instead!
 
-   | Parameter                               | Description                               | Default         |
-   | --------------------------------------- | ----------------------------------------- | --------------- |
-   | `PipelineSecrets.Env.Replace`           | Replace molgenis-pipeline-env secret      | `true`          |
-   | `PipelineSecrets.Env.PGPPassphrase`     | passphrase for the pgp signing key        | `literal:xxxx`  |
-   | `PipelineSecrets.Env.CodecovToken`      | token for codecov.io                      | `xxxx`          |
-   | `PipelineSecrets.Env.GitHubToken`       | token for GH molgenis-jenkins user        | `xxxx`          |
-   | `PipelineSecrets.Env.NexusPassword`     | token for molgenis-jenkins user in NEXUS  | `xxxx`          |
-   | `PipelineSecrets.Env.DockerHubPassword` | token for molgenis user in hub.docker.com | `xxxx`          |
-   | `PipelineSecrets.Env.SonarToken`        | token for sonarcloud.io                   | `xxxx`          |
-   | `PipelineSecrets.Env.NpmToken`          | token for npmjs.org                       | `xxxx`          | 
-   | `PipelineSecrets.Env.SauceAccessKey`    | token for saucelabs.com                   | `xxxx`          |
-
-* File
-
-  Environment variables stored in molgenis-pipeline-file secret, to be mounted as files
-  in the `/root/.m2` directory of the slave pods.
-  > The settings.xml file references the 
-
-  | Parameter                              | Description                           | Default                                                                         |
-  | -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
-  | `PipelineSecrets.File.Replace`         | Replace molgenis-pipeline-file secret | `true`                                                                          |
-  | `PipelineSecrets.File.PGPPrivateKeyAsc`| pgp signing key in ascii form         | `-----BEGIN PGP PRIVATE KEY BLOCK-----xxxxx-----END PGP PRIVATE KEY BLOCK-----` |
-  | `PipelineSecrets.File.MavenSettingsXML`| Maven settings.xml file               | `<settings>[...]</settings>` (see actual [values.yaml](values.yaml))            |
+| Parameter                   | Description              | Default   |
+| --------------------------- | ------------------------ | --------- |
+| `secret.dockerHub.user`     | username for the account | `admin`   |
+| `secret.dockerHub.password` | password for the account | `xxxx`    |
 
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
