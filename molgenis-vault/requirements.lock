@@ -1,0 +1,9 @@
+dependencies:
+- name: vault-operator
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 0.1.1
+- name: etcd-operator
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 0.8.0
+digest: sha256:47aa645df7dfce9760905800321599de05995ae50090735d45310936dbaa46de
+generated: 2018-09-06T18:59:39.861922543+02:00

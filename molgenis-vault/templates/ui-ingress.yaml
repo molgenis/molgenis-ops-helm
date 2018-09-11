@@ -1,0 +1,30 @@
+{{- if .Values.ui.ingress.enabled -}}
+{{- $serviceName := include "vault.ui.fullname" . -}}
+{{- $servicePort := .Values.ui.service.externalPort -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "vault.ui.fullname" . }}
+  labels:
+    app: {{ template "molgenis-vault.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    {{- range $key, $value := .Values.ui.ingress.annotations }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  rules:
+    - host: {{ .Values.ui.ingress.host }}
+      http:
+        paths:
+          - path:
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+  {{- if .Values.ui.ingress.tls }}
+  tls:
+{{ toYaml .Values.ui.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}

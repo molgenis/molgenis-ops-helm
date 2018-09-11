@@ -6,8 +6,8 @@ This chart spins up a MOLGENIS instance with HTTPD. The created containers are:
 
 - MOLGENIS
 
-## Versions
-You can choose from which registry you want to pull from. There are 2:
+## Provisioning
+You can choose from which registry you want to pull. There are 2 registries:
 - https://registry.molgenis.org
 - https://hub.docker.com
 
@@ -17,7 +17,10 @@ The three properties you need to specify are:
 - ```molgenis.image.repository```
 - ```molgenis.image.name```
 - ```molgenis.image.tag```
- 
+
+Besides determining which image you want to pull, you also have to set an administrator password. You can do this by specifying the following property. 
+- ```molgenis.adminPassword```
+
 ## Services
 When you start MOLGENIS you need:
 - an elasticsearch instance (5.5.6) 
@@ -64,19 +67,15 @@ You can specify the location of the OpenCPU cluster by specifying this property:
 You can test OpenCPU settings using the **OpenCPU**-helm chart of MOLGENIS.
 
 ## Resources
-You can specify resources by resource type. There are 3 resource types.
-- cpu's
+You can specify resources by resource type. There are 2 resource types.
 - memory of container
-- memory of JVM
-
-Specify number of cpu's:
-- ```molgenis.resources.limits.cpu```
+- maximum heap space JVM
 
 Specify memory usage of container:
 - ```molgenis.resources.limits.memory```
 
 Specify memory usage for Java JVM:
-- ```molgenis.javaOpts```
+- ```molgenis.javaOpts.maxHeapSpace```
 
 Select the resources you need dependant on the customer you need to serve.
 

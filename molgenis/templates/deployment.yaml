@@ -46,7 +46,7 @@ spec:
             - name: admin.password
               value: {{ .adminPassword }}
             - name: CATALINA_OPTS
-              value: {{ .javaOpts }}
+              value: "-Xmx{{ .javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
           ports:
             - containerPort: 8080
           {{- if .persistence.enabled }}
@@ -58,14 +58,18 @@ spec:
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 180
+            initialDelaySeconds: 60
             periodSeconds: 5
+            failureThreshold: 25
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: /api/v2/version
               port: 8080
-            initialDelaySeconds: 180
-            periodSeconds: 5
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            failureThreshold: 3
+            successThreshold: 1
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
