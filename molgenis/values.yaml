@@ -17,12 +17,13 @@ ingress:
 
 molgenis:
   image:
-    repository: registry.molgenis.org
+    repository: registry.hub.docker.com
     name: molgenis/molgenis-app
     tag: stable
     pullPolicy: Always
   adminPassword: admin
-  javaOpts: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  javaOpts:
+    maxHeapSpace: "1g"
   resources:
    limits:
     cpu: 1
@@ -47,12 +48,12 @@ elasticsearch:
     repository: docker.elastic.co/elasticsearch/elasticsearch
     tag: 5.5.3
     pullPolicy: IfNotPresent
-  javaOpts: "-Xms512m -Xmx512m"
+  javaOpts: "-Xms1024m -Xmx1024m"
   clusterName: molgenis
   resources:
    limits:
-    cpu: 1
-    memory: 1500Mi
+    cpu: 2
+    memory: 3Gi
    requests:
     cpu: 100m
     memory: 1Gi

@@ -46,7 +46,7 @@ spec:
             - name: admin.password
               value: {{ .adminPassword }}
             - name: CATALINA_OPTS
-              value: {{ .javaOpts }}
+              value: "-Xmx{{ .javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
           ports:
             - containerPort: 8080
           livenessProbe:

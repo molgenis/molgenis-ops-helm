@@ -20,8 +20,8 @@ questions:
   group: "Version"
   label: Registry
 - variable: molgenis.image.tag
-  default: "stable"
-  description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for other tags)"
+  default: ""
+  description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true
   group: "Version"
@@ -61,36 +61,22 @@ questions:
   required: true
   group: "Services"
   label: Database password
-- variable: molgenis.resources.limits.cpu
-  default: 1
-  description: "CPU limit for this MOLGENIS instance"
-  type: enum
-  options:
-  - "1"
-  - "2"
-  - "3"
-  - "4"
-  required: true
-  group: "Resources"
-  label: CPU limit
 - variable: molgenis.resources.limits.memory
   default: 1250Mi
-  description: "Memory limit for this MOLGENIS instance"
+  description: "Memory limit for this MOLGENIS container"
   type: enum
   options:
   - "1250Mi"
-  - "1500Mi"
-  - "2000Mi"
   - "2500Mi"
   required: true
   group: "Resources"
-  label: Memory limit
-- variable: molgenis.javaOpts
-  default: "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
-  description: "Java runtime options for the MOLGENIS instance"
+  label: Container memory limit
+- variable: molgenis.javaOpts.maxHeapSpace
+  default: "1g"
+  description: "Maximum heap space MOLGENIS container JVM. Please not this should fit in your container memory limit"
   type: enum
   options:
-  - "-Xmx1g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
-  - "-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+  - "1g"
+  - "2g"
   group: "Resources"
-  label: Java memory options
+  label: Maximum heap space
