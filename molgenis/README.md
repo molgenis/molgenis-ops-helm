@@ -79,5 +79,26 @@ Specify memory usage for Java JVM:
 
 Select the resources you need dependant on the customer you need to serve.
 
+## Persistence
+You can define your own volume by enabling persistence on your MOLGENIS instance. You can also choose to retain the volume of the NFS and specify the size of the volume.
+The following properties will setup the persistence for you.
+
+- ```molgenis.persistence.enabled```
+- ```molgenis.persistence.retain```
+- ```molgenis.persistence.size```
+
+### Resolve you persistent volume
+You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:
+
+```
+kubectl get pv
+```
+
+You can now view the persistent volume claims and the attached volumes.
+
+| NAME | CAPACITY | ACCESS | MODES | RECLAIM | POLICY | STATUS | CLAIM | STORAGECLASS | REASON | AGE |
+| ---- | -------- | ------ | ----- | ------- | ------ | ------ | ----- | ------------ | ------ | --- |
+| pvc-45988f55-900f-11e8-a0b4-005056a51744 | 30G | RWX | | Retain | Bound | molgenis-solverd/molgenis-nfs-claim | nfs-provisioner | | 33d |
+
 ## Firewall
 Is defined at cluster level. This chart does not facilitate firewall configuration.
