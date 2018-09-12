@@ -80,12 +80,26 @@ Specify memory usage for Java JVM:
 Select the resources you need dependant on the customer you need to serve.
 
 ## Persistence
-You can define your own volume by enabling persistence on your MOLGENIS instance. You can also choose to retain the volume of the NFS and specify the size of the volume.
-The following properties will setup the persistence for you.
+You can enable persistence on your MOLGENIS stack by specifying the following property.
 
-- ```molgenis.persistence.enabled```
-- ```molgenis.persistence.retain```
+- ```persistence.enabled```
+
+You can also choose to retain the volume of the NFS.
+- ```persistence.retain```
+
+The size and claim name can be specified per service. There are now two services that can be persist.
+
+- MOLGENIS
+- ElasticSearch
+
+MOLGENIS persistent properties.
+- ```molgenis.persistence.claim```
 - ```molgenis.persistence.size```
+
+ElasticSearch persistent properties.
+- ```elasticsearch.persistence.claim```
+- ```elasticsearch.persistence.size```
+
 
 ### Resolve you persistent volume
 You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:

@@ -32,10 +32,8 @@ molgenis:
       cpu: 200m
       memory: 1250Mi
   persistence:
-    enabled: false
-    retain: false
-    name: molgenis-nfs-claim
-    size: 50Gi
+    claim: molgenis-nfs-claim
+    size: 30Gi
   services:
     opencpu:
       host: localhost
@@ -62,6 +60,13 @@ elasticsearch:
    requests:
     cpu: 100m
     memory: 1Gi
+  persistence:
+    claim: elasticsearch-nfs-claim
+    size: 50Gi
+
+persistence:
+  enabled: false
+  retain: false
 
 nodeSelector: {
   deployPod: "true"

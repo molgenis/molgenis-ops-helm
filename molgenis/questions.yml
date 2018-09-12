@@ -97,7 +97,7 @@ questions:
   - "1g"
   - "2g"
   group: "Resources"
-- variable: molgenis.persistence.enabled
+- variable: persistence.enabled
   default: false
   description: "Do you want to use persistence"
   type: boolean
@@ -106,18 +106,26 @@ questions:
   label: Persistence
   show_subquestion_if: true
   subquestions:
+  - variable: persistence.retain
+    default: false
+    description: "Do you want to retain the persistent volume"
+    type: boolean
+    label: Retain volume
   - variable: molgenis.persistence.size
+    default: "30Gi"
+    description: "Size of MOLGENIS filestore"
+    type: enum
+    options:
+    - "30Gi"
+    - "50Gi"
+    - "100Gi"
+    label: Size filestore
+  - variable: elasticsearch.persistence.size
     default: "50Gi"
-    description: "Size of MOLGENIS filestore (not the database size)"
+    description: "Size of ElasticSearch data"
     type: enum
     options:
     - "50Gi"
     - "100Gi"
     - "200Gi"
-    - "300Gi"
-    label: Size filestore
-  - variable: molgenis.persistence.retain
-    default: false
-    description: "Do you want to retain the persistence volume"
-    type: boolean
-    label: Retain volume
+    label: Size for ElasticSearch data
