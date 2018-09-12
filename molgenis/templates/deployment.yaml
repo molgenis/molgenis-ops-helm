@@ -94,7 +94,7 @@ spec:
             - containerPort: 9300
           {{- if $.Values.persistence.enabled }}
           volumeMounts:
-          - name: elastic-nfs
+          - name: elasticsearch-nfs
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
 
