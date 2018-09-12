@@ -79,5 +79,44 @@ Specify memory usage for Java JVM:
 
 Select the resources you need dependant on the customer you need to serve.
 
+## Persistence
+You can enable persistence on your MOLGENIS stack by specifying the following property.
+
+- ```persistence.enabled```
+
+You can also choose to retain the volume of the NFS.
+- ```persistence.retain```
+
+The size and claim name can be specified per service. There are now two services that can be persist.
+
+- MOLGENIS
+- ElasticSearch
+
+MOLGENIS persistent properties.
+- ```molgenis.persistence.claim```
+- ```molgenis.persistence.size```
+
+ElasticSearch persistent properties.
+- ```elasticsearch.persistence.claim```
+- ```elasticsearch.persistence.size```
+
+
+### Resolve you persistent volume
+You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:
+
+```
+kubectl get pv
+```
+
+You can now view the persistent volume claims and the attached volumes.
+
+| NAME | CAPACITY | ACCESS | MODES | RECLAIM | POLICY | STATUS | CLAIM | STORAGECLASS | REASON | AGE |
+| ---- | -------- | ------ | ----- | ------- | ------ | ------ | ----- | ------------ | ------ | --- |
+| pvc-45988f55-900f-11e8-a0b4-005056a51744 | 30G | RWX | | Retain | Bound | molgenis-solverd/molgenis-nfs-claim | nfs-provisioner-retain | | | 33d |
+| pvc-3984723d-220f-14e8-a98a-skjhf88823kk | 30G | RWO | | Delete | Bound | molgenis-test/molgenis-nfs-claim | nfs-provisioner | | | 33d |
+
+You see the ```molgenis-test/molgenis-nfs-claim``` is bound to the volume: ```pvc-3984723d-220f-14e8-a98a-skjhf88823kk```.
+When you want to view the data in the this volume you can go to the nfs-provisioning pod and execute the shell. Go to the directory ```export``` and lookup the directory ```pvc-3984723d-220f-14e8-a98a-skjhf88823kk```. 
+
 ## Firewall
 Is defined at cluster level. This chart does not facilitate firewall configuration.

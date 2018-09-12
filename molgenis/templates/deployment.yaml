@@ -49,6 +49,11 @@ spec:
               value: "-Xmx{{ .javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
           ports:
             - containerPort: 8080
+          {{- if $.Values.persistence.enabled }}
+          volumeMounts:
+          - name: molgenis-nfs
+            mountPath: /home/molgenis
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /
@@ -87,10 +92,25 @@ spec:
           ports:
             - containerPort: 9200
             - containerPort: 9300
+          {{- if $.Values.persistence.enabled }}
+          volumeMounts:
+          - name: elasticsearch-nfs
+            mountPath: /usr/share/elasticsearch/data
+          {{- end }}
+
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
 
+{{- if .Values.persistence.enabled }}
+      volumes:
+        - name: molgenis-nfs
+          persistentVolumeClaim:
+            claimName: {{ .Values.molgenis.persistence.claim }}
+        - name: elasticsearch-nfs
+          persistentVolumeClaim:
+            claimName: {{ .Values.elasticsearch.persistence.claim }}
+{{- end }}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:

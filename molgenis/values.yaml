@@ -25,12 +25,15 @@ molgenis:
   javaOpts:
     maxHeapSpace: "1g"
   resources:
-   limits:
-    cpu: 1
-    memory: 1250Mi
-   requests:
-    cpu: 200m
-    memory: 1250Mi
+    limits:
+      cpu: 1
+      memory: 1250Mi
+    requests:
+      cpu: 200m
+      memory: 1250Mi
+  persistence:
+    claim: molgenis-nfs-claim
+    size: 30Gi
   services:
     opencpu:
       host: localhost
@@ -57,8 +60,17 @@ elasticsearch:
    requests:
     cpu: 100m
     memory: 1Gi
+  persistence:
+    claim: elasticsearch-nfs-claim
+    size: 50Gi
 
-nodeSelector: {}
+persistence:
+  enabled: false
+  retain: false
+
+nodeSelector: {
+  deployPod: "true"
+}
 
 tolerations: []
 

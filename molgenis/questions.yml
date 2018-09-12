@@ -81,7 +81,7 @@ questions:
 - variable: molgenis.resources.requests.memory
   label: Container memory reservation
   default: 1250Mi
-  description: "Memory reservation for this MOLGENIS container"
+  description: "Memory reservation for this MOLGENIS container (must fit in the selected memory limit for the container)"
   type: enum
   options:
   - "1250Mi"
@@ -97,3 +97,35 @@ questions:
   - "1g"
   - "2g"
   group: "Resources"
+- variable: persistence.enabled
+  default: false
+  description: "Do you want to use persistence"
+  type: boolean
+  required: true
+  group: "Persistence"
+  label: Persistence
+  show_subquestion_if: true
+  subquestions:
+  - variable: persistence.retain
+    default: false
+    description: "Do you want to retain the persistent volume"
+    type: boolean
+    label: Retain volume
+  - variable: molgenis.persistence.size
+    default: "30Gi"
+    description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
+    type: enum
+    options:
+    - "30Gi"
+    - "50Gi"
+    - "100Gi"
+    label: Size MOLGENIS filestore
+  - variable: elasticsearch.persistence.size
+    default: "50Gi"
+    description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
+    type: enum
+    options:
+    - "50Gi"
+    - "100Gi"
+    - "200Gi"
+    label: Size for ElasticSearch data
