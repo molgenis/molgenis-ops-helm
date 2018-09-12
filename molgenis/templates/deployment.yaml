@@ -107,7 +107,6 @@ spec:
         - name: molgenis-nfs
           persistentVolumeClaim:
             claimName: {{ .Values.molgenis.persistence.claim }}
-      volumes:
         - name: elasticsearch-nfs
           persistentVolumeClaim:
             claimName: {{ .Values.elasticsearch.persistence.claim }}
