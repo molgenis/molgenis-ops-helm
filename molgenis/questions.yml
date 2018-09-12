@@ -113,16 +113,16 @@ questions:
     label: Retain volume
   - variable: molgenis.persistence.size
     default: "30Gi"
-    description: "Size of MOLGENIS filestore"
+    description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
     type: enum
     options:
     - "30Gi"
     - "50Gi"
     - "100Gi"
-    label: Size filestore
+    label: Size MOLGENIS filestore
   - variable: elasticsearch.persistence.size
     default: "50Gi"
-    description: "Size of ElasticSearch data"
+    description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
     type: enum
     options:
     - "50Gi"
