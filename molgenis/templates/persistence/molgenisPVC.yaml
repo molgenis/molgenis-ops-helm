@@ -17,4 +17,3 @@ spec:
     requests:
       storage: {{ .Values.molgenis.persistence.size }}
 {{- end }}
-{{- end }}
