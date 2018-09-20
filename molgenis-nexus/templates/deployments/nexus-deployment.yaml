@@ -19,26 +19,40 @@ spec:
         app: {{ .Values.nexus.name }}
       creationTimestamp: null
     spec:
-      volumes:
-      - name: {{ .Values.persistence.name }}
-        persistentVolumeClaim:
-          claimName: {{ .Values.persistence.name }}
       restartPolicy: {{ .Values.nexus.restartPolicy }}
-      initContainers:
-      - name: volume-mount-nexus
-        image: busybox
-        command: ["sh", "-c", "chown -R 200:200 {{ .Values.persistence.mountPath }}"]
-        volumeMounts:
-        - name: {{ .Values.persistence.name }}
-          mountPath: "{{ .Values.persistence.mountPath }}"
       containers:
-      - name: {{ .Values.nexus.name }}
-        image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
-        imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
-        ports:
-        - containerPort: {{ .Values.nexus.port.ui }}
-        - containerPort: {{ .Values.nexus.port.docker }}
-        volumeMounts:
-        - name: {{ .Values.persistence.name }}
-          mountPath: "/nexus-data"
+        - name: {{ .Values.nexus.name }}
+          image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
+          imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
+          ports:
+          - containerPort: {{ .Values.nexus.port.ui }}
+          - containerPort: {{ .Values.nexus.port.docker }}
+          volumeMounts:
+          - name: molgenis-nexus-nfs
+            mountPath: "/nexus-data"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.nexus.port.ui }}
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            failureThreshold: 5
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.nexus.port.ui }}
+            initialDelaySeconds: 90
+            periodSeconds: 5
+            failureThreshold: 5
+            successThreshold: 1
 
+      volumes:
+        - name: molgenis-nexus-nfs
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.claim }}
+
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}

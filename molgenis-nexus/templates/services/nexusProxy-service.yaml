@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.nexusProxy.name }}
+  labels:
+    app: {{ .Values.nexusProxy.name }}
+spec:
+  type: {{ .Values.nexusProxy.service.type }}
+  ports:
+  - name: {{ .Values.nexusProxy.name }}
+    port: {{ .Values.nexusProxy.port }}
+  selector:
+    app: {{ .Values.nexusProxy.selector }}

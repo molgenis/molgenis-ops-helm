@@ -24,12 +24,12 @@ nexus:
   service:
     type: ClusterIP
 
-httpd:
-  name: httpd
-  hostname: registry.molgenis.org
+nexusProxy:
+  name: nexus-proxy
+  hostname: sido.molgenis.org
   strategy:
     type: Recreate
-  selector: httpd
+  selector: nexus-proxy
   restartPolicy: Always
   image:
     repository: registry.webhosting.rug.nl/molgenis/httpd
@@ -43,39 +43,22 @@ httpd:
 ingress:
   enabled: true
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-  - name: registry.molgenis.org
+  - name: sido.molgenis.org
   tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 persistence:
-  name: molgenis-nexus-data
-  storageClass: nfs-class
-  size: 30G
-  reclaimPolicy: Retain
-  server: 192.168.64.12
-  accessMode: ReadWriteMany
-  mountPath: /gcc/molgenis/nexus
+  enabled: true
+  claim: molgenis-nexus
+  size: 500Gi
 
 
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
 
-nodeSelector: {}
+nodeSelector: {
+  deployPod: "true"
+}
 
 tolerations: []
 
