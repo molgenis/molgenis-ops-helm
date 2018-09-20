@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.opencpu.service.name }}
+  labels:
+    app: {{ .Values.opencpu.service.name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.opencpu.service.type }}
+  loadBalancerSourceRanges:
+  {{- range $index, $rule := .Values.opencpu.service.firewall }}
+    - {{ $rule }}
+  {{- end }}
+  ports:
+    - name: {{ .Values.opencpu.service.name }}
+      port: {{ .Values.opencpu.service.port }}
+  selector:
+    app: {{ template "opencpu.name" . }}
+    release: {{ .Release.Name }}
