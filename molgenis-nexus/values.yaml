@@ -26,7 +26,7 @@ nexus:
 
 nexusProxy:
   name: nexus-proxy
-  hostname: sido.molgenis.org
+  hostname: registry.molgenis.org
   strategy:
     type: Recreate
   selector: nexus-proxy
@@ -45,7 +45,7 @@ ingress:
   annotations: {}
   path: /
   hosts:
-  - name: sido.molgenis.org
+  - name: registry.molgenis.org
   tls: []
 
 persistence:
