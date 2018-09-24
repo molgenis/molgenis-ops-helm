@@ -416,6 +416,12 @@ jenkins:
               key: VAULT_ADDR
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
+        helm:
+          Image: "lachlanevenson/k8s-helm"
+          ImageTag: "v2.10.0"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
       NodeSelector: {}
     node:
       Label: node-carbon
