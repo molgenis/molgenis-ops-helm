@@ -2,6 +2,13 @@
 categories:
 - MOLGENIS
 questions:
+- variable: ingress.enabled
+  label: Enable ingress
+  default: false
+  description: "Enable ingress"
+  type: boolean
+  required: true
+  group: "Loadbalancing"
 - variable: opencpu.image.repository
   label: Registry
   default: "registry.hub.docker.com"

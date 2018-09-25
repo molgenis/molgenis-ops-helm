@@ -24,7 +24,7 @@ opencpu:
     - 145.100.224.1/24
 
 ingress:
-  enabled: true
+  enabled: false
   annotations: {
     kubernetes.io/ingress.class: "nginx",
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
