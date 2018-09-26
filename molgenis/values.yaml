@@ -6,12 +6,11 @@ service:
   type: LoadBalancer
   firewall:
     enabled: false
+    kind: "umcg"
     umcg:
-      enabled: false
       rules:
       - 127.0.0.1/32
     cluster:
-      enabled: false
       rules:
       - 127.0.0.1/32
   port: 8080

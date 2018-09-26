@@ -42,16 +42,15 @@ questions:
   group: "Provisioning"
   show_subquestion_if: true
   subquestions:
-  - variable: service.firewall.umcg.enabled
-    default: false
-    description: "Firewall within the UMCG environment"
-    type: boolean
-    label: Firewall UMCG enabled
-  - variable: service.firewall.cluster.enabled
-    default: false
-    description: "Firewall within the cluster environment"
-    type: boolean
-    label: Firewall cluster enabled
+  - variable: service.firewall.kind
+    default: "umcg"
+    description: "Firewall kind. This can be 'umcg' or 'cluster' environment"
+    type: enum
+    required: true
+    options:
+    - umcg
+    - cluster
+    label: Firewall kind
 - variable: molgenis.services.opencpu.host
   label: OpenCPU cluster
   default: "localhost"
