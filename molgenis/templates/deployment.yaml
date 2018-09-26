@@ -116,9 +116,11 @@ spec:
             - containerPort: 5432
           resources:
 {{ toYaml .resources | indent 12 }}
+          {{- if $.Values.persistence.enabled }}
           volumeMounts:
           - name: postgres-nfs
             mountPath: /var/lib/postgresql/data
+          {{- end }}
         {{- end }}
 
 
