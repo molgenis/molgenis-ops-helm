@@ -1,8 +1,8 @@
 apiVersion: v1
 appVersion: "1.0"
 description: MOLGENIS - helm stack (in BETA)
-name: molgenis-beta
-version: 0.3.0
+name: molgenis
+version: 0.4.0
 sources:
 - https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
 icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis/catalogIcon-molgenis.svg

@@ -4,6 +4,16 @@ replicaCount: 1
 
 service:
   type: LoadBalancer
+  firewall:
+    enabled: false
+    umcg:
+      enabled: false
+      rules:
+      - 127.0.0.1/32
+    cluster:
+      enabled: false
+      rules:
+      - 127.0.0.1/32
   port: 8080
 
 ingress:
@@ -33,7 +43,7 @@ molgenis:
       memory: 1250Mi
   persistence:
     claim: molgenis-nfs-claim
-    size: 30Gi
+    size: 5Gi
   services:
     opencpu:
       host: localhost
@@ -41,6 +51,7 @@ molgenis:
       transportAddresses: localhost:9300
       clusterName: molgenis
     postgres:
+      embedded: false
       host: localhost
       scheme: molgenis
       user: molgenis
@@ -62,10 +73,26 @@ elasticsearch:
     memory: 1Gi
   persistence:
     claim: elasticsearch-nfs-claim
-    size: 50Gi
+    size: 5Gi
+
+postgres:
+  image:
+    repository: postgres
+    tag: 9.6-alpine
+    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 1
+      memory: 250Mi
+    requests:
+      cpu: 100m
+      memory: 250Mi
+  persistence:
+    claim: postgres-nfs-claim
+    size: 5Gi
 
 persistence:
-  enabled: false
+  enabled: true
   retain: false
 
 nodeSelector: {

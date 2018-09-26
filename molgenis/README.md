@@ -21,6 +21,19 @@ The three properties you need to specify are:
 Besides determining which image you want to pull, you also have to set an administrator password. You can do this by specifying the following property. 
 - ```molgenis.adminPassword```
 
+### Firewall
+Is defined at service level you can specify this attribute in the values:
+
+- ```molgenis.firewall.enabled``` default 'false' 
+
+If set to 'true' the following options are available. One of the options below has to be set.
+
+- ```molgenis.firewall.umcg.enabled``` default 'false'  
+- ```molgenis.firewall.cluster.enabled``` default 'false'
+
+UMCG = only available within the UMCG.
+Cluster = only available within the GCC cluster environment.
+
 ## Services
 When you start MOLGENIS you need:
 - an elasticsearch instance (5.5.6) 
@@ -82,15 +95,16 @@ Select the resources you need dependant on the customer you need to serve.
 ## Persistence
 You can enable persistence on your MOLGENIS stack by specifying the following property.
 
-- ```persistence.enabled```
+- ```persistence.enabled``` default 'true'
 
 You can also choose to retain the volume of the NFS.
-- ```persistence.retain```
+- ```persistence.retain``` default 'false'
 
 The size and claim name can be specified per service. There are now two services that can be persist.
 
 - MOLGENIS
 - ElasticSearch
+- PostgreSQL **(optional)**
 
 MOLGENIS persistent properties.
 - ```molgenis.persistence.claim```
@@ -100,6 +114,9 @@ ElasticSearch persistent properties.
 - ```elasticsearch.persistence.claim```
 - ```elasticsearch.persistence.size```
 
+PostgreSQL persistent properties.
+- ```postgres.persistence.claim```
+- ```postgres.persistence.size```
 
 ### Resolve you persistent volume
 You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:
@@ -117,6 +134,3 @@ You can now view the persistent volume claims and the attached volumes.
 
 You see the ```molgenis-test/molgenis-nfs-claim``` is bound to the volume: ```pvc-3984723d-220f-14e8-a98a-skjhf88823kk```.
 When you want to view the data in the this volume you can go to the nfs-provisioning pod and execute the shell. Go to the directory ```export``` and lookup the directory ```pvc-3984723d-220f-14e8-a98a-skjhf88823kk```. 
-
-## Firewall
-Is defined at cluster level. This chart does not facilitate firewall configuration.

@@ -97,10 +97,30 @@ spec:
           - name: elasticsearch-nfs
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
-
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
+
+        - name: postgres
+        {{- with .Values.postgres }}
+          image: "{{ .image.repository }}:{{ .image.tag }}"
+          imagePullPolicy: {{ .image.pullPolicy }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ $.Values.molgenis.services.postgres.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ $.Values.molgenis.services.postgres.password }}
+            - name: POSTGRES_DB
+              value: {{ $.Values.molgenis.services.postgres.scheme }}
+          ports:
+            - containerPort: 5432
+          resources:
+{{ toYaml .resources | indent 12 }}
+          volumeMounts:
+          - name: postgres-nfs
+            mountPath: /var/lib/postgresql/data
+        {{- end }}
+
 
 {{- if .Values.persistence.enabled }}
       volumes:
@@ -110,6 +130,9 @@ spec:
         - name: elasticsearch-nfs
           persistentVolumeClaim:
             claimName: {{ .Values.elasticsearch.persistence.claim }}
+        - name: postgres-nfs
+          persistentVolumeClaim:
+            claimName: {{ .Values.postgres.persistence.claim }}
 {{- end }}
 
     {{- with .Values.nodeSelector }}
