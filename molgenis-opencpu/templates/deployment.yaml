@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  {{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  name: {{ template "opencpu.fullname" . }}
+  labels:
+    app: {{ template "opencpu.name" . }}
+    chart: {{ template "opencpu.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "opencpu.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "opencpu.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      {{- with .Values.opencpu }}
+      - name: {{ .name }}
+        image: "{{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}"
+        imagePullPolicy: {{ .image.pullPolicy }}
+        ports:
+        - containerPort: {{ .service.port }}
+      {{- end }}
+
+
