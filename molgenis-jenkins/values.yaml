@@ -453,6 +453,69 @@ jenkins:
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
       NodeSelector: {}
+    molgenis-it:
+      InheritFrom: molgenis
+      Label: molgenis-it
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        elasticsearch:
+          Image: docker.elastic.co/elasticsearch/elasticsearch
+          ImageTag: 5.5.3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "1500Mi"
+          EnvVars:
+          - type: KeyValue
+            key: ES_JAVA_OPTS
+            value: "-Xms512m -Xmx512m"
+          - type: KeyValue
+            key: cluster.name
+            value: molgenis
+          - type: KeyValue
+            key: bootstrap.memory_lock
+            value: "true"
+          - type: KeyValue
+            key: xpack.security.enabled
+            value: "false"
+          - type: KeyValue
+            key: discovery.type
+            value: single-node
+        postgres:
+          Image: postgres
+          ImageTag: 9.6-alpine
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "250Mi"
+            limits:
+              cpu: "1"
+              memory: "250Mi"
+          EnvVars:
+          - type: KeyValue
+            key: POSTGRES_USER
+            value: molgenis
+          - type: KeyValue
+            key: POSTGRES_PASSWORD
+            value: molgenis
+          - type: KeyValue
+            key: POSTGRES_DB
+            value: molgenis
+        opencpu:
+          Image: molgenis/opencpu
+          AlwaysPullImage: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+      NodeSelector: {}
+
 #secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
   # vault configures the vault secret
