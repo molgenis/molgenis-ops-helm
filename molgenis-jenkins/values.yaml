@@ -82,6 +82,17 @@ jenkins:
                   <strategyId>1</strategyId>
                   <trust class="org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission"/>
                 </org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
+                <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
+                  <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
+                    <localBranch>**</localBranch>
+                  </extension>
+                </jenkins.plugins.git.traits.LocalBranchTrait>
+                <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
+                  <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
+                    <name>MOLGENIS Jenkins</name>
+                    <email>molgenis+ci@gmail.com</email>
+                  </extension>
+                </jenkins.plugins.git.traits.UserIdentityTrait>
               </traits>
             </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
           </navigators>
@@ -131,6 +142,17 @@ jenkins:
                   <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
+                    <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
+                        <localBranch>**</localBranch>
+                      </extension>
+                    </jenkins.plugins.git.traits.LocalBranchTrait>
+                    <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
+                        <name>MOLGENIS Jenkins</name>
+                        <email>molgenis+ci@gmail.com</email>
+                      </extension>
+                    </jenkins.plugins.git.traits.UserIdentityTrait>
                   </traits>
                 </source>
                 <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
@@ -184,6 +206,17 @@ jenkins:
                   <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
+                    <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
+                        <localBranch>**</localBranch>
+                      </extension>
+                    </jenkins.plugins.git.traits.LocalBranchTrait>
+                    <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
+                        <name>MOLGENIS Jenkins</name>
+                        <email>molgenis+ci@gmail.com</email>
+                      </extension>
+                    </jenkins.plugins.git.traits.UserIdentityTrait>
                   </traits>
                 </source>
                 <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
@@ -237,6 +270,17 @@ jenkins:
                   <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
+                    <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
+                        <localBranch>**</localBranch>
+                      </extension>
+                    </jenkins.plugins.git.traits.LocalBranchTrait>
+                    <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
+                        <name>MOLGENIS Jenkins</name>
+                        <email>molgenis+ci@gmail.com</email>
+                      </extension>
+                    </jenkins.plugins.git.traits.UserIdentityTrait>
                   </traits>
                 </source>
                 <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
@@ -290,6 +334,17 @@ jenkins:
                   <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
+                    <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
+                        <localBranch>**</localBranch>
+                      </extension>
+                    </jenkins.plugins.git.traits.LocalBranchTrait>
+                    <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
+                        <name>MOLGENIS Jenkins</name>
+                        <email>molgenis+ci@gmail.com</email>
+                      </extension>
+                    </jenkins.plugins.git.traits.UserIdentityTrait>
                   </traits>
                 </source>
                 <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
@@ -343,6 +398,17 @@ jenkins:
                   <credentialsId>molgenis-jenkins-gogs-secret</credentialsId>
                   <traits>
                     <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
+                    <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
+                        <localBranch>**</localBranch>
+                      </extension>
+                    </jenkins.plugins.git.traits.LocalBranchTrait>
+                    <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
+                      <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
+                        <name>MOLGENIS Jenkins</name>
+                        <email>molgenis+ci@gmail.com</email>
+                      </extension>
+                    </jenkins.plugins.git.traits.UserIdentityTrait>
                   </traits>
                 </source>
                 <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
