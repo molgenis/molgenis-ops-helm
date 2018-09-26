@@ -4,7 +4,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: "{{ $.Release.Name }}-ingress"
   labels:
     app: {{ template "molgenis.name" . }}
     chart: {{ template "molgenis.chart" . }}
@@ -33,6 +33,6 @@ spec:
           - path: {{ $ingressPath }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: 8080
+              servicePort: {{ $.Values.service.port }}
   {{- end }}
 {{- end }}

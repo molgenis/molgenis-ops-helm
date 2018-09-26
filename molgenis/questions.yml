@@ -8,7 +8,7 @@ questions:
   description: "Hostname for your stack"
   type: hostname
   required: true
-  group: "Load Balancing"
+  group: "Load balancing"
 - variable: molgenis.image.repository
   label: Registry
   default: "registry.hub.docker.com"
@@ -33,6 +33,24 @@ questions:
   type: password
   required: true
   group: "Provisioning"
+- variable: service.firewall.enabled
+  label: Firewall enabled
+  default: false
+  description: "Firewall enabled (can be cluster or UMCG scoped)"
+  type: boolean
+  required: true
+  group: "Provisioning"
+  show_subquestion_if: true
+  subquestions:
+  - variable: service.firewall.kind
+    default: "umcg"
+    description: "Firewall kind. This can be 'umcg' or 'cluster' environment"
+    type: enum
+    required: true
+    options:
+    - umcg
+    - cluster
+    label: Firewall kind
 - variable: molgenis.services.opencpu.host
   label: OpenCPU cluster
   default: "localhost"
@@ -40,34 +58,43 @@ questions:
   type: string
   required: true
   group: "Services"
-- variable: molgenis.services.postgres.host
-  label: Postgres cluster location
-  default: "postgresql.molgenis-postgresql.svc"
-  description: "Set the location of the postgres cluster"
-  type: string
+- variable: molgenis.services.postgres.embedded
+  label: Postgres embedded
+  default: false
+  description: "Do you want an embedded postgres"
+  type: boolean
   required: true
   group: "Services"
-- variable: molgenis.services.postgres.scheme
-  label: Database scheme
-  default: "molgenis"
-  description: "Set the database scheme"
-  type: string
-  required: true
-  group: "Services"
-- variable: molgenis.services.postgres.user
-  label: Database username
-  default: "molgenis"
-  description: "Set user of the database scheme"
-  type: string
-  required: true
-  group: "Services"
-- variable: molgenis.services.postgres.password
-  label: Database password
-  default: "molgenis"
-  description: "Set the password of the database scheme"
-  type: string
-  required: true
-  group: "Services"
+  show_subquestion_if: false
+  subquestions:
+  - variable: molgenis.services.postgres.host
+    label: Postgres cluster location
+    default: ""
+    description: "Set the location of the postgres cluster. This can be localhost when the postgres is enabled else you need to specify a cluster location if you do not want a embedded postgres instance)"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.scheme
+    label: Database scheme
+    default: "molgenis"
+    description: "Set the database scheme"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.user
+    label: Database username
+    default: "molgenis"
+    description: "Set user of the database scheme"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.password
+    label: Database password
+    default: "molgenis"
+    description: "Set the password of the database scheme"
+    type: string
+    required: true
+    group: "Services"
 - variable: molgenis.resources.limits.memory
   label: Container memory limit
   default: 1250Mi
@@ -98,7 +125,7 @@ questions:
   - "2g"
   group: "Resources"
 - variable: persistence.enabled
-  default: false
+  default: true
   description: "Do you want to use persistence"
   type: boolean
   required: true
@@ -112,20 +139,29 @@ questions:
     type: boolean
     label: Retain volume
   - variable: molgenis.persistence.size
-    default: "30Gi"
+    default: "5Gi"
     description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
     type: enum
     options:
-    - "30Gi"
-    - "50Gi"
-    - "100Gi"
+    - "5Gi"
+    - "10Gi"
+    - "20Gi"
     label: Size MOLGENIS filestore
   - variable: elasticsearch.persistence.size
-    default: "50Gi"
+    default: "5Gi"
     description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
     type: enum
     options:
+    - "5Gi"
+    - "10Gi"
     - "50Gi"
-    - "100Gi"
-    - "200Gi"
     label: Size for ElasticSearch data
+  - variable: postgres.persistence.size
+    default: "5Gi"
+    description: "Size of PostgreSQL data (directory that is persist: /var/lib/postgresql/data/pgdata)"
+    type: enum
+    options:
+    - "5Gi"
+    - "10Gi"
+    - "50Gi"
+    label: Size for PostgreSQL data

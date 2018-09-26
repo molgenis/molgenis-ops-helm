@@ -9,6 +9,18 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type }}
+{{- if .Values.service.firewall.enabled }}
+  loadBalancerSourceRanges:
+{{- if .Values.service.firewall.kind eq "umcg" }}
+    {{- range $index, $rule := .Values.service.firewall.umcg.rules }}
+    - {{ $rule }}
+    {{- end }}
+{{- else }}
+    {{- range $index, $rule := .Values.service.firewall.cluster.rules }}
+    - {{ $rule }}
+    {{- end }}
+{{- end }}
+{{- end }}
   ports:
     - name: molgenis
       port: {{ .Values.service.port }}
