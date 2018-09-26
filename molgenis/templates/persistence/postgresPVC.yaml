@@ -1,4 +1,5 @@
-{{- if .Values.molgenis.services.postgres.embedded and .Values.persistence.enabled }}
+{{- if .Values.molgenis.services.postgres.embedded }}
+{{- if .Values.persistence.enabled }}
 apiVersion: extensions/v1beta1
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -16,4 +17,5 @@ spec:
   resources:
     requests:
       storage: {{ .Values.postgres.persistence.size }}
+{{- end }}
 {{- end }}
