@@ -5,6 +5,8 @@ This chart is used for acceptance and production use cases.
 This chart spins up a MOLGENIS instance with HTTPD. The created containers are:
 
 - MOLGENIS
+- ElasticSearch
+- PostgreSQL **(optional)**
 
 ## Provisioning
 You can choose from which registry you want to pull. There are 2 registries:
