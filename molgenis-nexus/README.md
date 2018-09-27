@@ -13,7 +13,12 @@ This chart will deploy:
 - 1 MOLGENIS-httpd container (to proxy the registry and docker to one domain)
 
 ## Backup restore
+There are two steps in restoring the NEXUS.
 
+- Database
+- Blobstore
+
+### Restore the database
 Go to the commandline:
 
 ```bash
@@ -35,6 +40,10 @@ Go to the NFS-provisioner to the path of the persistent volume:
 ls -t --full-time | head -7 | xargs cp ../restore-from-backup/
 ```
 
+### Restore the blobstore
+You can copy the directory ```blobs``` to the target persistent volume ```/ blobs```.
+
+You can now bring the NEXUS back up.
 
 ## Installing the Chart
 
