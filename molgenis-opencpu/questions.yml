@@ -8,7 +8,7 @@ questions:
   description: "Enable ingress"
   type: boolean
   required: true
-  group: "Loadbalancing"
+  group: "Load balancing"
 - variable: opencpu.image.repository
   label: Registry
   default: "registry.hub.docker.com"

@@ -104,6 +104,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Jenkins](molgenis-jenkins/README.md)
 - [NEXUS](molgenis-nexus/README.md)
 - [HTTPD](molgenis-httpd/README.md)
+- [MOLGENIS](molgenis/README.md)
 - [MOLGENIS preview](molgenis-preview/README.md)
 - [MOLGENIS vault](molgenis-vault/README.md)
 
@@ -122,6 +123,26 @@ You can you need to know to easily develop and deploy helm-charts
   
   Do it in the root of the project where the Chart.yaml is located
   It installs a release of a kubernetes stack. You also store this as an artifact in a kubernetes repository
+- ```helm package .```
+  
+  You can create a package which can be uploaded in the molgenis helm repository
+  
+- ```helm publish```
+  You still have to create an ```index.yaml``` for the chart. You can do this by executing this command: ```helm repo index #directory name of helm chart#```
+  
+  Then you can upload it by executing:
+  
+  - ```curl -v --user #username#:#password# --upload-file index.yaml  https://registry.molgenis.org/repository/helm/#chart name#/index.yml```
+  - ```curl -v --user #username#:#password# --upload-file #chart name#-#version#.tgz https://registry.molgenis.org/repository/helm/#chart name#/#chart name#-#version#.tgz```
+  
+  Now you have to add the repository locally to use in your ```requirements.yaml```.
+  
+  - ```helm repo add #repository name# https://registry.molgenis.org/repository/helm/molgenis```
+
+- ```helm dep build```
+  
+  You can build your dependencies (create a ```charts``` directory and install the chart in it) of the helm-chart. 
+
 - ```helm list```
   
   Lists all installed releases

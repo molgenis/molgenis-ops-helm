@@ -3,17 +3,17 @@ jenkins:
     HostName: jenkins.molgenis.org
     ServiceType: ClusterIP
     InstallPlugins:
-      - kubernetes:1.12.0
+      - kubernetes:1.12.6
       - workflow-aggregator:2.5
-      - workflow-job:2.21
+      - workflow-job:2.25
       - credentials-binding:1.16
       - git:3.9.1
       - github-branch-source:2.3.6
-      - kubernetes-credentials-provider:0.9
-      - blueocean:1.6.2
+      - kubernetes-credentials-provider:0.10
+      - blueocean:1.8.3
       - github-oauth:0.29
       - gogs-webhook:1.0.14
-      - sauce-ondemand:1.176
+      - github-scm-trait-commit-skip:0.1.1
     Security:
       UseGitHub: false
       GitHub:
@@ -82,6 +82,7 @@ jenkins:
                   <strategyId>1</strategyId>
                   <trust class="org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission"/>
                 </org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
+                <org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait plugin="github-scm-trait-commit-skip@0.1.1"/>
                 <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
                   <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
                     <localBranch>**</localBranch>
