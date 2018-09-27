@@ -17,6 +17,8 @@ spec:
     matchLabels:
       app: {{ template "molgenis.name" . }}
       release: {{ .Release.Name }}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
