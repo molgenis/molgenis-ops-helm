@@ -20,32 +20,39 @@ spec:
       creationTimestamp: null
     spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
+      initContainers:
+      - name: nexus-nfs
+        image: busybox
+        command: ["sh", "-c", "chown -R 200:200 /nexus-data"]
+        volumeMounts:
+        - name: molgenis-nexus-nfs
+          mountPath: "/nexus-data"
       containers:
-        - name: {{ .Values.nexus.name }}
-          image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
-          imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
-          ports:
-          - containerPort: {{ .Values.nexus.port.ui }}
-          - containerPort: {{ .Values.nexus.port.docker }}
-          volumeMounts:
-          - name: molgenis-nexus-nfs
-            mountPath: "/nexus-data"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.nexus.port.ui }}
-            initialDelaySeconds: 90
-            periodSeconds: 20
-            failureThreshold: 5
-            successThreshold: 1
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.nexus.port.ui }}
-            initialDelaySeconds: 90
-            periodSeconds: 5
-            failureThreshold: 5
-            successThreshold: 1
+      - name: {{ .Values.nexus.name }}
+        image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
+        imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.nexus.port.ui }}
+        - containerPort: {{ .Values.nexus.port.docker }}
+        volumeMounts:
+        - name: molgenis-nexus-nfs
+          mountPath: /nexus-data
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.nexus.port.ui }}
+          initialDelaySeconds: 90
+          periodSeconds: 20
+          failureThreshold: 5
+          successThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.nexus.port.ui }}
+          initialDelaySeconds: 90
+          periodSeconds: 5
+          failureThreshold: 5
+          successThreshold: 1
 
       volumes:
         - name: molgenis-nexus-nfs

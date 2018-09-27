@@ -13,7 +13,7 @@ nexus:
   selector: nexus
   restartPolicy: Always
   image:
-    repository: sonatype/nexus3
+    repository: molgenis/nexus3
     tag: latest
     pullPolicy: Always
   port:
@@ -32,8 +32,8 @@ nexusProxy:
   selector: nexus-proxy
   restartPolicy: Always
   image:
-    repository: registry.webhosting.rug.nl/molgenis/httpd
-    tag: lts
+    repository: molgenis/httpd
+    tag: latest
     pullPolicy: Always
   port: 80
   service:
