@@ -34,7 +34,9 @@ ingress:
   - name: opencpu.molgenis.org
   tls: []
 
-nodeSelector: {}
+nodeSelector: {
+  deployPod: "true"
+}
 
 tolerations: []
 
