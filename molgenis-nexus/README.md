@@ -61,4 +61,9 @@ To test if your hem chart works and:
 
 To deploy it on the cluster.
 
+```curl -L -u xxxx:xxxx http://registry.molgenis.org/repository/helm/ --upload-file molgenis-x.x.x.tgz```
+
+To push it to the registry
+
+
 
