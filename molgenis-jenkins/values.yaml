@@ -14,6 +14,7 @@ jenkins:
       - github-oauth:0.29
       - gogs-webhook:1.0.14
       - github-scm-trait-commit-skip:0.1.1
+      - slack:2.3
     Security:
       UseGitHub: false
       GitHub:

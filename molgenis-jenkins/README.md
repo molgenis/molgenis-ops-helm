@@ -75,6 +75,10 @@ Token used by Jenkins to authenticate on the [RuG Webhosting Gogs](https://git.w
 | `secret.gogs.user`  | username for the account | `p281392` |
 | `secret.gogs.token` | token for the account    | `xxxx`    |
 
+
+#### Slack
+The Slack integration is done mostly in the Jenkinsfile of each project. It is sufficient to only add the plugin to the Jenkins configuration in Helm.
+
 #### Legacy:
 
 ##### Docker Hub
