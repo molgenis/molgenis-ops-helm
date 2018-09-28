@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
   name: "{{ $.Release.Name }}-ingress"
   labels:
-    app: httpd
+    app: {{ $.Values.nexusProxy.name }}
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
