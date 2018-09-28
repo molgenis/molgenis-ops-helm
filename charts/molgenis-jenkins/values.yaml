@@ -584,7 +584,7 @@ jenkins:
               memory: "512Mi"
       NodeSelector: {}
 
-#secret contains configuration for the kubernetes secrets that jenkins can access
+# secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
   # vault configures the vault secret
   vault:
