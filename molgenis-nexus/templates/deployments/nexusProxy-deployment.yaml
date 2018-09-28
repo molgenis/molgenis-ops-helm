@@ -36,17 +36,17 @@ spec:
           httpGet:
             path: /
             port: {{ .Values.nexusProxy.port }}
-          initialDelaySeconds: 90
-          periodSeconds: 5
+          initialDelaySeconds: 1500
+          periodSeconds: 20
           failureThreshold: 5
           successThreshold: 1
         readinessProbe:
           httpGet:
             path: /
             port: {{ .Values.nexusProxy.port }}
-          initialDelaySeconds: 90
-          periodSeconds: 5
-          failureThreshold: 5
+          initialDelaySeconds: 150
+          periodSeconds: 20
+          failureThreshold: 15
           successThreshold: 1
 
     {{- with .Values.nodeSelector }}

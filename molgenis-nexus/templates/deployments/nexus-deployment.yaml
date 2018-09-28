@@ -41,17 +41,17 @@ spec:
           httpGet:
             path: /
             port: {{ .Values.nexus.port.ui }}
-          initialDelaySeconds: 90
+          initialDelaySeconds: 120
           periodSeconds: 20
-          failureThreshold: 5
+          failureThreshold: 15
           successThreshold: 1
         readinessProbe:
           httpGet:
             path: /
             port: {{ .Values.nexus.port.ui }}
-          initialDelaySeconds: 90
-          periodSeconds: 5
-          failureThreshold: 5
+          initialDelaySeconds: 120
+          periodSeconds: 20
+          failureThreshold: 15
           successThreshold: 1
 
       volumes:
