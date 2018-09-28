@@ -6,3 +6,7 @@ version: 0.1.1
 sources:
 - https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
 icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis-opencpu/catalogIcon-molgenis-opencpu.svg
+home: https://www.opencpu.org
+maintainers:
+- name: sidohaakma
+- name: fdlk
