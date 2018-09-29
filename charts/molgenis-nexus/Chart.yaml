@@ -6,3 +6,7 @@ version: 0.4.2
 sources:
 - https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
 icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis-nexus/catalogIcon-molgenis-nexus.svg
+home: https://www.sonatype.com/nexus-repository-oss
+maintainers:
+- name: sidohaakma
+- name: fdlk
