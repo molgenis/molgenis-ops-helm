@@ -583,6 +583,17 @@ jenkins:
               cpu: "1"
               memory: "512Mi"
       NodeSelector: {}
+    helm:
+      Label: helm
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        chart-testing:
+          Image: "quay.io/helmpack/chart-testing"
+          ImageTag: v1.1.0
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+      NodeSelector: {}
 
 # secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
