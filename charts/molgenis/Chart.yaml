@@ -6,3 +6,7 @@ version: 0.4.3
 sources:
 - https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
 icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis/catalogIcon-molgenis.svg
+home: http://molgenis.org
+maintainers:
+- name: sidohaakma
+- name: fdlk
