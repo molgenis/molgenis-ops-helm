@@ -38,7 +38,7 @@ Parameter | Description | Default
 `ui.image.repository` | Vault UI container image repository | `djenriquez/vault-ui`
 `ui.image.tag` | Vault UI container image tag | `latest`
 `ui.resources` | Vault UI pod resource requests & limits | `{}`
-`ui.nodeSelector` | node labels for Vault UI pod assignment | `{deployPod: "true"}`
+`ui.nodeSelector` | node labels for Vault UI pod assignment | `{}`
 `ui.ingress.enabled` | If true, Vault UI Ingress will be created | `true`
 `ui.ingress.annotations` | Vault UI Ingress annotations | `{}`
 `ui.ingress.host` | Vault UI Ingress hostname | `vault.molgenis.org`

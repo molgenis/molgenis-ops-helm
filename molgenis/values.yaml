@@ -94,8 +94,9 @@ persistence:
   enabled: true
   retain: false
 
-nodeSelector:
+nodeSelector: {
   deployPod: "true"
+}
 
 tolerations: []
 

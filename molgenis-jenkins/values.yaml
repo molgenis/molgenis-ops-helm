@@ -1,7 +1,5 @@
 jenkins:
   Master:
-    NodeSelector:
-      deployPod: "true"
     HostName: jenkins.molgenis.org
     ServiceType: ClusterIP
     InstallPlugins:
@@ -492,9 +490,7 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
-      NodeSelector: {
-        deployPod: "true"
-      }
+      NodeSelector: {}
     node:
       Label: node-carbon
       NodeUsageMode: EXCLUSIVE
@@ -524,9 +520,7 @@ jenkins:
               key: VAULT_ADDR
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
-      NodeSelector: {
-        deployPod: "true"
-      }
+      NodeSelector: {}
     molgenis-it:
       InheritFrom: molgenis
       Label: molgenis-it
@@ -588,9 +582,7 @@ jenkins:
             limits:
               cpu: "1"
               memory: "512Mi"
-      NodeSelector: {
-        deployPod: "true"
-      }
+      NodeSelector: {}
 
 #secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
