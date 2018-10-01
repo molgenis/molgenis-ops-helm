@@ -583,8 +583,42 @@ jenkins:
               cpu: "1"
               memory: "512Mi"
       NodeSelector: {}
+    helm:
+      Label: helm
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        chart-testing:
+          Image: "quay.io/helmpack/chart-testing"
+          ImageTag: v1.1.0
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        alpine:
+          Image: "spotify/alpine"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        vault:
+          Image: "vault"
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          EnvVars:
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
+      NodeSelector: {}
 
-#secret contains configuration for the kubernetes secrets that jenkins can access
+# secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
   # vault configures the vault secret
   vault:

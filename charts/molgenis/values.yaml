@@ -64,12 +64,12 @@ elasticsearch:
   javaOpts: "-Xms1g -Xmx1g"
   clusterName: molgenis
   resources:
-   limits:
-    cpu: 2
-    memory: 3Gi
-   requests:
-    cpu: 100m
-    memory: 1Gi
+    limits:
+      cpu: 2
+      memory: 3Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
   persistence:
     claim: elasticsearch-nfs-claim
     size: 5Gi

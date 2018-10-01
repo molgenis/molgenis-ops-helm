@@ -4,3 +4,7 @@ description: MOLGENIS vault
 name: molgenis-vault
 version: 0.1.1
 icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis-vault/catalogIcon-molgenis-vault.svg
+home: https://github.com/coreos/vault-operator
+maintainers:
+- name: fdlk
+- name: sidohaakma
