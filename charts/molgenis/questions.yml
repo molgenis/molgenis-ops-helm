@@ -91,7 +91,7 @@ questions:
     group: "Services"
   - variable: molgenis.services.postgres.host
     label: Postgres cluster location
-    default: ""
+    default: "molgenis-postgres.postgres"
     description: "Set the location of the postgres cluster. This can be localhost when the postgres is enabled else you need to specify a cluster location if you do not want a embedded postgres instance)"
     type: string
     required: true

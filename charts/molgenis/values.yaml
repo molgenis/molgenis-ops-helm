@@ -94,32 +94,32 @@ elasticsearch:
       resources:
         limits:
           cpu: 2
-          memory: 1Gi
+          memory: 2Gi
         requests:
           cpu: 100m
           memory: 1Gi
       persistence:
         size: 5Gi
     medium:
-      javaOpts: "-Xms2g -Xmx2g"
+      javaOpts: "-Xms2g -Xmx1g"
       resources:
         limits:
           cpu: 2
-          memory: 2Gi
+          memory: 3Gi
         requests:
           cpu: 100m
           memory: 2Gi
       persistence:
         size: 10Gi
     large:
-      javaOpts: "-Xms4g -Xmx4g"
+      javaOpts: "-Xms3g -Xmx3g"
       resources:
         limits:
           cpu: 2
           memory: 4Gi
         requests:
           cpu: 100m
-          memory: 4Gi
+          memory: 3Gi
       persistence:
         size: 20Gi
   image:
