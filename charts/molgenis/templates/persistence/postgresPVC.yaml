@@ -16,6 +16,12 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.postgres.persistence.size }}
+    {{- if eq .Values.molgenis.type.kind "small" }}
+      storage: {{ .Values.postgres.type.small.persistence.size }}
+    {{- else if eq .Values.molgenis.type.kind "medium" }}
+      storage: {{ .Values.postgres.type.medium.persistence.size }}
+    {{- else }}
+      storage: {{ .Values.postgres.type.large.persistence.size }}
+    {{- end }}
 {{- end }}
 {{- end }}
