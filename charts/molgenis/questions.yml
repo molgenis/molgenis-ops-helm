@@ -56,3 +56,103 @@ questions:
     - umcg
     - cluster
     label: Firewall kind
+- variable: molgenis.advanced
+  label: Advanced mode
+  default: false
+  description: "Do you want to override the default values ion advanced mode"
+  type: boolean
+  required: true
+  group: "Advanced"
+  show_subquestion_if: true
+  subquestions:
+  - variable: molgenis.image.repository
+    label: Registry
+    default: "registry.hub.docker.com"
+    description: "Select a registry to pull from"
+    type: enum
+    options:
+    - "registry.hub.docker.com"
+    - "registry.molgenis.org"
+    required: true
+    group: "Provisioning"
+  - variable: molgenis.services.opencpu.host
+    label: OpenCPU cluster
+    default: "molgenis-opencpu.opencpu"
+    description: "Specify the OpenCPU cluster"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.embedded
+    label: Postgres embedded
+    default: true
+    description: "Do you want an embedded postgres"
+    type: boolean
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.host
+    label: Postgres cluster location
+    default: ""
+    description: "Set the location of the postgres cluster. This can be localhost when the postgres is enabled else you need to specify a cluster location if you do not want a embedded postgres instance)"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.scheme
+    label: Database scheme
+    default: "molgenis"
+    description: "Set the database scheme"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.user
+    label: Database username
+    default: "molgenis"
+    description: "Set user of the database scheme"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.password
+    label: Database password
+    default: "molgenis"
+    description: "Set the password of the database scheme"
+    type: string
+    required: true
+    group: "Services"
+  - variable: persistence.retain
+    default: false
+    description: "Do you want to retain the persistent volume"
+    type: boolean
+    label: Retain volume
+    group: "Persistence"
+  - variable: persistence.molgenis.size
+    default: "default"
+    description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
+    type: enum
+    options:
+    - "default"
+    - "5Gi"
+    - "10Gi"
+    - "30Gi"
+    label: Size MOLGENIS filestore
+    group: "Persistence"
+  - variable: persistence.elasticsearch.size
+    default: "default"
+    description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
+    type: enum
+    options:
+    - "default"
+    - "5Gi"
+    - "10Gi"
+    - "20Gi"
+    label: Size for ElasticSearch data
+    group: "Persistence"
+  - variable: persistence.postgres.size
+    default: "default"
+    description: "Size of PostgreSQL data (directory that is persist: /var/lib/postgresql/data/pgdata)"
+    type: enum
+    options:
+    - "default"
+    - "5Gi"
+    - "10Gi"
+    - "15Gi"
+    label: Size for PostgreSQL data
+    group: "Persistence"

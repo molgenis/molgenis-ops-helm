@@ -26,6 +26,7 @@ ingress:
   tls: []
 
 molgenis:
+  advanced: false
   type:
     kind: medium
     small:
@@ -100,7 +101,7 @@ elasticsearch:
       persistence:
         size: 5Gi
     medium:
-      javaOpts: "-Xms1g -Xmx1g"
+      javaOpts: "-Xms2g -Xmx2g"
       resources:
         limits:
           cpu: 2
@@ -111,7 +112,7 @@ elasticsearch:
       persistence:
         size: 10Gi
     large:
-      javaOpts: "-Xms1g -Xmx1g"
+      javaOpts: "-Xms4g -Xmx4g"
       resources:
         limits:
           cpu: 2
@@ -126,7 +127,6 @@ elasticsearch:
     tag: 5.5.3
     pullPolicy: IfNotPresent
   clusterName: molgenis
-
   persistence:
     claim: elasticsearch-nfs-claim
 
@@ -173,6 +173,12 @@ postgres:
 persistence:
   enabled: true
   retain: false
+  molgenis:
+    size: "default"
+  elasticsearch:
+    size: "default"
+  postgres:
+    size: "default"
 
 nodeSelector: {
   deployPod: "true"
