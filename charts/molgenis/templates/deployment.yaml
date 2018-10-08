@@ -44,7 +44,7 @@ spec:
             - name: db_user
               value: {{ .services.postgres.user }}
             - name: db_password
-              value: {{ .services.postgres.password }}
+              value: "{{ .services.postgres.password }}"
             - name: admin.password
               value: "{{ .adminPassword }}"
             - name: CATALINA_OPTS
