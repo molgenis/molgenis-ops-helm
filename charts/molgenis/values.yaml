@@ -101,7 +101,7 @@ elasticsearch:
       persistence:
         size: 5Gi
     medium:
-      javaOpts: "-Xms2g -Xmx1g"
+      javaOpts: "-Xms1g -Xmx1g"
       resources:
         limits:
           cpu: 2
@@ -112,7 +112,7 @@ elasticsearch:
       persistence:
         size: 10Gi
     large:
-      javaOpts: "-Xms3g -Xmx3g"
+      javaOpts: "-Xms2g -Xmx2g"
       resources:
         limits:
           cpu: 2
