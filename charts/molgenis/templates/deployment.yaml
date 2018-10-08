@@ -46,7 +46,7 @@ spec:
             - name: db_password
               value: {{ .services.postgres.password }}
             - name: admin.password
-              value: {{ .adminPassword }}
+              value: "{{ .adminPassword }}"
             - name: CATALINA_OPTS
             {{- if eq .type.kind "small" }}
               value: "-Xmx{{ .type.small.javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
