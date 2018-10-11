@@ -446,7 +446,8 @@ jenkins:
         maven:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
           ImageTag: lts
-          AlwaysPullImage: true
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -463,11 +464,15 @@ jenkins:
               value: "/home/jenkins/.m2"
         alpine:
           Image: "spotify/alpine"
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         vault:
           Image: "vault"
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -487,6 +492,8 @@ jenkins:
         helm:
           Image: "lachlanevenson/k8s-helm"
           ImageTag: "v2.10.0"
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -498,12 +505,15 @@ jenkins:
         node:
           Image: "registry.webhosting.rug.nl/molgenis/node"
           ImageTag: lts
-          AlwaysPullImage: true
+          AlwaysPullImage: false
+          Retention: Never
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         vault:
           Image: "vault"
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -529,6 +539,8 @@ jenkins:
         elasticsearch:
           Image: docker.elastic.co/elasticsearch/elasticsearch
           ImageTag: 5.5.3
+          AlwaysPullImage: false
+          Retention: Default
           resources:
             requests:
               cpu: "100m"
@@ -555,6 +567,8 @@ jenkins:
         postgres:
           Image: postgres
           ImageTag: 9.6-alpine
+          AlwaysPullImage: false
+          Retention: Default
           resources:
             requests:
               cpu: "100m"
@@ -574,7 +588,8 @@ jenkins:
             value: molgenis
         opencpu:
           Image: molgenis/opencpu
-          AlwaysPullImage: true
+          AlwaysPullImage: false
+          Retention: Default
           resources:
             requests:
               cpu: "100m"
@@ -590,16 +605,22 @@ jenkins:
         chart-testing:
           Image: "quay.io/helmpack/chart-testing"
           ImageTag: v1.1.0
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         alpine:
           Image: "spotify/alpine"
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         vault:
           Image: "vault"
+          AlwaysPullImage: false
+          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true

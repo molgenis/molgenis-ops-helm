@@ -114,6 +114,7 @@ data:
                   <resourceLimitMemory>{{ .resources.limits.memory | default "" }}</resourceLimitMemory>
 {{- end }}
 {{- end }}
+                  <podRetention class="org.csanchez.jenkins.plugins.kubernetes.pod.retention.{{ .Retention }}"/>
                 </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
 {{- end }}
               </containers>
