@@ -59,7 +59,7 @@ questions:
 - variable: molgenis.advanced
   label: Advanced mode
   default: false
-  description: "Do you want to override the default values ion advanced mode"
+  description: "Do you want to override the default values in advanced mode"
   type: boolean
   required: true
   group: "Advanced"
