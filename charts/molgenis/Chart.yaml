@@ -4,8 +4,8 @@ description: MOLGENIS - helm stack (in BETA)
 name: molgenis
 version: 0.4.3
 sources:
-- https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
-icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis/catalogIcon-molgenis.svg
+- https://github.com/molgenis/molgenis-ops-docker-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis/catalogIcon-molgenis.svg
 home: http://molgenis.org
 maintainers:
 - name: sidohaakma

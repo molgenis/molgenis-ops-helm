@@ -101,12 +101,11 @@ kubectl get pods --namespace=*#namespace of application#*
 
 This repository is serves also as a catalogue for Rancher. We have serveral apps that are served through this repoistory. e.g.
 
-- [Jenkins](molgenis-jenkins/README.md)
-- [NEXUS](molgenis-nexus/README.md)
-- [HTTPD](molgenis-httpd/README.md)
-- [MOLGENIS](molgenis/README.md)
-- [MOLGENIS preview](molgenis-preview/README.md)
-- [MOLGENIS vault](molgenis-vault/README.md)
+- [Jenkins](charts/molgenis-jenkins/README.md)
+- [NEXUS](charts/molgenis-nexus/README.md)
+- [HTTPD](charts/molgenis-httpd/README.md)
+- [MOLGENIS](charts/molgenis/README.md)
+- [MOLGENIS vault](charts/molgenis-vault/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts
