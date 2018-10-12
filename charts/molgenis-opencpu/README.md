@@ -18,8 +18,6 @@ You need to fill out 2 properties to determine which repository you are going to
 
 You can do this in the questions in Rancher or in the ```values.yaml```.
 
-
-
 ## Development
 You can test in install the chart by executing:
 

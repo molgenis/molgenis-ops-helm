@@ -1,4 +1,4 @@
-# MOLGENIS Helm templates
+# MOLGENIS - Helm templates
 
 These are the Helm templates that we will use for MOLGENIS operations. Basic concepts in respect to docker you need to know.
 
@@ -103,9 +103,9 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 
 - [Jenkins](charts/molgenis-jenkins/README.md)
 - [NEXUS](charts/molgenis-nexus/README.md)
-- [HTTPD](charts/molgenis-httpd/README.md)
+- [Vault](charts/molgenis-vault/README.md)
 - [MOLGENIS](charts/molgenis/README.md)
-- [MOLGENIS vault](charts/molgenis-vault/README.md)
+- [OpenCPU](charts/molgenis-opencpu/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts
