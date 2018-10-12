@@ -2,26 +2,31 @@
 categories:
 - MOLGENIS
 questions:
-- variable: ingress.hosts[0].name
-  label: Hostname
-  default: "test.molgenis.org"
-  description: "Hostname for your stack"
-  type: hostname
-  required: true
-  group: "Load balancing"
-- variable: molgenis.image.repository
-  label: Registry
-  default: "registry.hub.docker.com"
-  description: "Select a registry to pull from"
+- variable: molgenis.environment
+  label: Environment
+  default: "test"
+  description: "Environment of MOLGENIS instance"
   type: enum
   options:
-  - "registry.hub.docker.com"
-  - "registry.molgenis.org"
+   - test
+   - acceptance
+   - production
+  required: true
+  group: "Provisioning"
+- variable: molgenis.type.kind
+  label: Type
+  default: "medium"
+  description: "Type of MOLGENIS resources"
+  type: enum
+  options:
+   - small
+   - medium
+   - large
   required: true
   group: "Provisioning"
 - variable: molgenis.image.tag
   label: Version
-  default: ""
+  default: "stable"
   description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true
@@ -39,7 +44,7 @@ questions:
   description: "Firewall enabled (can be cluster or UMCG scoped)"
   type: boolean
   required: true
-  group: "Provisioning"
+  group: "Services"
   show_subquestion_if: true
   subquestions:
   - variable: service.firewall.kind
@@ -51,25 +56,42 @@ questions:
     - umcg
     - cluster
     label: Firewall kind
-- variable: molgenis.services.opencpu.host
-  label: OpenCPU cluster
-  default: "localhost"
-  description: "Specify the OpenCPU cluster"
-  type: string
-  required: true
-  group: "Services"
-- variable: molgenis.services.postgres.embedded
-  label: Postgres embedded
+- variable: molgenis.advanced
+  label: Advanced mode
   default: false
-  description: "Do you want an embedded postgres"
+  description: "Do you want to override the default values in advanced mode"
   type: boolean
   required: true
-  group: "Services"
-  show_subquestion_if: false
+  group: "Advanced"
+  show_subquestion_if: true
   subquestions:
+  - variable: molgenis.image.repository
+    label: Registry
+    default: "registry.hub.docker.com"
+    description: "Select a registry to pull from"
+    type: enum
+    options:
+    - "registry.hub.docker.com"
+    - "registry.molgenis.org"
+    required: true
+    group: "Provisioning"
+  - variable: molgenis.services.opencpu.host
+    label: OpenCPU cluster
+    default: "molgenis-opencpu.opencpu"
+    description: "Specify the OpenCPU cluster"
+    type: string
+    required: true
+    group: "Services"
+  - variable: molgenis.services.postgres.embedded
+    label: Postgres embedded
+    default: true
+    description: "Do you want an embedded postgres"
+    type: boolean
+    required: true
+    group: "Services"
   - variable: molgenis.services.postgres.host
     label: Postgres cluster location
-    default: ""
+    default: "localhost"
     description: "Set the location of the postgres cluster. This can be localhost when the postgres is enabled else you need to specify a cluster location if you do not want a embedded postgres instance)"
     type: string
     required: true
@@ -95,73 +117,42 @@ questions:
     type: string
     required: true
     group: "Services"
-- variable: molgenis.resources.limits.memory
-  label: Container memory limit
-  default: 1250Mi
-  description: "Memory limit for this MOLGENIS container"
-  type: enum
-  options:
-  - "1250Mi"
-  - "2500Mi"
-  required: true
-  group: "Resources"
-- variable: molgenis.resources.requests.memory
-  label: Container memory reservation
-  default: 1250Mi
-  description: "Memory reservation for this MOLGENIS container (must fit in the selected memory limit for the container)"
-  type: enum
-  options:
-  - "1250Mi"
-  - "2500Mi"
-  required: true
-  group: "Resources"
-- variable: molgenis.javaOpts.maxHeapSpace
-  label: Maximum heap space (JVM)
-  default: "1g"
-  description: "Maximum heap space MOLGENIS container JVM. Please not this should fit in your container memory limit"
-  type: enum
-  options:
-  - "1g"
-  - "2g"
-  group: "Resources"
-- variable: persistence.enabled
-  default: true
-  description: "Do you want to use persistence"
-  type: boolean
-  required: true
-  group: "Persistence"
-  label: Persistence
-  show_subquestion_if: true
-  subquestions:
   - variable: persistence.retain
     default: false
     description: "Do you want to retain the persistent volume"
     type: boolean
     label: Retain volume
-  - variable: molgenis.persistence.size
-    default: "5Gi"
+    group: "Persistence"
+  - variable: persistence.molgenis.size
+    default: "default"
     description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
     type: enum
     options:
+    - "default"
     - "5Gi"
     - "10Gi"
-    - "20Gi"
+    - "30Gi"
     label: Size MOLGENIS filestore
-  - variable: elasticsearch.persistence.size
-    default: "5Gi"
+    group: "Persistence"
+  - variable: persistence.elasticsearch.size
+    default: "default"
     description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
     type: enum
     options:
+    - "default"
     - "5Gi"
     - "10Gi"
-    - "50Gi"
+    - "20Gi"
     label: Size for ElasticSearch data
-  - variable: postgres.persistence.size
-    default: "5Gi"
+    group: "Persistence"
+  - variable: persistence.postgres.size
+    default: "default"
     description: "Size of PostgreSQL data (directory that is persist: /var/lib/postgresql/data/pgdata)"
     type: enum
     options:
+    - "default"
     - "5Gi"
     - "10Gi"
-    - "50Gi"
+    - "15Gi"
     label: Size for PostgreSQL data
+    group: "Persistence"

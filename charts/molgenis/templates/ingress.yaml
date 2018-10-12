@@ -26,13 +26,17 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.hosts }}
-    - host: {{ .name }}
+    {{- if eq $.Values.molgenis.environment "test" }}
+    - host: {{ .Release.Name }}.test.molgenis.org
+    {{- else if eq $.Values.molgenis.environment "acceptance" }}
+    - host: {{ .Release.Name }}.accept.molgenis.org
+    {{- else }}
+    - host: {{ .Release.Name }}.molgenis.org
+    {{- end }}
       http:
         paths:
           - path: {{ $ingressPath }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $.Values.service.port }}
-  {{- end }}
 {{- end }}

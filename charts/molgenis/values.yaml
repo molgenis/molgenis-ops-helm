@@ -19,30 +19,61 @@ ingress:
   enabled: true
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  # This will be used again when external domains need be attached to the instance
+  # hosts:
+  # - name: test
   path: /
-  hosts:
-  - name: test.molgenis.org
   tls: []
 
 molgenis:
+  advanced: false
+  type:
+    kind: medium
+    small:
+      javaOpts:
+        maxHeapSpace: "2g"
+      resources:
+        limits:
+          cpu: 2
+          memory: 2Gi
+        requests:
+          cpu: 200m
+          memory: 2Gi
+      persistence:
+        size: 5Gi
+    medium:
+      javaOpts:
+        maxHeapSpace: "3g"
+      resources:
+        limits:
+          cpu: 3
+          memory: 3Gi
+        requests:
+          cpu: 200m
+          memory: 3Gi
+      persistence:
+        size: 10Gi
+    large:
+      javaOpts:
+        maxHeapSpace: "4g"
+      resources:
+        limits:
+          cpu: 4
+          memory: 4Gi
+        requests:
+          cpu: 200m
+          memory: 4Gi
+      persistence:
+        size: 30Gi
+  environment: test
   image:
     repository: registry.hub.docker.com
     name: molgenis/molgenis-app
     tag: stable
     pullPolicy: Always
   adminPassword:
-  javaOpts:
-    maxHeapSpace: "1g"
-  resources:
-    limits:
-      cpu: 1
-      memory: 1250Mi
-    requests:
-      cpu: 200m
-      memory: 1250Mi
   persistence:
     claim: molgenis-nfs-claim
-    size: 5Gi
   services:
     opencpu:
       host: localhost
@@ -50,49 +81,104 @@ molgenis:
       transportAddresses: localhost:9300
       clusterName: molgenis
     postgres:
-      embedded: false
+      embedded: true
       host: localhost
       scheme: molgenis
       user: molgenis
       password: molgenis
 
 elasticsearch:
+  type:
+    small:
+      javaOpts: "-Xms1g -Xmx512m"
+      resources:
+        limits:
+          cpu: 2
+          memory: 1500Mi
+        requests:
+          cpu: 100m
+          memory: 1Gi
+      persistence:
+        size: 5Gi
+    medium:
+      javaOpts: "-Xms1g -Xmx1g"
+      resources:
+        limits:
+          cpu: 2
+          memory: 3Gi
+        requests:
+          cpu: 100m
+          memory: 3Gi
+      persistence:
+        size: 10Gi
+    large:
+      javaOpts: "-Xms2g -Xmx2g"
+      resources:
+        limits:
+          cpu: 2
+          memory: 5Gi
+        requests:
+          cpu: 100m
+          memory: 5Gi
+      persistence:
+        size: 20Gi
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
     tag: 5.5.3
     pullPolicy: IfNotPresent
-  javaOpts: "-Xms1g -Xmx1g"
   clusterName: molgenis
-  resources:
-    limits:
-      cpu: 2
-      memory: 3Gi
-    requests:
-      cpu: 100m
-      memory: 1Gi
   persistence:
     claim: elasticsearch-nfs-claim
-    size: 5Gi
 
 postgres:
+  type:
+    small:
+      resources:
+        limits:
+          cpu: 1
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      persistence:
+        size: 5Gi
+    medium:
+      resources:
+        limits:
+          cpu: 2
+          memory: 2Gi
+        requests:
+          cpu: 100m
+          memory: 2Gi
+      persistence:
+        size: 10Gi
+    large:
+      resources:
+        limits:
+          cpu: 4
+          memory: 4Gi
+        requests:
+          cpu: 100m
+          memory: 4Gi
+      persistence:
+        size: 15Gi
   image:
     repository: postgres
     tag: 9.6-alpine
     pullPolicy: IfNotPresent
-  resources:
-    limits:
-      cpu: 1
-      memory: 250Mi
-    requests:
-      cpu: 100m
-      memory: 250Mi
+
   persistence:
     claim: postgres-nfs-claim
-    size: 5Gi
 
 persistence:
   enabled: true
   retain: false
+  molgenis:
+    size: "default"
+  elasticsearch:
+    size: "default"
+  postgres:
+    size: "default"
 
 nodeSelector: {
   deployPod: "true"

@@ -15,5 +15,15 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.elasticsearch.persistence.size }}
+    {{- if eq .Values.persistence.elasticsearch.size "default" }}
+      {{- if eq .Values.molgenis.type.kind "small" }}
+      storage: {{ .Values.elasticsearch.type.small.persistence.size }}
+      {{- else if eq .Values.molgenis.type.kind "medium" }}
+      storage: {{ .Values.elasticsearch.type.medium.persistence.size }}
+      {{- else }}
+      storage: {{ .Values.elasticsearch.type.large.persistence.size }}
+      {{- end }}
+    {{ else }}
+      storage: {{ .Values.persistence.postgres.size }}
+    {{- end }}
 {{- end }}

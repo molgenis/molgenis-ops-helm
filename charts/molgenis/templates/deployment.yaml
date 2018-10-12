@@ -44,11 +44,17 @@ spec:
             - name: db_user
               value: {{ .services.postgres.user }}
             - name: db_password
-              value: {{ .services.postgres.password }}
+              value: "{{ .services.postgres.password }}"
             - name: admin.password
-              value: {{ .adminPassword }}
+              value: "{{ .adminPassword }}"
             - name: CATALINA_OPTS
-              value: "-Xmx{{ .javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+            {{- if eq .type.kind "small" }}
+              value: "-Xmx{{ .type.small.javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+            {{- else if eq .type.kind "medium"}}
+              value: "-Xmx{{ .type.medium.javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+            {{- else }}
+              value: "-Xmx{{ .type.large.javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+            {{- end }}
           ports:
             - containerPort: 8080
           {{- if $.Values.persistence.enabled }}
@@ -73,7 +79,13 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           resources:
-{{ toYaml .resources | indent 12 }}
+          {{- if eq .type.kind "small" }}
+{{ toYaml .type.small.resources | indent 12 }}
+          {{- else if eq .type.kind "medium" }}
+{{ toYaml .type.medium.resources | indent 12 }}
+          {{- else }}
+{{ toYaml .type.large.resources | indent 12 }}
+          {{- end }}
         {{- end }}
 
         - name: elasticsearch
@@ -86,7 +98,13 @@ spec:
             - name: bootstrap.memory_lock
               value: "true"
             - name: ES_JAVA_OPTS
-              value: "{{ .javaOpts }}"
+            {{- if eq $.Values.molgenis.type.kind "small" }}
+              value: "{{ .type.small.javaOpts }}"
+            {{- else if eq $.Values.molgenis.type.kind "medium"}}
+              value: "{{ .type.medium.javaOpts }}"
+            {{- else }}
+              value: "{{ .type.large.javaOpts }}"
+            {{- end }}
             - name: xpack.security.enabled
               value: "false"
             - name: discovery.type
@@ -100,7 +118,13 @@ spec:
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
           resources:
-{{ toYaml .resources | indent 12 }}
+          {{- if eq $.Values.molgenis.type.kind "small" }}
+{{ toYaml .type.small.resources | indent 12 }}
+          {{- else if eq $.Values.molgenis.type.kind "medium" }}
+{{ toYaml .type.medium.resources | indent 12 }}
+          {{- else }}
+{{ toYaml .type.large.resources | indent 12 }}
+          {{- end }}
         {{- end }}
 
         - name: postgres
@@ -117,7 +141,13 @@ spec:
           ports:
             - containerPort: 5432
           resources:
-{{ toYaml .resources | indent 12 }}
+          {{- if eq $.Values.molgenis.type.kind "small" }}
+{{ toYaml .type.small.resources | indent 12 }}
+          {{- else if eq $.Values.molgenis.type.kind "medium" }}
+{{ toYaml .type.medium.resources | indent 12 }}
+          {{- else }}
+{{ toYaml .type.large.resources | indent 12 }}
+          {{- end }}
           {{- if $.Values.persistence.enabled }}
           volumeMounts:
           - name: postgres-nfs
