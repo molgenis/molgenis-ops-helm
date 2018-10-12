@@ -26,7 +26,9 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-    {{- if eq $.Values.molgenis.environment "test" }}
+    {{- if eq $.Values.molgenis.environment "development" }}
+    - host: {{ .Release.Name }}.dev.molgenis.org
+    {{- else if eq $.Values.molgenis.environment "test" }}
     - host: {{ .Release.Name }}.test.molgenis.org
     {{- else if eq $.Values.molgenis.environment "acceptance" }}
     - host: {{ .Release.Name }}.accept.molgenis.org
