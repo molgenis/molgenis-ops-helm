@@ -90,11 +90,11 @@ molgenis:
 elasticsearch:
   type:
     small:
-      javaOpts: "-Xms1g -Xmx1g"
+      javaOpts: "-Xms1g -Xmx512m"
       resources:
         limits:
           cpu: 2
-          memory: 3Gi
+          memory: 1500Mi
         requests:
           cpu: 100m
           memory: 1Gi
@@ -105,21 +105,21 @@ elasticsearch:
       resources:
         limits:
           cpu: 2
-          memory: 4Gi
+          memory: 3Gi
         requests:
           cpu: 100m
-          memory: 2Gi
+          memory: 3Gi
       persistence:
         size: 10Gi
     large:
-      javaOpts: "-Xms3g -Xmx3g"
+      javaOpts: "-Xms2g -Xmx2g"
       resources:
         limits:
           cpu: 2
           memory: 5Gi
         requests:
           cpu: 100m
-          memory: 2Gi
+          memory: 5Gi
       persistence:
         size: 20Gi
   image:
