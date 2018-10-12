@@ -4,8 +4,8 @@ description: Opencpu stack for MOLGENIS
 name: molgenis-opencpu
 version: 0.1.1
 sources:
-- https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm.git
-icon: https://git.webhosting.rug.nl/molgenis/molgenis-ops-docker-helm/raw/master/molgenis-opencpu/catalogIcon-molgenis-opencpu.svg
+- https://github.com/molgenis/molgenis-ops-docker-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-opencpu/catalog-molgenis-opencpu.svg
 home: https://www.opencpu.org
 maintainers:
 - name: sidohaakma
