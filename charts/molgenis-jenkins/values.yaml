@@ -447,7 +447,6 @@ jenkins:
           Image: "registry.webhosting.rug.nl/molgenis/maven"
           ImageTag: lts
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -465,14 +464,12 @@ jenkins:
         alpine:
           Image: "spotify/alpine"
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         vault:
           Image: "vault"
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -493,7 +490,6 @@ jenkins:
           Image: "lachlanevenson/k8s-helm"
           ImageTag: "v2.10.0"
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -513,7 +509,6 @@ jenkins:
         vault:
           Image: "vault"
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
@@ -540,7 +535,6 @@ jenkins:
           Image: docker.elastic.co/elasticsearch/elasticsearch
           ImageTag: 5.5.3
           AlwaysPullImage: false
-          Retention: Default
           resources:
             requests:
               cpu: "100m"
@@ -568,7 +562,6 @@ jenkins:
           Image: postgres
           ImageTag: 9.6-alpine
           AlwaysPullImage: false
-          Retention: Default
           resources:
             requests:
               cpu: "100m"
@@ -589,7 +582,6 @@ jenkins:
         opencpu:
           Image: molgenis/opencpu
           AlwaysPullImage: false
-          Retention: Default
           resources:
             requests:
               cpu: "100m"
@@ -606,21 +598,18 @@ jenkins:
           Image: "quay.io/helmpack/chart-testing"
           ImageTag: v1.1.0
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         alpine:
           Image: "spotify/alpine"
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         vault:
           Image: "vault"
           AlwaysPullImage: false
-          Retention: Default
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
