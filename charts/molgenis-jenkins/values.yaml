@@ -15,6 +15,7 @@ jenkins:
       - gogs-webhook:1.0.14
       - github-scm-trait-commit-skip:0.1.1
       - slack:2.3
+      - ansible:1.0
     Security:
       UseGitHub: false
       GitHub:
@@ -603,6 +604,37 @@ jenkins:
           TTY: true
         alpine:
           Image: "spotify/alpine"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        vault:
+          Image: "vault"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          EnvVars:
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
+      NodeSelector: {}
+    ansible:
+      Label: ansible
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        centos:
+          Image: "centos"
+          ImageTag: 6.10
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
