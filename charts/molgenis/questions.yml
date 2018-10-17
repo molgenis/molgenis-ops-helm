@@ -118,6 +118,12 @@ questions:
     type: string
     required: true
     group: "Services"
+  - variable: persistence.enabled
+    default: true
+    description: "Do you want to enable persistence"
+    type: boolean
+    label: Persistence enabled
+    group: "Persistence"
   - variable: persistence.retain
     default: false
     description: "Do you want to retain the persistent volume"
