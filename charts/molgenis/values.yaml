@@ -81,7 +81,6 @@ molgenis:
       transportAddresses: localhost:9300
       clusterName: molgenis
     postgres:
-      embedded: true
       host: localhost
       scheme: molgenis
       user: molgenis
@@ -131,6 +130,11 @@ elasticsearch:
     claim: elasticsearch-nfs-claim
 
 postgres:
+  enabled: true
+  ## Specify runtime config parameters as a dict, using camelCase
+  ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
+  config:
+    maxLocksPerTransaction: 1024
   type:
     small:
       resources:

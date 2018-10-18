@@ -127,10 +127,16 @@ spec:
           {{- end }}
         {{- end }}
 
-        - name: postgres
         {{- with .Values.postgres }}
+        {{- if .enabled }}
+        - name: postgres
           image: "{{ .image.repository }}:{{ .image.tag }}"
           imagePullPolicy: {{ .image.pullPolicy }}
+          args:
+            {{- range $key, $value := default dict .config }}
+            - -c
+            - '{{ $key | snakecase }}={{ $value }}'
+            {{- end }}
           env:
             - name: POSTGRES_USER
               value: {{ $.Values.molgenis.services.postgres.user }}
@@ -154,7 +160,7 @@ spec:
             mountPath: /var/lib/postgresql/data
           {{- end }}
         {{- end }}
-
+        {{- end }}
 
 {{- if .Values.persistence.enabled }}
       volumes:
