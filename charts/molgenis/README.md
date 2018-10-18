@@ -65,15 +65,12 @@ You can specify credentials for the database scheme by specifying the following 
 - ```molgenis.services.postgres.user: molgenis```
 - ```molgenis.services.postgres.password: molgenis```
 
-To test you can use the **PostgreSQL**-helm chart of Kubernetes and specify these answers:
+A postgres container is added to the pod by default. You can disable it by specifying:
+- `postgres.enabled: false`
 
-```bash
-# answers for postgresql chart
-postgresUser=molgenis
-postgresPassword=molgenis
-postgresDatabase=molgenis
-persistence.enabled=false
-```
+You can specify [runtime config values](https://www.postgresql.org/docs/current/static/runtime-config.html)
+that override the values listed in the postgres.conf using camel case:
+- `postgres.config.maxLocksPerTransaction: 1024`
 
 ### OpenCPU
 You can specify the location of the OpenCPU cluster by specifying this property:

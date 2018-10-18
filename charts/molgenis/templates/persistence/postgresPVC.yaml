@@ -1,4 +1,4 @@
-{{- if .Values.molgenis.services.postgres.embedded }}
+{{- if .Values.postgres.enabled }}
 {{- if .Values.persistence.enabled }}
 apiVersion: extensions/v1beta1
 kind: PersistentVolumeClaim
