@@ -19,38 +19,24 @@ nexus:
   port:
     docker: 5000
     ui: 8081
-  path:
-    dockerV2: v2
-  service:
-    type: ClusterIP
-
-nexusProxy:
-  name: nexus-proxy
-  hostname: registry.molgenis.org
-  strategy:
-    type: Recreate
-  selector: nexus-proxy
-  restartPolicy: Always
-  image:
-    repository: molgenis/httpd
-    tag: latest
-    pullPolicy: Always
-  port: 80
   service:
     type: LoadBalancer
 
-
 ingress:
   enabled: true
-  annotations: {}
-  path: /
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  pathDockerV1: /v1
+  pathDockerV2: /v2
+  pathUi: /
   hosts:
   - name: registry.molgenis.org
   tls: []
 
 persistence:
   enabled: true
-  claim: molgenis-nexus
+  claim: pvc-molgenis-nexus
   size: 500Gi
 
 

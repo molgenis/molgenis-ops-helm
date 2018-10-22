@@ -20,13 +20,16 @@ spec:
       creationTimestamp: null
     spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
+
       initContainers:
       - name: nexus-nfs
         image: busybox
         command: ["sh", "-c", "chown -R 200:200 /nexus-data"]
+        {{- if .Values.persistence.enabled }}
         volumeMounts:
-        - name: molgenis-nexus-nfs
+        - name: pv-molgenis-nexus
           mountPath: "/nexus-data"
+        {{- end }}
       containers:
       - name: {{ .Values.nexus.name }}
         image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
@@ -34,30 +37,34 @@ spec:
         ports:
         - containerPort: {{ .Values.nexus.port.ui }}
         - containerPort: {{ .Values.nexus.port.docker }}
+        {{- if .Values.persistence.enabled }}
         volumeMounts:
-        - name: molgenis-nexus-nfs
+        - name: pv-molgenis-nexus
           mountPath: /nexus-data
-        livenessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.nexus.port.ui }}
-          initialDelaySeconds: 120
-          periodSeconds: 20
-          failureThreshold: 15
-          successThreshold: 1
-        readinessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.nexus.port.ui }}
-          initialDelaySeconds: 120
-          periodSeconds: 20
-          failureThreshold: 15
-          successThreshold: 1
+        {{- end }}
+#        livenessProbe:
+#          httpGet:
+#            path: /
+#            port: {{ .Values.nexus.port.ui }}
+#          initialDelaySeconds: 180
+#          periodSeconds: 20
+#          failureThreshold: 15
+#          successThreshold: 1
+#        readinessProbe:
+#          httpGet:
+#            path: /
+#            port: {{ .Values.nexus.port.ui }}
+#          initialDelaySeconds: 180
+#          periodSeconds: 20
+#          failureThreshold: 15
+#          successThreshold: 1
 
+    {{- if .Values.persistence.enabled }}
       volumes:
-        - name: molgenis-nexus-nfs
+        - name: pv-molgenis-nexus
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.claim }}
+    {{- end }}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:
