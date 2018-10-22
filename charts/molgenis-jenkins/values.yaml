@@ -536,6 +536,7 @@ jenkins:
           Image: docker.elastic.co/elasticsearch/elasticsearch
           ImageTag: 5.5.3
           AlwaysPullImage: false
+          WorkingDir: /usr/share/elasticsearch
           resources:
             requests:
               cpu: "100m"
@@ -563,6 +564,7 @@ jenkins:
           Image: postgres
           ImageTag: 9.6-alpine
           AlwaysPullImage: false
+          WorkingDir: /
           resources:
             requests:
               cpu: "100m"
@@ -583,6 +585,7 @@ jenkins:
         opencpu:
           Image: molgenis/opencpu
           AlwaysPullImage: false
+          WorkingDir: /
           resources:
             requests:
               cpu: "100m"
