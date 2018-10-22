@@ -230,6 +230,22 @@ data:
       <pendingClasspathEntries/>
     </scriptApproval>
 {{- end }}
+  github-plugin-configuration.xml: |-
+    <?xml version='1.1' encoding='UTF-8'?>
+    <github-plugin-configuration plugin="github@1.29.3">
+      <configs>
+        <github-server-config>
+          <name>github</name>
+          <apiUrl>https://api.github.com</apiUrl>
+          <manageHooks>true</manageHooks>
+          <credentialsId>molgenis-jenkins-github-token-secret</credentialsId>
+          <clientCacheSize>20</clientCacheSize>
+        </github-server-config>
+      </configs>
+      <hookSecretConfig>
+        <credentialsId></credentialsId>
+      </hookSecretConfig>
+    </github-plugin-configuration>
   jenkins.CLI.xml: |-
     <?xml version='1.1' encoding='UTF-8'?>
     <jenkins.CLI>
@@ -242,6 +258,7 @@ data:
   apply_config.sh: |-
     mkdir -p /usr/share/jenkins/ref/secrets/;
     echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch;
+    cp -n /var/jenkins_config/github-plugin-configuration.xml /var/jenkins_home;
     cp -n /var/jenkins_config/config.xml /var/jenkins_home;
     cp -n /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
 {{- if .Values.Master.InstallPlugins }}
