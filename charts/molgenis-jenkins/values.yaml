@@ -2,6 +2,12 @@ jenkins:
   Master:
     HostName: jenkins.molgenis.org
     ServiceType: ClusterIP
+    # git configures the global git config
+    git:
+      # name contains Global Config user.name Value
+      name: MOLGENIS Jenkins
+      # email contains Global Config user.email Value
+      email: molgenis+ci@gmail.com
     InstallPlugins:
       - kubernetes:1.12.6
       - workflow-aggregator:2.5

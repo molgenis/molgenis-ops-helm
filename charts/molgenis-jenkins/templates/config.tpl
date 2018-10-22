@@ -239,10 +239,23 @@ data:
       <enabled>false</enabled>
 {{- end }}
     </jenkins.CLI>
+{{- if .Values.Master.git }}
+  hudson.plugins.git.GitSCM.xml: |-
+    <?xml version='1.1' encoding='UTF-8'?>
+    <hudson.plugins.git.GitSCM_-DescriptorImpl plugin="git@3.9.1">
+      <generation>1</generation>
+      <globalConfigName>{{ .Values.Master.git.name }}</globalConfigName>
+      <globalConfigEmail>{{ .Values.Master.git.email }}</globalConfigEmail>
+      <createAccountBasedOnEmail>false</createAccountBasedOnEmail>
+    </hudson.plugins.git.GitSCM_-DescriptorImpl>
+{{- end }}
   apply_config.sh: |-
     mkdir -p /usr/share/jenkins/ref/secrets/;
     echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch;
     cp -n /var/jenkins_config/config.xml /var/jenkins_home;
+{{- if .Values.Master.git }}
+    cp -n /var/jenkins_config/hudson.plugins.git.GitSCM.xml /var/jenkins_home;
+{{- end }}
     cp -n /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
 {{- if .Values.Master.InstallPlugins }}
     # Install missing plugins
