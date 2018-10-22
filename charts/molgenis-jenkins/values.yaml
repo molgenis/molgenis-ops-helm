@@ -445,8 +445,8 @@ jenkins:
           mountPath: "/var/run/docker.sock"
       Containers:
         maven:
-          Image: "registry.webhosting.rug.nl/molgenis/maven"
-          ImageTag: lts
+          Image: "registry.molgenis.org/molgenis/maven"
+          ImageTag: stable
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -500,8 +500,8 @@ jenkins:
       NodeUsageMode: EXCLUSIVE
       Containers:
         node:
-          Image: "registry.webhosting.rug.nl/molgenis/node"
-          ImageTag: lts
+          Image: "registry.molgenis.org/molgenis/node"
+          ImageTag: stable
           AlwaysPullImage: false
           Retention: Never
           Command: cat
