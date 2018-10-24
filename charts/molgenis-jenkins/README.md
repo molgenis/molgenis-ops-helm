@@ -32,6 +32,9 @@ jenkins.Master.Security.GitHub.ClientID=id
 jenkins.Master.Security.GitHub.ClientSecret=S3cr3t
 ## end UseGitHub=true
 PipelineSecrets.Env.PGPPassphrase=literal:S3cr3t
+# Global git config
+jenkins.Master.git.name=MOLGENIS Jenkins
+jenkins.Master.git.user=molgenis+ci@gmail.com
 ```
 
 You can use [all configuration values of the jenkins subchart](https://github.com/kubernetes/charts/tree/master/stable/jenkins).
