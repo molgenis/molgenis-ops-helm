@@ -21,15 +21,15 @@ spec:
   - host: {{ .name }}
     http:
       paths:
-        - path: {{ default "/" .pathUi }}
+        - path: {{ default "/" $.Values.ingress.pathUi }}
           backend:
             serviceName: {{ $.Values.nexus.name }}
             servicePort: {{ $.Values.nexus.port.ui }}
-        - path: {{ default "/v1" .pathDockerV1 }}
+        - path: {{ default "/v1" $.Values.ingress.pathDockerV1 }}
           backend:
             serviceName: {{ $.Values.nexus.name }}
             servicePort: {{ $.Values.nexus.port.docker }}
-        - path: {{ default "/v2" .pathDockerV2 }}
+        - path: {{ default "/v2" $.Values.ingress.pathDockerV2 }}
           backend:
             serviceName: {{ $.Values.nexus.name }}
             servicePort: {{ $.Values.nexus.port.docker }}
