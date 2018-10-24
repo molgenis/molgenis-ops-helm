@@ -1,8 +1,18 @@
+{{- if .Values.ingress.firewall.enabled }}
+{{- with .Values.ingress.firewall }}
 apiVersion: v1
 data:
+  {{- if eq .kind "umcg" }}
+  whitelist-source-range: "127.0.0.1/36"
+  {{- else if eq .kind "cluster" }}
   whitelist-source-range: "127.0.0.1/32"
+  {{- else }}
+  whitelist-source-range: "127.0.0.1/32"
+  {{- end }}
 kind: ConfigMap
 metadata:
   name: nginx-configuration
 labels:
-  firewall: umcg
+  firewall: {{ .kind }}
+{{- end }}
+{{- end }}
