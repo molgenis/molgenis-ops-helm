@@ -105,17 +105,35 @@ The size and claim name can be specified per service. There are now two services
 - ElasticSearch
 - PostgreSQL **(optional)**
 
-MOLGENIS persistent properties.
-- ```molgenis.persistence.claim```
-- ```molgenis.persistence.size```
+You can specify in the MOLGENIS properties what kind of instance you want. There are three levels:
+- small
+- medium
+- large
 
-ElasticSearch persistent properties.
-- ```elasticsearch.persistence.claim```
-- ```elasticsearch.persistence.size```
+Set ```molgenis.kind``` to ```small```, ```medium``` or ```large``` and Helm finds out which values he needs to set.
 
-PostgreSQL persistent properties.
-- ```postgres.persistence.claim```
-- ```postgres.persistence.size```
+You can change the default resource values by setting them in the different templates. For instance the MOLGENIS template:
+
+```bash
+molgenis:
+  ...
+  type:
+    ...
+    small:
+      ...
+      persistence:
+        size: 5Gi
+    medium:
+      ...
+      persistence:
+        size: 10Gi
+    large:
+      ...
+      persistence:
+        size: 30Gi
+```
+
+You can do this for the PostgreSQL and Elasticsearch as well.
 
 ### Resolve you persistent volume
 You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:

@@ -131,33 +131,30 @@ questions:
     label: Retain volume
     group: "Persistence"
   - variable: persistence.molgenis.size
-    default: "default"
+    default: "10Gi"
     description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
     type: enum
     options:
-    - "default"
     - "5Gi"
     - "10Gi"
     - "30Gi"
     label: Size MOLGENIS filestore
     group: "Persistence"
   - variable: persistence.elasticsearch.size
-    default: "default"
+    default: "10Gi"
     description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
     type: enum
     options:
-    - "default"
     - "5Gi"
     - "10Gi"
     - "20Gi"
     label: Size for ElasticSearch data
     group: "Persistence"
   - variable: persistence.postgres.size
-    default: "default"
+    default: "10Gi"
     description: "Size of PostgreSQL data (directory that is persist: /var/lib/postgresql/data/pgdata)"
     type: enum
     options:
-    - "default"
     - "5Gi"
     - "10Gi"
     - "15Gi"
