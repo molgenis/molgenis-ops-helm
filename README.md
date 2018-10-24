@@ -106,6 +106,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Vault](charts/molgenis-vault/README.md)
 - [MOLGENIS](charts/molgenis/README.md)
 - [OpenCPU](charts/molgenis-opencpu/README.md)
+- [Hubot](chart/molgenis-hubot/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts
