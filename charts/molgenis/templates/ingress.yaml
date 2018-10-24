@@ -10,16 +10,12 @@ metadata:
     chart: {{ template "molgenis.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    {{- if .Values.ingress.firewall.enabled }}
+    firewall: {{ .Values.ingress.firewall.kind }}
+    {{- end}}
 {{- with .Values.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
-{{- end }}
-{{- if .Values.ingress.firewall.enabled }}
-  {{- if eq .Values.ingress.firewall.kind "umcg" }}
-    ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.firewall.umcg.rules }}
-  {{- else if eq .Values.ingress.firewall.kind "cluster" }}
-    ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.firewall.cluster.rules }}
-  {{- end }}
 {{- end }}
 spec:
 {{- if .Values.ingress.tls }}

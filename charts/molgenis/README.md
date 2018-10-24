@@ -36,6 +36,8 @@ If set to 'true' the following options are available. One of the options below h
 UMCG = only available within the UMCG.
 Cluster = only available within the GCC cluster environment.
 
+>note: [ingress configmaps](https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/configmap.md)
+
 ## Services
 When you start MOLGENIS you need:
 - an elasticsearch instance (5.5.6) 

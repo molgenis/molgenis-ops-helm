@@ -14,12 +14,8 @@ ingress:
   # hosts:
   # - name: test
   firewall:
-    enabled: false
+    enabled: true
     kind: "umcg"
-    umcg:
-      rules: "127.0.0.1/32"
-    cluster:
-      rules: "127.0.0.1/32"
   path: /
   tls: []
 
