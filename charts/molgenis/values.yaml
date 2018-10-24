@@ -4,15 +4,6 @@ replicaCount: 1
 
 service:
   type: LoadBalancer
-  firewall:
-    enabled: false
-    kind: "umcg"
-    umcg:
-      rules:
-      - 127.0.0.1/32
-    cluster:
-      rules:
-      - 127.0.0.1/32
   port: 8080
 
 ingress:
@@ -22,6 +13,13 @@ ingress:
   # This will be used again when external domains need be attached to the instance
   # hosts:
   # - name: test
+  firewall:
+    enabled: false
+    kind: "umcg"
+    umcg:
+      rules: "127.0.0.1/32"
+    cluster:
+      rules: "127.0.0.1/32"
   path: /
   tls: []
 
