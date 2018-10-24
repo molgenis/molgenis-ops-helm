@@ -89,7 +89,7 @@ molgenis:
 elasticsearch:
   type:
     small:
-      javaOpts: "-Xms1g -Xmx512m"
+      javaOpts: "-Xms512m -Xmx512m"
       resources:
         limits:
           cpu: 2
