@@ -177,12 +177,6 @@ postgres:
 persistence:
   enabled: true
   retain: false
-  molgenis:
-    size: "default"
-  elasticsearch:
-    size: "default"
-  postgres:
-    size: "default"
 
 nodeSelector: {
   deployPod: "true"
