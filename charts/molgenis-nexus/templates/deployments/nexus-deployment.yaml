@@ -20,7 +20,6 @@ spec:
       creationTimestamp: null
     spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
-
       initContainers:
       - name: nexus-nfs
         image: busybox
