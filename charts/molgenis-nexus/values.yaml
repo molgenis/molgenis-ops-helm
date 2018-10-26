@@ -20,7 +20,7 @@ nexus:
     docker: 5000
     ui: 8081
   service:
-    type: LoadBalancer
+    type: ClusterIP
 
 ingress:
   enabled: true

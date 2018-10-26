@@ -18,7 +18,7 @@ opencpu:
     pullPolicy: Always
   service:
     name: opencpu
-    type: LoadBalancer
+    type: ClusterIP
     port: 8004
     firewall:
     - 145.100.224.1/24
