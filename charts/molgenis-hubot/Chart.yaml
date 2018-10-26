@@ -6,7 +6,7 @@ sources:
 - https://github.com/molgenis/molgenis-ops-docker-helm.git
 home: https://hubot.github.com/
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-hubot/catalogIcon-molgenis-hubot.png
-version: 0.1.0
+version: 0.2.0
 maintainers:
 - name: fdlk
 - name: sidohaakma

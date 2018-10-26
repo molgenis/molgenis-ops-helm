@@ -14,17 +14,24 @@ Configure it with the kubernetes DNS for the service, e.g.
 `http://molgenis-hubot.molgenis-hubot.svc`
 
 ## Configuration
-### `hubot.hubot.scripts`
-Includes jenkins chatops scripts copied from [`https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts`](https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts).
-You can add your scripts in the configmap.
-
-### Tokens
-#### `hubot.slackToken`
-Create a [Slack token](https://slackapi.github.io/hubot-slack/#getting-a-slack-token) so hubot
-can join the Slack channel. 
-Will be made available as `HUBOT_SLACK_TOKEN` into the environment.
+### Environment variables
+Environment variables can be defined in `hubot.hubot.config`
+#### `HUBOT_JENKINS_URL`
+Location of the jenkins server.
+#### `HUBOT_REGISTRY_URL`
+Location of the nexus registry server.
 #### `HUBOT_JENKINS_AUTH`
 Create a [Jenkins authorization token](https://jenkins.molgenis.org/me/configure) so hubot can
 authenticate with Jenkins.
 Fill it in in the form `user:token`.
 It would be better if this token was also a secret but that would require changing the subchart.
+
+### Scripts
+`hubot.hubot.scripts` includes jenkins chatops scripts copied from [`https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts`](https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts).
+You can add your own scripts here.
+
+### Tokens
+#### `hubot.hubot.slackToken`
+Create a [Slack token](https://slackapi.github.io/hubot-slack/#getting-a-slack-token) so hubot
+can join the Slack channel. 
+Will be made available as `HUBOT_SLACK_TOKEN` into the environment.
