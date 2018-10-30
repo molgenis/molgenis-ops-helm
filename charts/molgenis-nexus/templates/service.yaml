@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.nexus.name }}
   labels:
     app: {{ .Values.nexus.name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.nexus.service.type }}
   ports:
@@ -13,3 +15,4 @@ spec:
     port: {{ .Values.nexus.port.docker }}
   selector:
     app: {{ .Values.nexus.selector }}
+    release: {{ .Release.Name }}
