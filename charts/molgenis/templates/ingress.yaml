@@ -11,6 +11,9 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
+    {{- if .tls }}
+    ingress.kubernetes.io/secure-backends: "true"
+    {{- end }}
     {{- range $key, $value := $.Values.ingress.annotations }}
     {{ $key }}: {{ $value | quote }}
     {{- end }}
