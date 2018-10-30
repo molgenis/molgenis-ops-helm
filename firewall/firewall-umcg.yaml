@@ -1,9 +1,0 @@
-apiVersion: v1
-data:
-  whitelist-source-range: "127.0.0.1/36"
-kind: ConfigMap
-metadata:
-  name: firewall-umcg
-  namespace: ingress-nginx
-  labels:
-    firewall: umcg

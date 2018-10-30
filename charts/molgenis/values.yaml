@@ -105,14 +105,14 @@ elasticsearch:
       persistence:
         size: 10Gi
     large:
-      javaOpts: "-Xms2g -Xmx2g"
+      javaOpts: "-Xms1g -Xmx1g"
       resources:
         limits:
           cpu: 2
-          memory: 5Gi
+          memory: 3Gi
         requests:
           cpu: 100m
-          memory: 5Gi
+          memory: 3Gi
       persistence:
         size: 20Gi
   image:
@@ -144,20 +144,20 @@ postgres:
       resources:
         limits:
           cpu: 2
-          memory: 2Gi
+          memory: 1Gi
         requests:
           cpu: 100m
-          memory: 2Gi
+          memory: 1Gi
       persistence:
         size: 10Gi
     large:
       resources:
         limits:
           cpu: 4
-          memory: 4Gi
+          memory: 3Gi
         requests:
           cpu: 100m
-          memory: 4Gi
+          memory: 3Gi
       persistence:
         size: 15Gi
   image:

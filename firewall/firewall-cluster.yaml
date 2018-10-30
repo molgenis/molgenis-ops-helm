@@ -1,8 +1,0 @@
-apiVersion: v1
-data:
-  whitelist-source-range: "127.0.0.1/100"
-kind: ConfigMap
-metadata:
-  name: firewall-umcg
-  labels:
-    firewall: umcg

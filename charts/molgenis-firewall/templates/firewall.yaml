@@ -1,0 +1,11 @@
+{{- range .Values.firewall }}
+apiVersion: v1
+data:
+  whitelist-source-range: {{ .rules }}
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+  namespace:
+  labels:
+    firewall: {{ .label }}
+{{- end }}

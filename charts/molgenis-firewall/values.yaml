@@ -1,0 +1,16 @@
+firewall:
+  cluster:
+    namespace: ingress-nginx
+    name: firewall-cluster
+    label: cluster
+    rules: "127.0.0.1/32"
+  umcg:
+    namespace: ingress-nginx
+    name: firewall-umcg
+    label: umcg
+    rules: "127.0.0.1/32"
+  thirdParty:
+    namespace: ingress-nginx
+    name: firewall-cluster
+    label: third-party
+    rules: "127.0.0.1/32"
