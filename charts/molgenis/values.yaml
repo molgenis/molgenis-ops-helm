@@ -4,24 +4,13 @@ replicaCount: 1
 
 service:
   type: ClusterIP
-  firewall:
-    enabled: false
-    kind: "umcg"
-    umcg:
-      rules:
-      - 127.0.0.1/32
-    cluster:
-      rules:
-      - 127.0.0.1/32
   port: 8080
 
 ingress:
   enabled: true
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-  # This will be used again when external domains need be attached to the instance
-  # hosts:
-  # - name: test
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 0
   path: /
   tls: []
 

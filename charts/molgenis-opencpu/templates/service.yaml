@@ -8,10 +8,6 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.opencpu.service.type }}
-  loadBalancerSourceRanges:
-  {{- range $index, $rule := .Values.opencpu.service.firewall }}
-    - {{ $rule }}
-  {{- end }}
   ports:
     - name: {{ .Values.opencpu.service.name }}
       port: {{ .Values.opencpu.service.port }}
