@@ -456,7 +456,7 @@ hubot:
           , ->
             ifNotFound())
 
-        listPreview = (msg) -> runPreviewJob msg, "list", null, -> msg.reply "Ik ga even voor je je kijken ..."
+        listPreview = (msg) -> runPreviewJob msg, "list", null, -> msg.reply "Ik ga even voor je kijken ..."
 
         deletePreview = (msg) ->
           tag = msg.match[1].replace(/`/g, '')
