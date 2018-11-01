@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'helm'
+        }
+    }
+    environment {
+        HELM_REPO = 'https://registry.molgenis.org/repository/helm/'
+        LOCAL_REGISTRY = 'registry.molgenis.org'
+    }
+    stages {
+        stage("Deploy") {
+            when {
+                equals expected: 'install', actual: params.ACTION
+            }
+            steps {
+                container('helm') {
+                    sh "helm init --client-only"
+                    sh "helm repo add molgenis ${HELM_REPO}"
+                    sh "helm repo update"
+                    sh "helm install molgenis/molgenis --wait -n preview-${TAG.toLowerCase()} --namespace preview-${TAG.toLowerCase()} --set molgenis.image.tag=${TAG} --set molgenis.image.repository=${LOCAL_REGISTRY} --set molgenis.environment=development --set molgenis.type.kind=small --set persistence.enabled=false --set molgenis.adminPassword=admin"
+                }
+                hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
+            }
+        }
+        stage("Delete") {
+            when {
+                equals expected: 'delete', actual: params.ACTION
+            }
+            steps {
+                container('helm') {
+                    sh "helm init --client-only"
+                    sh "helm delete preview-${TAG.toLowerCase()} --purge"
+                }
+                hubotSend message: "Deleted preview-${TAG.toLowerCase()}"
+            }
+        }
+        stage("List") {
+            when {
+                equals expected: 'list', actual: params.ACTION
+            }
+            steps {
+                container('helm') {
+                    sh "helm init --client-only"
+                    script {
+                        env.LIST = sh script:"helm list --all --col-width 120", returnStdout: true
+                    }
+                }
+                hubotSend message: "Dit draait er allemaal:\n```${LIST}```"
+            }
+        }
+    }
+}
