@@ -13,6 +13,8 @@ jenkins:
       - JNLP-connect
       - JNLP3-connect
       - JNLP4-connect
+    EnabledAgentProtocols:
+      - JNLP2-connect
     InstallPlugins:
       - kubernetes:1.12.6
       - workflow-aggregator:2.5

@@ -201,6 +201,11 @@ data:
         <string>{{ . }}</string>
 {{- end }}
       </disabledAgentProtocols>
+      <enabledAgentProtocols>
+{{- range .Values.Master.EnabledAgentProtocols }}
+         <string>{{ . }}</string>
+{{- end }}
+      </enabledAgentProtocols>
       <label></label>
 {{- if .Values.Master.CSRF.DefaultCrumbIssuer.Enabled }}
       <crumbIssuer class="hudson.security.csrf.DefaultCrumbIssuer">
@@ -341,8 +346,7 @@ data:
   apply_config.sh: |-
     mkdir -p /usr/share/jenkins/ref/secrets/;
     echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch;
-    cp -n /var/jenkins_config/github-plugin-configuration.xml /var/jenkins_home;
-    cp -n /var/jenkins_config/config.xml /var/jenkins_home;
+    cp /var/jenkins_config/github-plugin-configuration.xml /var/jenkins_home;
 {{- if .Values.Master.git }}
     cp -n /var/jenkins_config/hudson.plugins.git.GitSCM.xml /var/jenkins_home;
 {{- end }}
