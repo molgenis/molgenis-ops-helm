@@ -15,13 +15,13 @@ Configure it with the kubernetes DNS for the service, e.g.
 
 ## Configuration
 ### Environment variables
-Environment variables can be defined in `hubot.hubot.config`
+Environment variables can be defined in `hubot.hubot.config`. Check the values.yaml.
 #### `HUBOT_JENKINS_URL`
 Location of the jenkins server.
 #### `HUBOT_REGISTRY_URL`
 Location of the nexus registry server.
 #### `HUBOT_JENKINS_AUTH`
-Create a [Jenkins authorization token](https://jenkins.molgenis.org/me/configure) so hubot can
+Create a [Jenkins authorization token](https://jenkins.dev.molgenis.org/me/configure) so hubot can
 authenticate with Jenkins.
 Fill it in in the form `user:token`.
 It would be better if this token was also a secret but that would require changing the subchart.

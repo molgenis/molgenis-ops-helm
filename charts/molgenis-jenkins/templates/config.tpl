@@ -254,7 +254,7 @@ data:
           <defaultSite>true</defaultSite>
           <name>hubot.molgenis.org</name>
           <url>http://molgenis-hubot.molgenis-hubot.svc</url>
-          <room>hubot-test</room>
+          <room>hubot</room>
           <roomPrefix></roomPrefix>
           <failOnError>true</failOnError>
           <useFolderName>false</useFolderName>
@@ -305,6 +305,20 @@ data:
         </org.thoughtslive.jenkins.plugins.hubot.config.HubotSite>
       </sites>
     </org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig>
+  jenkins.model.JenkinsLocationConfiguration.xml: |-
+      <?xml version='1.1' encoding='UTF-8'?>
+      <jenkins.model.JenkinsLocationConfiguration>
+        <adminAddress>{{ default "" .Values.Master.JenkinsAdminEmail }}</adminAddress>
+  {{- if .Values.Master.HostName }}
+  {{- if .Values.Master.Ingress.TLS }}
+        <jenkinsUrl>https://{{ .Values.Master.HostName }}{{ default "" .Values.Master.JenkinsUriPrefix }}</jenkinsUrl>
+  {{- else }}
+        <jenkinsUrl>http://{{ .Values.Master.HostName }}{{ default "" .Values.Master.JenkinsUriPrefix }}</jenkinsUrl>
+  {{- end }}
+  {{- else }}
+        <jenkinsUrl>http://{{ template "jenkins.fullname" . }}:{{.Values.Master.ServicePort}}{{ default "" .Values.Master.JenkinsUriPrefix }}</jenkinsUrl>
+  {{- end}}
+      </jenkins.model.JenkinsLocationConfiguration>
   jenkins.CLI.xml: |-
     <?xml version='1.1' encoding='UTF-8'?>
     <jenkins.CLI>
@@ -332,7 +346,10 @@ data:
 {{- if .Values.Master.git }}
     cp -n /var/jenkins_config/hudson.plugins.git.GitSCM.xml /var/jenkins_home;
 {{- end }}
-    cp -n /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
+    cp /var/jenkins_config/config.xml /var/jenkins_home;
+    cp /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
+    cp /var/jenkins_config/org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml /var/jenkins_home;
+    cp /var/jenkins_config/jenkins.model.JenkinsLocationConfiguration.xml /var/jenkins_home;
 {{- if .Values.Master.InstallPlugins }}
     # Install missing plugins
     cp /var/jenkins_config/plugins.txt /var/jenkins_home;
