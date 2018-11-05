@@ -254,7 +254,7 @@ data:
           <defaultSite>true</defaultSite>
           <name>hubot.molgenis.org</name>
           <url>http://molgenis-hubot.molgenis-hubot.svc</url>
-          <room>hubot-test</room>
+          <room>hubot</room>
           <roomPrefix></roomPrefix>
           <failOnError>true</failOnError>
           <useFolderName>false</useFolderName>
