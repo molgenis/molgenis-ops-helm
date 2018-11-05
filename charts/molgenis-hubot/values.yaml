@@ -5,7 +5,7 @@ hubot:
     slackToken: 'xxxx'
     config:
       # URL for the jenkins server
-      HUBOT_JENKINS_URL: 'https://jenkins.molgenis.org/'
+      HUBOT_JENKINS_URL: 'https://jenkins.dev.molgenis.org/'
       # AUTH token for the jenkins server.
       # See https://slackapi.github.io/hubot-slack/#getting-a-slack-token
       HUBOT_JENKINS_AUTH: 'user:token'
