@@ -21,9 +21,9 @@ Location of the jenkins server.
 #### `HUBOT_REGISTRY_URL`
 Location of the nexus registry server.
 #### `HUBOT_JENKINS_AUTH`
-Create a [Jenkins authorization token](https://jenkins.molgenis.org/me/configure) so hubot can
+Create a [Jenkins authorization token](https://jenkins.dev.molgenis.org/me/configure) so hubot can
 authenticate with Jenkins.
-Fill it in in the form `user:token`.
+Go to the config map of the hubot in Kubernetes and fill it in in the form `user:token`.
 It would be better if this token was also a secret but that would require changing the subchart.
 
 ### Scripts

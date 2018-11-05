@@ -22,16 +22,30 @@ catalog, pick the molgenis-jenkins app from the catalog and deploy it.
 When deploying, you can paste values into the Rancher Answers to override the defaults in this chart.
 Array values can be added as {value, value, value}.
 ```
-jenkins.Master.HostName=jenkins.molgenis.org
+jenkins.Master.HostName=jenkins.dev.molgenis.org
 jenkins.Master.AdminPassword=pa$$word
 jenkins.Persistence.Enabled=false
 jenkins.Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1, blueocean:1.6.2, github-oauth:0.29}
 jenkins.Master.Security.UseGitHub=false
+
 ## if UseGitHub=true
 jenkins.Master.Security.GitHub.ClientID=id
 jenkins.Master.Security.GitHub.ClientSecret=S3cr3t
 ## end UseGitHub=true
-PipelineSecrets.Env.PGPPassphrase=literal:S3cr3t
+
+## Begin Kubernetes secrets
+secret.vault.addr=https://vault.vault-operator.svc:8200
+secret.vault.token=s3cr3t
+secret.gitHub.user=username
+secret.gitHub.token=s3cr3t
+secret.gogs.user=username
+secret.gogs.token=s3cr3t
+secret.dockerHub.user=username
+secret.dockerHub.password=s3cr3t
+secret.registry.user=username
+secret.registry.password=s3cr3t
+##
+
 # Global git config
 jenkins.Master.git.name=MOLGENIS Jenkins
 jenkins.Master.git.user=molgenis+ci@gmail.com
