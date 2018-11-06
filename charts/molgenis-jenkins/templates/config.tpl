@@ -201,11 +201,6 @@ data:
         <string>{{ . }}</string>
 {{- end }}
       </disabledAgentProtocols>
-      <enabledAgentProtocols>
-{{- range .Values.Master.EnabledAgentProtocols }}
-         <string>{{ . }}</string>
-{{- end }}
-      </enabledAgentProtocols>
       <label></label>
 {{- if .Values.Master.CSRF.DefaultCrumbIssuer.Enabled }}
       <crumbIssuer class="hudson.security.csrf.DefaultCrumbIssuer">

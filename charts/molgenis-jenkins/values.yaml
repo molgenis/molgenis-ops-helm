@@ -9,12 +9,6 @@ jenkins:
       # email contains Global Config user.email Value
       email: molgenis+ci@gmail.com
     JenkinsAdminEmail: molgenis+ci@gmail.com
-    DisabledAgentProtocols:
-      - JNLP-connect
-      - JNLP3-connect
-      - JNLP4-connect
-    EnabledAgentProtocols:
-      - JNLP2-connect
     InstallPlugins:
       - kubernetes:1.12.6
       - workflow-aggregator:2.5
