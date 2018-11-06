@@ -33,19 +33,6 @@ jenkins.Master.Security.GitHub.ClientID=id
 jenkins.Master.Security.GitHub.ClientSecret=S3cr3t
 ## end UseGitHub=true
 
-## Begin Kubernetes secrets
-secret.vault.addr=https://vault.vault-operator.svc:8200
-secret.vault.token=s3cr3t
-secret.gitHub.user=username
-secret.gitHub.token=s3cr3t
-secret.gogs.user=username
-secret.gogs.token=s3cr3t
-secret.dockerHub.user=username
-secret.dockerHub.password=s3cr3t
-secret.registry.user=username
-secret.registry.password=s3cr3t
-##
-
 # Global git config
 jenkins.Master.git.name=MOLGENIS Jenkins
 jenkins.Master.git.user=molgenis+ci@gmail.com
@@ -58,7 +45,6 @@ You can use [all configuration values of the jenkins subchart](https://github.co
 You need to setup a MOLGENIS - Jenkins GitHub OAuth App. You can do this by accessing this url: [add new OAuth app](https://github.com/settings/applications/new).
 
 ### Secrets
-
    When deployed, the chart creates a couple of kubernetes secrets that get used by jenkins.
 
    You can override the values at deploy time but otherwise also configure them 

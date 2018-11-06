@@ -724,7 +724,7 @@ jenkins:
       Label: ansible
       NodeUsageMode: EXCLUSIVE
       Containers:
-        centos:
+        centos-6:
           Image: "centos"
           ImageTag: 6.10
           AlwaysPullImage: false
