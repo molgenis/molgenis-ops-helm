@@ -586,6 +586,12 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "250Mi"
+            limits:
+              memory: "512Mi"
         vault:
           Image: "vault"
           AlwaysPullImage: false
