@@ -128,7 +128,7 @@ jenkins:
               <registry plugin="docker-commons@1.13"/>
             </org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig>
             <jenkins.branch.NoTriggerOrganizationFolderProperty>
-              <branches>.*</branches>
+              <branches>none</branches><!-- will prevent a wave of all branches from being built upon startup of a clean jenkins -->
             </jenkins.branch.NoTriggerOrganizationFolderProperty>
           </properties>
           <folderViews class="jenkins.branch.OrganizationFolderViewHolder">
