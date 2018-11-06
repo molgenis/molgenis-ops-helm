@@ -726,7 +726,7 @@ jenkins:
       Containers:
         centos-6:
           Image: "centos"
-          ImageTag: 6.10
+          ImageTag: "6.10"
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
