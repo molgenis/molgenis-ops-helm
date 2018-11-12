@@ -675,6 +675,44 @@ jenkins:
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
       NodeSelector: {}
+    site-gen:
+      Label: site-gen
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        helm:
+          Image: "lachlanevenson/k8s-helm"
+          ImageTag: "v2.10.0"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        jekyll:
+          Image: "registry.molgenis.org/molgenis/jekyll"
+          ImageTag: stable
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        vault:
+          Image: "vault"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          EnvVars:
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
+      NodeSelector: {}
     ansible:
       Label: ansible
       NodeUsageMode: EXCLUSIVE
