@@ -15,16 +15,6 @@ ingress:
   tls: []
 
 master:
-  javaOpts: "-Xms1g -Xmx1g"
-  resources:
-    limits:
-      cpu: 2
-      memory: 3Gi
-    requests:
-      cpu: 100m
-      memory: 3Gi
-  persistence:
-    size: 10Gi
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
     tag: 5.5.6
