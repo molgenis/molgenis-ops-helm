@@ -23,7 +23,7 @@ master:
   javaOpts: "-Xms1g -Xmx1g"
   resources:
     limits:
-      cpu: 2
+      cpu: 1
       memory: 3Gi
     requests:
       cpu: 100m
