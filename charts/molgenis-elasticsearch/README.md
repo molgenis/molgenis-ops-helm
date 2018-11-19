@@ -2,9 +2,7 @@
 This chart is used for all possible environments at the moment.
 
 ## Containers
-This chart spins up Elasticsearch instance. The created containers are:
-
-- ElasticSearch instance (5.5.6)
+This chart spins up Elasticsearch instance. The version currently used is 5.5.6. 
 
 ## Provisioning
 You can choose from which registry you want to pull. There are 2 registries:
