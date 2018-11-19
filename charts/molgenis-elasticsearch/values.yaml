@@ -16,6 +16,7 @@ ingress:
 
 master:
   type:
+    kind: medium
     small:
       javaOpts: "-Xms512m -Xmx512m"
       resources:
