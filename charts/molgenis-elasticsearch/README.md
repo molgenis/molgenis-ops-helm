@@ -2,9 +2,9 @@
 This chart is used for acceptance and production use cases.
 
 ## Containers
-This chart spins up a MOLGENIS instance with HTTPD. The created containers are:
+This chart spins up Elasticsearch instance. The created containers are:
 
-- ElasticSearch
+- ElasticSearch instance (5.5.6)
 
 ## Provisioning
 You can choose from which registry you want to pull. There are 2 registries:
@@ -14,23 +14,18 @@ You can choose from which registry you want to pull. There are 2 registries:
 The registry.molgenis.org contains the bleeding edge versions (PR's and master merges). The hub.docker.com contains the released artifacts (MOLGENIS releases and release candidates).
 
 ## Services
-An Elasticsearch instance with 5.5.6 is started when deploying the chart.
-- an elasticsearch instance (5.5.6) 
+The service to communicate with the Elasticsearch instance is created on port 9300
 
 ## Persistence
-You can enable persistence on your MOLGENIS stack by specifying the following property.
+You can enable persistence on your the Elasticsearch stack by specifying the following property.
 
 - ```persistence.enabled``` default 'true'
 
 You can also choose to retain the volume of the NFS.
 - ```persistence.retain``` default 'false'
 
-The size and claim name can be specified per service. There are now two services that can be persist.
-
-- ElasticSearch
-
 ### Resolve you persistent volume
-You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:
+You do not know which volume is attached to your Elasticsearch instance. You can resolve this by executing:
 
 ```
 kubectl get pv

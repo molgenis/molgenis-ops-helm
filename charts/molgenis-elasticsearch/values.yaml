@@ -14,7 +14,41 @@ ingress:
   path: /
   tls: []
 
-elasticsearch:
+master:
+  type:
+    small:
+      javaOpts: "-Xms512m -Xmx512m"
+      resources:
+        limits:
+          cpu: 2
+          memory: 1500Mi
+        requests:
+          cpu: 100m
+          memory: 1Gi
+      persistence:
+        size: 5Gi
+    medium:
+      javaOpts: "-Xms1g -Xmx1g"
+      resources:
+        limits:
+          cpu: 2
+          memory: 3Gi
+        requests:
+          cpu: 100m
+          memory: 3Gi
+      persistence:
+        size: 10Gi
+    large:
+      javaOpts: "-Xms2g -Xmx2g"
+      resources:
+        limits:
+          cpu: 2
+          memory: 5Gi
+        requests:
+          cpu: 100m
+          memory: 5Gi
+      persistence:
+        size: 20Gi
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
     tag: 5.5.6

@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-        {{- with .Values.elasticsearch }}
+        {{- with .Values.master }}
           image: "{{ .image.repository }}:{{ .image.tag }}"
           imagePullPolicy: {{ .image.pullPolicy }}
           env:
@@ -32,7 +32,13 @@ spec:
             - name: bootstrap.memory_lock
               value: "true"
             - name: ES_JAVA_OPTS
-              value: "{{ .javaOpts }}"
+            {{- if eq .type.kind "small" }}
+              value: "{{ .type.small.javaOpts }}"
+            {{- else if eq .type.kind "medium"}}
+              value: "{{ .type.medium.javaOpts }}"
+            {{- else }}
+              value: "{{ .type.large.javaOpts }}"
+            {{- end }}
             - name: xpack.security.enabled
               value: "false"
             - name: discovery.type
@@ -46,14 +52,20 @@ spec:
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
           resources:
-{{ toYaml .resources | indent 12 }}
+          {{- if eq .type.kind "small" }}
+{{ toYaml .type.small.resources | indent 12 }}
+          {{- else if eq .type.kind "medium" }}
+{{ toYaml .type.medium.resources | indent 12 }}
+          {{- else }}
+{{ toYaml .type.large.resources | indent 12 }}
+          {{- end }}
         {{- end }}
 
 {{- if .Values.persistence.enabled }}
       volumes:
         - name: elasticsearch-nfs
           persistentVolumeClaim:
-            claimName: {{ .Values.elasticsearch.persistence.claim }}
+            claimName: {{ .Values.master.persistence.claim }}
 {{- end }}
 
     {{- with .Values.nodeSelector }}
