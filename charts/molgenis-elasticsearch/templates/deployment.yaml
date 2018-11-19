@@ -32,13 +32,7 @@ spec:
             - name: bootstrap.memory_lock
               value: "true"
             - name: ES_JAVA_OPTS
-            {{- if eq .type.kind "small" }}
-              value: "{{ .type.small.javaOpts }}"
-            {{- else if eq .type.kind "medium"}}
-              value: "{{ .type.medium.javaOpts }}"
-            {{- else }}
-              value: "{{ .type.large.javaOpts }}"
-            {{- end }}
+              value: "{{ .javaOpts }}"
             - name: xpack.security.enabled
               value: "false"
             - name: discovery.type
@@ -52,13 +46,7 @@ spec:
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
           resources:
-          {{- if eq .type.kind "small" }}
-{{ toYaml .type.small.resources | indent 12 }}
-          {{- else if eq .type.kind "medium" }}
-{{ toYaml .type.medium.resources | indent 12 }}
-          {{- else }}
-{{ toYaml .type.large.resources | indent 12 }}
-          {{- end }}
+{{ toYaml .resources | indent 12 }}
         {{- end }}
 
 {{- if .Values.persistence.enabled }}
