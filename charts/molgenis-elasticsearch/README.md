@@ -13,10 +13,8 @@ You can choose from which registry you want to pull. There are 2 registries:
 
 The registry.molgenis.org contains the bleeding edge versions (PR's and master merges). The hub.docker.com contains the released artifacts (MOLGENIS releases and release candidates).
 
-
-
 ## Services
-When you start MOLGENIS you need:
+An Elasticsearch instance with 5.5.6 is started when deploying the chart.
 - an elasticsearch instance (5.5.6) 
 
 ## Persistence

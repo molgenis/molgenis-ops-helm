@@ -17,7 +17,7 @@ ingress:
 elasticsearch:
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
-    tag: 5.5.3
+    tag: 5.5.6
     pullPolicy: IfNotPresent
   clusterName: molgenis
   javaOpts: "-Xms1g -Xmx1g"
