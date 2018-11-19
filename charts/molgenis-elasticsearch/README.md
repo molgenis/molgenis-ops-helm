@@ -1,5 +1,5 @@
 # MOLGENIS - Elasticsearch
-This chart is used for acceptance and production use cases.
+This chart is used for all possible environments at the moment.
 
 ## Containers
 This chart spins up Elasticsearch instance. The created containers are:
