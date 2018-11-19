@@ -1,0 +1,70 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "molgenis-elasticsearch.fullname" . }}
+  labels:
+    app: {{ template "molgenis-elasticsearch.name" . }}
+    chart: {{ template "molgenis-elasticsearch.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "molgenis-elasticsearch.name" . }}
+      release: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "molgenis-elasticsearch.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: elasticsearch
+        {{- with .Values.elasticsearch }}
+          image: "{{ .image.repository }}:{{ .image.tag }}"
+          imagePullPolicy: {{ .image.pullPolicy }}
+          env:
+            - name: cluster.name
+              value: {{ .clusterName }}
+            - name: bootstrap.memory_lock
+              value: "true"
+            - name: ES_JAVA_OPTS
+              value: "{{ .javaOpts }}"
+            - name: xpack.security.enabled
+              value: "false"
+            - name: discovery.type
+              value: single-node
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          {{- if $.Values.persistence.enabled }}
+          volumeMounts:
+          - name: elasticsearch-nfs
+            mountPath: /usr/share/elasticsearch/data
+          {{- end }}
+          resources:
+{{ toYaml .resources | indent 12 }}
+        {{- end }}
+
+{{- if .Values.persistence.enabled }}
+      volumes:
+        - name: elasticsearch-nfs
+          persistentVolumeClaim:
+            claimName: {{ .Values.elasticsearch.persistence.claim }}
+{{- end }}
+
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

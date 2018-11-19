@@ -32,7 +32,7 @@ spec:
             - name: opencpu.uri.host
               value: {{ .services.opencpu.host }}
             - name: elasticsearch.transport.addresses
-              value: {{ .services.elasticsearch.transportAddresses }}
+              value: {{ $.Release.Name }}-molgenis-elasticsearch:9300
             - name: elasticsearch.cluster.name
               value: {{ .services.elasticsearch.clusterName }}
             - name: db_uri
@@ -84,45 +84,6 @@ spec:
           {{- end }}
         {{- end }}
 
-        - name: elasticsearch
-        {{- with .Values.elasticsearch }}
-          image: "{{ .image.repository }}:{{ .image.tag }}"
-          imagePullPolicy: {{ .image.pullPolicy }}
-          env:
-            - name: cluster.name
-              value: {{ .clusterName }}
-            - name: bootstrap.memory_lock
-              value: "true"
-            - name: ES_JAVA_OPTS
-            {{- if eq $.Values.molgenis.type.kind "small" }}
-              value: "{{ .type.small.javaOpts }}"
-            {{- else if eq $.Values.molgenis.type.kind "medium"}}
-              value: "{{ .type.medium.javaOpts }}"
-            {{- else }}
-              value: "{{ .type.large.javaOpts }}"
-            {{- end }}
-            - name: xpack.security.enabled
-              value: "false"
-            - name: discovery.type
-              value: single-node
-          ports:
-            - containerPort: 9200
-            - containerPort: 9300
-          {{- if $.Values.persistence.enabled }}
-          volumeMounts:
-          - name: elasticsearch-nfs
-            mountPath: /usr/share/elasticsearch/data
-          {{- end }}
-          resources:
-          {{- if eq $.Values.molgenis.type.kind "small" }}
-{{ toYaml .type.small.resources | indent 12 }}
-          {{- else if eq $.Values.molgenis.type.kind "medium" }}
-{{ toYaml .type.medium.resources | indent 12 }}
-          {{- else }}
-{{ toYaml .type.large.resources | indent 12 }}
-          {{- end }}
-        {{- end }}
-
         {{- with .Values.postgres }}
         {{- if .enabled }}
         - name: postgres
@@ -163,9 +124,6 @@ spec:
         - name: molgenis-nfs
           persistentVolumeClaim:
             claimName: {{ .Values.molgenis.persistence.claim }}
-        - name: elasticsearch-nfs
-          persistentVolumeClaim:
-            claimName: {{ .Values.elasticsearch.persistence.claim }}
         - name: postgres-nfs
           persistentVolumeClaim:
             claimName: {{ .Values.postgres.persistence.claim }}
