@@ -307,7 +307,8 @@ prometheus:
           scheme: https
           static_configs:
           - targets:
-            - fdlk.dev.molgenis.org:443
+            - master.dev.molgenis.org:443
+            - latest.dev.molgenis.org:443
           basic_auth:
             username: admin
             password: kaboutertje
