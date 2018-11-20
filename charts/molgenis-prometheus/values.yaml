@@ -384,7 +384,7 @@ grafana:
         gnetId: 6417
         revision: 1
         datasource: k8-prometheus
-      jvm-git cmicrometer:
+      jvm-micrometer:
         gnetId: 4701
         revision: 1
         datasource: k8-prometheus
