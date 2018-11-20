@@ -1,3 +1,7 @@
+secret:
+  vault:
+    token: xxxx
+
 prometheus:
   alertmanager:
     persistentVolume:
