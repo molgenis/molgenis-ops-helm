@@ -327,7 +327,7 @@ grafana:
     enabled: true
     storageClassName: nfs-provisioner
     accessModes:
-     - ReadWriteOnce
+      - ReadWriteOnce
     size: 10Gi
 
   adminUser: admin
