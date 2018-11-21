@@ -19,6 +19,8 @@ metadata:
     {{- end }}
 spec:
   rules:
+    {{- if eq $.Values.molgenis.environment "edge" }}
+    - host: {{ .Release.Name }}.edge.molgenis.org
     {{- if eq $.Values.molgenis.environment "development" }}
     - host: {{ .Release.Name }}.dev.molgenis.org
     {{- else if eq $.Values.molgenis.environment "test" }}

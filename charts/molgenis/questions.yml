@@ -8,6 +8,7 @@ questions:
   description: "Environment of MOLGENIS instance"
   type: enum
   options:
+   - edge
    - development
    - test
    - acceptance
