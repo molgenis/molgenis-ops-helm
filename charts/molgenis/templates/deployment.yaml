@@ -43,6 +43,8 @@ spec:
               value: "{{ .services.postgres.password }}"
             - name: admin.password
               value: "{{ .adminPassword }}"
+            - name: python_script_executable
+              value: /usr/bin/python3
             - name: CATALINA_OPTS
             {{- if eq .type.kind "small" }}
               value: "-Xmx{{ .type.small.javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
