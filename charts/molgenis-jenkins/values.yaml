@@ -647,7 +647,10 @@ jenkins:
           value: registry.molgenis.org
         - type: String
           key: DOCKER_REGISTRY
-          value: regsitry.hub.docker.com
+          value: registry.hub.docker.com
+        - type: String
+          key: HELM_REPO
+          value: https://registry.molgenis.org/repository/helm/
       NodeSelector: {}
     node:
       Label: node-carbon
@@ -853,7 +856,10 @@ jenkins:
           value: registry.molgenis.org
         - type: String
           key: DOCKER_REGISTRY
-          value: regsitry.hub.docker.com
+          value: registry.hub.docker.com
+        - type: String
+          key: HELM_REPO
+          value: https://registry.molgenis.org/repository/helm/
     ansible:
       Label: ansible
       NodeUsageMode: EXCLUSIVE
