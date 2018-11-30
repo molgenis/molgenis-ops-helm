@@ -74,9 +74,53 @@ molgenis:
       user: molgenis
       password: molgenis
 
+elastic:
+  small:
+    javaOpts: &elasticSmallJavaOpts "-Xms2g -Xmx2g"
+    resources:
+      limits:
+        cpu: &elasticSmallResourceLimitsCpu 2
+        memory: &elasticSmallResourceLimitsMemory 2Gi
+      requests:
+        cpu: &elasticSmallResourceRequestCpu 200m
+        memory: &elasticSmallResourceRequestMemory 2Gi
+    persistence:
+      size: 5Gi
+  medium:
+    javaOpts: "-Xms1g -Xmx1g"
+    resources:
+      limits:
+        cpu: 3
+        memory: 3Gi
+      requests:
+        cpu: 200m
+        memory: 3Gi
+    persistence:
+      size: 10Gi
+  large:
+    javaOpts: "-Xms1g -Xmx1g"
+    resources:
+      limits:
+        cpu: 4
+        memory: 4Gi
+      requests:
+        cpu: 200m
+        memory: 4Gi
+    persistence:
+      size: 30Gi
+
 molgenis-elasticsearch:
   persistence:
     enabled: false
+  master:
+    javaOpts: *elasticSmallJavaOpts
+    resources:
+      limits:
+        cpu: *elasticSmallResourceLimitsCpu
+        memory: *elasticSmallResourceLimitsMemory
+      requests:
+        cpu: *elasticSmallResourceRequestCpu
+        memory: *elasticSmallResourceRequestMemory
 
 postgres:
   enabled: true
