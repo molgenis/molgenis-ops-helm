@@ -55,6 +55,9 @@ molgenis:
       persistence:
         size: 30Gi
   environment: test
+  # Sentry config. See
+  sentry:
+    dns: 'https://2f25f5dbe37c46f6b8a0c8b3108ee891@sentry.dev.molgenis.org/2'
   image:
     repository: registry.hub.docker.com
     name: molgenis/molgenis-app
