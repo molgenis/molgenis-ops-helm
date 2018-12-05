@@ -7,7 +7,6 @@ NEXUS repository for kubernetes to deploy on a kubernetes cluster with NFS-share
 This chart will deploy the following containers:
 
 - OpenCPU
-- MOLGENIS-httpd (to proxy the registry and docker to one domain)
 
 ## Provisioning
 You can choose for the OpenCPU image from which repository you want to pull. Experimental builds are pushed to registry.molgenis.org and the stable builds to hub.docker.com. 
