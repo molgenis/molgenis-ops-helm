@@ -13,7 +13,8 @@ nexus:
   selector: nexus
   restartPolicy: Always
   image:
-    repository: molgenis/nexus3
+    repository: registry.hub.docker.com
+    name: molgenis/nexus3
     tag: latest
     pullPolicy: Always
   port:
@@ -35,6 +36,7 @@ ingress:
   tls: []
 
 persistence:
+  retain: true
   enabled: true
   claim: pvc-molgenis-nexus
   size: 500Gi

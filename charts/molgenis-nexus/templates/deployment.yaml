@@ -2,22 +2,25 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: {{ .Values.nexus.name }}
+  name: {{ template "nexus.fullname" . }}
   labels:
-    app: {{ .Values.nexus.name }}
-    environment: {{ .Values.environment }}
+    app: {{ template "nexus.name" . }}
+    chart: {{ template "nexus.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  strategy:
-    type: {{ .Values.nexus.strategy.type }}
   selector:
     matchLabels:
-      app: {{ .Values.nexus.selector }}
+      app: {{ template "nexus.name" . }}
+      release: {{ .Release.Name }}
+  strategy:
+    type: {{ .Values.nexus.strategy.type }}
   template:
     metadata:
       labels:
-        app: {{ .Values.nexus.name }}
-      creationTimestamp: null
+        app: {{ template "nexus.name" . }}
+        release: {{ .Release.Name }}
     spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
       initContainers:
@@ -31,7 +34,7 @@ spec:
         {{- end }}
       containers:
       - name: {{ .Values.nexus.name }}
-        image: "{{ .Values.nexus.image.repository }}:{{ .Values.nexus.image.tag }}"
+        image: "{{ .Values.nexus.image.repository }}/{{ .Values.nexus.image.name }}:{{ .Values.nexus.image.tag }}"
         imagePullPolicy: {{ .Values.nexus.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.nexus.port.ui }}
@@ -41,22 +44,22 @@ spec:
         - name: pv-molgenis-nexus
           mountPath: /nexus-data
         {{- end }}
-#        livenessProbe:
-#          httpGet:
-#            path: /
-#            port: {{ .Values.nexus.port.ui }}
-#          initialDelaySeconds: 180
-#          periodSeconds: 20
-#          failureThreshold: 15
-#          successThreshold: 1
-#        readinessProbe:
-#          httpGet:
-#            path: /
-#            port: {{ .Values.nexus.port.ui }}
-#          initialDelaySeconds: 180
-#          periodSeconds: 20
-#          failureThreshold: 15
-#          successThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.nexus.port.ui }}
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          failureThreshold: 15
+          successThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.nexus.port.ui }}
+          initialDelaySeconds: 100
+          periodSeconds: 30
+          failureThreshold: 15
+          successThreshold: 1
 
     {{- if .Values.persistence.enabled }}
       volumes:

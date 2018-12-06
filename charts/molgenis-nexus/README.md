@@ -10,7 +10,6 @@ This chart will deploy:
 
   We need this container to avoid permission issues on the NEXUS docker
 - 1 NEXUS container
-- 1 MOLGENIS-httpd container (to proxy the registry and docker to one domain)
 
 ## Backup restore
 There are two steps in restoring the NEXUS.

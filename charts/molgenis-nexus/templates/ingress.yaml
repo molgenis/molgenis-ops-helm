@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
   name: "{{ $.Release.Name }}-ingress"
   labels:
-    app: {{ $.Values.nexus.name }}
+    app: {{ template "nexus.name" . }}
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
@@ -23,15 +23,15 @@ spec:
       paths:
         - path: {{ default "/" $.Values.ingress.pathUi }}
           backend:
-            serviceName: {{ $.Values.nexus.name }}
+            serviceName: "{{ $.Release.Name }}-{{ $.Values.nexus.name }}-svc"
             servicePort: {{ $.Values.nexus.port.ui }}
         - path: {{ default "/v1" $.Values.ingress.pathDockerV1 }}
           backend:
-            serviceName: {{ $.Values.nexus.name }}
+            serviceName: "{{ $.Release.Name }}-{{ $.Values.nexus.name }}-svc"
             servicePort: {{ $.Values.nexus.port.docker }}
         - path: {{ default "/v2" $.Values.ingress.pathDockerV2 }}
           backend:
-            serviceName: {{ $.Values.nexus.name }}
+            serviceName: "{{ $.Release.Name }}-{{ $.Values.nexus.name }}-svc"
             servicePort: {{ $.Values.nexus.port.docker }}
 {{- if .tls }}
   tls:

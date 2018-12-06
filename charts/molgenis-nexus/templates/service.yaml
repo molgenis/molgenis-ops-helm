@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.nexus.name }}
+  name: "{{ $.Release.Name }}-{{ .Values.nexus.name }}-svc"
   labels:
-    app: {{ .Values.nexus.name }}
+    app: {{ template "nexus.name" . }}
+    chart: {{ template "nexus.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
