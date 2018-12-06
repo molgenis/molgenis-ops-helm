@@ -23,7 +23,7 @@ spec:
       paths:
         - path: {{ default "/" .path }}
           backend:
-            serviceName: {{ $.Values.opencpu.service.name }}
+            serviceName: "{{ $.Release.Name }}-{{ $.Values.opencpu.service.name }}"
             servicePort: {{ $.Values.opencpu.service.port }}
 {{- if .tls }}
   tls:

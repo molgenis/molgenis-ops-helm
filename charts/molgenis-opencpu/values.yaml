@@ -6,6 +6,11 @@ replicaCount: 1
 
 environment: production
 
+service:
+  name: opencpu
+  type: ClusterIP
+  port: 8004
+
 opencpu:
   name: opencpu
   strategy:
@@ -14,14 +19,15 @@ opencpu:
   image:
     repository: registry.hub.docker.com
     name: molgenis/opencpu
-    tag: stable
+    tag: latest
     pullPolicy: Always
-  service:
-    name: opencpu
-    type: ClusterIP
-    port: 8004
-    firewall:
-    - 145.100.224.1/24
+  resources:
+    limits:
+      cpu: 4
+      memory: 3Gi
+    requests:
+      cpu: 200m
+      memory: 1500Mi
 
 ingress:
   enabled: false

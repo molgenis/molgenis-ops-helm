@@ -1,10 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  {{- with .Values.ingress.annotations }}
-  annotations:
-{{ toYaml . | indent 4 }}
-  {{- end }}
   name: {{ template "opencpu.fullname" . }}
   labels:
     app: {{ template "opencpu.name" . }}
@@ -29,7 +25,9 @@ spec:
         image: "{{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}"
         imagePullPolicy: {{ .image.pullPolicy }}
         ports:
-        - containerPort: {{ .service.port }}
+        - containerPort: {{ $.Values.service.port }}
+        resources:
+{{ toYaml .resources | indent 10 }}
       {{- end }}
 
 
