@@ -10,7 +10,6 @@ nexus:
   name: nexus
   strategy:
     type: Recreate
-  selector: nexus
   restartPolicy: Always
   image:
     repository: registry.hub.docker.com

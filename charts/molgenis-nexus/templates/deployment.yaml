@@ -1,7 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   name: {{ template "nexus.fullname" . }}
   labels:
     app: {{ template "nexus.name" . }}

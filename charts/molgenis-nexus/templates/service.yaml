@@ -15,5 +15,5 @@ spec:
   - name: docker
     port: {{ .Values.nexus.port.docker }}
   selector:
-    app: {{ .Values.nexus.selector }}
+    app: {{ template "nexus.name" . }}
     release: {{ .Release.Name }}
