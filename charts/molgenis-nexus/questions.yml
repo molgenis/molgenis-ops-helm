@@ -1,0 +1,40 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: ingress.hosts[0].name
+  label: Hostname
+  default: "registry.molgenis.org"
+  description: "Specify hostname for NEXUS instance"
+  type: string
+  required: true
+  group: "Load balancing"
+- variable: nexus.image.repository
+  label: Registry
+  default: "registry.hub.docker.com"
+  description: "Select a registry to pull from"
+  type: enum
+  options:
+  - "registry.hub.docker.com"
+  - "registry.molgenis.org"
+  required: true
+  group: "Provisioning"
+- variable: nexus.image.tag
+  label: Version
+  default: "latest"
+  description: "Select a NEXUS version (check the registry.molgenis.org or hub.docker.com for released tags)"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: persistence.enabled
+  default: true
+  description: "Do you want to enable persistence"
+  type: boolean
+  label: Persistence enabled
+  group: "Persistence"
+- variable: persistence.retain
+  default: false
+  description: "Do you want to retain the persistent volume"
+  type: boolean
+  label: Retain volume
+  group: "Persistence"

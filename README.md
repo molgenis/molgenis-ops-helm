@@ -157,5 +157,25 @@ You can you need to know to easily develop and deploy helm-charts
 
   When you have defined the yaml you can add the tiller to the cluster by following the steps below.
   ```helm init --service-account tiller```  
+
+## Persistence
+The manage your pv's you have to make a distinction between retainable pv's and non-retainable pv's.
+
+- retain: keep forever
+- non-retain: throw away when deployment is deleted
+
+The status "released" is the keyword that the volume is not attached to a deployment anymore.  
   
-  
+### Cleanup old pv's
+
+Fetch all released pv's to check if they are all released.
+
+```bash
+kubectl get pv | grep Released
+```  
+
+Then remove them permanently.
+
+```bash
+kubectl get pv | grep Released | grep -o '^\S*' | grep . | xargs kubectl delete pv
+```
