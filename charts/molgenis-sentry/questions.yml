@@ -4,14 +4,14 @@ categories:
 questions:
 - variable: sentry.ingress.enabled
   label: Enable ingress
-  default: false
+  default: true
   description: "Enable ingress"
   type: boolean
   required: true
   group: "Load balancing"
 - variable: sentry.hostname
   label: Hostname
-  default: "sentry.molgenis.org"
+  default: "sentry.dev.molgenis.org"
   description: "Specify hostname for Sentry instance"
   type: string
   required: true
@@ -44,20 +44,20 @@ questions:
   type: password
   required: false
   group: "Provisioning"
-- variable: sentry.web.env[0].value
-  label: Github App ID
-  default: xxxx
-  description: "Specify the app id from Github"
-  type: password
-  required: false
-  group: "Provisioning"
-- variable: sentry.web.env[1].value
-  label: Github Secret
-  default: xxxx
-  description: "Specify the secret from Github"
-  type: password
-  required: false
-  group: "Provisioning"
+#- variable: sentry.web.env[0].value
+#  label: Github App ID
+#  default: xxxx
+#  description: "Specify the app id from Github"
+#  type: password
+#  required: false
+#  group: "Provisioning"
+#- variable: sentry.web.env[1].value
+#  label: Github Secret
+#  default: xxxx
+#  description: "Specify the secret from Github"
+#  type: password
+#  required: false
+#  group: "Provisioning"
 - variable: sentry.persistence.enabled
   label: Persistence
   default: false
