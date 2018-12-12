@@ -38,6 +38,11 @@ postgresql.persistence.enabled=false
 You can use [all configuration values of the sentry subchart](https://github.com/kubernetes/charts/tree/master/stable/sentry).
 > Because we use jenkins as a sub-chart, you should prefix all value keys with `sentry`!
 
+### User configuration
+Delegate to github with the following 
+
+
+
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 

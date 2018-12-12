@@ -1,10 +1,16 @@
+environment:
+  sentry_web_github_app_id: &sentry_web_env_app_id
+    value: "xxxx"
+  sentry_web_github_secret: &sentry_web_env_secret
+    value: "xxxx"
+
 sentry:
   web:
     env:
       - name: "GITHUB_APP_ID"
-        value: "xxxx"
+        <<: *sentry_web_env_app_id
       - name: "GITHUB_API_SECRET"
-        value: "xxxx"
+        <<: *sentry_web_env_secret
 
   ingress:
     enabled: true
@@ -23,5 +29,9 @@ sentry:
     type: ClusterIP
 
   postgresql:
+    persistence:
+      enabled: false
+
+  redis:
     persistence:
       enabled: false

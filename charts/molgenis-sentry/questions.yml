@@ -44,6 +44,20 @@ questions:
   type: password
   required: false
   group: "Provisioning"
+- variable: environment.sentry_web_github_app_id.value
+  label: Github App ID
+  default: "xxxx"
+  description: "Specify the app id from Github"
+  type: password
+  required: false
+  group: "Provisioning"
+- variable: environment.sentry_web_github_secret.value
+  label: Github Secret
+  default: "xxxx"
+  description: "Specify the secret from Github"
+  type: password
+  required: false
+  group: "Provisioning"
 - variable: sentry.persistence.enabled
   label: Persistence
   default: false
@@ -52,9 +66,16 @@ questions:
   required: true
   group: "Persistence"
 - variable: sentry.postgresql.persistence.enabled
-  label: Persistence
+  label: Persistence for PostgreSQL
   default: false
   description: "Enable persistence for PostgreSQL"
+  type: boolean
+  required: true
+  group: "Persistence"
+- variable: sentry.redis.persistence.enabled
+  label: Persistence for Redis
+  default: false
+  description: "Enable persistence for Redis"
   type: boolean
   required: true
   group: "Persistence"
