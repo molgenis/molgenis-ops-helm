@@ -16,6 +16,13 @@ questions:
   type: string
   required: true
   group: "Load balancing"
+- variable: sentry.email.from_address
+  label: From address
+  default: "sentry@molgenis.org"
+  description: "Select an email address to mail from"
+  type: string
+  required: true
+  group: "Provisioning"
 - variable: sentry.email.host
   label: Email host
   default: "smtp.example.org"
