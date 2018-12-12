@@ -1,6 +1,7 @@
 name: molgenis-sentry
 home: https://jenkins.io/
 version: 0.0.1
+appVersion: ^0.5.0
 description: Molgenis installation for the Sentry chart.
 sources:
 - https://github.com/molgenis/molgenis-ops-docker-helm.git
