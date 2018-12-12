@@ -48,7 +48,7 @@ ls -t | head -7 | xargs cp -u {} ../../#target-pv#/restore-from-backup/
 ```
 
 ### Restore the blobstore
-You can copy the directory ```blobs``` to the target persistent volume ```/ blobs```.
+You can copy the directory ```blobs``` to the target persistent volume ```/blobs```.
 
 ### Remove all old data files from nexus-data/db
 
