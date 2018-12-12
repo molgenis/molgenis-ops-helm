@@ -46,14 +46,14 @@ questions:
   group: "Provisioning"
 - variable: sentry.web.env[0].value
   label: Github App ID
-  default: "xxxx"
+  default: xxxx
   description: "Specify the app id from Github"
   type: password
   required: false
   group: "Provisioning"
 - variable: sentry.web.env[1].value
   label: Github Secret
-  default: "xxxx"
+  default: xxxx
   description: "Specify the secret from Github"
   type: password
   required: false
