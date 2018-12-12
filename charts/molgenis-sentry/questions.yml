@@ -1,6 +1,6 @@
 
 categories:
-- MOLGENIS
+- Sentry
 questions:
 - variable: sentry.ingress.enabled
   label: Enable ingress
@@ -44,14 +44,14 @@ questions:
   type: password
   required: false
   group: "Provisioning"
-- variable: environment.sentry_web_github_app_id.value
+- variable: sentry.web.env[0].value
   label: Github App ID
   default: "xxxx"
   description: "Specify the app id from Github"
   type: password
   required: false
   group: "Provisioning"
-- variable: environment.sentry_web_github_secret.value
+- variable: sentry.web.env[1].value
   label: Github Secret
   default: "xxxx"
   description: "Specify the secret from Github"

@@ -1,29 +1,23 @@
-environment:
-  sentry_web_github_app_id: &sentry_web_env_app_id
-    value: "xxxx"
-  sentry_web_github_secret: &sentry_web_env_secret
-    value: "xxxx"
-
 sentry:
   web:
     env:
-      - name: "GITHUB_APP_ID"
-        <<: *sentry_web_env_app_id
-      - name: "GITHUB_API_SECRET"
-        <<: *sentry_web_env_secret
+     - name: "GITHUB_APP_ID"
+       value: xxxx
+     - name: "GITHUB_API_SECRET"
+       value: xxxx
 
   ingress:
     enabled: true
-    hostname: "sentry.dev.molgenis.org"
+    hostname: sentry.dev.molgenis.org
 
   persistence:
     enabled: false
 
   email:
-    from_address: "sentry@molgenis.org"
-    host: "smtp.example.org"
-    user: "postman"
-    password: "xxxxx"
+    from_address: sentry@molgenis.org
+    host: smtp.example.org
+    user: postman
+    password: xxxxx
 
   service:
     type: ClusterIP
