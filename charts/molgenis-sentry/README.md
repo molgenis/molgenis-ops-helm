@@ -6,6 +6,9 @@ Wraps [the kuberenetes sentry chart](https://github.com/kubernetes/charts/tree/m
 
 This chart will do the following:
 
+- a Sentry instance
+- a PostgreSQL instance as backend
+- some operators for backup recovery
 
 ## Installing the Chart
 
@@ -18,7 +21,18 @@ catalog, pick the molgenis-sentry app from the catalog and deploy it.
 When deploying, you can paste values into the Rancher Answers to override the defaults in this chart.
 Array values can be added as {value, value, value}.
 ```
+ingress.enabled=true
+ingress.hostname=sentry.dev.molgenis.org
 
+persistence.enabled=false
+
+email.host=smtp.example.org
+email.user=postman
+email.passwordxxxxx
+
+service.type=ClusterIP
+
+postgresql.persistence.enabled=false
 ```
 
 You can use [all configuration values of the sentry subchart](https://github.com/kubernetes/charts/tree/master/stable/sentry).
