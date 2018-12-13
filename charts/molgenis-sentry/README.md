@@ -22,9 +22,9 @@ When deploying, you can paste values into the Rancher Answers to override the de
 Array values can be added as {value, value, value}.
 ```
 ingress.enabled=true
-ingress.hostname=sentry.dev.molgenis.org
+ingress.hostname=sentry.molgenis.org
 
-persistence.enabled=false
+user.email=sentry@molgenis.org
 
 email.host=smtp.example.org
 email.user=postman
@@ -32,18 +32,47 @@ email.passwordxxxxx
 
 service.type=ClusterIP
 
+persistence.enabled=false
+
 postgresql.persistence.enabled=false
+
+redis.master.persistence.enabled=false
 ```
 
 You can use [all configuration values of the sentry subchart](https://github.com/kubernetes/charts/tree/master/stable/sentry).
 > Because we use jenkins as a sub-chart, you should prefix all value keys with `sentry`!
 
 ### User configuration
-Delegate to github with the following image. You need to install the plugin: [oauth github](https://github.com/getsentry/sentry-auth-github).
+Delegate to github with the following image. 
+
+You need to configure in the ```values.yaml``` our own Sentry image (```molgenis/sentry:9.0```).
+
+```yaml
+sentry:
+  image:
+    repository: molgenis/sentry
+    tag: 9.0 
+``` 
 
 Then you need to specify the GITHUB_APP_ID and GITHUB_API_SECRET in the ```questions.yml``` or via the helm cli: ```helm install . --set "sentry.web.env[0].name=GITHUB_APP_ID,sentry.web.env[0].value=xxx,sentry.web.env[1].name=GITHUB_API_SECRET,sentry.web.env[1].value=xxx"``` .
 
-## Add new project keys to the MOLGENIS instances
+#### Install an new OAuth application
+Last but not least you need to configure a new OAuth application on the Github MOLGENIS organisation.
+Please copy the APP_ID and API_SECRET to a place where you can find them.
+
+Configure the **Authorization callback URL** to: https://sentry.molgenis.org/
+
+#### Configure the Github Authentication Delegation in Sentry
+> note: Make sure you are logged in as the molgenis-jenkins user in Github. This way you attach the admin user in sentry to this account.
+        
+You need to follow the steps below.
+
+- Goto the https://sentry.molgenis.org
+- Goto the *Sentry organisation* (MOLGENIS for example)
+- Goto **Auth** (on the leftside of the screen)
+- Click on *Configure Github*
+
+## Add new Sentry-Client-DSN keys to the MOLGENIS instances
 Follow the *Sentry* steps below to acquire the key:
 
 - Goto https://sentry.molgenis.org
@@ -55,12 +84,21 @@ Follow the *Sentry* steps below to acquire the key:
 
 Target system steps:
 
-Docker
+**Docker**
 - Goto https://rancher.molgenis.org:7777
 - Upgrade the target MOLGENIS instance
 - Add the following *answer* to the upgrade by clicking on *Edit Yaml*
-- ```sentry.molgenis.dsn
+- ```sentry.molgenis.dsn=xxxx```
+- Click on *Upgrade*
 
+**Virtual machine - CentOS 6.10**
+Add the following environment variable in the MOLGENIS user profile (```~/.bashrc```).
+
+```export SENTRY_DSN=xxxx```
+
+Restart TOMCAT
+
+```service tomcat restart```
 
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.

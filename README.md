@@ -104,6 +104,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Jenkins](charts/molgenis-jenkins/README.md)
 - [NEXUS](charts/molgenis-nexus/README.md)
 - [Vault](charts/molgenis-vault/README.md)
+- [Sentry](charts/molgenis-sentry/README.md)
 - [MOLGENIS](charts/molgenis/README.md)
 - [OpenCPU](charts/molgenis-opencpu/README.md)
 - [Hubot](chart/molgenis-hubot/README.md)

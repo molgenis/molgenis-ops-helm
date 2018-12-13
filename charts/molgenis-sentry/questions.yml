@@ -9,9 +9,9 @@ questions:
   type: boolean
   required: true
   group: "Load balancing"
-- variable: sentry.hostname
+- variable: sentry.ingress.hostname
   label: Hostname
-  default: "sentry.dev.molgenis.org"
+  default: "sentry.molgenis.org"
   description: "Specify hostname for Sentry instance"
   type: string
   required: true
