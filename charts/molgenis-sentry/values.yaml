@@ -9,10 +9,10 @@ sentry:
 
   web:
     env:
-     - name: "GITHUB_APP_ID"
-       value: xxxx
-     - name: "GITHUB_API_SECRET"
-       value: xxxx
+      - name: "GITHUB_APP_ID"
+        value: xxxx
+      - name: "GITHUB_API_SECRET"
+        value: xxxx
 
   ingress:
     enabled: true
