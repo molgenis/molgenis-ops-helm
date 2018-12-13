@@ -1,6 +1,6 @@
 name: molgenis-sentry
 home: https://jenkins.io/
-version: 0.0.1
+version: 0.1.0
 appVersion: ^0.5.0
 description: Molgenis installation for the Sentry chart.
 sources:
