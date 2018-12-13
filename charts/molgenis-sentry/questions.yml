@@ -44,20 +44,34 @@ questions:
   type: password
   required: false
   group: "Provisioning"
-#- variable: sentry.web.env[0].value
-#  label: Github App ID
-#  default: xxxx
-#  description: "Specify the app id from Github"
-#  type: password
-#  required: false
-#  group: "Provisioning"
-#- variable: sentry.web.env[1].value
-#  label: Github Secret
-#  default: xxxx
-#  description: "Specify the secret from Github"
-#  type: password
-#  required: false
-#  group: "Provisioning"
+- variable: sentry.web.env[0].name
+  label: Github App ID Key
+  default: GITHUB_APP_ID
+  description: "Specify the app-ID key for Github integration"
+  type: string
+  required: false
+  group: "Provisioning"
+- variable: sentry.web.env[0].value
+  label: Github App ID
+  default: xxxx
+  description: "Specify the app-ID from Github"
+  type: password
+  required: false
+  group: "Provisioning"
+- variable: sentry.web.env[1].name
+  label: Github Secret Key
+  default: GITHUB_API_SECRET
+  description: "Specify the secret key from Github"
+  type: string
+  required: false
+  group: "Provisioning"
+- variable: sentry.web.env[1].value
+  label: Github Secret
+  default: xxxx
+  description: "Specify the secret from Github"
+  type: password
+  required: false
+  group: "Provisioning"
 - variable: sentry.persistence.enabled
   label: Persistence
   default: false
