@@ -12,16 +12,19 @@ sentry:
 
   ingress:
     enabled: true
-    hostname: sentry.dev.molgenis.org
+    hostname: sentry.molgenis.org
 
   persistence:
     enabled: false
 
+  user:
+    email: sentry@molgenis.org
+
   email:
     from_address: sentry@molgenis.org
     host: smtp.example.org
-    user: postman
-    password: xxxxx
+    user:
+    password:
 
   service:
     type: ClusterIP

@@ -32,14 +32,14 @@ questions:
   group: "Provisioning"
 - variable: sentry.email.user
   label: Email user
-  default: "postman"
+  default: ""
   description: "Specify a user for the email host"
   type: string
   required: false
   group: "Provisioning"
 - variable: sentry.email.password
   label: Email password
-  default: "xxxx"
+  default: ""
   description: "Specify a password for the email user"
   type: password
   required: false
