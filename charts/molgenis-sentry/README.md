@@ -39,8 +39,27 @@ You can use [all configuration values of the sentry subchart](https://github.com
 > Because we use jenkins as a sub-chart, you should prefix all value keys with `sentry`!
 
 ### User configuration
-Delegate to github with the following 
+Delegate to github with the following image. You need to install the plugin: [oauth github](https://github.com/getsentry/sentry-auth-github).
 
+Then you need to specify the GITHUB_APP_ID and GITHUB_API_SECRET in the ```questions.yml``` or via the helm cli: ```helm install . --set "sentry.web.env[0].name=GITHUB_APP_ID,sentry.web.env[0].value=xxx,sentry.web.env[1].name=GITHUB_API_SECRET,sentry.web.env[1].value=xxx"``` .
+
+## Add new project keys to the MOLGENIS instances
+Follow the *Sentry* steps below to acquire the key:
+
+- Goto https://sentry.molgenis.org
+- Login
+- Goto the project referring to your server (*master-dev-molgenis-org*)
+- Goto *Settings*
+- Goto *Client Keys (DSN)* (on the left-side of the screen)
+- Copy the key (example: https://32895egiuwhnglkjbf9730y9tb@sentry.molgenis.org/1)
+
+Target system steps:
+
+Docker
+- Goto https://rancher.molgenis.org:7777
+- Upgrade the target MOLGENIS instance
+- Add the following *answer* to the upgrade by clicking on *Edit Yaml*
+- ```sentry.molgenis.dsn
 
 
 ## Command line use
