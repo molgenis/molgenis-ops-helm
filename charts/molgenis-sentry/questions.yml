@@ -86,7 +86,7 @@ questions:
   type: boolean
   required: true
   group: "Persistence"
-- variable: sentry.redis.persistence.enabled
+- variable: sentry.redis.master.persistence.enabled
   label: Persistence for Redis
   default: false
   description: "Enable persistence for Redis"

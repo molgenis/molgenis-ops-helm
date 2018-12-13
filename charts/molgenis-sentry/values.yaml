@@ -38,5 +38,6 @@ sentry:
       enabled: false
 
   redis:
-    persistence:
-      enabled: false
+    master:
+      persistence:
+        enabled: false
