@@ -42,10 +42,11 @@ redis.master.persistence.enabled=false
 You can use [all configuration values of the sentry subchart](https://github.com/kubernetes/charts/tree/master/stable/sentry).
 > Because we use jenkins as a sub-chart, you should prefix all value keys with `sentry`!
 
-### User configuration
-Delegate to github with the following image. 
-
+### User configuration 
+When you first login into Sentry you need to use the ```user.email``` given in the ```values.yaml```. You can get the generated secrets from the kubernetes secrets in Rancher to obtain the password (the key is ```user-secret```).
 You need to configure in the ```values.yaml``` our own Sentry image (```molgenis/sentry:9.0```).
+
+When you want to delegate the authentication to github, you need to use the image below.
 
 ```yaml
 sentry:
