@@ -77,9 +77,16 @@ questions:
     - "registry.molgenis.org"
     required: true
     group: "Provisioning"
+  - variable: molgenis.sentry.dsn
+    label: Sentry datasource name
+    default: "https://xxxx@sentry.molgenis.org/1"
+    description: "Specify the Sentry datasource name with the following format: https://{public key}@sentry.molgenis.org/{project id}"
+    type: string
+    required: true
+    group: "Services"
   - variable: molgenis.services.opencpu.host
     label: OpenCPU cluster
-    default: "opencpu-opencpu.molgenis-opencpu"
+    default: "molgenis-opencpu.molgenis-opencpu"
     description: "Specify the OpenCPU cluster (assuming you deployed the OpenCPU instance in the namespace 'molgenis-opencpu' and release name 'opencpu'"
     type: string
     required: true

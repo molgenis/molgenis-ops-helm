@@ -46,6 +46,8 @@ spec:
             - name: python_script_executable
               value: /usr/bin/python3
             {{- if .sentry }}
+            - name: SENTRY_SERVERNAME
+              value: {{ template "molgenis.hostname" $ }}
             - name: SENTRY_RELEASE
               value: {{ .image.name }}@{{ .image.tag }}
             - name: SENTRY_ENVIRONMENT
