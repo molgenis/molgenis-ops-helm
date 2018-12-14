@@ -711,7 +711,7 @@ jenkins:
       Label: python-stretch
       NodeUsageMode: EXCLUSIVE
       Containers:
-        node:
+        python:
           Image: "python"
           ImageTag: stretch
           AlwaysPullImage: false
