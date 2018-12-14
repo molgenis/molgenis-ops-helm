@@ -70,7 +70,6 @@ molgenis:
     opencpu:
       host: localhost
     elasticsearch:
-      transportAddresses: localhost:9300
       clusterName: molgenis
     postgres:
       host: localhost
@@ -78,48 +77,53 @@ molgenis:
       user: molgenis
       password: molgenis
 
-elasticsearch:
-  type:
-    small:
-      javaOpts: "-Xms512m -Xmx512m"
-      resources:
-        limits:
-          cpu: 2
-          memory: 1500Mi
-        requests:
-          cpu: 100m
-          memory: 1Gi
-      persistence:
-        size: 5Gi
-    medium:
-      javaOpts: "-Xms1g -Xmx1g"
-      resources:
-        limits:
-          cpu: 2
-          memory: 3Gi
-        requests:
-          cpu: 100m
-          memory: 3Gi
-      persistence:
-        size: 10Gi
-    large:
-      javaOpts: "-Xms2g -Xmx2g"
-      resources:
-        limits:
-          cpu: 2
-          memory: 5Gi
-        requests:
-          cpu: 100m
-          memory: 5Gi
-      persistence:
-        size: 20Gi
-  image:
-    repository: docker.elastic.co/elasticsearch/elasticsearch
-    tag: 5.5.3
-    pullPolicy: IfNotPresent
-  clusterName: molgenis
+elastic:
+  small:
+    javaOpts: &elasticSmallJavaOpts "-Xms2g -Xmx2g"
+    resources:
+      limits:
+        cpu: &elasticSmallResourceLimitsCpu 2
+        memory: &elasticSmallResourceLimitsMemory 2Gi
+      requests:
+        cpu: &elasticSmallResourceRequestCpu 200m
+        memory: &elasticSmallResourceRequestMemory 2Gi
+    persistence:
+      size: 5Gi
+  medium:
+    javaOpts: "-Xms1g -Xmx1g"
+    resources:
+      limits:
+        cpu: 3
+        memory: 3Gi
+      requests:
+        cpu: 200m
+        memory: 3Gi
+    persistence:
+      size: 10Gi
+  large:
+    javaOpts: "-Xms1g -Xmx1g"
+    resources:
+      limits:
+        cpu: 4
+        memory: 4Gi
+      requests:
+        cpu: 200m
+        memory: 4Gi
+    persistence:
+      size: 30Gi
+
+molgenis-elasticsearch:
   persistence:
-    claim: elasticsearch-nfs-claim
+    enabled: true
+  master:
+    javaOpts: *elasticSmallJavaOpts
+    resources:
+      limits:
+        cpu: *elasticSmallResourceLimitsCpu
+        memory: *elasticSmallResourceLimitsMemory
+      requests:
+        cpu: *elasticSmallResourceRequestCpu
+        memory: *elasticSmallResourceRequestMemory
 
 postgres:
   enabled: true

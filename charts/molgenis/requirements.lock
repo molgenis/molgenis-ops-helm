@@ -1,0 +1,6 @@
+dependencies:
+- name: molgenis-elasticsearch
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.0.1
+digest: sha256:bf1f045dea1661934bf7b6a8f639210be55a9eddd46a96ed3235c4c9da4e0cef
+generated: 2018-11-18T09:53:56.375407714+01:00

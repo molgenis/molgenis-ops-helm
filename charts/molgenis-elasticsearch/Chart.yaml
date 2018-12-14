@@ -1,0 +1,12 @@
+apiVersion: v1
+appVersion: "1.0"
+description: Elasticsearch for MOLGENIS
+name: molgenis-elasticsearch
+version: 0.0.1
+sources:
+- https://github.com/molgenis/molgenis-ops-docker-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-elasticsearch/catalogIcon-molgenis-elasticsearch.png
+home: http://molgenis.org
+maintainers:
+- name: sidohaakma
+- name: fdlk

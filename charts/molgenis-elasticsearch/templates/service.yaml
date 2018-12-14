@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "molgenis-elasticsearch.fullname" . }}
+  labels:
+    app: {{ template "molgenis-elasticsearch.name" . }}
+    chart: {{ template "molgenis-elasticsearch.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: molgenis-elasticsearch
+      port: {{ .Values.service.port }}
+  selector:
+    app: {{ template "molgenis-elasticsearch.name" . }}
+    release: {{ .Release.Name }}
