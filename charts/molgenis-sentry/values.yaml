@@ -26,7 +26,7 @@ sentry:
 
   email:
     from_address: sentry@molgenis.org
-    host: smtp.example.org
+    host: smtp.rug.nl
     user:
     password:
 

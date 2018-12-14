@@ -8,13 +8,13 @@ This chart will do the following:
 
 - a Sentry instance
 - a PostgreSQL instance as backend
-- some operators for backup recovery
+- a Redis instance for configuration
 
 ## Installing the Chart
 
 Usually, you'll be deploying this to the molgenis cluster.
-In the [Rancher Catalog](https://rancher.molgenis.org:7443/g/catalog), add the latest version of this repository.
-In the [molgenis cluster management page](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/apps), choose the 
+In the [Rancher Catalog](https://rancher.molgenis.org:7777/g/catalog), add the latest version of this repository.
+In the [molgenis cluster management page](https://rancher.molgenis.org:7777/p/c-rrz2w:p-fsjx8/apps), choose the 
 catalog, pick the molgenis-sentry app from the catalog and deploy it.
 
 ## Configuration
@@ -26,9 +26,9 @@ ingress.hostname=sentry.molgenis.org
 
 user.email=sentry@molgenis.org
 
-email.host=smtp.example.org
-email.user=postman
-email.passwordxxxxx
+email.host=smtp.rug.nl
+email.user=
+email.password=
 
 service.type=ClusterIP
 
@@ -40,7 +40,7 @@ redis.master.persistence.enabled=false
 ```
 
 You can use [all configuration values of the sentry subchart](https://github.com/kubernetes/charts/tree/master/stable/sentry).
-> Because we use jenkins as a sub-chart, you should prefix all value keys with `sentry`!
+> Because we use sentry as a sub-chart, you should prefix all value keys with `sentry`!
 
 ### User configuration 
 When you first login into Sentry you need to use the ```user.email``` given in the ```values.yaml```. You can get the generated secrets from the kubernetes secrets in Rancher to obtain the password (the key is ```user-secret```).
@@ -64,7 +64,7 @@ Please copy the APP_ID and API_SECRET to a place where you can find them.
 Configure the **Authorization callback URL** to: https://sentry.molgenis.org/
 
 #### Configure the Github Authentication Delegation in Sentry
-> note: Make sure you are logged in as the molgenis-jenkins user in Github. This way you attach the admin user in sentry to this account.
+> note: Make sure you are logged in as the 'molgenis-jenkins' user in Github. This way you attach the admin user in sentry to this account.
         
 You need to follow the steps below.
 
@@ -95,7 +95,9 @@ Target system steps:
 **Virtual machine - CentOS 6.10**
 Add the following environment variable in the MOLGENIS user profile (```~/.bashrc```).
 
-```export SENTRY_DSN=xxxx```
+```export SENTRY_DSN=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
+```export SENTRY_RELEASE=7.4.1``` ( x.x.x )
+```export SENTRY_SERVERNAME=molgenis01.gcc.rug.nl``` ( sub.example.org )
 
 Restart TOMCAT
 

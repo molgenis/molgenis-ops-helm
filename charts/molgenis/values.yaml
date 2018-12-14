@@ -55,7 +55,7 @@ molgenis:
       persistence:
         size: 30Gi
   environment: test
-  # Sentry config. See
+  # Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
   sentry:
     dsn: xxxx
   image:
