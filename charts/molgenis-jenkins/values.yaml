@@ -711,7 +711,7 @@ jenkins:
       Label: python-stretch
       NodeUsageMode: EXCLUSIVE
       Containers:
-        node:
+        python:
           Image: "python"
           ImageTag: stretch
           AlwaysPullImage: false
@@ -725,6 +725,14 @@ jenkins:
               memory: "250Mi"
             limits:
               memory: "512Mi"
+        sonar:
+          Image: "zaquestion/sonarqube-scanner"
+          ImageTag: latest
+          AlwaysPullImage: false
+          Retention: Never
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
         vault:
           Image: "vault"
           AlwaysPullImage: false
