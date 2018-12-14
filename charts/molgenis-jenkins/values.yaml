@@ -648,7 +648,7 @@ jenkins:
       EnvVars:
         - type: String
           key: npm_config_registry
-          value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
+          value: "https://registry.molgenis.org/repository/npm-central/"
         - type: String
           key: LOCAL_REGISTRY
           value: registry.molgenis.org
@@ -700,13 +700,58 @@ jenkins:
       EnvVars:
         - type: String
           key: npm_config_registry
-          value: "http://nexus.molgenis-nexus:8081/repository/npm-central/"
+          value: "https://registry.molgenis.org/repository/npm-central/"
         - type: String
           key: LOCAL_REGISTRY
           value: registry.molgenis.org
         - type: String
           key: NPM_REGISTRY
           valueL: 'registry.npmjs.org'
+    python:
+      Label: python-stretch
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        node:
+          Image: "python"
+          ImageTag: stretch
+          AlwaysPullImage: false
+          Retention: Never
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "250Mi"
+            limits:
+              memory: "512Mi"
+        vault:
+          Image: "vault"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          EnvVars:
+            - type: Secret
+              key: VAULT_TOKEN
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: token
+            - type: Secret
+              key: VAULT_SKIP_VERIFY
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: skipVerify
+            - type: Secret
+              key: VAULT_ADDR
+              secretName: molgenis-pipeline-vault-secret
+              secretKey: addr
+      NodeSelector: {}
+      EnvVars:
+        - type: String
+          key: PYPI_REGISTRY
+          value: pypi.org
+        - type: String
+          key: PYPI_LOCAL_REGISTRY
+          value: registry.molgenis.org/repository/pypi
     molgenis-it:
       InheritFrom: molgenis
       Label: molgenis-it
