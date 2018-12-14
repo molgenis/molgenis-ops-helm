@@ -78,9 +78,9 @@ questions:
     required: true
     group: "Provisioning"
   - variable: molgenis.sentry.dsn
-    label: Sentry log key
-    default: ""
-    description: "Specify the Sentry log key to publish log errors to https://sentry.molgenis.org"
+    label: Sentry datasource name
+    default: "https://xxxx@sentry.molgenis.org/1"
+    description: "Specify the Sentry datasource name with the following format: https://{public key}@sentry.molgenis.org/{project id}"
     type: string
     required: true
     group: "Services"

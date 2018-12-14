@@ -25,14 +25,14 @@ questions:
   group: "Provisioning"
 - variable: sentry.email.host
   label: Email host
-  default: "smtp.example.org"
+  default: "smtp.rug.nl"
   description: "Select an email host to mail from"
   type: string
   required: true
   group: "Provisioning"
 - variable: sentry.email.user
   label: Email user
-  default: ""
+  default: "sentry@molgenis.org"
   description: "Specify a user for the email host"
   type: string
   required: false
