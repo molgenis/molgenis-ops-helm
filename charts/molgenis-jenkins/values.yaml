@@ -729,7 +729,7 @@ jenkins:
           Image: "zaquestion/sonarqube-scanner"
           ImageTag: latest
           AlwaysPullImage: false
-          Retention: Always
+          Retention: Never
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
