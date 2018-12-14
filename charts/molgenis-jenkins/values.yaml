@@ -508,6 +508,13 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
+        rancher:
+          Image: "rancher/cli"
+          ImageTag: "v2.0.4"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
       EnvVars:
         - type: String
           key: npm_config_registry
@@ -679,9 +686,9 @@ jenkins:
       Label: site-gen
       NodeUsageMode: EXCLUSIVE
       Containers:
-        helm:
-          Image: "lachlanevenson/k8s-helm"
-          ImageTag: "v2.10.0"
+        rancher:
+          Image: "rancher/cli"
+          ImageTag: "v2.0.4"
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
