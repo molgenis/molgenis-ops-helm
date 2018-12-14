@@ -250,11 +250,12 @@ data:
     <?xml version='1.1' encoding='UTF-8'?>
     <org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig plugin="hubot-steps@2.0.2">
       <sites>
+        {{ range $index, $site := .Values.hubot.sites }}
         <org.thoughtslive.jenkins.plugins.hubot.config.HubotSite>
-          <defaultSite>true</defaultSite>
-          <name>hubot.molgenis.org</name>
-          <url>http://molgenis-hubot.molgenis-hubot.svc</url>
-          <room>hubot</room>
+          <defaultSite>{{ $site.default }}</defaultSite>
+          <name>{{ $site.name }}</name>
+          <url>{{ $site.url }}</url>
+          <room>{{ $site.room }}</room>
           <roomPrefix></roomPrefix>
           <failOnError>true</failOnError>
           <useFolderName>false</useFolderName>
@@ -303,59 +304,7 @@ data:
             </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
           </notifications>
         </org.thoughtslive.jenkins.plugins.hubot.config.HubotSite>
-        <org.thoughtslive.jenkins.plugins.hubot.config.HubotSite>
-          <defaultSite>true</defaultSite>
-          <name>slack-pr-app-team</name>
-          <url>http://molgenis-hubot.molgenis-hubot.svc</url>
-          <room>pr-app-team</room>
-          <roomPrefix></roomPrefix>
-          <failOnError>true</failOnError>
-          <useFolderName>false</useFolderName>
-          <notifications>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>STARTED</notificationType>
-              <tokens>JENKINS_URL, BUILD_NUMBER, BLUE_OCEAN_URL</tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>SUCCESS</notificationType>
-              <tokens>BUILD_DURATION</tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>FAILURE</notificationType>
-              <tokens></tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>BACK_TO_NORMAL</notificationType>
-              <tokens></tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>ABORTED</notificationType>
-              <tokens></tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>NOT_BUILT</notificationType>
-              <tokens></tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-            <org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-              <notifyEnabled>true</notifyEnabled>
-              <roomNames></roomNames>
-              <notificationType>UNSTABLE</notificationType>
-              <tokens></tokens>
-            </org.thoughtslive.jenkins.plugins.hubot.config.notifications.Config>
-          </notifications>
-        </org.thoughtslive.jenkins.plugins.hubot.config.HubotSite>
+        {{- end }}
       </sites>
     </org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig>
   jenkins.model.JenkinsLocationConfiguration.xml: |-

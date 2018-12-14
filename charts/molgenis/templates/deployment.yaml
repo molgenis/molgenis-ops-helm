@@ -43,6 +43,20 @@ spec:
               value: "{{ .services.postgres.password }}"
             - name: admin.password
               value: "{{ .adminPassword }}"
+            - name: python_script_executable
+              value: /usr/bin/python3
+            {{- if .sentry }}
+            - name: SENTRY_SERVERNAME
+              value: {{ template "molgenis.hostname" $ }}
+            - name: SENTRY_RELEASE
+              value: {{ .image.name }}@{{ .image.tag }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .environment }}
+            {{- range $key, $value := default dict .sentry }}
+            - name: SENTRY_{{ $key | snakecase | upper }}
+              value: {{ $value }}
+            {{- end }}
+            {{- end}}
             - name: CATALINA_OPTS
             {{- if eq .type.kind "small" }}
               value: "-Xmx{{ .type.small.javaOpts.maxHeapSpace }} -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"

@@ -1,0 +1,95 @@
+
+categories:
+- Sentry
+questions:
+- variable: sentry.ingress.enabled
+  label: Enable ingress
+  default: true
+  description: "Enable ingress"
+  type: boolean
+  required: true
+  group: "Load balancing"
+- variable: sentry.ingress.hostname
+  label: Hostname
+  default: "sentry.molgenis.org"
+  description: "Specify hostname for Sentry instance"
+  type: string
+  required: true
+  group: "Load balancing"
+- variable: sentry.email.from_address
+  label: From address
+  default: "sentry@molgenis.org"
+  description: "Select an email address to mail from"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: sentry.email.host
+  label: Email host
+  default: "smtp.rug.nl"
+  description: "Select an email host to mail from"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: sentry.email.user
+  label: Email user
+  default: "sentry@molgenis.org"
+  description: "Specify a user for the email host"
+  type: string
+  required: false
+  group: "Provisioning"
+- variable: sentry.email.password
+  label: Email password
+  default: ""
+  description: "Specify a password for the email user"
+  type: password
+  required: false
+  group: "Provisioning"
+- variable: sentry.web.env[0].name
+  label: Github App ID Key
+  default: GITHUB_APP_ID
+  description: "Specify the app-ID key for Github integration"
+  type: string
+  required: false
+  group: "Authentication"
+- variable: sentry.web.env[0].value
+  label: Github App ID
+  default: xxxx
+  description: "Specify the app-ID from Github"
+  type: password
+  required: false
+  group: "Authentication"
+- variable: sentry.web.env[1].name
+  label: Github Secret Key
+  default: GITHUB_API_SECRET
+  description: "Specify the secret key from Github"
+  type: string
+  required: false
+  group: "Authentication"
+- variable: sentry.web.env[1].value
+  label: Github Secret
+  default: xxxx
+  description: "Specify the secret from Github"
+  type: password
+  required: false
+  group: "Authentication"
+- variable: sentry.persistence.enabled
+  label: Persistence
+  default: false
+  description: "Enable persistence for Sentry"
+  type: boolean
+  required: true
+  group: "Persistence"
+- variable: sentry.postgresql.persistence.enabled
+  label: Persistence for PostgreSQL
+  default: false
+  description: "Enable persistence for PostgreSQL"
+  type: boolean
+  required: true
+  group: "Persistence"
+- variable: sentry.redis.master.persistence.enabled
+  label: Persistence for Redis
+  default: false
+  description: "Enable persistence for Redis"
+  type: boolean
+  required: true
+  group: "Persistence"

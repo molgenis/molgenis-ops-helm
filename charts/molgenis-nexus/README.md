@@ -10,7 +10,6 @@ This chart will deploy:
 
   We need this container to avoid permission issues on the NEXUS docker
 - 1 NEXUS container
-- 1 MOLGENIS-httpd container (to proxy the registry and docker to one domain)
 
 ## Backup restore
 There are two steps in restoring the NEXUS.
@@ -19,6 +18,8 @@ There are two steps in restoring the NEXUS.
 - Blobstore
 
 ### Restore the database
+>note: https://help.sonatype.com/repomanager3/backup-and-restore/restore-exported-databases 
+ 
 Go to the commandline:
 
 ```bash
@@ -36,12 +37,29 @@ The persistent volume is the one in the molgenis-nexus namespace.
 
 Go to the NFS-provisioner to the path of the persistent volume:
 
+List all the latest backups.
 ```bash
-ls -t --full-time | head -7 | xargs cp ../restore-from-backup/
+ls -t --full-time | head -7
+```
+
+Copy the latest files in the destination directory.
+```bash
+ls -t | head -7 | xargs cp -u {} ../../#target-pv#/restore-from-backup/
 ```
 
 ### Restore the blobstore
-You can copy the directory ```blobs``` to the target persistent volume ```/ blobs```.
+You can copy the directory ```blobs``` to the target persistent volume ```/blobs```.
+
+### Remove all old data files from nexus-data/db
+
+Remove the following directories:
+
+- accesslog
+- analytics
+- audit
+- component
+- config
+- security
 
 You can now bring the NEXUS back up.
 

@@ -5,7 +5,11 @@ apiVersion: v1
 metadata:
   name: {{ .Values.persistence.claim }}
   annotations:
+    {{- if .Values.persistence.retain }}
     volume.beta.kubernetes.io/storage-class: "nfs-provisioner-retain"
+    {{- else }}
+    volume.beta.kubernetes.io/storage-class: "nfs-provisioner"
+    {{- end }}
 spec:
   accessModes:
     - ReadWriteMany

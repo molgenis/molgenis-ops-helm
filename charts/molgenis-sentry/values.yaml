@@ -1,0 +1,43 @@
+# Default values for sentry.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+sentry:
+  image:
+    repository: molgenis/sentry
+    tag: "9.0"
+
+  web:
+    env:
+      - name: "GITHUB_APP_ID"
+        value: xxxx
+      - name: "GITHUB_API_SECRET"
+        value: xxxx
+
+  ingress:
+    enabled: true
+    hostname: sentry.molgenis.org
+
+  persistence:
+    enabled: false
+
+  user:
+    email: sentry@molgenis.org
+
+  email:
+    from_address: sentry@molgenis.org
+    host: smtp.rug.nl
+    user:
+    password:
+
+  service:
+    type: ClusterIP
+
+  postgresql:
+    persistence:
+      enabled: false
+
+  redis:
+    master:
+      persistence:
+        enabled: false

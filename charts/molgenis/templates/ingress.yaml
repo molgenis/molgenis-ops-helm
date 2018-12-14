@@ -19,15 +19,7 @@ metadata:
     {{- end }}
 spec:
   rules:
-    {{- if eq $.Values.molgenis.environment "development" }}
-    - host: {{ .Release.Name }}.dev.molgenis.org
-    {{- else if eq $.Values.molgenis.environment "test" }}
-    - host: {{ .Release.Name }}.test.molgenis.org
-    {{- else if eq $.Values.molgenis.environment "acceptance" }}
-    - host: {{ .Release.Name }}.accept.molgenis.org
-    {{- else }}
-    - host: {{ .Release.Name }}.molgenis.org
-    {{- end }}
+    - host: {{ template "molgenis.hostname" . }}
       http:
         paths:
           - path: {{ $ingressPath }}
