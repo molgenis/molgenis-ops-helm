@@ -30,7 +30,7 @@ master:
       memory: 3Gi
   persistence:
     size: 10Gi
-    claim: elasticsearch-nfs-claim
+    claim: pvc-elasticsearch
 
 persistence:
   enabled: false
