@@ -35,7 +35,7 @@ Create chart name and version as used by the chart label.
 Resolve hostname for environment
 */}}
 {{- define "molgenis.hostname" -}}
-{{- if ne (.Values.molgenis.environment | default "production" ) "production" -}}
+{{- if ne (.Values.molgenis.environment | default "prod" ) "prod" -}}
 {{- printf "%s.%s.molgenis.org" .Release.Name .Values.molgenis.environment -}}
 {{- else -}}
 {{- printf "%s.molgenis.org" .Release.Name -}}
