@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.elasticsearch.persistence.claim }}
+  name: {{ .Values.master.persistence.claim }}
   annotations:
     {{- if .Values.persistence.retain }}
     volume.beta.kubernetes.io/storage-class: "nfs-provisioner-retain"
@@ -15,5 +15,5 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.elasticsearch.persistence.size }}
+      storage: {{ .Values.master.persistence.size }}
 {{- end }}

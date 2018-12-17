@@ -42,7 +42,7 @@ spec:
             - containerPort: 9300
           {{- if $.Values.persistence.enabled }}
           volumeMounts:
-          - name: elasticsearch-nfs
+          - name: pv-elasticsearch
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
           resources:
@@ -51,7 +51,7 @@ spec:
 
 {{- if .Values.persistence.enabled }}
       volumes:
-        - name: elasticsearch-nfs
+        - name: pv-elasticsearch
           persistentVolumeClaim:
             claimName: {{ .Values.master.persistence.claim }}
 {{- end }}

@@ -17,7 +17,7 @@ ingress:
 master:
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
-    tag: 5.5.6
+    tag: 5.6.14
     pullPolicy: IfNotPresent
   clusterName: molgenis
   javaOpts: "-Xms1g -Xmx1g"
@@ -27,10 +27,10 @@ master:
       memory: 3Gi
     requests:
       cpu: 100m
-      memory: 3Gi
+      memory: 1500Mi
   persistence:
     size: 10Gi
-    claim: elasticsearch-nfs-claim
+    claim: pvc-elasticsearch
 
 persistence:
   enabled: false
