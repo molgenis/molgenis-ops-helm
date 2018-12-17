@@ -27,7 +27,7 @@ master:
       memory: 3Gi
     requests:
       cpu: 100m
-      memory: 3Gi
+      memory: 1500Mi
   persistence:
     size: 10Gi
     claim: pvc-elasticsearch
