@@ -9,10 +9,10 @@ questions:
   type: enum
   options:
    - edge
-   - development
+   - dev
    - test
-   - acceptance
-   - production
+   - accept
+   - prod
   required: true
   group: "Provisioning"
 - variable: molgenis.type.kind
