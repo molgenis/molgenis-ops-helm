@@ -32,7 +32,7 @@ questions:
   group: "Provisioning"
 - variable: sentry.email.user
   label: Email user
-  default: "sentry@molgenis.org"
+  default: ""
   description: "Specify a user for the email host"
   type: string
   required: false
@@ -43,6 +43,13 @@ questions:
   description: "Specify a password for the email user"
   type: password
   required: false
+  group: "Provisioning"
+- variable: sentry.user.email
+  label: Administrator user
+  default: "sentry@molgenis.org"
+  description: "Specify a an administrator username"
+  type: string
+  required: true
   group: "Provisioning"
 - variable: sentry.web.env[0].name
   label: Github App ID Key
