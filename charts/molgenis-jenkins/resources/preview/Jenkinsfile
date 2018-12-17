@@ -18,7 +18,7 @@ pipeline {
                     sh "helm init --client-only"
                     sh "helm repo add molgenis ${HELM_REPO}"
                     sh "helm repo update"
-                    sh "helm install molgenis/molgenis --wait --timeout 180 -n preview-${TAG.toLowerCase()} --namespace preview-${TAG.toLowerCase()} --set molgenis.image.tag=${TAG} --set molgenis.image.repository=${LOCAL_REGISTRY} --set molgenis.environment=dev --set molgenis.type.kind=small --set persistence.enabled=false --set molgenis.adminPassword=admin"
+                    sh "helm install molgenis/molgenis --wait -n preview-${TAG.toLowerCase()} --namespace preview-${TAG.toLowerCase()} --set molgenis.image.tag=${TAG} --set molgenis.image.repository=${LOCAL_REGISTRY} --set molgenis.environment=dev --set molgenis.type.kind=small --set persistence.enabled=false --set molgenis.adminPassword=admin"
                 }
                 hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
             }
