@@ -756,10 +756,10 @@ jenkins:
       EnvVars:
         - type: String
           key: PYPI_REGISTRY
-          value: pypi.org
+          value: https://upload.pypi.org/legacy/
         - type: String
           key: PYPI_LOCAL_REGISTRY
-          value: registry.molgenis.org/repository/pypi
+          value: https://registry.molgenis.org/repository/pypi/
     molgenis-it:
       InheritFrom: molgenis
       Label: molgenis-it
