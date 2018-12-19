@@ -1,4 +1,7 @@
 dependencies:
   - name: molgenis-elasticsearch
-    version: 0.0.1
+    version: 0.1.1
     repository: https://registry.molgenis.org/repository/helm
+  - name: postgresql
+    version: 3.3.0
+    repository: https://kubernetes-charts.storage.googleapis.com
