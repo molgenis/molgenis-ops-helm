@@ -41,3 +41,44 @@ Resolve hostname for environment
 {{- printf "%s.molgenis.org" .Release.Name -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Resolve Java OPTS for memory settings MOLGENIS
+*/}}
+{{- define "molgenis.javaOpts" -}}
+{{- if eq .Values.molgenis.type.kind "large" -}}
+{{- printf "-Xmx%s -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled" .Values.molgenis.type.large.javaOpts.maxHeapSpace -}}
+{{- else if eq .Values.molgenis.type.kind "medium" -}}
+{{- printf "-Xmx%s -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled" .Values.molgenis.type.medium.javaOpts.maxHeapSpace -}}
+{{- else -}}
+{{- printf "-Xmx%s -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled" .Values.molgenis.type.small.javaOpts.maxHeapSpace -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Resolve storage size MOLGENIS
+*/}}
+{{- define "molgenis.storage.size" -}}
+{{- if eq .Values.molgenis.type.kind "large" -}}
+{{- printf "%s" .Values.molgenis.type.small.persistence.size }}
+{{- else if eq .Values.molgenis.type.kind "medium" }}
+{{- printf "%s" .Values.molgenis.type.medium.persistence.size }}
+{{- else }}
+{{- printf "%s" .Values.molgenis.type.large.persistence.size }}
+{{- end }}
+{{- end }}
+
+{{/*
+Resolve storage size MOLGENIS
+*/}}
+{{- define "molgenis.resources" -}}
+{{- if eq .Values.molgenis.type.kind "small" }}
+{{ toYaml .Values.molgenis.type.small.resources | indent 12 }}
+{{- else if eq .Values.molgenis.type.kind "medium" }}
+{{ toYaml .Values.molgenis.type.medium.resources | indent 12 }}
+{{- else }}
+{{ toYaml .Values.molgenis.type.large.resources | indent 12 }}
+{{- end }}
+{{- end }}
+
+
