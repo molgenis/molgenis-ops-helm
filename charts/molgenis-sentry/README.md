@@ -95,13 +95,14 @@ Target system steps:
 **Virtual machine - CentOS 6.10**
 Add the following environment variable in the MOLGENIS user profile (```~/.bashrc```).
 
-```export SENTRY_DSN=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
-```export SENTRY_RELEASE=7.4.1``` ( x.x.x )
-```export SENTRY_SERVERNAME=molgenis01.gcc.rug.nl``` ( sub.example.org )
+- ```export SENTRY_DSN=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
+- ```export SENTRY_RELEASE=7.4.1``` ( x.x.x )
+- ```export SENTRY_SERVERNAME=molgenis01.gcc.rug.nl``` ( sub.example.org )
+- ```export SENTRY_ENVIRONMENT=dev``` ( dev, test, accept, prod )
 
-Restart TOMCAT
+Reload your profile and restart TOMCAT as *molgenis* user.
 
-```service tomcat restart```
+```sudo service tomcat restart```
 
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
