@@ -84,6 +84,13 @@ questions:
     type: string
     required: true
     group: "Services"
+  - variable: molgenis.python.executable
+    label: Python executable
+    default: "/usr/bin/python3"
+    description: "Specify the Python executable"
+    type: string
+    required: true
+    group: "Services"
   - variable: molgenis.services.opencpu.host
     label: OpenCPU cluster
     default: "molgenis-opencpu.molgenis-opencpu"
@@ -91,80 +98,84 @@ questions:
     type: string
     required: true
     group: "Services"
-  - variable: molgenis.services.postgres.embedded
-    label: Postgres embedded
-    default: true
-    description: "Do you want an embedded postgres"
-    type: boolean
-    required: true
-    group: "Services"
-  - variable: molgenis.services.postgres.host
-    label: Postgres cluster location
-    default: "localhost"
-    description: "Set the location of the postgres cluster. This can be localhost when the postgres is enabled else you need to specify a cluster location if you do not want a embedded postgres instance)"
-    type: string
-    required: true
-    group: "Services"
-  - variable: molgenis.services.postgres.scheme
+  - variable: postgresql.postgresqlDatabase
     label: Database scheme
     default: "molgenis"
     description: "Set the database scheme"
     type: string
     required: true
-    group: "Services"
-  - variable: molgenis.services.postgres.user
+    group: "Database"
+  - variable: postgresql.postgresqlUsername
     label: Database username
     default: "molgenis"
     description: "Set user of the database scheme"
     type: string
     required: true
-    group: "Services"
-  - variable: molgenis.services.postgres.password
+    group: "Database"
+  - variable: postgresql.postgresqlPassword
     label: Database password
     default: "molgenis"
     description: "Set the password of the database scheme"
-    type: string
+    type: password
     required: true
-    group: "Services"
-  - variable: persistence.enabled
+    group: "Database"
+  - variable: postgresql.persistence.enabled
     default: true
-    description: "Do you want to enable persistence"
+    description: "Do you want to enable persistence for PostgreSQL"
     type: boolean
-    label: Persistence enabled
-    group: "Persistence"
-  - variable: persistence.retain
-    default: false
-    description: "Do you want to retain the persistent volume"
-    type: boolean
-    label: Retain volume
-    group: "Persistence"
-  - variable: persistence.molgenis.size
+    label: PostgreSQL persistence enabled
+    group: "Database"
+  - variable: postgresql.persistence.size
     default: "10Gi"
-    description: "Size of MOLGENIS filestore (PostgreSQL and ElasticSearch excluded)"
+    description: "Size of PostgreSQL database volume"
     type: enum
     options:
     - "5Gi"
     - "10Gi"
     - "30Gi"
-    label: Size MOLGENIS filestore
-    group: "Persistence"
-  - variable: persistence.elasticsearch.size
+    label: Size PostgreSQL volume
+    group: "Database"
+  - variable: molgenis-elasticsearch.master.clustername
+    default: molgenis
+    description: "Specify clustername of elasticsearch"
+    type: string
+    label: Clustername of elasticsearch
+    group: "Elasticsearch"
+  - variable: molgenis-elasticsearch.persistence.enabled
+    default: true
+    description: "Enable or disable persistence for elasticsearch"
+    type: boolean
+    label: Persistence elasticsearch enabled
+    group: "Elasticsearch"
+  - variable: molgenis-elasticsearch.master.persistence.size
     default: "10Gi"
-    description: "Size of ElasticSearch data (directory that is persist: /usr/share/elasticsearch/data)"
+    description: "Size of elasticsearch data storage"
     type: enum
     options:
     - "5Gi"
     - "10Gi"
-    - "20Gi"
-    label: Size for ElasticSearch data
+    - "30Gi"
+    label: Size elasticsearch volume
+    group: "Elasticsearch"
+  - variable: persistence.enabled
+    default: true
+    description: "Do you want to enable persistence for the MOLGENIS filestore"
+    type: boolean
+    label: MOLGENIS filestore persistence enabled
     group: "Persistence"
-  - variable: persistence.postgres.size
+  - variable: persistence.retain
+    default: false
+    description: "Do you want to retain the persistent volume of the MOLGENIS filestore"
+    type: boolean
+    label: Retain volume
+    group: "Persistence"
+  - variable: persistence.molgenis.size
     default: "10Gi"
-    description: "Size of PostgreSQL data (directory that is persist: /var/lib/postgresql/data/pgdata)"
+    description: "Size of MOLGENIS filestore volume"
     type: enum
     options:
     - "5Gi"
     - "10Gi"
-    - "15Gi"
-    label: Size for PostgreSQL data
+    - "30Gi"
+    label: Size MOLGENIS filestore volume
     group: "Persistence"
