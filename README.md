@@ -43,12 +43,6 @@ Commands that can be used to get information from a kubernetes cluster
 
   Describes the pod initialization, also displays error messages more accurately if they occur
 
-- ```kubectl remove pod #pod name# --namespace=#namespace# (optional: [--force] [--grace-period=0])```
-
-  Removes a pod from the system (but will restart if the option is set in the deployment,yaml *[see note]*). 
-  
-  **note:** You can not do this while the deployment of the service is still there
-
 **Services**
 
 - ```kubectl get services```
@@ -180,4 +174,109 @@ Then remove them permanently.
 
 ```bash
 kubectl get pv | grep Released | grep -o '^\S*' | grep . | xargs kubectl delete pv
+```
+
+## Orphaned kubernetes resources
+You can terminate orphaned resources can be a pain. We described how to deal with 2 of them.
+
+### Pods
+Sometimes pods won't die on themselves and you need to help them a little.
+
+```kubectl remove pod #pod name# --namespace=#namespace# (optional: [--force] [--grace-period=0])```
+
+Removes a pod from the system (but will restart if the option is set in the deployment,yaml *[see note]*). 
+  
+>note: You can not do this while the deployment of the service is still there
+
+### Namespaces
+To permanently terminate the namespace you have to catch the JSON output in a file.
+
+```
+kubectl get namespace molgenis-sentry -o=json > sentry.json
+```
+
+Then you need delete some parts of the namespace JSON to purge the repo.
+
+```json
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "cattle.io/appIds": "molgenis-sentry",
+            "cattle.io/status": "{\"Conditions\":[{\"Type\":\"InitialRolesPopulated\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2018-12-17T15:08:28Z\"},{\"Type\":\"ResourceQuotaInit\",\"St
+            "field.cattle.io/creatorId": "u-6nb8b",
+            "field.cattle.io/projectId": "c-rrz2w:p-fsjx8",
+            "lifecycle.cattle.io/create.namespace-auth": "true"
+        },
+        "creationTimestamp": "2018-12-17T15:08:58Z",
+        "finalizers": [
+            "controller.cattle.io/namespace-auth"
+        ],
+        "labels": {
+            "cattle.io/creator": "norman",
+            "field.cattle.io/projectId": "p-fsjx8"
+        },
+        "name": "molgenis-sentry",
+        
+        // START DELETE
+        "resourceVersion": "21694313",
+        // END DELETE
+        
+        "selfLink": "/api/v1/namespaces/molgenis-sentry",
+        "uid": "add523b7-020d-11e9-ac6d-005056b29ae4"
+    },
+   
+    // START DELETE 
+    "spec": {
+        "finalizers": [
+            "kubernetes"
+        ]
+    },
+    // END DELETE
+    
+    "status": {
+        "phase": "Active"
+    }
+}
+```
+
+Then when you determined the cluster name with ```rancher cluster``` you can enter it where *#cluster#* stands and you can fill the target namespace where #target-namespace# stands.
+Execute the curl.
+
+```bash
+curl -k -H "Content-Type: application/json" -X PUT --data-binary @sentry.json http://127.0.0.1:8001/k8s/clusters/#cluster#/api/v1/namespaces/#target-namespace#/finalize
+``` 
+
+This should be the result:
+
+```json
+{
+  "kind": "Namespace",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "molgenis-sentry",
+    "selfLink": "/api/v1/namespaces/molgenis-sentry/finalize",
+    "uid": "e48cb533-01dd-11e9-ac6d-005056b29ae4",
+    "resourceVersion": "21692263",
+    "creationTimestamp": "2018-12-17T09:26:54Z",
+    "deletionTimestamp": "2018-12-17T09:50:01Z",
+    "labels": {
+      "cattle.io/creator": "norman",
+      "field.cattle.io/projectId": "p-fsjx8"
+    },
+    "annotations": {
+      "cattle.io/status": "{\"Conditions\":[{\"Type\":\"InitialRolesPopulated\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2018-12-17T09:26:24Z\"},{\"Type\":\"ResourceQuotaInit\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2018-12-17T09:26:23Z\"}]}",
+      "field.cattle.io/creatorId": "u-6nb8b",
+      "field.cattle.io/projectId": "c-rrz2w:p-fsjx8",
+      "lifecycle.cattle.io/create.namespace-auth": "true"
+    }
+  },
+  "spec": {
+    
+  },
+  "status": {
+    "phase": "Terminating"
+  }
+}%                                
 ```
