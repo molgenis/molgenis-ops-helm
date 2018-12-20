@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.opencpu.service.name }}
+  name: {{ .Release.Name }}-{{ .Values.service.name }}
   labels:
-    app: {{ .Values.opencpu.service.name }}
+    app: {{ .Values.service.name }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  type: {{ .Values.opencpu.service.type }}
+  type: {{ .Values.service.type }}
   ports:
-    - name: {{ .Values.opencpu.service.name }}
-      port: {{ .Values.opencpu.service.port }}
+    - name: {{ .Values.service.name }}
+      port: {{ .Values.service.port }}
   selector:
     app: {{ template "opencpu.name" . }}
     release: {{ .Release.Name }}

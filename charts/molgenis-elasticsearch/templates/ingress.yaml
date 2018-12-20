@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "molgenis.fullname" . -}}
+{{- $fullName := include "molgenis-elasticsearch.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: "{{ $.Release.Name }}-ingress"
   labels:
-    app: {{ template "molgenis.name" . }}
-    chart: {{ template "molgenis.chart" . }}
+    app: {{ template "molgenis-elasticsearch.name" . }}
+    chart: {{ template "molgenis-elasticsearch.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
@@ -19,7 +19,7 @@ metadata:
     {{- end }}
 spec:
   rules:
-    - host: {{ template "molgenis.hostname" . }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: {{ $ingressPath }}
