@@ -1,0 +1,46 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: grafana.ingress.enabled
+  label: Enable ingress for Grafana
+  default: false
+  description: "Enable ingress for Grafana user interface"
+  type: boolean
+  required: true
+  group: "Load balancing"
+- variable: grafana.ingress.hosts[0]
+  label: Hostname for grafana
+  default: "grafana.molgenis.org"
+  description: "Specify a hostname for Grafana instance"
+  type: string
+  required: true
+  group: "Load balancing"
+- variable: grafana.adminPassword
+  label: Administrator password for grafana
+  default: "admin"
+  description: "Specify an administrator password"
+  type: password
+  required: true
+  group: "Provisioning"
+- variable: grafana.persistence.enabled
+  label: Persistence on Grafana enabled
+  default: true
+  description: "Grafana persistence enabled"
+  type: boolean
+  required: true
+  group: "Persistence"
+- variable: prometheus.alertmanager.persistence.enabled
+  label: Persistence on Alertmanager enabled
+  default: true
+  description: "Alertmanager persistence enabled"
+  type: boolean
+  required: true
+  group: "Persistence"
+- variable: prometheus.server.persistence.enabled
+  label: Persistence on Prometheus enabled
+  default: true
+  description: "Prometheus persistence enabled"
+  type: boolean
+  required: true
+  group: "Persistence"

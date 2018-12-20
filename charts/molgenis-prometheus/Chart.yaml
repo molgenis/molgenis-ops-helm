@@ -1,6 +1,6 @@
 name: molgenis-prometheus
-home: https://jenkins.io/
-version: 0.0.1
+home: https://prometheus.io/
+version: 0.0.2
 appVersion: 7.1.3
 description: Molgenis installation for the prometheus chart.
 sources:
