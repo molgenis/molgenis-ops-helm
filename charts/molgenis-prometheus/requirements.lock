@@ -1,9 +1,9 @@
 dependencies:
 - name: prometheus
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 7.4.4
+  version: 8.3.0
 - name: grafana
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.18.0
-digest: sha256:7fd579abb85e1891d158b242fa331a63ff197e3c1e65a1c98894202f5b38d187
-generated: 2018-11-19T17:05:10.254934874+01:00
+  version: 1.21.2
+digest: sha256:b0430356af99f7744cc8973645480bd235dca2f83ba33940a9f68c5fe10e07de
+generated: 2018-12-21T07:40:30.827933825+01:00
