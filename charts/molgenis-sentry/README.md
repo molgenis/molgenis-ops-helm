@@ -85,22 +85,24 @@ Follow the *Sentry* steps below to acquire the key:
 
 Target system steps:
 
-**Docker**
+### Docker
 - Goto https://rancher.molgenis.org:7777
 - Upgrade the target MOLGENIS instance
 - Add the following *answer* to the upgrade by clicking on *Edit Yaml*
-- ```sentry.molgenis.dsn=xxxx```
+- ```molgenis.sentry.dsn=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
+- Any other sentry configuration you wish to add, you can add under `molgenis.sentry.xxx`
 - Click on *Upgrade*
 
-**Virtual machine - CentOS 6.10**
-Add the following environment variable in the MOLGENIS user profile (```~/.bashrc```).
+### Virtual machine - CentOS 6.10
+
+Add the sentry environment variables to the tomcat config file ```/usr/share/tomcat/bin/setenv.sh```.
 
 - ```export SENTRY_DSN=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
 - ```export SENTRY_RELEASE=7.4.1``` ( x.x.x )
 - ```export SENTRY_SERVERNAME=molgenis01.gcc.rug.nl``` ( sub.example.org )
 - ```export SENTRY_ENVIRONMENT=dev``` ( dev, test, accept, prod )
 
-Reload your profile and restart TOMCAT as *molgenis* user.
+Restart TOMCAT:
 
 ```sudo service tomcat restart```
 
