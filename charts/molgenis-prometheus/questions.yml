@@ -16,20 +16,20 @@ questions:
   type: string
   required: true
   group: "Load balancing"
-- variable: grafana."grafana.ini".auth.github.client_id
-  label: Github App ID
-  default: "xxxx"
-  description: "Specify the Github App ID"
-  type: password
-  required: true
-  group: "Provisioning"
-- variable: grafana."grafana.ini".auth.github.client_secret
-  label: Github secret
-  default: "xxxx"
-  description: "Specify the Github secret"
-  type: password
-  required: true
-  group: "Provisioning"
+#- variable: grafana.grafana.ini.auth.github.client_id
+#  label: Github App ID
+#  default: "xxxx"
+#  description: "Specify the Github App ID"
+#  type: password
+#  required: true
+#  group: "Provisioning"
+#- variable: grafana.grafana.ini.auth.github.client_secret
+#  label: Github secret
+#  default: "xxxx"
+#  description: "Specify the Github secret"
+#  type: password
+#  required: true
+#  group: "Provisioning"
 - variable: grafana.adminPassword
   label: Administrator password for grafana
   default: "admin"
