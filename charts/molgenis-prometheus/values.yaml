@@ -317,6 +317,22 @@ prometheus:
             username: admin
             password: kaboutertje
 
+       - job_name: 'molgenis-blackbox'
+          scrape_interval: 300s
+          metrics_path: /probe
+          params:
+            module: [http_2xx, http_3xx]  # Look for a HTTP 2xx and 3xx response.
+          file_sd_configs:
+            - files:
+                - templates/molgenis-blackbox-targets.json
+          relabel_configs:
+            - source_labels: [__address__]
+              target_label: __param_target
+            - source_labels: [__param_target]
+              target_label: instance
+            - target_label: __address__
+              replacement: blackbox:9115  # Blackbox exporter.
+
 grafana:
   ingress:
     enabled: true
@@ -388,3 +404,25 @@ grafana:
         gnetId: 4701
         revision: 1
         datasource: k8-prometheus
+      node-exporter:
+        gnetId: 1860
+        revision: 12
+        datasource: k8-prometheus
+
+  grafana.ini:
+      auth:
+        github:
+          enabled: true
+          allow_sign_up: false
+          client_id: xxxx
+          client_secret: xxxx
+          scopes: user:email,read:org
+          auth_url: https://github.com/login/oauth/authorize
+          token_url: https://github.com/login/oauth/access_token
+          api_url: https://api.github.com/user
+          team_ids: dev
+          allowed_organization: molgenis
+      smtp:
+        enabled: true
+        host: smtp.rug.nl:25
+        from_address: grafana@molgenis.org

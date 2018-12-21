@@ -16,8 +16,36 @@ questions:
   type: string
   required: true
   group: "Load balancing"
+- variable: grafana.ini.auth.github.client_id
+  label: Github App ID
+  default: "xxxx"
+  description: "Specify the Github App ID"
+  type: password
+  required: true
+  group: "Provisioning"
+- variable: grafana.ini.auth.github.client_secret
+  label: Github secret
+  default: "xxxx"
+  description: "Specify the Github secret"
+  type: password
+  required: true
+  group: "Provisioning"
 - variable: grafana.adminPassword
   label: Administrator password for grafana
+  default: "admin"
+  description: "Specify an administrator password"
+  type: password
+  required: true
+  group: "Provisioning"
+- variable: grafana.adminUser
+  label: Administrator user for Grafana
+  default: "admin"
+  description: "Specify an administrator user"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: grafana.adminPassword
+  label: Administrator password for Grafana
   default: "admin"
   description: "Specify an administrator password"
   type: password
@@ -30,14 +58,14 @@ questions:
   type: boolean
   required: true
   group: "Persistence"
-- variable: prometheus.alertmanager.persistence.enabled
+- variable: prometheus.alertmanager.persistentVolume.enabled
   label: Persistence on Alertmanager enabled
   default: true
   description: "Alertmanager persistence enabled"
   type: boolean
   required: true
   group: "Persistence"
-- variable: prometheus.server.persistence.enabled
+- variable: prometheus.server.persistentVolume.enabled
   label: Persistence on Prometheus enabled
   default: true
   description: "Prometheus persistence enabled"
