@@ -317,7 +317,7 @@ prometheus:
             username: admin
             password: kaboutertje
 
-       - job_name: 'molgenis-blackbox'
+        - job_name: 'molgenis-blackbox'
           scrape_interval: 300s
           metrics_path: /probe
           params:
@@ -337,7 +337,7 @@ grafana:
   ingress:
     enabled: true
     hosts:
-      - grafana.dev.molgenis.org
+      - grafana.molgenis.org
 
   persistence:
     enabled: true
