@@ -324,7 +324,7 @@ prometheus:
             module: [http_2xx, http_3xx]  # Look for a HTTP 2xx and 3xx response.
           file_sd_configs:
             - files:
-                - templates/molgenis-blackbox-targets.json
+                - resources/molgenis-blackbox-targets.json
           relabel_configs:
             - source_labels: [__address__]
               target_label: __param_target
