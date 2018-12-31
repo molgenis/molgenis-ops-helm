@@ -410,19 +410,19 @@ grafana:
         datasource: k8-prometheus
 
   grafana.ini:
-      auth:
-        github:
-          enabled: true
-          allow_sign_up: false
-          client_id: xxxx
-          client_secret: xxxx
-          scopes: user:email,read:org
-          auth_url: https://github.com/login/oauth/authorize
-          token_url: https://github.com/login/oauth/access_token
-          api_url: https://api.github.com/user
-          team_ids: dev
-          allowed_organization: molgenis
-      smtp:
+    auth:
+      github:
         enabled: true
-        host: smtp.rug.nl:25
-        from_address: grafana@molgenis.org
+        allow_sign_up: false
+        client_id: xxxx
+        client_secret: xxxx
+        scopes: user:email,read:org
+        auth_url: https://github.com/login/oauth/authorize
+        token_url: https://github.com/login/oauth/access_token
+        api_url: https://api.github.com/user
+        team_ids: dev
+        allowed_organization: molgenis
+    smtp:
+      enabled: true
+      host: smtp.rug.nl:25
+      from_address: grafana@molgenis.org
