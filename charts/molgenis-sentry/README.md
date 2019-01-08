@@ -85,23 +85,26 @@ Follow the *Sentry* steps below to acquire the key:
 
 Target system steps:
 
-**Docker**
+### Docker
 - Goto https://rancher.molgenis.org:7777
 - Upgrade the target MOLGENIS instance
 - Add the following *answer* to the upgrade by clicking on *Edit Yaml*
-- ```sentry.molgenis.dsn=xxxx```
+- ```molgenis.sentry.dsn=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
+- Any other sentry configuration you wish to add, you can add under `molgenis.sentry.xxx`
 - Click on *Upgrade*
 
-**Virtual machine - CentOS 6.10**
-Add the following environment variable in the MOLGENIS user profile (```~/.bashrc```).
+### Virtual machine - CentOS 6.10
 
-```export SENTRY_DSN=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
-```export SENTRY_RELEASE=7.4.1``` ( x.x.x )
-```export SENTRY_SERVERNAME=molgenis01.gcc.rug.nl``` ( sub.example.org )
+Add the sentry environment variables to the tomcat config file ```/usr/share/tomcat/bin/setenv.sh```.
 
-Restart TOMCAT
+- ```export SENTRY_DSN=xxxx``` ( https://{public key}@sentry.molgenis.org/{project id} )
+- ```export SENTRY_RELEASE=7.4.1``` ( x.x.x )
+- ```export SENTRY_SERVERNAME=molgenis01.gcc.rug.nl``` ( sub.example.org )
+- ```export SENTRY_ENVIRONMENT=dev``` ( dev, test, accept, prod )
 
-```service tomcat restart```
+Restart TOMCAT:
+
+```sudo service tomcat restart```
 
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
