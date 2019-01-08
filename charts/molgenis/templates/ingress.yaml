@@ -26,4 +26,8 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $.Values.service.port }}
+      alpn:
+        - h2
+        - http/1.1
+        - http/1.0
 {{- end }}
