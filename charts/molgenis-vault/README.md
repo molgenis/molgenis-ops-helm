@@ -50,3 +50,76 @@ Parameter | Description | Default
 `ui.service.externalPort` | Vault UI service target port | `8000`
 `ui.service.internalPort` | Vault UI container port | `8000`
 `ui.service.nodePort` | Port to be used as the service NodePort (ignored if `server.service.type` is not `NodePort`) | `0`
+
+# Access
+Access the vault locally by port forwarding the service. You need to do this when you want to use the commandline interface of vault.
+
+```bash
+kubens
+
+molgenis-jenkins
+molgenis-hubot
+...
+vault-operator (or somehting similar)
+
+kubens vault-operator
+kubectl get pods
+
+etcd-operator-#hash#
+...
+vault-#hash#
+
+kubectl port-forward vault-#hash# 8200:8200
+```
+
+Make sure you have the variable below in your environment. This enabled you to access the pod locally.
+
+```bash
+export VAULT_SKIP_VERIFY=1
+```
+
+
+## Unseal the vault
+If the vault is sealed you can unseal it by executing the command below 3 times. Each time you need to fill in a unsealing key which is provided when you initialize the vault.
+
+```bash
+vault operator unseal
+
+Unseal Key (will be hidden): 
+
+Key                Value
+---                -----
+Seal Type          shamir
+Sealed             true
+Total Shares       5
+Threshold          3
+Unseal Progress    1/3
+Unseal Nonce       xxxx
+Version            0.9.1
+HA Enabled         true
+```
+
+## Create new token
+A new token is needed when the old one expires. In Jenkins we use a buildsecret reader token. This tokens expires once a month unfortunatly. You can create a new one with the command below.
+
+```bash
+vault token create -policy=buildsecret-reader
+
+Key                  Value
+---                  -----
+token                xxxx
+token_accessor       xxxx
+token_duration       768h
+token_renewable      true
+token_policies       []
+identity_policies    []
+policies             ["buildsecret-reader" "default"]
+```
+
+### Add it to Jenkins
+When you want to make it available in Jenkins you need to go to [rancher](https://rancher.molgenis.org:7777). 
+Here you want to access the secrets of the right project. In our case you need to perform the following steps:
+- Goto *Clusters --> Projects --> Development*
+- Goto *Resources --> Secrets*
+- Edit *molgenis-pipeline-vault-secret*
+- Add the new token
