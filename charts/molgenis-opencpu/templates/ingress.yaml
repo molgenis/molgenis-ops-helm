@@ -10,10 +10,10 @@ metadata:
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
   annotations:
-    {{- if .tls }}
+    {{- if $.Values.ingress.tls }}
     ingress.kubernetes.io/secure-backends: "true"
     {{- end }}
-    {{- range $key, $value := .annotations }}
+    {{- range $key, $value := $.Values.ingress.annotations }}
     {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
@@ -21,15 +21,15 @@ spec:
   - host: {{ .name }}
     http:
       paths:
-        - path: {{ default "/" .path }}
+        - path: {{ default "/" $.Values.ingress.path }}
           backend:
-            serviceName: "{{ $.Release.Name }}-{{ $.Values.opencpu.service.name }}"
-            servicePort: {{ $.Values.opencpu.service.port }}
+            serviceName: "{{ $.Release.Name }}-{{ $.Values.service.name }}"
+            servicePort: {{ $.Values.service.port }}
 {{- if .tls }}
   tls:
   - hosts:
     - {{ .name }}
-    secretName: {{ .tlsSecret }}
+    secretName: {{ $.Values.ingress.tls.tlsSecret }}
 {{- end }}
 ---
 {{- end }}

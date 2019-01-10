@@ -4,9 +4,16 @@ categories:
 questions:
 - variable: ingress.enabled
   label: Enable ingress
-  default: false
+  default: true
   description: "Enable ingress"
   type: boolean
+  required: true
+  group: "Load balancing"
+- variable: ingress.hosts[0].name
+  label: Hostname
+  default: opencpu.molgenis.org
+  description: "Specify hostname"
+  type: hostname
   required: true
   group: "Load balancing"
 - variable: opencpu.image.repository
