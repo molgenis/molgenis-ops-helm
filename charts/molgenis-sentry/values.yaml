@@ -15,7 +15,6 @@ sentry:
         value: xxxx
 
   worker:
-    replicacount: 2
     resources:
       limits:
         cpu: 300m
