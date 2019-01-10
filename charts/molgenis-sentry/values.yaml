@@ -17,10 +17,10 @@ sentry:
   worker:
     resources:
       limits:
-        cpu: 300m
+        cpu: 600m
         memory: 1Gi
       requests:
-        cpu: 100m
+        cpu: 200m
         memory: 500Mi
 
   ingress:
