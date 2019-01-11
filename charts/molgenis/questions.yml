@@ -84,13 +84,6 @@ questions:
     type: string
     required: true
     group: "Services"
-  - variable: molgenis.python.executable
-    label: Python executable
-    default: "/usr/bin/python3"
-    description: "Specify the Python executable"
-    type: string
-    required: true
-    group: "Services"
   - variable: molgenis.services.opencpu.host
     label: OpenCPU cluster
     default: "molgenis-opencpu.molgenis-opencpu"
