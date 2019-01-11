@@ -706,7 +706,10 @@ jenkins:
           value: registry.molgenis.org
         - type: String
           key: NPM_REGISTRY
-          valueL: 'registry.npmjs.org'
+          value: 'registry.npmjs.org'
+        - type: String
+          key: NPM_LOCAL_REGISTRY
+          value: 'registry.molgenis.org/repository/npm-hosted'
     python:
       Label: python-stretch
       NodeUsageMode: EXCLUSIVE
