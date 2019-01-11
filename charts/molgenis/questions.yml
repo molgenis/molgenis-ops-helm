@@ -86,7 +86,7 @@ questions:
     group: "Services"
   - variable: molgenis.services.opencpu.host
     label: OpenCPU cluster
-    default: "molgenis-opencpu.molgenis-opencpu"
+    default: "opencpu-opencpu.molgenis-opencpu"
     description: "Specify the OpenCPU cluster (assuming you deployed the OpenCPU instance in the namespace 'molgenis-opencpu' and release name 'opencpu'"
     type: string
     required: true
