@@ -247,16 +247,16 @@ jenkins:
           WorkingDir: /home/jenkins
           TTY: true
       EnvVars:
-        - type: String
+        - type: KeyValue
           key: npm_config_registry
           value: "https://registry.molgenis.org/repository/npm-central/"
-        - type: String
+        - type: KeyValue
           key: LOCAL_REGISTRY
           value: registry.molgenis.org
-        - type: String
+        - type: KeyValue
           key: DOCKER_REGISTRY
           value: registry.hub.docker.com
-        - type: String
+        - type: KeyValue
           key: HELM_REPO
           value: https://registry.molgenis.org/repository/helm/
       NodeSelector: {}
@@ -299,16 +299,16 @@ jenkins:
               secretKey: addr
       NodeSelector: {}
       EnvVars:
-        - type: String
+        - type: KeyValue
           key: npm_config_registry
           value: "https://registry.molgenis.org/repository/npm-central/"
-        - type: String
+        - type: KeyValue
           key: LOCAL_REGISTRY
           value: registry.molgenis.org
-        - type: String
+        - type: KeyValue
           key: NPM_REGISTRY
           value: 'registry.npmjs.org'
-        - type: String
+        - type: KeyValue
           key: NPM_LOCAL_REGISTRY
           value: 'registry.molgenis.org/repository/npm-hosted'
     python:
@@ -358,10 +358,10 @@ jenkins:
               secretKey: addr
       NodeSelector: {}
       EnvVars:
-        - type: String
+        - type: KeyValue
           key: PYPI_REGISTRY
           value: https://upload.pypi.org/legacy/
-        - type: String
+        - type: KeyValue
           key: PYPI_LOCAL_REGISTRY
           value: https://registry.molgenis.org/repository/pypi/
     molgenis-it:
@@ -515,13 +515,13 @@ jenkins:
               secretKey: addr
       NodeSelector: {}
       EnvVars:
-        - type: String
+        - type: KeyValue
           key: LOCAL_REGISTRY
           value: registry.molgenis.org
-        - type: String
+        - type: KeyValue
           key: DOCKER_REGISTRY
           value: registry.hub.docker.com
-        - type: String
+        - type: KeyValue
           key: HELM_REPO
           value: https://registry.molgenis.org/repository/helm/
     ansible:
