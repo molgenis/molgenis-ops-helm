@@ -158,43 +158,6 @@ data:
       </clouds>
       <quietPeriod>5</quietPeriod>
       <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
-      <views>
-        <hudson.model.AllView>
-          <owner class="hudson" reference="../../.."/>
-          <name>all</name>
-          <filterExecutors>false</filterExecutors>
-          <filterQueue>false</filterQueue>
-          <properties class="hudson.model.View$PropertyList"/>
-        </hudson.model.AllView>
-{{- range $viewName, $view := .Values.Master.Views }}
-        <listView>
-          <owner class="hudson" reference="../../.."/>
-          <name>{{ $viewName }}</name>
-          <filterExecutors>false</filterExecutors>
-          <filterQueue>false</filterQueue>
-          <properties class="hudson.model.View$PropertyList"/>
-          <jobNames>
-             <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-{{- range $index, $job := $view }}
-             <string>{{ $job }}</string>
-{{- end }}
-          </jobNames>
-          <jobFilters/>
-          <columns>
-            <hudson.views.StatusColumn/>
-            <hudson.views.WeatherColumn/>
-            <hudson.views.JobColumn/>
-            <hudson.views.LastSuccessColumn/>
-            <hudson.views.LastFailureColumn/>
-            <hudson.views.LastDurationColumn/>
-            <hudson.views.BuildButtonColumn/>
-            <hudson.plugins.favorite.column.FavoriteColumn plugin="favorite@2.3.2"/>
-          </columns>
-          <recurse>false</recurse>
-        </listView>
-{{- end }}
-      </views>
-      <primaryView>{{ .Values.Master.DefaultView }}</primaryView>
       <slaveAgentPort>50000</slaveAgentPort>
       <disabledAgentProtocols>
 {{- range .Values.Master.DisabledAgentProtocols }}
