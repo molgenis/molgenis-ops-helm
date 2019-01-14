@@ -58,6 +58,8 @@ molgenis:
   # Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
   sentry:
     dsn: xxxx
+  python:
+    executable: "/usr/bin/python3"
   image:
     repository: registry.hub.docker.com
     name: molgenis/molgenis-app
@@ -65,110 +67,41 @@ molgenis:
     pullPolicy: Always
   adminPassword:
   persistence:
-    claim: molgenis-nfs-claim
+    claim: pvc-molgenis
   services:
     opencpu:
       host: localhost
-    elasticsearch:
-      clusterName: molgenis
-    postgres:
-      host: localhost
-      scheme: molgenis
-      user: molgenis
-      password: molgenis
-
-elastic:
-  small:
-    javaOpts: &elasticSmallJavaOpts "-Xms2g -Xmx2g"
-    resources:
-      limits:
-        cpu: &elasticSmallResourceLimitsCpu 2
-        memory: &elasticSmallResourceLimitsMemory 2Gi
-      requests:
-        cpu: &elasticSmallResourceRequestCpu 200m
-        memory: &elasticSmallResourceRequestMemory 2Gi
-    persistence:
-      size: 5Gi
-  medium:
-    javaOpts: "-Xms1g -Xmx1g"
-    resources:
-      limits:
-        cpu: 3
-        memory: 3Gi
-      requests:
-        cpu: 200m
-        memory: 3Gi
-    persistence:
-      size: 10Gi
-  large:
-    javaOpts: "-Xms1g -Xmx1g"
-    resources:
-      limits:
-        cpu: 4
-        memory: 4Gi
-      requests:
-        cpu: 200m
-        memory: 4Gi
-    persistence:
-      size: 30Gi
 
 molgenis-elasticsearch:
   persistence:
     enabled: true
   master:
-    javaOpts: *elasticSmallJavaOpts
+    clusterName: molgenis
+    javaOpts: "-Xms1g -Xmx1g"
     resources:
       limits:
-        cpu: *elasticSmallResourceLimitsCpu
-        memory: *elasticSmallResourceLimitsMemory
+        cpu: 2
+        memory: 2Gi
       requests:
-        cpu: *elasticSmallResourceRequestCpu
-        memory: *elasticSmallResourceRequestMemory
+        cpu: 200m
+        memory: 2Gi
+    persistence:
+      size: 10Gi
 
-postgres:
-  enabled: true
+postgresql:
+  persistence:
+    enabled: true
+    size: 10Gi
+  image:
+    tag: 9.6.11
   ## Specify runtime config parameters as a dict, using camelCase
   ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
-  config:
+  configuration:
     maxLocksPerTransaction: 1024
-  type:
-    small:
-      resources:
-        limits:
-          cpu: 1
-          memory: 512Mi
-        requests:
-          cpu: 100m
-          memory: 512Mi
-      persistence:
-        size: 5Gi
-    medium:
-      resources:
-        limits:
-          cpu: 2
-          memory: 2Gi
-        requests:
-          cpu: 100m
-          memory: 2Gi
-      persistence:
-        size: 10Gi
-    large:
-      resources:
-        limits:
-          cpu: 4
-          memory: 4Gi
-        requests:
-          cpu: 100m
-          memory: 4Gi
-      persistence:
-        size: 15Gi
-  image:
-    repository: postgres
-    tag: 9.6-alpine
-    pullPolicy: IfNotPresent
+  postgresqlUsername: molgenis
+  postgresqlPassword: molgenis
+  postgresqlDatabase: molgenis
 
-  persistence:
-    claim: postgres-nfs-claim
 
 persistence:
   enabled: true
