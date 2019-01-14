@@ -16,6 +16,7 @@ jenkins:
       - credentials-binding:1.17
       - git:3.9.1
       - github-branch-source:2.4.1
+      - basic-branch-build-strategies:1.1.1
       - kubernetes-credentials-provider:0.10
       - blueocean:1.10.1
       - github-oauth:0.31
