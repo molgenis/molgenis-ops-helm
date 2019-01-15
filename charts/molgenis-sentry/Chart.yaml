@@ -1,6 +1,6 @@
 name: molgenis-sentry
 home: https://sentry.io/
-version: 0.2.0
+version: 0.2.1
 appVersion: 9.0.0
 description: Molgenis installation for the Sentry chart.
 sources:
