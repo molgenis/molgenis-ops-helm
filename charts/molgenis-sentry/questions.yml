@@ -62,7 +62,7 @@ questions:
   label: Github App ID
   default: xxxx
   description: "Specify the app-ID from Github"
-  type: password
+  type: string
   required: false
   group: "Authentication"
 - variable: sentry.web.env[1].name
@@ -76,7 +76,7 @@ questions:
   label: Github Secret
   default: xxxx
   description: "Specify the secret from Github"
-  type: password
+  type: string
   required: false
   group: "Authentication"
 - variable: sentry.persistence.enabled
