@@ -589,10 +589,6 @@ secret:
   gitHub:
     user: "molgenis-jenkins"
     token: xxxx
-  # gogs contains access token for jenkins bot account on RuG GoGs
-  gogs:
-    user: p281392
-    token: xxxx
   # registry contains credentials for registry.molgenis.org
   registry:
     user: admin
