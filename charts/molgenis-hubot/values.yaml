@@ -422,7 +422,7 @@ hubot:
 
         querystring = require "querystring"
 
-        callback = (onSuccess, ifNotFound) -> (err, res, body) ->
+        callback = (onSuccess, ifNotFound, msg) -> (err, res, body) ->
           if err
             msg.reply "Sorry, mislukt!\n```#{err}```"
           else if 200 <= res.statusCode < 400
@@ -443,7 +443,7 @@ hubot:
         runPreviewJob = (msg, action, tag, onSuccess) ->
           url = "#{process.env.HUBOT_JENKINS_URL}/job/preview/buildWithParameters?ACTION=#{action}&TAG=#{querystring.escape(tag)}"
           req = createRequest msg, url
-          req.post() callback(onSuccess, -> msg.reply "Ik verwacht een parameterized preview job in Jenkins, misschien kan een echt mens die even configureren.")
+          req.post() callback(onSuccess, -> msg.reply "Ik verwacht een parameterized preview job in Jenkins, misschien kan een echt mens die even configureren.", msg)
 
         searchRegistry = (msg, params, ifFound, ifNotFound) ->
           req = createRequest msg, "#{process.env.HUBOT_REGISTRY_URL}service/rest/v1/search?repository=docker&name=molgenis%2Fmolgenis-app&#{params}"
@@ -454,7 +454,8 @@ hubot:
             else
               ifNotFound()
           , ->
-            ifNotFound())
+            ifNotFound()
+          , msg)
 
         listPreview = (msg) -> runPreviewJob msg, "list", null, -> msg.reply "Ik ga even voor je kijken ..."
 
