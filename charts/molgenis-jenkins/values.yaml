@@ -459,6 +459,12 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
+        alpine:
+          Image: "spotify/alpine"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
     site-gen:
       Label: site-gen
       InheritFrom: shared
