@@ -303,7 +303,6 @@ jenkins:
               memory: "250Mi"
             limits:
               memory: "512Mi"
-      NodeSelector: {}
       EnvVars:
         - type: KeyValue
           key: NPM_REGISTRY
@@ -314,6 +313,7 @@ jenkins:
     python:
       Label: python-stretch
       NodeUsageMode: EXCLUSIVE
+      InheritFrom: shared
       Containers:
         python:
           Image: "python"
@@ -459,7 +459,6 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
-      NodeSelector: {}
     site-gen:
       Label: site-gen
       InheritFrom: shared
