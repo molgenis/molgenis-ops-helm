@@ -261,7 +261,7 @@ jenkins:
               key: MAVEN_CONFIG
               value: "/home/jenkins/.m2"
     molgenis-jdk11:
-      Label: molgenis
+      Label: molgenis-jdk11
       NodeUsageMode: NORMAL
       InheritFrom: shared
       Containers:
