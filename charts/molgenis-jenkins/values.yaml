@@ -236,6 +236,7 @@ jenkins:
         - type: KeyValue
           key: HELM_REPO
           value: https://registry.molgenis.org/repository/helm/
+      NodeSelector: {}
     molgenis:
       Label: molgenis
       NodeUsageMode: NORMAL
@@ -259,7 +260,6 @@ jenkins:
             - type: KeyValue
               key: MAVEN_CONFIG
               value: "/home/jenkins/.m2"
-      NodeSelector: {}
     molgenis-jdk11:
       Label: molgenis
       NodeUsageMode: NORMAL
@@ -304,6 +304,7 @@ jenkins:
             limits:
               memory: "512Mi"
       NodeSelector: {}
+      EnvVars:
         - type: KeyValue
           key: NPM_REGISTRY
           value: 'registry.npmjs.org'
@@ -386,6 +387,7 @@ jenkins:
             limits:
               cpu: "1"
               memory: "512Mi"
+      NodeSelector: {}
     molgenis-it:
       InheritFrom: molgenis-it-shared
       Label: molgenis-it
@@ -412,7 +414,6 @@ jenkins:
           - type: KeyValue
             key: POSTGRES_DB
             value: molgenis
-      NodeSelector: {}
     molgenis-it-pg11:
       InheritFrom: molgenis-it-shared
       Label: molgenis-it-pg11
@@ -439,7 +440,6 @@ jenkins:
             - type: KeyValue
               key: POSTGRES_DB
               value: molgenis
-      NodeSelector: {}
     helm:
       Label: helm
       InheritFrom: shared
@@ -472,9 +472,9 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
-      NodeSelector: {}
     ansible:
       Label: ansible
+      InheritFrom: shared
       NodeUsageMode: EXCLUSIVE
       Containers:
         centos-6:
@@ -484,7 +484,6 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
-      NodeSelector: {}
   hubot:
     sites:
       - name: hubot.molgenis.org
