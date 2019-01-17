@@ -283,7 +283,6 @@ jenkins:
             - type: KeyValue
               key: MAVEN_CONFIG
               value: "/home/jenkins/.m2"
-      NodeSelector: {}
     node:
       Label: node-carbon
       NodeUsageMode: EXCLUSIVE
@@ -299,10 +298,8 @@ jenkins:
           TTY: true
           resources:
             requests:
-              cpu: "100m"
-              memory: "250Mi"
-            limits:
-              memory: "512Mi"
+              cpu: "1"
+              memory: "1Gi"
       EnvVars:
         - type: KeyValue
           key: NPM_REGISTRY
