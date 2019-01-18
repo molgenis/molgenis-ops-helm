@@ -10,7 +10,7 @@ pipeline {
         BRANCH_NAME = 'master'
     }
     triggers {
-        cron('H 1 2 0 1-5')
+        cron('H 1 2 * 1-5')
     }
     stages {
         stage('Retrieve build secrets') {
