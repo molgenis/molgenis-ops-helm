@@ -43,12 +43,16 @@ pipeline {
                 TAG = "nightly-${BRANCH_NAME}-${BUILD_NUMBER}"
             }
             stages {
-                stage('Build nightly') {
+                stage('Prepare nightly') {
                     steps {
                         checkout scm: [$class: 'GitSCM', branches: [[name: '*/${env.BRANCH_NAME}']], userRemoteConfigs: [[credentialsId: 'molgenis-jenkins-github-secret', url: 'https://github.com/molgenis/molgenis']]]
                         dir('/home/jenkins/.m2') {
                             unstash 'maven-settings'
                         }
+                    }
+                }
+                stage('Build nightly') {
+                    steps {
                         container('maven') {
                             sh "mvn -q -B clean install -Dmaven.test.redirectTestOutputToFile=true -DskipITs -T4"
                         }
