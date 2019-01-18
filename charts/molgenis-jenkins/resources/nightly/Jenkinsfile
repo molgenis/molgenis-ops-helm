@@ -9,6 +9,9 @@ pipeline {
         CHART_VERSION = '0.12.0'
         BRANCH_NAME = 'master'
     }
+    triggers {
+        cron('H 1 2 0 1-5')
+    }
     stages {
         stage('Retrieve build secrets') {
             steps {
