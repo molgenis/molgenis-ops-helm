@@ -198,8 +198,8 @@ jenkins:
           mountPath: "/var/run/docker.sock"
       Container:
         rancher:
-          Image: "rancher/cli"
-          ImageTag: "v2.0.4"
+          Image: "rancher/cli2"
+          ImageTag: "v2.0.6"
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
