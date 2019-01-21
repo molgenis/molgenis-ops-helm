@@ -28,6 +28,9 @@ jenkins:
       GitHub:
         ClientID: ""
         ClienSecret: ""
+    CSRF:
+      DefaultCrumbIssuer:
+        Enabled: false
     NodeSelector: {
       deployPod: "true"
     }
