@@ -78,7 +78,7 @@ jenkins:
               <configVersion>2</configVersion>
               <userRemoteConfigs>
                 <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-docker-helm.git</url>
+                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
                   <credentialsId>molgenis-jenkins-github-secret</credentialsId>
                 </hudson.plugins.git.UserRemoteConfig>
               </userRemoteConfigs>
@@ -122,7 +122,7 @@ jenkins:
               <configVersion>2</configVersion>
               <userRemoteConfigs>
                 <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-docker-helm.git</url>
+                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
                   <credentialsId>molgenis-jenkins-github-secret</credentialsId>
                 </hudson.plugins.git.UserRemoteConfig>
               </userRemoteConfigs>
