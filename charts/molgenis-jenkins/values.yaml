@@ -344,7 +344,7 @@ jenkins:
           value: https://registry.molgenis.org/repository/pypi/
     molgenis-it-shared:
       InheritFrom: molgenis
-      Label: molgenis-it-shared
+      Label: molgenis-it
       NodeUsageMode: EXCLUSIVE
       Containers:
         elasticsearch:
@@ -374,51 +374,9 @@ jenkins:
             - type: KeyValue
               key: discovery.type
               value: single-node
-        opencpu:
-          Image: molgenis/opencpu
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "256Mi"
-            limits:
-              cpu: "1"
-              memory: "512Mi"
-      NodeSelector: {}
-    molgenis-it:
-      InheritFrom: molgenis-it-shared
-      Label: molgenis-it
-      NodeUsageMode: EXCLUSIVE
-      Containers:
         postgres:
           Image: postgres
           ImageTag: 9.6-alpine
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "250Mi"
-            limits:
-              cpu: "1"
-              memory: "250Mi"
-          EnvVars:
-          - type: KeyValue
-            key: POSTGRES_USER
-            value: molgenis
-          - type: KeyValue
-            key: POSTGRES_PASSWORD
-            value: molgenis
-          - type: KeyValue
-            key: POSTGRES_DB
-            value: molgenis
-    molgenis-it-pg11:
-      InheritFrom: molgenis-it-shared
-      Label: molgenis-it-pg11
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        postgres:
-          Image: postgres
-          ImageTag: 11.1-alpine
           AlwaysPullImage: false
           resources:
             requests:
@@ -437,6 +395,80 @@ jenkins:
             - type: KeyValue
               key: POSTGRES_DB
               value: molgenis
+        opencpu:
+          Image: molgenis/opencpu
+          AlwaysPullImage: false
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+      NodeSelector: {}
+    molgenis-it-jdk11:
+      InheritFrom: molgenis-jdk11
+      Label: molgenis-it-jdk11
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        elasticsearch:
+          Image: docker.elastic.co/elasticsearch/elasticsearch
+          ImageTag: 5.5.3
+          AlwaysPullImage: false
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "1500Mi"
+          EnvVars:
+            - type: KeyValue
+              key: ES_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
+            - type: KeyValue
+              key: cluster.name
+              value: molgenis
+            - type: KeyValue
+              key: bootstrap.memory_lock
+              value: "true"
+            - type: KeyValue
+              key: xpack.security.enabled
+              value: "false"
+            - type: KeyValue
+              key: discovery.type
+              value: single-node
+        postgres:
+          Image: postgres
+          ImageTag: 11-alpine
+          AlwaysPullImage: false
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "250Mi"
+            limits:
+              cpu: "1"
+              memory: "250Mi"
+          EnvVars:
+            - type: KeyValue
+              key: POSTGRES_USER
+              value: molgenis
+            - type: KeyValue
+              key: POSTGRES_PASSWORD
+              value: molgenis
+            - type: KeyValue
+              key: POSTGRES_DB
+              value: molgenis
+        opencpu:
+          Image: molgenis/opencpu
+          AlwaysPullImage: false
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
     helm:
       Label: helm
       InheritFrom: shared
