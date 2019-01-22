@@ -69,16 +69,6 @@ Token used by Jenkins to authenticate on GitHub.
 | `secret.gitHub.user`  | username for the account | `molgenis-jenkins` |
 | `secret.gitHub.token` | token for the account    | `xxxx`             |
 
-#### Gogs
-
-Token used by Jenkins to authenticate on the [RuG Webhosting Gogs](https://git.webhosting.rug.nl).
-
-| Parameter           | Description              | Default   |
-| ------------------- | ------------------------ | --------- |
-| `secret.gogs.user`  | username for the account | `p281392` |
-| `secret.gogs.token` | token for the account    | `xxxx`    |
-
-
 #### Slack
 The Slack integration is done mostly in the Jenkinsfile of each project. It is sufficient to only add the plugin to the Jenkins configuration in Helm.
 
@@ -101,8 +91,8 @@ Account used in pipeline builds to push docker images to `registry.molgenis.org`
 
 | Parameter                   | Description              | Default   |
 | --------------------------- | ------------------------ | --------- |
-| `secret.dockerHub.user`     | username for the account | `admin`   |
-| `secret.dockerHub.password` | password for the account | `xxxx`    |
+| `secret.registry.user`     | username for the account | `admin`   |
+| `secret.registry.password` | password for the account | `xxxx`    |
 
 ## Command line use
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
