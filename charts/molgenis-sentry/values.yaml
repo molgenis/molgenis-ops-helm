@@ -13,6 +13,16 @@ sentry:
         value: xxxx
       - name: "GITHUB_API_SECRET"
         value: xxxx
+      - name: "SENTRY_REDIS_PASSWORD"
+        value: molgenis
+      - name: "SENTRY_DB_PASSWORD"
+        value: molgenis
+      - name: "SENTRY_DB_USERNAME"
+        value: molgenis
+      - name: "SENTRY_RABBITMQ_PASSWORD"
+        value: molgenis
+      - name: "SENTRY_RABBITMQ_USERNAME"
+        value: molgenis
 
   worker:
     resources:
