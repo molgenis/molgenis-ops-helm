@@ -1,0 +1,6 @@
+questions:
+  - variable: "prometheus.alertmanagerFiles.alertmanager\.yml.global.slack_api_url"
+    required: true
+    default: "https://hooks.slack.com/services/..."
+    label: "Slack API URL"
+    type: string
