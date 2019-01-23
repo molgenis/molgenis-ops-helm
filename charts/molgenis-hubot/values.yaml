@@ -424,13 +424,13 @@ hubot:
 
         callback = (onSuccess, ifNotFound) -> (err, res, body) ->
           if err
-            msg.reply "Sorry, mislukt!\n```#{err}```"
+            console.log("Something went wrong:\n```#{err}```")
           else if 200 <= res.statusCode < 400
             onSuccess(body)
           else if 404 == res.statusCode
             ifNotFound()
           else
-            msg.reply "Sorry, mislukt!\n```#{res.statusCode} #{body}```"
+            console.log("Something went wrong\n```#{res.statusCode} #{body}```")
 
         createRequest = (msg, url) ->
           req = msg.http(url)
