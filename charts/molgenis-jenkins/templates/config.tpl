@@ -176,6 +176,23 @@ data:
       <globalNodeProperties/>
       <noUsageStatistics>true</noUsageStatistics>
     </hudson>
+{{- if .Values.Master.metrics.key }}
+  jenkins.metrics.api.MetricsAccessKey.xml: |-
+    <?xml version='1.1' encoding='UTF-8'?>
+    <jenkins.metrics.api.MetricsAccessKey_-DescriptorImpl plugin="metrics@4.0.2.2">
+      <accessKeys>
+        <jenkins.metrics.api.MetricsAccessKey>
+          <key>{{ .Values.Master.metrics.key }}</key>
+          <description>prometheus</description>
+          <canPing>true</canPing>
+          <canThreadDump>false</canThreadDump>
+          <canHealthCheck>true</canHealthCheck>
+          <canMetrics>true</canMetrics>
+          <origins>*</origins>
+        </jenkins.metrics.api.MetricsAccessKey>
+      </accessKeys>
+    </jenkins.metrics.api.MetricsAccessKey_-DescriptorImpl>
+{{- end }}
 {{- if .Values.Master.ScriptApproval }}
   scriptapproval.xml: |-
     <?xml version='1.0' encoding='UTF-8'?>
