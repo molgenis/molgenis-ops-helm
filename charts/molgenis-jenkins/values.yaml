@@ -342,7 +342,7 @@ jenkins:
         - type: KeyValue
           key: PYPI_LOCAL_REGISTRY
           value: https://registry.molgenis.org/repository/pypi/
-    molgenis-it-shared:
+    molgenis-it:
       InheritFrom: molgenis
       Label: molgenis-it
       NodeUsageMode: EXCLUSIVE
