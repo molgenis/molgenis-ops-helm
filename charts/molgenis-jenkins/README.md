@@ -72,6 +72,12 @@ Token used by Jenkins to authenticate on GitHub.
 #### Slack
 The Slack integration is done mostly in the Jenkinsfile of each project. It is sufficient to only add the plugin to the Jenkins configuration in Helm.
 
+#### Prometheus
+A scraping endpoint is made available on /prometheus/
+| Parameter             | Description                 | Default      |
+| --------------------- | --------------------------- | ------------ |
+| `Master.metrics.key`  | access key for the endpoint | none created |
+
 #### Legacy:
 
 ##### Docker Hub
