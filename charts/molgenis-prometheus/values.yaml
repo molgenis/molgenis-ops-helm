@@ -59,6 +59,11 @@ prometheus:
   server:
     nodeSelector:
       deployPod: "true"
+    extraSecretMounts:
+      - name: scrape-secrets
+        secretName: scrape-secrets
+        mountPath: /etc/secrets
+        readOnly: true
     resources:
       limits:
         cpu: 500m
@@ -66,6 +71,14 @@ prometheus:
       requests:
         cpu: 500m
         memory: 1Gi
+  configmapReload:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
   serverFiles:
     alerts:
       groups:
@@ -118,7 +131,7 @@ prometheus:
                 - latest.test.molgenis.org:443
           basic_auth:
             username: prometheus
-            password: "xxxx"
+            password_file: '/etc/secrets/molgenis-metrics'
         - job_name: prometheus
           static_configs:
             - targets:
@@ -398,3 +411,5 @@ prometheus:
               target_label: instance
             - target_label: __address__
               replacement: blackbox:9115  # Blackbox exporter.
+secret:
+  molgenisMetrics: "xxxx"
