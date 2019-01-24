@@ -3,9 +3,9 @@ appVersion: "1.0"
 description: A Hubot for MOLGENIS
 name: molgenis-hubot
 sources:
-- https://github.com/molgenis/molgenis-ops-docker-helm.git
+- https://github.com/molgenis/molgenis-ops-helm.git
 home: https://hubot.github.com/
-icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-hubot/catalogIcon-molgenis-hubot.png
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-hubot/catalogIcon-molgenis-hubot.png
 version: 0.2.0
 maintainers:
 - name: fdlk
