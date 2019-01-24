@@ -15,9 +15,15 @@ For monitoring purposes:
 - 1 alert manager instance
 - 1 prometheus instance
 
-## Secrets
-When deploying the chart you'll be asked to fill in the slack api url.
+The services are not accessable from outside the cluster, if you want to access them for debugging
+purposes you need to use kubectl to port-forward them to your localhost.
 
-These will need to be filled in manually in the prometheus.yml configmap after install:
-* jenkins bearer token
-* molgenis metrics password
+For instance to access the prometheus UI:
+```
+kubectl port-forward molgenis-prometheus-server-podname 9090
+```
+
+## Secrets
+When deploying the chart you'll be asked to fill in
+* the slack api url found on https://molgenisdev.slack.com/services/BFLLSRULF
+* the password for the prometheus user on molgenis-metrics servers

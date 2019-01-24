@@ -1,0 +1,11 @@
+questions:
+  - variable: 'prometheus.alertmanagerFiles.alertmanager\.yml.global.slack_api_url'
+    required: true
+    default: "https://hooks.slack.com/services/..."
+    label: "Slack API URL"
+    type: string
+  - variable: "secret.molgenisMetrics"
+    required: true
+    label: "Prometheus User Password"
+    description: "Password for the prometheus user on MOLGENIS deployments."
+    type: string
