@@ -10,8 +10,8 @@ We [delegate grafana authentication to GitHub](http://docs.grafana.org/auth/gith
 Check the credentials on [GitHub](https://github.com/organizations/molgenis/settings/applications/955390)
 
 ```
-grafana."grafana\.ini".auth.github.client_id=app id
-grafana."grafana\.ini".auth.github.client_secret=secret
+grafana.grafana\.ini.auth\.github.client_id=app id
+grafana.grafana\.ini.auth\.github.client_secret=secret
 ```
 
 To figure out a specific team's id:
