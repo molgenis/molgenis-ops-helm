@@ -1,0 +1,24 @@
+questions:
+  - variable: grafana.adminPassword
+    type: password
+    required: true
+    label: "Admin password"
+  - variable: grafana.grafana\.ini.auth\.github.enabled
+    default: true
+    type: boolean
+    label: "Enable GitHub Authentication"
+    group: "Github Authentication"
+    description: "Allow users to authenticate using GitHub. Configured on https://github.com/organizations/molgenis/settings/applications/955390"
+    required: true
+    show_subquestion_if: true
+    subquestions:
+      - variable: grafana.grafana\.ini.auth\.github.client_id
+        label: "Client ID"
+        group: "Github Authentication"
+        type: string
+        required: true
+      - variable: grafana.grafana\.ini.auth\.github.client_secret
+        label: "Client Secret"
+        group: "Github Authentication"
+        type: string
+        required: true
