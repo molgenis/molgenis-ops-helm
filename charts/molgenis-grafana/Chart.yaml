@@ -1,11 +1,11 @@
 name: molgenis-grafana
 home: https://grafana.net
-version: 0.0.5
+version: 0.0.6
 appVersion: 5.4.3
-description: Molgenis installation for the prometheus chart.
+description: Molgenis installation for the Grafana chart.
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
-icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/catalogIcon-molgenis-grafana.png
 maintainers:
 - name: fdlk
 - name: sidohaakma
