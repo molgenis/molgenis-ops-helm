@@ -95,3 +95,6 @@ grafana:
       enabled: true
       host: smtp.rug.nl:25
       from_address: grafana@molgenis.org
+
+  nodeSelector:
+    deployPod: "true"
