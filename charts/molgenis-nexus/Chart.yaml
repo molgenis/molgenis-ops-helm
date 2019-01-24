@@ -4,8 +4,8 @@ description: Nexus stack for MOLGENIS
 name: molgenis-nexus
 version: 0.4.4
 sources:
-- https://github.com/molgenis/molgenis-ops-docker-helm.git
-icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-nexus/catalogIcon-molgenis-nexus.svg
+- https://github.com/molgenis/molgenis-ops-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-nexus/catalogIcon-molgenis-nexus.svg
 home: https://www.sonatype.com/nexus-repository-oss
 maintainers:
 - name: sidohaakma

@@ -4,8 +4,8 @@ version: 0.2.0
 appVersion: 9.0.0
 description: Molgenis installation for the Sentry chart.
 sources:
-- https://github.com/molgenis/molgenis-ops-docker-helm.git
-icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-sentry/catalogIcon-molgenis-sentry.png
+- https://github.com/molgenis/molgenis-ops-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-sentry/catalogIcon-molgenis-sentry.png
 maintainers:
 - name: fdlk
 - name: sidohaakma

@@ -4,8 +4,8 @@ version: 0.13.1
 appVersion: 2.138.1
 description: Molgenis installation for the jenkins chart.
 sources:
-- https://github.com/molgenis/molgenis-ops-docker-helm.git
-icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-docker-helm/master/charts/molgenis-jenkins/catalogIcon-molgenis-jenkins.svg
+- https://github.com/molgenis/molgenis-ops-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-jenkins/catalogIcon-molgenis-jenkins.svg
 maintainers:
 - name: fdlk
 - name: sidohaakma
