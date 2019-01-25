@@ -3,6 +3,7 @@ questions:
     required: true
     default: "https://hooks.slack.com/services/..."
     label: "Slack API URL"
+    description: "Can be found on https://molgenisdev.slack.com/services/BFLLSRULF"
     type: string
   - variable: "secret.molgenisMetrics"
     required: true
