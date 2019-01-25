@@ -37,7 +37,7 @@ pipeline {
                 }
                 container('alpine') {
                     sh 'set +x; for chart in target/*; do curl -L -u $NEXUS_USER:$NEXUS_PWD http://registry.molgenis.org/repository/helm/ --upload-file "$chart"; done'
-                    sh 'set +x; for chart in target/*; do curl -L -u $CHARTMUSEUM_USER:$CHARTMUSEUM_PWD https://helm.molgenis.org/api/charts --data-binary "$chart"; done'
+                    sh 'set +x; for chart in target/*; do curl -L -u "$CHARTMUSEUM_USER:$CHARTMUSEUM_PWD" https://helm.molgenis.org/api/charts --data-binary "$chart"; done'
                 }
             }
         }
