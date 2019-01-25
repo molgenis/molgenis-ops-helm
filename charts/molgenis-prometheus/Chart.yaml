@@ -5,7 +5,7 @@ appVersion: 2.6.1
 description: Molgenis installation for the Prometheus chart.
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
-icon: https://github.com/molgenis/molgenis-ops-helm/raw/master/molgenis-prometheus/catalogIcon-molgenis-prometheus.png
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/catalogIcon-molgenis-prometheus.png
 maintainers:
 - name: fdlk
 - name: sidohaakma
