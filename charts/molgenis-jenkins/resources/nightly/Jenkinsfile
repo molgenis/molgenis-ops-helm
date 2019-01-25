@@ -105,14 +105,14 @@ pipeline {
                         }
                     }
                 }
-                stage('Deploy to nightly.dev.molgenis.org') {
+                stage('Deploy to nightly.molgenis.org') {
                     steps {
-                        milestone(ordinal: 100, label: 'deploy to nightly.dev.molgenis.org')
+                        milestone(ordinal: 100, label: 'deploy to nightly.molgenis.org')
                         dir('/home/jenkins/.rancher') {
                             unstash 'rancher-config'
                         }
                         container('rancher') {
-                            sh "rancher context switch production"
+                            sh "rancher context switch prod-molgenis"
                             sh "rancher apps upgrade --set molgenis.image.tag=${TAG} nightly ${CHART_VERSION}"
                         }
                     }
