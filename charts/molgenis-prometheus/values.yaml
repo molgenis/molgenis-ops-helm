@@ -395,21 +395,5 @@ prometheus:
             - source_labels: [__meta_kubernetes_pod_name]
               action: replace
               target_label: kubernetes_pod_name
-
-        - job_name: 'molgenis-blackbox'
-          scrape_interval: 300s
-          metrics_path: /probe
-          params:
-            module: [http_2xx, http_3xx]  # Look for a HTTP 2xx and 3xx response.
-          file_sd_configs:
-            - files:
-                - resources/molgenis-blackbox-targets.json
-          relabel_configs:
-            - source_labels: [__address__]
-              target_label: __param_target
-            - source_labels: [__param_target]
-              target_label: instance
-            - target_label: __address__
-              replacement: blackbox:9115  # Blackbox exporter.
 secret:
   molgenisMetrics: "xxxx"
