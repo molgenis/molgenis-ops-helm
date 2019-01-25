@@ -22,3 +22,7 @@ questions:
         group: "Github Authentication"
         type: string
         required: true
+  - variable: "grafana.ingress.hosts[0]"
+    default: "grafana.dev.molgenis.org"
+    type: string
+    label: "Hostname"
