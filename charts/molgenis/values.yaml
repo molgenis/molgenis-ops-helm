@@ -102,6 +102,19 @@ postgresql:
   postgresqlPassword: molgenis
   postgresqlDatabase: molgenis
 
+minio:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 10Gi
+  defaultBucket:
+    enabled: true
+    name: molgenis
+  service:
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path:   '/minio/prometheus/metrics'
+      prometheus.io/port:   '9000'
 
 persistence:
   enabled: true

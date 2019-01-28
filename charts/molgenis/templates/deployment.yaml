@@ -57,6 +57,18 @@ spec:
               value: {{ $value }}
             {{- end }}
             {{- end}}
+            {{- if $.Values.minio.enabled}}
+            {{- with $.Values.minio }}
+            - name: minio_bucket_name
+              value: {{ .defaultBucket.name }}
+            - name: minio_endpoint
+              value: http://{{ template "minio.fullname" $ }}:{{ .service.port }}
+            - name: minio_access_key
+              value: {{ .accessKey }}
+            - name: minio_secret_key
+              value: {{ .secretKey }}
+            {{- end}}
+            {{- end}}
             - name: CATALINA_OPTS
               value: {{ template "molgenis.javaOpts" $ }}
           ports:

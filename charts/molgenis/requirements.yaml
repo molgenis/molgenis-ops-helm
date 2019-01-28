@@ -5,3 +5,7 @@ dependencies:
   - name: postgresql
     version: 3.3.0
     repository: https://kubernetes-charts.storage.googleapis.com
+  - name: minio
+    version: 2.4.0
+    repository: https://kubernetes-charts.storage.googleapis.com
+    condition: minio.enabled
