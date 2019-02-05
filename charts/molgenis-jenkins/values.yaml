@@ -29,6 +29,13 @@ jenkins:
       GitHub:
         ClientID: ""
         ClienSecret: ""
+    resources:
+      limits:
+        cpu: 100m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 2048Mi
     metrics:
       key: ""
     CSRF:
