@@ -70,15 +70,15 @@ molgenis:
     email: no-reply@molgenis.org
   anonymous:
     email: anonymous@molgenis.org
+  mail:
+    host: smtp.rug.nl
+    username:
+    password:
   persistence:
     claim: pvc-molgenis
   services:
     opencpu:
       host: localhost
-  mail:
-    host: smtp.rug.nl
-    username:
-    password:
 
 molgenis-elasticsearch:
   persistence:
