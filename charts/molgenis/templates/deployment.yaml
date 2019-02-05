@@ -52,9 +52,9 @@ spec:
             - name: mail.host
               value: {{ .mail.host }}
             - name: mail.username
-              value: {{ .mail.username }}
+              value: "{{ .mail.username }}"
             - name: mail.password
-              value: {{ .mail.password }}
+              value: "{{ .mail.password }}"
             - name: mail.port
               value: 587
             - name: mail.protocol
