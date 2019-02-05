@@ -67,7 +67,7 @@ molgenis:
     pullPolicy: Always
   admin:
     password:
-    email: noreply@molgenis.org
+    email: no-reply@molgenis.org
   anonymous:
     email: anonymous@molgenis.org
   persistence:

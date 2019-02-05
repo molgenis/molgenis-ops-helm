@@ -33,7 +33,7 @@ questions:
   type: string
   required: true
   group: "Provisioning"
-- variable: molgenis.adminPassword
+- variable: molgenis.admin.password
   label: Administrator password
   default: ""
   description: "Enter an administrator password"
