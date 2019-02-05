@@ -36,9 +36,7 @@ persistence:
   enabled: false
   retain: false
 
-nodeSelector: {
-  deployPod: "true"
-}
+nodeSelector:
 
 tolerations: []
 

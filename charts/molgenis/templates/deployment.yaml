@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: {{ template "molgenis.name" . }}
@@ -30,7 +30,7 @@ spec:
             - name: molgenis.home
               value: /home/molgenis
             - name: opencpu.uri.host
-              value: {{ .services.opencpu.host }}
+              value: {{ .opencpu }}
             - name: elasticsearch.transport.addresses
               value: {{ $.Release.Name }}-molgenis-elasticsearch:9300
             - name: elasticsearch.cluster.name
@@ -57,7 +57,6 @@ spec:
               value: {{ $value }}
             {{- end }}
             {{- end}}
-            {{- if $.Values.minio.enabled}}
             {{- with $.Values.minio }}
             - name: minio_bucket_name
               value: {{ .defaultBucket.name }}
@@ -68,16 +67,13 @@ spec:
             - name: minio_secret_key
               value: {{ .secretKey }}
             {{- end}}
-            {{- end}}
             - name: CATALINA_OPTS
-              value: {{ template "molgenis.javaOpts" $ }}
+              value: -XX:MaxRAMFraction=2
           ports:
             - containerPort: 8080
-          {{- if $.Values.persistence.enabled }}
           volumeMounts:
           - name: pv-molgenis
             mountPath: /home/molgenis
-          {{- end }}
           livenessProbe:
             httpGet:
               path: /
@@ -97,13 +93,14 @@ spec:
           resources:
             {{ template "molgenis.resources" $ }}
         {{- end }}
-
-{{- if .Values.persistence.enabled }}
       volumes:
         - name: pv-molgenis
+        {{ - if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.molgenis.persistence.claim }}
-{{- end }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "myapp.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:

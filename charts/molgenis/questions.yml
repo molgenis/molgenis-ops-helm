@@ -15,17 +15,6 @@ questions:
    - prod
   required: true
   group: "Provisioning"
-- variable: molgenis.type.kind
-  label: Type
-  default: "medium"
-  description: "Type of MOLGENIS resources"
-  type: enum
-  options:
-   - small
-   - medium
-   - large
-  required: true
-  group: "Provisioning"
 - variable: molgenis.image.tag
   label: Version
   default: "stable"
@@ -40,24 +29,6 @@ questions:
   type: password
   required: true
   group: "Provisioning"
-- variable: service.firewall.enabled
-  label: Firewall enabled
-  default: false
-  description: "Firewall enabled (can be cluster or UMCG scoped)"
-  type: boolean
-  required: true
-  group: "Services"
-  show_subquestion_if: true
-  subquestions:
-  - variable: service.firewall.kind
-    default: "umcg"
-    description: "Firewall kind. This can be 'umcg' or 'cluster' environment"
-    type: enum
-    required: true
-    options:
-    - umcg
-    - cluster
-    label: Firewall kind
 - variable: molgenis.advanced
   label: Advanced mode
   default: false
@@ -84,91 +55,74 @@ questions:
     type: string
     required: true
     group: "Services"
-  - variable: molgenis.services.opencpu.host
+  - variable: opencpu
     label: OpenCPU cluster
     default: "opencpu-opencpu.molgenis-opencpu"
     description: "Specify the OpenCPU cluster (assuming you deployed the OpenCPU instance in the namespace 'molgenis-opencpu' and release name 'opencpu'"
     type: string
     required: true
     group: "Services"
-  - variable: postgresql.postgresqlDatabase
-    label: Database scheme
-    default: "molgenis"
-    description: "Set the database scheme"
-    type: string
-    required: true
-    group: "Database"
-  - variable: postgresql.postgresqlUsername
-    label: Database username
-    default: "molgenis"
-    description: "Set user of the database scheme"
-    type: string
-    required: true
-    group: "Database"
-  - variable: postgresql.postgresqlPassword
-    label: Database password
-    default: "molgenis"
-    description: "Set the password of the database scheme"
-    type: password
-    required: true
-    group: "Database"
-  - variable: postgresql.persistence.enabled
-    default: true
-    description: "Do you want to enable persistence for PostgreSQL"
-    type: boolean
-    label: PostgreSQL persistence enabled
-    group: "Database"
-  - variable: postgresql.persistence.size
-    default: "10Gi"
-    description: "Size of PostgreSQL database volume"
-    type: enum
-    options:
-    - "5Gi"
-    - "10Gi"
-    - "30Gi"
-    label: Size PostgreSQL volume
-    group: "Database"
-  - variable: molgenis-elasticsearch.master.clustername
-    default: molgenis
-    description: "Specify clustername of elasticsearch"
-    type: string
-    label: Clustername of elasticsearch
-    group: "Elasticsearch"
-  - variable: molgenis-elasticsearch.persistence.enabled
-    default: true
-    description: "Enable or disable persistence for elasticsearch"
-    type: boolean
-    label: Persistence elasticsearch enabled
-    group: "Elasticsearch"
-  - variable: molgenis-elasticsearch.master.persistence.size
-    default: "10Gi"
-    description: "Size of elasticsearch data storage"
-    type: enum
-    options:
-    - "5Gi"
-    - "10Gi"
-    - "30Gi"
-    label: Size elasticsearch volume
-    group: "Elasticsearch"
   - variable: persistence.enabled
     default: true
-    description: "Do you want to enable persistence for the MOLGENIS filestore"
+    label: Persist MOLGENIS filestore
     type: boolean
-    label: MOLGENIS filestore persistence enabled
     group: "Persistence"
-  - variable: persistence.retain
-    default: false
-    description: "Do you want to retain the persistent volume of the MOLGENIS filestore"
+    show_subquestion_if: true
+    subquestions:
+    - variable: persistence.size
+      default: "5Gi"
+      label: MOLGENIS filestore volume size
+      type: enum
+      options:
+        - "5Gi"
+        - "10Gi"
+        - "30Gi"
+      group: "Persistence"
+  - variable: minio.persistence.enabled
+    default: true
+    label: Persist Minio blobstore
     type: boolean
-    label: Retain volume
     group: "Persistence"
-  - variable: persistence.molgenis.size
-    default: "10Gi"
-    description: "Size of MOLGENIS filestore volume"
-    type: enum
-    options:
-    - "5Gi"
-    - "10Gi"
-    - "30Gi"
-    label: Size MOLGENIS filestore volume
+    show_subquestion_if: true
+    subquestions:
+    - variable: minio.persistence.size
+      default: "5Gi"
+      label: Minio blobstore size
+      type: enum
+      options:
+        - "5Gi"
+        - "10Gi"
+        - "30Gi"
+      group: "Persistence"
+  - variable: postgresql.persistence.enabled
+    default: true
+    label: Persist PostgreSQL database
+    type: boolean
     group: "Persistence"
+    show_subquestion_if: true
+    subquestions:
+    - variable: postgresql.persistence.size
+      default: "5Gi"
+      label: PostgreSQL size
+      type: enum
+      options:
+        - "5Gi"
+        - "10Gi"
+        - "30Gi"
+      group: "Persistence"
+  - variable: molgenis-elasticsearch.persistence.enabled
+    default: true
+    label: Persist elasticsearch index
+    type: boolean
+    group: "Persistence"
+    show_subquestion_if: true
+    subquestions:
+      - variable: molgenis-elasticsearch.master.persistence.size
+        default: "5Gi"
+        label: elasticsearch index size
+        type: enum
+        options:
+        - "5Gi"
+        - "10Gi"
+        - "30Gi"
+        group: "Persistence"

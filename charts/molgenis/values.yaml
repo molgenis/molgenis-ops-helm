@@ -1,11 +1,4 @@
-# Default values for molgenis.
-
-replicaCount: 1
-
-service:
-  type: ClusterIP
-  port: 8080
-
+# Default values for molgenis
 ingress:
   enabled: true
   annotations:
@@ -14,63 +7,38 @@ ingress:
   path: /
   tls: []
 
-molgenis:
-  advanced: false
-  type:
-    kind: medium
-    small:
-      javaOpts:
-        maxHeapSpace: "2g"
-      resources:
-        limits:
-          cpu: 2
-          memory: 2Gi
-        requests:
-          cpu: 200m
-          memory: 2Gi
-      persistence:
-        size: 5Gi
-    medium:
-      javaOpts:
-        maxHeapSpace: "3g"
-      resources:
-        limits:
-          cpu: 3
-          memory: 3Gi
-        requests:
-          cpu: 200m
-          memory: 3Gi
-      persistence:
-        size: 10Gi
-    large:
-      javaOpts:
-        maxHeapSpace: "4g"
-      resources:
-        limits:
-          cpu: 4
-          memory: 4Gi
-        requests:
-          cpu: 200m
-          memory: 4Gi
-      persistence:
-        size: 30Gi
-  environment: test
-  # Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
-  sentry:
-    dsn: xxxx
-  python:
-    executable: "/usr/bin/python3"
-  image:
-    repository: registry.hub.docker.com
-    name: molgenis/molgenis-app
-    tag: stable
-    pullPolicy: Always
-  adminPassword:
-  persistence:
-    claim: pvc-molgenis
-  services:
-    opencpu:
-      host: localhost
+image:
+  repository: registry.hub.docker.com
+  name: molgenis/molgenis-app
+  tag: stable
+environment: test
+# Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
+sentry:
+  dsn: xxxx
+python:
+  executable: "/usr/bin/python3"
+adminPassword:
+opencpu: opencpu-opencpu.molgenis-opencpu
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  # existingClaim: ""
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+  requests: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+nodeSelector:
+  deployPod: "true"
+tolerations: []
+affinity: {}
 
 molgenis-elasticsearch:
   persistence:
@@ -78,22 +46,18 @@ molgenis-elasticsearch:
   master:
     clusterName: molgenis
     javaOpts: "-Xms1g -Xmx1g"
+    persistence:
+      size: 5Gi
     resources:
       limits:
         cpu: 2
         memory: 2Gi
-      requests:
-        cpu: 200m
-        memory: 2Gi
-    persistence:
-      size: 10Gi
+      requests: {}
 
 postgresql:
-  persistence:
-    enabled: true
-    size: 10Gi
   image:
-    tag: 9.6.11
+    tag: 11.1.0-debian-9-r71
+    pullPolicy: IfNotPresent
   ## Specify runtime config parameters as a dict, using camelCase
   ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
   configuration:
@@ -101,12 +65,22 @@ postgresql:
   postgresqlUsername: molgenis
   postgresqlPassword: molgenis
   postgresqlDatabase: molgenis
+  persistence:
+    size: 5Gi
+  resources:
+    requests: {}
+    limits:
+      memory: 512Mi
+      cpu: 250m
+  metrics:
+    enabled: true
 
 minio:
   enabled: true
   persistence:
     enabled: true
-    size: 10Gi
+    retain: false
+    size: 5Gi
   defaultBucket:
     enabled: true
     name: molgenis
@@ -115,15 +89,3 @@ minio:
       prometheus.io/scrape: 'true'
       prometheus.io/path:   '/minio/prometheus/metrics'
       prometheus.io/port:   '9000'
-
-persistence:
-  enabled: true
-  retain: false
-
-nodeSelector: {
-  deployPod: "true"
-}
-
-tolerations: []
-
-affinity: {}
