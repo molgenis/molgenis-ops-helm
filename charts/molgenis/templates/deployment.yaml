@@ -42,9 +42,23 @@ spec:
             - name: db_password
               value: "{{ $.Values.postgresql.postgresqlPassword }}"
             - name: admin.password
-              value: "{{ .adminPassword }}"
+              value: "{{ .admin.password }}"
+            - name: admin.email
+              value: "{{ .admin.email }}"
+            - name: anonymous.email
+              value: "{{ .anonymous.email }}"
             - name: python_script_executable
-              value: {{ $.Values.molgenis.python.executable }}
+              value: {{ .python.executable }}
+            - name: mail.host
+              value: {{ .mail.host }}
+            - name: mail.username
+              value: {{ .mail.username }}
+            - name: mail.password
+              value: {{ .mail.password }}
+            - name: mail.port
+              value: 587
+            - name: mail.protocol
+              value: smtp
             {{- if .sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}

@@ -65,12 +65,20 @@ molgenis:
     name: molgenis/molgenis-app
     tag: stable
     pullPolicy: Always
-  adminPassword:
+  admin:
+    password:
+    email: noreply@molgenis.org
+  anonymous:
+    email: anonymous@molgenis.org
   persistence:
     claim: pvc-molgenis
   services:
     opencpu:
       host: localhost
+  mail:
+    host: smtp.rug.nl
+    username:
+    password:
 
 molgenis-elasticsearch:
   persistence:
