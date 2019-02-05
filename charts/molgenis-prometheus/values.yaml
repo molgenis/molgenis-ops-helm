@@ -67,10 +67,10 @@ prometheus:
     resources:
       limits:
         cpu: 500m
-        memory: 1Gi
+        memory: 2Gi
       requests:
         cpu: 500m
-        memory: 1Gi
+        memory: 2Gi
   configmapReload:
     resources:
       limits:
