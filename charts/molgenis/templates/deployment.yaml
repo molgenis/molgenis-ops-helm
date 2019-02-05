@@ -50,7 +50,7 @@ spec:
             - name: python_script_executable
               value: {{ .python.executable }}
             - name: mail.host
-              value: {{ .mail.host }}
+              value: "{{ .mail.host }}"
             - name: mail.username
               value: "{{ .mail.username }}"
             - name: mail.password
