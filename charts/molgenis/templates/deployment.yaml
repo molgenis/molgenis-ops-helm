@@ -31,20 +31,24 @@ spec:
             - name: opencpu.uri.host
               value: {{ .Values.opencpu }}
             - name: elasticsearch.transport.addresses
-              value: {{ .Release.Name }}-molgenis-elasticsearch:9300
+              value: {{ include "call-nested" (list . "molgenis-elasticsearch" "molgenis-elasticsearch.name") }}:9300
             - name: elasticsearch.cluster.name
               value: {{ index .Values "molgenis-elasticsearch" "master" "clusterName" }}
             - name: db_uri
-              value: jdbc:postgresql://{{ $.Release.Name -}}-postgresql/{{ $.Values.postgresql.postgresDatabase }}
+              value: jdbc:postgresql://{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ $.Values.postgresql.postgresqlDatabase }}
             - name: db_user
               value: {{ .Values.postgresql.postgresqlUsername }}
             - name: db_password
               valueFrom:
                 secretKeyRef:
-                  name: impressive-owl-postgresql
+                  name: {{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}
                   key: postgresql-password
             - name: admin.password
-              value: "{{ .adminPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "molgenis.fullname" $ }}
+                  key: adminpassword
+              value: {{ .adminPassword | quote }}
             - name: python_script_executable
               value: {{ .Values.python.executable }}
             {{- if .sentry }}
@@ -64,11 +68,17 @@ spec:
               value: {{ .defaultBucket.name }}
             - name: minio_endpoint
               value: http://{{ template "minio.fullname" $ }}:{{ .service.port }}
-            - name: minio_access_key
-              value: {{ .accessKey }}
-            - name: minio_secret_key
-              value: {{ .secretKey }}
             {{- end}}
+            - name: minio_access_key
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list . "minio" "minio.fullname") }}
+                  key: accesskey
+            - name: minio_secret_key
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list . "minio" "minio.fullname") }}
+                  key: secretkey
             - name: CATALINA_OPTS
               value: "-XX:MaxRAMFraction=2"
           ports:
