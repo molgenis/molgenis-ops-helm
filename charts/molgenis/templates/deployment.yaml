@@ -23,40 +23,42 @@ spec:
     spec:
       containers:
         - name: molgenis
-        {{- with .Values.molgenis }}
-          image: {{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}
-          imagePullPolicy: {{ .image.pullPolicy }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: molgenis.home
               value: /home/molgenis
             - name: opencpu.uri.host
-              value: {{ .opencpu }}
+              value: {{ .Values.opencpu }}
             - name: elasticsearch.transport.addresses
-              value: {{ $.Release.Name }}-molgenis-elasticsearch:9300
+              value: {{ .Release.Name }}-molgenis-elasticsearch:9300
             - name: elasticsearch.cluster.name
-              value: {{ index $.Values "molgenis-elasticsearch" "master" "clusterName" }}
+              value: {{ index .Values "molgenis-elasticsearch" "master" "clusterName" }}
             - name: db_uri
               value: jdbc:postgresql://{{ $.Release.Name -}}-postgresql/{{ $.Values.postgresql.postgresDatabase }}
             - name: db_user
-              value: {{ $.Values.postgresql.postgresqlUsername }}
+              value: {{ .Values.postgresql.postgresqlUsername }}
             - name: db_password
-              value: "{{ $.Values.postgresql.postgresqlPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: impressive-owl-postgresql
+                  key: postgresql-password
             - name: admin.password
               value: "{{ .adminPassword }}"
             - name: python_script_executable
-              value: {{ $.Values.molgenis.python.executable }}
+              value: {{ .Values.python.executable }}
             {{- if .sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}
             - name: SENTRY_RELEASE
-              value: {{ .image.name }}@{{ .image.tag }}
+              value: {{ .Values.image.name }}@{{ .Values.image.tag }}
             - name: SENTRY_ENVIRONMENT
-              value: {{ .environment }}
+              value: {{ .Values.environment }}
             {{- range $key, $value := default dict .sentry }}
             - name: SENTRY_{{ $key | snakecase | upper }}
               value: {{ $value }}
             {{- end }}
-            {{- end}}
+            {{- end }}
             {{- with $.Values.minio }}
             - name: minio_bucket_name
               value: {{ .defaultBucket.name }}
@@ -68,7 +70,7 @@ spec:
               value: {{ .secretKey }}
             {{- end}}
             - name: CATALINA_OPTS
-              value: -XX:MaxRAMFraction=2
+              value: "-XX:MaxRAMFraction=2"
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -91,17 +93,15 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           resources:
-            {{ template "molgenis.resources" $ }}
-        {{- end }}
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
         - name: pv-molgenis
-        {{ - if .Values.persistence.enabled }}
+        {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "myapp.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "molgenis.fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
-
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

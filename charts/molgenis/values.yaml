@@ -41,6 +41,7 @@ tolerations: []
 affinity: {}
 
 molgenis-elasticsearch:
+  enabled: true
   persistence:
     enabled: true
   master:
@@ -55,6 +56,7 @@ molgenis-elasticsearch:
       requests: {}
 
 postgresql:
+  enabled: true
   image:
     tag: 11.1.0-debian-9-r71
     pullPolicy: IfNotPresent
@@ -81,6 +83,11 @@ minio:
     enabled: true
     retain: false
     size: 5Gi
+  resources:
+    requests: {}
+    limits:
+      memory: 256Mi
+      cpu: 100m
   defaultBucket:
     enabled: true
     name: molgenis
