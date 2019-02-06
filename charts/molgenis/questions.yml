@@ -35,7 +35,7 @@ questions:
     type: boolean
     required: true
     group: "Advanced"
-  - variable: molgenis.image.repository
+  - variable: image.repository
     show_if: "questions.advanced=true"
     label: Registry
     default: "registry.hub.docker.com"
@@ -46,7 +46,7 @@ questions:
       - "registry.molgenis.org"
     required: true
     group: "Provisioning"
-  - variable: molgenis.sentry.dsn
+  - variable: sentry.dsn
     show_if: "questions.advanced=true"
     label: Sentry datasource name
     default: "https://xxxx@sentry.molgenis.org/1"
