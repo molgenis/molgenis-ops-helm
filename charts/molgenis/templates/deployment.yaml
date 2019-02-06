@@ -80,7 +80,7 @@ spec:
                   name: {{ include "call-nested" (list . "minio" "minio.fullname") }}
                   key: secretkey
             - name: CATALINA_OPTS
-              value: "-XX:MaxRAMFraction=2"
+              value: {{ .Values.catalinaOpts }}
           ports:
             - containerPort: 8080
           volumeMounts:
