@@ -26,10 +26,12 @@ persistence:
   size: 5Gi
   # existingClaim: ""
 resources:
+  requests:
+    cpu:
+    memory:
   limits:
     cpu: 1
     memory: 2Gi
-  requests: {}
 
 service:
   type: ClusterIP
@@ -50,10 +52,12 @@ molgenis-elasticsearch:
     persistence:
       size: 5Gi
     resources:
+      requests:
+        cpu:
+        memory:
       limits:
         cpu: 2
         memory: 2Gi
-      requests: {}
 
 postgresql:
   enabled: true
@@ -70,10 +74,12 @@ postgresql:
   persistence:
     size: 5Gi
   resources:
-    requests: {}
+    requests:
+      cpu:
+      memory:
     limits:
-      memory: 512Mi
       cpu: 250m
+      memory: 512Mi
   metrics:
     enabled: true
 
@@ -84,10 +90,12 @@ minio:
     retain: false
     size: 5Gi
   resources:
-    requests: {}
+    requests:
+      cpu:
+      memory:
     limits:
+      cpu: 250m
       memory: 256Mi
-      cpu: 100m
   defaultBucket:
     enabled: true
     name: molgenis
