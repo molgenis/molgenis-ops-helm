@@ -293,6 +293,9 @@ jenkins:
         - type: KeyValue
           key: HELM_REPO
           value: https://registry.molgenis.org/repository/helm/
+        - type: KeyValue
+          key: HELM_REPOSITORY
+          value: https://helm.molgenis.org/
       NodeSelector: {}
     molgenis:
       Label: molgenis
@@ -531,16 +534,9 @@ jenkins:
       InheritFrom: shared
       NodeUsageMode: EXCLUSIVE
       Containers:
-        helm:
-          Image: "lachlanevenson/k8s-helm"
-          ImageTag: "v2.10.0"
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
         chart-testing:
           Image: "quay.io/helmpack/chart-testing"
-          ImageTag: v2.1.0
+          ImageTag: v2.2.0
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
