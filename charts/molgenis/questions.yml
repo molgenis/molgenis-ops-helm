@@ -87,7 +87,6 @@ questions:
   - variable: minio.minioConfig.region
     show_if: "questions.advanced=true"
     label: Region
-    default: "us-east-1"
     group: "Minio"
   - variable: minio.minioConfig.browser
     type: enum
@@ -96,7 +95,6 @@ questions:
       - "off"
     show_if: "questions.advanced=true"
     label: Browser
-    default: "on"
     group: "Minio"
   - variable: minio.accessKey
     show_if: "questions.advanced=true"

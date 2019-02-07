@@ -66,6 +66,8 @@ spec:
             {{- with $.Values.minio }}
             - name: minio_bucket_name
               value: {{ .defaultBucket.name }}
+            - name: minio_region
+              value: {{ .minioConfig.region }}
             - name: minio_endpoint
               value: http://{{ template "minio.fullname" $ }}:{{ .service.port }}
             {{- end}}
