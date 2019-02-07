@@ -6,9 +6,15 @@ pipeline {
     }
     stages {
         stage('Test') {
+            environment {
+                CT_REMOTE='origin'
+                CT_BUILD_ID="${CHANGE_ID}"
+            }
             steps {
                 container('chart-testing') {
-                    sh "chart_test.sh --no-install --all"
+                    sh "helm init --client-only"
+                    sh "helm repo add molgenis ${HELM_REPO}"
+                    sh "ct lint --all"
                 }
             }
         }
@@ -34,8 +40,8 @@ pipeline {
                     }
                 }
                 container('alpine') {
-                    sh 'set +x; for chart in target/*; do curl -L --fail -u $NEXUS_USER:$NEXUS_PWD http://registry.molgenis.org/repository/helm/ --upload-file "$chart"; done'
-                    sh 'set +x; for chart in target/*; do curl -L --fail -u $CHARTMUSEUM_USER:$CHARTMUSEUM_PWD https://helm.molgenis.org/api/charts --data-binary "@$chart"; done'
+                    sh 'set +x; for chart in target/*; do curl -L --fail -u $NEXUS_USER:$NEXUS_PWD $HELM_REPO --upload-file "$chart"; done'
+                    sh 'set +x; for chart in target/*; do curl -L --fail -u $CHARTMUSEUM_USER:$CHARTMUSEUM_PWD $HELM_REPOSITOR/api/charts --data-binary "@$chart"; done'
                 }
             }
         }
