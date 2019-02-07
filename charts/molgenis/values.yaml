@@ -32,7 +32,7 @@ resources:
   limits:
     cpu: 1
     memory: 2.5Gi
-catalinaOpts: "-XX:MaxRAMPercentage=80"
+catalinaOpts: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
 
 service:
   type: ClusterIP
