@@ -45,8 +45,6 @@ affinity: {}
 
 molgenis-elasticsearch:
   enabled: true
-  clusterName: molgenis
-  javaOpts: "-Xms1g -Xmx1g"
   persistence:
     size: 5Gi
   resources:

@@ -33,7 +33,7 @@ spec:
             - name: elasticsearch.transport.addresses
               value: {{ include "call-nested" (list . "molgenis-elasticsearch" "molgenis-elasticsearch.fullname") }}:9300
             - name: elasticsearch.cluster.name
-              value: {{ index .Values "molgenis-elasticsearch" "master" "clusterName" }}
+              value: {{ index .Values "molgenis-elasticsearch" "clusterName" }}
             - name: db_uri
               value: jdbc:postgresql://{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ $.Values.postgresql.postgresqlDatabase }}
             - name: db_user

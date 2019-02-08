@@ -225,3 +225,8 @@ questions:
           - "5Gi"
           - "10Gi"
           - "30Gi"
+      - variable: molgenis-elasticsearch.persistence.storageClass
+        show_if: "questions.advanced=true"
+        required: false
+        label: elasticsearch storage class
+        type: storageclass
