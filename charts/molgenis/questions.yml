@@ -3,7 +3,6 @@ categories:
 questions:
   - variable: environment
     label: Environment
-    default: "test"
     description: "Environment of MOLGENIS instance"
     type: enum
     options:
@@ -19,13 +18,6 @@ questions:
     default: "stable"
     description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for released tags)"
     type: string
-    required: true
-    group: "Provisioning"
-  - variable: adminPassword
-    label: Administrator password
-    default: ""
-    description: "Enter an administrator password"
-    type: password
     required: true
     group: "Provisioning"
   - variable: questions.advanced
@@ -46,6 +38,57 @@ questions:
       - "registry.molgenis.org"
     required: true
     group: "Provisioning"
+  - variable: adminPassword
+    label: Administrator password
+    default: ""
+    description: "Enter the administrator password"
+    type: password
+    required: true
+    group: "Provisioning"
+  - variable: "resources.requests.cpu"
+    group: "MOLGENIS Tomcat"
+    label: "Requested cpu"
+    type: enum
+    options:
+      - "500m"
+      - "1"
+      - "2"
+      - "4"
+    default: "1"
+  - variable: "resources.requests.memory"
+    group: "MOLGENIS Tomcat"
+    label: "Requested memory"
+    default: "2Gi"
+    type: enum
+    options:
+      - "2Gi"
+      - "3Gi"
+      - "4Gi"
+  - variable: "resources.limits.cpu"
+    group: "MOLGENIS Tomcat"
+    label: "Max cpu"
+    description: "Max amount of cpu, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    options:
+      - ""
+      - "500m"
+      - "1"
+      - "2"
+      - "4"
+      default: "1"
+  - variable: "resources.limits.memory"
+    group: "MOLGENIS Tomcat"
+    label: "Max memory"
+    description: "Max amount of memory, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    default: "2Gi"
+    type: enum
+    options:
+      - ""
+      - "2Gi"
+      - "3Gi"
+      - "4Gi"
+  - variable: "catalinaOpts"
+    default: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+    label: "Catalina options"
   - variable: sentry.dsn
     show_if: "questions.advanced=true"
     label: Sentry datasource name
@@ -82,12 +125,13 @@ questions:
       - variable: persistence.storageClass
         show_if: "questions.advanced=true"
         required: false
-        label: Minio storage class
+        label: MOLGENIS filestore storage class
         type: storageclass
   - variable: minio.minioConfig.region
     show_if: "questions.advanced=true"
     label: Region
     group: "Minio"
+    type: string
   - variable: minio.minioConfig.browser
     type: enum
     options:

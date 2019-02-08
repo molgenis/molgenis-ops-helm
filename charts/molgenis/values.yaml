@@ -17,7 +17,7 @@ sentry:
   dsn: xxxx
 python:
   executable: "/usr/bin/python3"
-adminPassword:
+adminPassword: ""
 opencpu: opencpu-opencpu.molgenis-opencpu
 persistence:
   enabled: true
