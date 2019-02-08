@@ -45,47 +45,6 @@ questions:
     type: password
     required: true
     group: "Provisioning"
-  - variable: "resources.requests.cpu"
-    group: "MOLGENIS Tomcat"
-    label: "Requested cpu"
-    type: enum
-    options:
-      - "500m"
-      - "1"
-      - "2"
-      - "4"
-    default: "1"
-  - variable: "resources.requests.memory"
-    group: "MOLGENIS Tomcat"
-    label: "Requested memory"
-    default: "2Gi"
-    type: enum
-    options:
-      - "2Gi"
-      - "3Gi"
-      - "4Gi"
-  - variable: "resources.limits.cpu"
-    group: "MOLGENIS Tomcat"
-    label: "Max cpu"
-    description: "Max amount of cpu, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
-    options:
-      - ""
-      - "500m"
-      - "1"
-      - "2"
-      - "4"
-      default: "1"
-  - variable: "resources.limits.memory"
-    group: "MOLGENIS Tomcat"
-    label: "Max memory"
-    description: "Max amount of memory, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
-    default: "2Gi"
-    type: enum
-    options:
-      - ""
-      - "2Gi"
-      - "3Gi"
-      - "4Gi"
   - variable: "catalinaOpts"
     default: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
     label: "Catalina options"
