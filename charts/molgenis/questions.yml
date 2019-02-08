@@ -45,24 +45,71 @@ questions:
     type: password
     required: true
     group: "Provisioning"
-  - variable: "catalinaOpts"
+  - variable: catalinaOpts
+    show_if: "questions.advanced=true"
     default: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+    type: string
     label: "Catalina options"
+    group: "MOLGENIS Tomcat"
+  - variable: "resources.requests.memory"
+    show_if: "questions.advanced=true"
+    group: "MOLGENIS Tomcat"
+    label: "Requested memory"
+    type: enum
+    options:
+      - "2Gi"
+      - "3Gi"
+      - "4Gi"
+    default: "2Gi"
+  - variable: "resources.limits.memory"
+    show_if: "questions.advanced=true"
+    group: "MOLGENIS Tomcat"
+    label: "Max memory"
+    description: "Max amount of memory, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    type: enum
+    options:
+      - "2Gi"
+      - "3Gi"
+      - "4Gi"
+    default: "2Gi"
+  - variable: "resources.requests.cpu"
+    show_if: "questions.advanced=true"
+    group: "MOLGENIS Tomcat"
+    label: "Requested cpu"
+    type: enum
+    options:
+      - "500m"
+      - "1"
+      - "2"
+      - "4"
+    default: "1"
+  - variable: "resources.limits.cpu"
+    show_if: "questions.advanced=true"
+    group: "MOLGENIS Tomcat"
+    label: "Max cpu"
+    description: "Max amount of cpu, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    type: enum
+    options:
+      - "500m"
+      - "1"
+      - "2"
+      - "4"
+    default: "1"
   - variable: sentry.dsn
     show_if: "questions.advanced=true"
     label: Sentry datasource name
     default: "https://xxxx@sentry.molgenis.org/1"
     description: "Specify the Sentry datasource name with the following format: https://{public key}@sentry.molgenis.org/{project id}"
-    type: string
     required: true
     group: "Services"
+    type: string
   - variable: opencpu
     show_if: "questions.advanced=true"
     label: OpenCPU cluster
     default: "opencpu-opencpu.molgenis-opencpu"
     description: "Specify the OpenCPU cluster (assuming you deployed the OpenCPU instance in the namespace 'molgenis-opencpu' and release name 'opencpu'"
-    type: string
     required: true
+    type: string
     group: "Services"
   - variable: persistence.enabled
     show_if: "questions.advanced=true"
@@ -91,11 +138,13 @@ questions:
     label: Region
     group: "Minio"
     type: string
+    default: "eu-central-1"
   - variable: minio.minioConfig.browser
     type: enum
     options:
       - "on"
       - "off"
+    default: "on"
     show_if: "questions.advanced=true"
     label: Browser
     group: "Minio"
