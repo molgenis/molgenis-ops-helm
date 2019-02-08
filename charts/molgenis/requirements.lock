@@ -1,9 +1,12 @@
 dependencies:
 - name: molgenis-elasticsearch
   repository: https://registry.molgenis.org/repository/helm
-  version: 0.1.1
+  version: 1.0.0
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com
-  version: 3.3.0
-digest: sha256:3cdf7c03294fc0030ede8393e03399bb672baea63ee149ebae63e8ca785fb0bf
-generated: 2018-12-19T20:53:18.39056474+01:00
+  version: 3.10.1
+- name: minio
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 2.4.0
+digest: sha256:41af9a981fd86020a59aaa29f9253ca619a9f2e96963c4a286f9a16e9a6ec2bc
+generated: 2019-02-08T13:04:38.030724173+01:00

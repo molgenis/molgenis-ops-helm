@@ -2,11 +2,12 @@
 This chart is used for acceptance and production use cases.
 
 ## Containers
-This chart spins up a MOLGENIS instance with HTTPD. The created containers are:
+This chart spins up a MOLGENIS instance. The created pods are:
 
 - MOLGENIS
 - ElasticSearch
-- PostgreSQL **(optional)**
+- PostgreSQL
+- Minio
 
 ## Provisioning
 You can choose from which registry you want to pull. There are 2 registries:
@@ -16,22 +17,22 @@ You can choose from which registry you want to pull. There are 2 registries:
 The registry.molgenis.org contains the bleeding edge versions (PR's and master merges). The hub.docker.com contains the released artifacts (MOLGENIS releases and release candidates).
 
 The three properties you need to specify are:
-- ```molgenis.image.repository```
-- ```molgenis.image.name```
-- ```molgenis.image.tag```
+- ```image.repository```
+- ```image.name```
+- ```image.tag```
 
 Besides determining which image you want to pull, you also have to set an administrator password. You can do this by specifying the following property. 
-- ```molgenis.adminPassword```
+- ```adminPassword```
 
 ### Firewall
 Is defined at service level you can specify this attribute in the values:
 
-- ```molgenis.firewall.enabled``` default 'false' 
+- ```firewall.enabled``` default 'false' 
 
 If set to 'true' the following options are available. One of the options below has to be set.
 
-- ```molgenis.firewall.umcg.enabled``` default 'false'  
-- ```molgenis.firewall.cluster.enabled``` default 'false'
+- ```firewall.umcg.enabled``` default 'false'  
+- ```firewall.cluster.enabled``` default 'false'
 
 UMCG = only available within the UMCG.
 Cluster = only available within the GCC cluster environment.
