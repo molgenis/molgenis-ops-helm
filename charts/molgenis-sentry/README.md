@@ -118,3 +118,10 @@ $ helm install --name sentry -f values.yaml molgenis-sentry
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+## Troubleshooting
+Some of the quirks that are not resolved in the chart.
+
+### Volumes
+>note: you do not see the redis volume in the deployment (in Rancher). You need to op the volumes tab in the workload to see them.
+
+
