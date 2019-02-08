@@ -27,9 +27,6 @@ sentry:
     enabled: true
     hostname: sentry.molgenis.org
 
-  persistence:
-    enabled: false
-
   user:
     email: sentry@molgenis.org
 
@@ -41,12 +38,3 @@ sentry:
 
   service:
     type: ClusterIP
-
-  postgresql:
-    persistence:
-      enabled: false
-
-  redis:
-    master:
-      persistence:
-        enabled: false
