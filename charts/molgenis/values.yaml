@@ -45,20 +45,17 @@ affinity: {}
 
 molgenis-elasticsearch:
   enabled: true
+  clusterName: molgenis
+  javaOpts: "-Xms1g -Xmx1g"
   persistence:
-    enabled: true
-  master:
-    clusterName: molgenis
-    javaOpts: "-Xms1g -Xmx1g"
-    persistence:
-      size: 5Gi
-    resources:
-      requests:
-        cpu:
-        memory:
-      limits:
-        cpu: 2
-        memory: 2Gi
+    size: 5Gi
+  resources:
+    requests:
+      cpu:
+      memory:
+    limits:
+      cpu: 2
+      memory: 2Gi
 
 postgresql:
   enabled: true
