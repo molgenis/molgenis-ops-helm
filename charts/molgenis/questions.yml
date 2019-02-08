@@ -50,10 +50,10 @@ questions:
     default: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
     type: string
     label: "Catalina options"
-    group: "MOLGENIS Tomcat"
+    group: "MOLGENIS"
   - variable: "resources.requests.memory"
     show_if: "questions.advanced=true"
-    group: "MOLGENIS Tomcat"
+    group: "MOLGENIS"
     label: "Requested memory"
     type: enum
     options:
@@ -63,7 +63,7 @@ questions:
     default: "2Gi"
   - variable: "resources.limits.memory"
     show_if: "questions.advanced=true"
-    group: "MOLGENIS Tomcat"
+    group: "MOLGENIS"
     label: "Max memory"
     description: "Max amount of memory, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
     type: enum
@@ -74,7 +74,7 @@ questions:
     default: "2Gi"
   - variable: "resources.requests.cpu"
     show_if: "questions.advanced=true"
-    group: "MOLGENIS Tomcat"
+    group: "MOLGENIS"
     label: "Requested cpu"
     type: enum
     options:
@@ -85,7 +85,7 @@ questions:
     default: "1"
   - variable: "resources.limits.cpu"
     show_if: "questions.advanced=true"
-    group: "MOLGENIS Tomcat"
+    group: "MOLGENIS"
     label: "Max cpu"
     description: "Max amount of cpu, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
     type: enum
@@ -101,7 +101,7 @@ questions:
     default: "https://xxxx@sentry.molgenis.org/1"
     description: "Specify the Sentry datasource name with the following format: https://{public key}@sentry.molgenis.org/{project id}"
     required: true
-    group: "Services"
+    group: "Sentry"
     type: string
   - variable: opencpu
     show_if: "questions.advanced=true"
@@ -110,7 +110,7 @@ questions:
     description: "Specify the OpenCPU cluster (assuming you deployed the OpenCPU instance in the namespace 'molgenis-opencpu' and release name 'opencpu'"
     required: true
     type: string
-    group: "Services"
+    group: "OpenCPU"
   - variable: persistence.enabled
     show_if: "questions.advanced=true"
     default: true
