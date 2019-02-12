@@ -355,15 +355,17 @@ data:
 {{- if .Values.Master.Jobs }}
     {{- if eq .Values.Master.Environment "acceptance" }}
         for job in $(ls /var/jenkins_jobs); do
-            if [ -z "${job##*accept*}" ]; then
+            if [ -z "${job##*accept*}" && -z "${job##*preview*}" && -z "${job##*nightly*}" ]; then
                 mkdir -p /var/jenkins_home/jobs/${job};
                 cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml;
             fi
         done
     {{- else if eq .Values.Master.Environment "production" }}
         for job in $(ls /var/jenkins_jobs); do
-            mkdir -p /var/jenkins_home/jobs/${job}
-            cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml
+            if [ ! -z "${job##*accept*}" ]; then
+                mkdir -p /var/jenkins_home/jobs/${job}
+                cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml
+            fi
         done
     {{- end }}
 {{- end }}
