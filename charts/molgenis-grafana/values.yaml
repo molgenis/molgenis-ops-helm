@@ -71,6 +71,10 @@ grafana:
         gnetId: 1860
         revision: 12
         datasource: k8-prometheus
+      grafana:
+        gnetId: 3590
+        revision: 3
+        datasource: k8-prometheus
 
   grafana.ini:
     auth.github:
