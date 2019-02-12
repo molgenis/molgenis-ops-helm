@@ -353,10 +353,19 @@ data:
     cp -n /var/jenkins_secrets/* /usr/share/jenkins/ref/secrets;
 {{- end }}
 {{- if .Values.Master.Jobs }}
-    for job in $(ls /var/jenkins_jobs); do
-      mkdir -p /var/jenkins_home/jobs/$job
-      cp -n /var/jenkins_jobs/$job /var/jenkins_home/jobs/$job/config.xml
-    done
+    {{- if eq .Values.Master.Environment "acceptance" }}
+        for job in $(ls /var/jenkins_jobs); do
+            if [ -z "${job##*accept*}" ]; then
+                mkdir -p /var/jenkins_home/jobs/${job};
+                cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml;
+            fi
+        done
+    {{- else if eq .Values.Master.Environment "production" }}
+        for job in $(ls /var/jenkins_jobs); do
+            mkdir -p /var/jenkins_home/jobs/${job}
+            cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml
+        done
+    {{- end }}
 {{- end }}
 {{- range $key, $val := .Values.Master.InitScripts }}
   init{{ $key }}.groovy: |-
