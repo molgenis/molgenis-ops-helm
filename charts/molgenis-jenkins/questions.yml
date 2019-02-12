@@ -58,7 +58,7 @@ questions:
 - variable: secret.vault.token
   label: Vault token
   default:
-  description: "Check the designated place to recover the token"
+  description: "Generate a new Vault secret to read the build secrets. Please check the Vault SOP."
   type: password
   required: true
   group: "Vault"
