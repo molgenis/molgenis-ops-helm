@@ -98,7 +98,7 @@ questions:
   - variable: sentry.dsn
     show_if: "questions.advanced=true"
     label: Sentry datasource name
-    default: "https://xxxx@sentry.molgenis.org/1"
+    default: "https://c35baf01cbd1411abeea7472ebc2a050@sentry.molgenis.org/1"
     description: "Specify the Sentry datasource name with the following format: https://{public key}@sentry.molgenis.org/{project id}"
     required: true
     group: "Sentry"
