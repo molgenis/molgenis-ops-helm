@@ -98,7 +98,7 @@ questions:
   - variable: sentry.dsn
     show_if: "questions.advanced=true"
     label: Sentry datasource name
-    default: "https://xxxx@sentry.molgenis.org/1"
+    default: "https://c35baf01cbd1411abeea7472ebc2a050@sentry.molgenis.org/1"
     description: "Specify the Sentry datasource name with the following format: https://{public key}@sentry.molgenis.org/{project id}"
     required: true
     group: "Sentry"
@@ -111,34 +111,28 @@ questions:
     required: true
     type: string
     group: "OpenCPU"
-  - variable: persistence.enabled
+  - variable: persistence.size
     show_if: "questions.advanced=true"
-    default: true
-    label: Persist MOLGENIS filestore
-    type: boolean
-    group: "Filestore"
-    show_subquestion_if: true
-    subquestions:
-      - variable: persistence.size
-        show_if: "questions.advanced=true"
-        default: "5Gi"
-        label: MOLGENIS filestore volume size
-        type: enum
-        options:
-          - "5Gi"
-          - "10Gi"
-          - "30Gi"
-      - variable: persistence.storageClass
-        show_if: "questions.advanced=true"
-        required: false
-        label: MOLGENIS filestore storage class
-        type: storageclass
+    group: "Persistence"
+    default: "5Gi"
+    label: MOLGENIS filestore volume size
+    type: enum
+    options:
+      - "5Gi"
+      - "10Gi"
+      - "30Gi"
+  - variable: persistence.storageClass
+    show_if: "questions.advanced=true"
+    group: "Persistence"
+    required: false
+    label: MOLGENIS filestore storage class
+    type: storageclass
   - variable: minio.minioConfig.region
     show_if: "questions.advanced=true"
     label: Region
     group: "Minio"
     type: string
-    default: "eu-central-1"
+    default: ""
   - variable: minio.minioConfig.browser
     type: enum
     options:
@@ -164,69 +158,173 @@ questions:
     min_length: 8
     max_length: 40
     group: "Minio"
-  - variable: minio.persistence.enabled
+  - variable: minio.persistence.size
     show_if: "questions.advanced=true"
-    default: true
-    label: Persist Minio blobstore
-    type: boolean
+    group: "Persistence"
+    default: "5Gi"
+    label: Minio blobstore size
+    type: enum
+    options:
+      - "5Gi"
+      - "10Gi"
+      - "30Gi"
+  - variable: minio.persistence.storageClass
+    show_if: "questions.advanced=true"
+    group: "Persistence"
+    required: false
+    label: Minio storage class
+    type: storageclass
+  - variable: "minio.image.tag"
+    show_if: "questions.advanced=true"
     group: "Minio"
-    show_subquestion_if: true
-    subquestions:
-      - variable: minio.persistence.size
-        show_if: "questions.advanced=true"
-        default: "5Gi"
-        label: Minio blobstore size
-        type: enum
-        options:
-          - "5Gi"
-          - "10Gi"
-          - "30Gi"
-      - variable: minio.persistence.storageClass
-        show_if: "questions.advanced=true"
-        required: false
-        label: Minio storage class
-        type: storageclass
-  - variable: postgresql.persistence.enabled
+    label: "Minio image tag"
+    type: string
+    default: "RELEASE.2019-01-10T00-21-20Z"
+  - variable: "minio.image.pullPolicy"
     show_if: "questions.advanced=true"
-    default: true
-    label: Persist PostgreSQL database
-    type: boolean
+    group: "Minio"
+    label: "Minio image pull policy"
+    default: "IfNotPresent"
+    type: enum
+    options:
+      - "IfNotPresent"
+      - "Always"
+      - "Never"
+  - variable: postgresql.persistence.size
+    show_if: "questions.advanced=true"
+    group: "Persistence"
+    default: "5Gi"
+    label: PostgreSQL size
+    type: enum
+    options:
+      - "5Gi"
+      - "10Gi"
+      - "30Gi"
+  - variable: postgresql.persistence.storageClass
+    show_if: "questions.advanced=true"
+    group: "Persistence"
+    required: false
+    label: Postgresql storage class
+    type: storageclass
+  - variable: postgresql.image.tag
     group: "Database"
-    show_subquestion_if: true
-    subquestions:
-      - variable: postgresql.persistence.size
-        show_if: "questions.advanced=true"
-        default: "5Gi"
-        label: PostgreSQL size
-        type: enum
-        options:
-          - "5Gi"
-          - "10Gi"
-          - "30Gi"
-      - variable: postgresql.persistence.storageClass
-        show_if: "questions.advanced=true"
-        required: false
-        label: Postgresql storage class
-        type: storageclass
-  - variable: molgenis-elasticsearch.persistence.enabled
     show_if: "questions.advanced=true"
-    default: true
-    label: Persist elasticsearch index
-    type: boolean
+    label: "Bitnami docker postgresql image tag"
+    description: "See https://github.com/bitnami/bitnami-docker-postgresql"
+    default: "11.1.0-debian-9-r78"
+    type: string
+  - variable: postgresql.image.pullPolicy
+    group: "Database"
+    show_if: "questions.advanced=true"
+    label: "Image pull policy"
+    type: enum
+    options:
+      - "IfNotPresent"
+      - "Always"
+      - "Never"
+    default: "IfNotPresent"
+  - variable: "minio.resources.requests.memory"
+    show_if: "questions.advanced=true"
+    group: "Minio"
+    label: "Requested memory"
+    type: enum
+    options:
+      - "256Mi"
+      - "512Mi"
+    default: "256Mi"
+  - variable: "minio.resources.limits.memory"
+    show_if: "questions.advanced=true"
+    group: "Minio"
+    label: "Max memory"
+    description: "Max amount of memory, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    type: enum
+    options:
+      - "256Mi"
+      - "512Mi"
+    default: "256Mi"
+  - variable: "minio.resources.requests.cpu"
+    show_if: "questions.advanced=true"
+    group: "Minio"
+    label: "Requested cpu"
+    type: enum
+    options:
+      - "100m"
+      - "250m"
+      - "500m"
+    default: "100m"
+  - variable: "minio.resources.limits.cpu"
+    show_if: "questions.advanced=true"
+    group: "Minio"
+    label: "Max cpu"
+    description: "Max amount of cpu, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    type: enum
+    options:
+      - "100m"
+      - "250m"
+      - "500m"
+    default: "100m"
+  - variable: molgenis-elasticsearch.persistence.size
+    show_if: "questions.advanced=true"
+    group: "Persistence"
+    default: "5Gi"
+    label: elasticsearch index size
+    type: enum
+    options:
+      - "5Gi"
+      - "10Gi"
+      - "30Gi"
+  - variable: molgenis-elasticsearch.persistence.storageClass
+    show_if: "questions.advanced=true"
+    group: "Persistence"
+    required: false
+    label: elasticsearch storage class
+    type: storageclass
+  - variable: 'molgenis-elasticsearch.javaOpts'
+    show_if: "questions.advanced=true"
     group: "Index"
-    show_subquestion_if: true
-    subquestions:
-      - variable: molgenis-elasticsearch.master.persistence.size
-        show_if: "questions.advanced=true"
-        default: "5Gi"
-        label: elasticsearch index size
-        type: enum
-        options:
-          - "5Gi"
-          - "10Gi"
-          - "30Gi"
-      - variable: molgenis-elasticsearch.persistence.storageClass
-        show_if: "questions.advanced=true"
-        required: false
-        label: elasticsearch storage class
-        type: storageclass
+    label: "ES_JAVA_OPTS value"
+    type: string
+    default: "-Xms1g -Xmx1g"
+    description: "Don't set max stack size higher than half the container max memory. See https://www.elastic.co/guide/en/elasticsearch/reference/5.6/heap-size.html"
+  - variable: "molgenis-elasticsearch.resources.requests.memory"
+    show_if: "questions.advanced=true"
+    group: "Index"
+    label: "Requested container memory"
+    type: enum
+    options:
+      - "2Gi"
+      - "4Gi"
+      - "6Gi"
+    default: "2Gi"
+  - variable: "molgenis-elasticsearch.resources.limits.memory"
+    show_if: "questions.advanced=true"
+    group: "Index"
+    label: "Max container memory"
+    description: "Max amount of container memory, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    type: enum
+    options:
+      - "2Gi"
+      - "4Gi"
+      - "6Gi"
+    default: "2Gi"
+  - variable: "molgenis-elasticsearch.resources.requests.cpu"
+    show_if: "questions.advanced=true"
+    group: "Index"
+    label: "Requested cpu"
+    type: enum
+    options:
+      - "1"
+      - "2"
+      - "3"
+    default: "1"
+  - variable: "molgenis-elasticsearch.resources.limits.cpu"
+    show_if: "questions.advanced=true"
+    group: "Index"
+    label: "Max cpu"
+    description: "Max amount of cpu, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+    type: enum
+    options:
+      - "1"
+      - "2"
+      - "3"
+    default: "1"

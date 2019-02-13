@@ -95,6 +95,8 @@ minio:
   defaultBucket:
     enabled: true
     name: molgenis
+  minioConfig:
+    region: ""
   service:
     annotations:
       prometheus.io/scrape: 'true'
