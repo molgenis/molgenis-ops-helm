@@ -138,7 +138,7 @@ questions:
     label: Region
     group: "Minio"
     type: string
-    default: "eu-central-1"
+    default: ""
   - variable: minio.minioConfig.browser
     type: enum
     options:
