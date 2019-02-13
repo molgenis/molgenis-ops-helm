@@ -1,5 +1,5 @@
 # MOLGENIS
-This chart is used for acceptance and production use cases.
+This chart is used to deploy the MOLGENIS rancher catalog app.
 
 ## Containers
 This chart spins up a MOLGENIS instance. The created pods are:
@@ -9,134 +9,35 @@ This chart spins up a MOLGENIS instance. The created pods are:
 - PostgreSQL
 - Minio
 
-## Provisioning
-You can choose from which registry you want to pull. There are 2 registries:
-- https://registry.molgenis.org
-- https://hub.docker.com
+Passwords will be stored as secrets in the namespace.
 
-The registry.molgenis.org contains the bleeding edge versions (PR's and master merges). The hub.docker.com contains the released artifacts (MOLGENIS releases and release candidates).
+## Questions
+When you launch the catalog app, you are presented with a set of questions to answer about your
+deployment.
+If you select the advanced mode, you'll get more detailed questions to fine-tune the deployment.
 
-The three properties you need to specify are:
-- ```image.repository```
-- ```image.name```
-- ```image.tag```
+### Consistency
+Some of the answers need to be compatible with each other, rancher does not provide us with an easy
+way to check this.
 
-Besides determining which image you want to pull, you also have to set an administrator password. You can do this by specifying the following property. 
-- ```adminPassword```
+* The environment you specify needs to match the cluster you're deploying to, otherwise the DNS
+resolution will fail.
 
-### Firewall
-Is defined at service level you can specify this attribute in the values:
+* The MOLGENIS docker image tag you specify needs to match the registry you choose. The bleeding edge images
+like pull request previews and master snapshots can be found on `registry.molgenis.org`, the
+released images reside on `registry.hub.docker.com`.
 
-- ```firewall.enabled``` default 'false' 
+* The elasticsearch java opts allow you to fine-tune the JVM heap size. Make sure you set it to about
+half the max elasticsearch container memory.
 
-If set to 'true' the following options are available. One of the options below has to be set.
+* Resource reservations should always be less than or equal to the corresponding limits.
 
-- ```firewall.umcg.enabled``` default 'false'  
-- ```firewall.cluster.enabled``` default 'false'
+* You can auto-generate passwords but in some really wild cases the downstream
+images may not be compatible with special characters in the password.
+Specifically, the admin password will get parsed by the property evaluator and
+specifying `${blah}` as a password will cause your MOLGENIS installation not to boot.
 
-UMCG = only available within the UMCG.
-Cluster = only available within the GCC cluster environment.
-
-## Services
-When you start MOLGENIS you need:
-- an elasticsearch instance (5.5.6) 
-- an postgres instance (9.6)
-
-You can attach additional services like:
-- an opencpu instance
-
-### Elasticsearch
-You can configure elasticsearch by giving in the cluster location.
-
-To configure the transport address you can address the node communication channel but also the native JAVA API. Which MOLGENIS uses to communicate with Elasticsearch.
-From Elasticsearch version 6 and further the JAVA API is not supported anymore. At this moment you can only use Elastic instance till major version 5.
-- ```molgenis.services.elasticsearch.transportAddresses: localhost:9300```
-
-To configure the index on a Elasticsearch cluster you can specify the clusterName property.
-- ```molgenis.services.elasticsearch.clusterName: molgenis```
-
-### Postgres
-You can specify the location of the postgres instance by specify the following property:
-- ```molgenis.services.postgres.host: localhost```
-
-You can specify the schema by filling out this property:
-- ```molgenis.services.postgres.scheme: molgenis```
-
-You can specify credentials for the database scheme by specifying the following properties:
-- ```molgenis.services.postgres.user: molgenis```
-- ```molgenis.services.postgres.password: molgenis```
-
-A postgres container is added to the pod by default. You can disable it by specifying:
-- `postgres.enabled: false`
-
-You can specify [runtime config values](https://www.postgresql.org/docs/current/static/runtime-config.html)
-that override the values listed in the postgres.conf using camel case:
-- `postgres.config.maxLocksPerTransaction: 1024`
-
-### OpenCPU
-You can specify the location of the OpenCPU cluster by specifying this property:
-- ```molgenis.services.opencpu.host: localhost```
-
-You can test OpenCPU settings using the **OpenCPU**-helm chart of MOLGENIS.
-
-## Resources
-You can specify resources by resource type. There are 2 resource types.
-- memory of container
-- maximum heap space JVM
-
-Specify memory usage of container:
-- ```molgenis.resources.limits.memory```
-
-Specify memory usage for Java JVM:
-- ```molgenis.javaOpts.maxHeapSpace```
-
-Select the resources you need dependant on the customer you need to serve.
-
-## Persistence
-You can enable persistence on your MOLGENIS stack by specifying the following property.
-
-- ```persistence.enabled``` default 'true'
-
-You can also choose to retain the volume of the NFS.
-- ```persistence.retain``` default 'false'
-
-The size and claim name can be specified per service. There are now two services that can be persist.
-
-- MOLGENIS
-- ElasticSearch
-- PostgreSQL **(optional)**
-
-You can specify in the MOLGENIS properties what kind of instance you want. There are three levels:
-- small
-- medium
-- large
-
-Set ```molgenis.kind``` to ```small```, ```medium``` or ```large``` and Helm finds out which values he needs to set.
-
-You can change the default resource values by setting them in the different templates. For instance the MOLGENIS template:
-
-```bash
-molgenis:
-  ...
-  type:
-    ...
-    small:
-      ...
-      persistence:
-        size: 5Gi
-    medium:
-      ...
-      persistence:
-        size: 10Gi
-    large:
-      ...
-      persistence:
-        size: 30Gi
-```
-
-You can do this for the PostgreSQL and Elasticsearch as well.
-
-### Resolve you persistent volume
+## Resolve your persistent volume
 You do not know which volume is attached to your MOLGENIS instance. You can resolve this by executing:
 
 ```
