@@ -127,7 +127,7 @@ jenkins:
           <keepDependencies>false</keepDependencies>
           <properties>
             <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.2">
-              <siteNames>hubot.molgenis.org</siteNames>
+              <siteNames>slack-general</siteNames>
               <enableNotifications>true</enableNotifications>
             </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
           </properties>
@@ -660,10 +660,18 @@ jenkins:
         url: http://molgenis-hubot.molgenis-hubot.svc
         default: true
         room: hubot
+      - name: slack-general
+        url: http://molgenis-hubot.molgenis-hubot.svc
+        default: false
+        room: general
       - name: slack-pr-app-team
         url: http://molgenis-hubot.molgenis-hubot.svc
         default: false
         room: pr-app-team
+      - name: slack-pr-platform
+        url: http://molgenis-hubot.molgenis-hubot.svc
+        default: false
+        room: pr-platform
       - name: slack-pr-ops
         url: http://molgenis-hubot.molgenis-hubot.svc
         default: false
