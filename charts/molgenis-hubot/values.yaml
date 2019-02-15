@@ -432,18 +432,26 @@ hubot:
           else
             console.log("Something went wrong\n```#{res.statusCode} #{body}```")
 
-        createRequest = (msg, url) ->
+        createRequest = (msg, url, crumb) ->
           req = msg.http(url)
           if url.startsWith(process.env.HUBOT_JENKINS_URL) && process.env.HUBOT_JENKINS_AUTH
             auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString("base64")
-            req.headers Authorization: "Basic #{auth}"
+            req.header("Authorization", "Basic #{auth}")
+            if crumb
+              req.header(crumb.crumbRequestField, crumb.crumb)
           req.header("Content-Length", 0)
           return req
 
-        runPreviewJob = (msg, action, tag, onSuccess) ->
-          url = "#{process.env.HUBOT_JENKINS_URL}/job/preview/buildWithParameters?ACTION=#{action}&TAG=#{querystring.escape(tag)}"
+        withCsrfCrumb = (msg, onSuccess) ->
+          url = "#{process.env.HUBOT_JENKINS_URL}/crumbIssuer/api/json"
           req = createRequest msg, url
-          req.post() callback(onSuccess, -> msg.reply "Ik verwacht een parameterized preview job in Jenkins, misschien kan een echt mens die even configureren.")
+          req.get() (err, res, body) -> onSuccess JSON.parse(body)
+
+        runPreviewJob = (msg, action, tag, onSuccess) ->
+          withCsrfCrumb msg, (crumb) ->
+            url = "#{process.env.HUBOT_JENKINS_URL}/job/preview/buildWithParameters?ACTION=#{action}&TAG=#{querystring.escape(tag)}"
+            req = createRequest msg, url, crumb
+            req.post() callback(onSuccess, -> msg.reply "Ik verwacht een parameterized preview job in Jenkins, misschien kan een echt mens die even configureren.")
 
         searchRegistry = (msg, params, ifFound, ifNotFound) ->
           req = createRequest msg, "#{process.env.HUBOT_REGISTRY_URL}service/rest/v1/search?repository=docker&name=molgenis%2Fmolgenis-app&#{params}"
@@ -481,6 +489,7 @@ hubot:
           robot.respond /preview delete (.+)/i, (msg) -> deletePreview(msg)
           robot.respond /preview list/i, (msg) -> listPreview(msg)
           robot.respond /preview (?!delete|list)(.+)/i, (msg) -> installPreview(msg)
+
   ingress:
     enabled: false
   nodeSelector:
