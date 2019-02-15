@@ -6,14 +6,15 @@ pipeline {
     }
     environment {
         LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
-        CHART_VERSION = '0.12.0'
+        CHART_VERSION = '1.2.0'
         BRANCH_NAME = 'master'
+        TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F_%H-%M-%S'").trim()
     }
     triggers {
         cron('H 1 2 * 1-5')
     }
     stages {
-        stage('Retrieve build secrets') {
+        stage('Prepare [ nightly ]') {
             steps {
                 container('vault') {
                     script {
@@ -24,108 +25,50 @@ pipeline {
                         env.SONAR_TOKEN = sh(script: 'vault read -field=value secret/ops/token/sonar', returnStdout: true)
                         env.GITHUB_TOKEN = sh(script: 'vault read -field=value secret/ops/token/github', returnStdout: true)
                         env.CODECOV_TOKEN = sh(script: 'vault read -field=value secret/ops/token/codecov', returnStdout: true)
-                        env.MASTER_USERNAME = sh(script: 'vault read -field=username secret/dev/account/master.dev.molgenis.org', returnStdout: true)
-                        env.MASTER_PASSWORD = sh(script: 'vault read -field=password secret/dev/account/master.dev.molgenis.org', returnStdout: true)
+                        env.TAG = "nightly-${TIMESTAMP}"
                     }
                 }
-                dir('/home/jenkins/.m2') {
-                    stash includes: 'settings.xml', name: 'maven-settings'
-                }
-                dir('/home/jenkins/.rancher') {
-                    stash includes: 'cli2.json', name: 'rancher-config'
+                checkout scm: [$class: 'GitSCM', branches: [[name: "*/${env.BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: 'molgenis-jenkins-github-secret', url: 'https://github.com/molgenis/molgenis']]]
+            }
+        }
+        stage('Build [ nightly ]') {
+            steps {
+                container('maven') {
+                    sh "mvn -q -B clean install -Dmaven.test.redirectTestOutputToFile=true -DskipITs -T4"
                 }
             }
         }
-        stage('Steps nightly') {
-            agent {
-                kubernetes {
-                    label('molgenis-it-jdk11')
+        stage('Test [ nightly ]') {
+            steps {
+                container('maven') {
+                    sh "mvn -q -B site"
                 }
             }
-            environment {
-                TAG = "nightly-${BRANCH_NAME}-${BUILD_NUMBER}"
+        }
+        stage('Package [ nightly ]') {
+            steps {
+                container('maven') {
+                    dir('molgenis-app') {
+                        sh "mvn -q -B dockerfile:build dockerfile:tag dockerfile:push -Ddockerfile.tag=${TAG} -Ddockerfile.repository=${LOCAL_REPOSITORY}"
+                    }
+                }
             }
-            stages {
-                stage('Prepare nightly') {
-                    steps {
-                        checkout scm: [$class: 'GitSCM', branches: [[name: "*/${env.BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: 'molgenis-jenkins-github-secret', url: 'https://github.com/molgenis/molgenis']]]
-                        dir('/home/jenkins/.m2') {
-                            unstash 'maven-settings'
-                        }
-                    }
-                }
-                stage('Build nightly') {
-                    steps {
-                        container('maven') {
-                            sh "mvn -q -B clean install -Dmaven.test.redirectTestOutputToFile=true -DskipITs -T4"
-                        }
-                    }
-                }
-                stage('Test nightly') {
-                    parallel {
-                        stage("Integration tests") {
-                            steps {
-                                container('maven') {
-                                    sh "mvn -q -B verify -pl molgenis-platform-integration-tests -Dmaven.test.redirectTestOutputToFile=true -Dit_db_user=molgenis -Dit_db_password=molgenis -Dit_db_name=molgenis -Delasticsearch.cluster.name=molgenis -Delasticsearch.transport.addresses=localhost:9300 -P!create-it-db -P!create-it-es"
-                                }
-                            }
-                        }
-                        stage("API tests") {
-                            steps {
-                                container('maven') {
-                                    dir('molgenis-api-tests') {
-                                        sh "mvn -q -B test -Dtest=RestControllerIT,RestControllerV2IT,RestControllerV1APIIT,RestControllerV2APIIT,TwoFactorAuthenticationAPIIT,OneClickImporterControllerAPIIT -DREST_TEST_ADMIN_NAME=${env.MASTER_USERNAME} -DREST_TEST_ADMIN_PW=${env.MASTER_PASSWORD} -DREST_TEST_HOST=https://master.dev.molgenis.org"
-                                    }
-                                }
-                            }
-                        }
-                        stage("Report tests") {
-                            steps {
-                                container('maven') {
-                                    sh "mvn -q -B site"
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('Publish test results') {
-                    steps {
-                        container('maven') {
-                            sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K  -C ${GIT_COMMIT}"
-                            sh "mvn -q -B sonar:sonar -Dsonar.login=${SONAR_TOKEN} -Dsonar.branch.name=${BRANCH_NAME} -Dsonar.ws.timeout=120"
-                        }
-                    }
-                }
-                stage('Package nightly with docker') {
-                    steps {
-                        container('maven') {
-                            dir('molgenis-app') {
-                                sh "mvn -q -B dockerfile:build dockerfile:tag dockerfile:push -Ddockerfile.tag=${TAG} -Ddockerfile.repository=${LOCAL_REPOSITORY}"
-                            }
-                        }
-                    }
-                }
-                stage('Deploy to nightly.molgenis.org') {
-                    steps {
-                        milestone(ordinal: 100, label: 'deploy to nightly.molgenis.org')
-                        dir('/home/jenkins/.rancher') {
-                            unstash 'rancher-config'
-                        }
-                        container('rancher') {
-                            sh "rancher context switch prod-molgenis"
-                            sh "rancher apps upgrade --set molgenis.image.tag=${TAG} nightly ${CHART_VERSION}"
-                        }
-                    }
+        }
+        stage('Deploy [ nightly.molgenis.org ]') {
+            steps {
+                container('rancher') {
+                    sh "rancher context switch prod-molgenis"
+                    sh "rancher apps upgrade --set image.tag=${TAG} nightly ${CHART_VERSION}"
                 }
             }
         }
     }
     post {
         success {
-            hubotSend(message: 'Build success', status: 'INFO', site: 'slack-pr-ops-team')
+            hubotSend(message: 'Build success', status: 'INFO', site: 'slack-general')
         }
         failure {
-            hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-pr-ops-team')
+            hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-general')
         }
     }
 }
