@@ -29,8 +29,7 @@ pipeline {
                             "--set environment=dev " +
                             "--set image.tag=${TAG} " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
-                            "--set image.pullPolicy=Always " +
-                            "--wait"
+                            "--set image.pullPolicy=Always"
                 }
                 hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
             }
