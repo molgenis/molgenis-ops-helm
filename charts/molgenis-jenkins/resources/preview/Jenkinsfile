@@ -4,6 +4,9 @@ pipeline {
             label 'shared'
         }
     }
+    environment {
+        CHART_VERSION = '1.2.0'
+    }
     stages {
         stage("Deploy") {
             when {
