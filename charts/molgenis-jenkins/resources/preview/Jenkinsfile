@@ -20,7 +20,7 @@ pipeline {
                 container('rancher') {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
-                            "-n preview-${TAG} " +
+                            "-n preview-${TAG.toLowerCase()} " +
                             "molgenis-helm-molgenis " +
                             "preview-${TAG.toLowerCase()} " +
                             "--version ${CHART_VERSION} " +
