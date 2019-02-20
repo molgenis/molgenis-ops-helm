@@ -1,0 +1,158 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'molgenis-jdk11'
+        }
+    }
+    environment {
+        LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
+        CHART_VERSION = '0.12.0'
+        BRANCH_NAME = 'master'
+        IMAGE_TAG = '7.4.1'
+        TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
+    }
+    triggers {
+        cron('H 1 2 * 1-5')
+    }
+    stages {
+        stage('Prepare [ e2e ]') {
+            steps {
+                container('vault') {
+                    script {
+                        sh "mkdir /home/jenkins/.m2"
+                        sh "mkdir /home/jenkins/.rancher"
+                        sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
+                        sh(script: 'vault read -field=value secret/ops/jenkins/maven/settings.xml > /home/jenkins/.m2/settings.xml')
+                        env.GITHUB_TOKEN = sh(script: 'vault read -field=value secret/ops/token/github', returnStdout: true)
+                        env.MOLGENIS_TEST_UPLOAD_FOLDER = sh(script: 'pwd', returnStdout: true).trim()ß
+                        env.REST_TEST_ADMIN_NAME = sh(script: 'vault read -field=username secret/dev/account/e2e.dev.molgenis.org', returnStdout: true)
+                        env.REST_TEST_ADMIN_PW = sh(script: 'vault read -field=password secret/dev/account/e2e.dev.molgenis.org', returnStdout: true)
+                        env.TAG = "live-${TIMESTAMP}"
+                        env.REST_TEST_HOST = "http://${TAG}-molgenis.molgenis-${TAG}:8080"
+                    }
+                }
+                checkout scm: [$class: 'GitSCM', branches: [[name: "*/${env.BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: 'molgenis-jenkins-github-secret', url: 'https://github.com/molgenis/molgenis']]]
+            }
+        }
+        stage('Deploy [ live ]') {
+            steps {
+                container('rancher') {
+                    sh "rancher context switch dev-molgenis"
+                    sh "rancher apps install " +
+                            "-n molgenis-${TAG} " +
+                            "molgenis-helm-molgenis " +
+                            "${TAG} " +
+                            "--version ${CHART_VERSION} " +
+                            "--no-prompt " +
+                            "--set adminPassword=${REST_TEST_ADMIN_PW} " +
+                            "--set environment=dev " +
+                            "--set image.tag=${IMAGE_TAG} " +
+                            "--set image.repository=${LOCAL_REGISTRY} " +
+                            "--set image.pullPolicy=Always " +
+                            "--set resources.limits.cpu=8 " +
+                            "--set resources.limits.memory=8Gi"
+                }
+            }
+        }
+        stage('Build [ e2e ]') {
+            steps {
+                container('maven') {
+                    sh "mvn -q -B clean install -Dmaven.test.redirectTestOutputToFile=true -DskipITs -T4"
+                }
+            }
+        }
+        stage('Tests [ live ]') {
+            stages {
+                stage('Prepare live upload tests [ e2e ]') {
+                    steps {
+                        container('maven') {
+                            dir('molgenis-api-tests') {
+                                sh "wget https://github.com/molgenis/molgenis-tools-emx-downloader/releases/download/v1.2/downloader.jar"
+                            }
+                        }
+                    }
+                }
+                stage('Live upload tests') {
+                    parallel {
+                        stage("BBMRI-Eric") {
+                            environment {
+                                MOLGENIS_TEST_UPLOAD_FILE = 'bbmri-eric.xlsx'
+                                MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=eu_bbmri_eric_collections'
+                                MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'eu_bbmri_eric'
+                                MOLGENIS_TEST_TARGET_HOST = 'molgenis129.gcc.rug.nl'
+                            }
+                            steps {
+                                container('maven') {
+                                    dir("molgenis-api-tests") {
+                                        sh "java -jar downloader.jar -f ${MOLGENIS_TEST_UPLOAD_FILE} -u https://${MOLGENIS_TEST_TARGET_HOST}/ eu_bbmri_eric_collections"
+                                        sh "mvn test -Dtest=ImportPublicDataIT"
+                                    }
+                                }
+                            }
+                        }
+                        stage("BBMRI-NL") {
+                            environment {
+                                MOLGENIS_TEST_UPLOAD_FILE = 'bbmri-nl.xlsx'
+                                MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=bbmri_nl_sample_collections'
+                                MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'bbmri_nl'
+                                MOLGENIS_TEST_TARGET_HOST = 'catalogue.bbmri.nl'
+                            }
+                            steps {
+                                container('maven') {
+                                    dir("molgenis-api-tests") {
+                                        sh "java -jar downloader.jar -f ${MOLGENIS_TEST_UPLOAD_FILE} -u https://${MOLGENIS_TEST_TARGET_HOST}/ bbmri_nl_sample_collections"
+                                        sh "mvn test -Dtest=ImportPublicDataIT"
+                                    }
+                                }
+                            }
+                        }
+                        stage("COL7A1") {
+                            environment {
+                                MOLGENIS_TEST_UPLOAD_FILE = 'col7-a1-acc.xlsx'
+                                MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=col7a1_Patients'
+                                MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'col7a1'
+                                MOLGENIS_TEST_TARGET_HOST = 'molgenis137.gcc.rug.nl'
+                            }
+                            steps {
+                                container('maven') {
+                                    dir("molgenis-api-tests") {
+                                        sh "java -jar downloader.jar -f ${MOLGENIS_TEST_UPLOAD_FILE} -u https://${MOLGENIS_TEST_TARGET_HOST}/ col7a1_Patients"
+                                        sh "mvn test -Dtest=ImportPublicDataIT"
+                                    }
+                                }
+                            }
+                        }
+                        stage("CHD7") {
+                            environment {
+                                MOLGENIS_TEST_UPLOAD_FILE = 'chd7.xlsx'
+                                MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=CHD7_Patients'
+                                MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'CHD7'
+                                MOLGENIS_TEST_TARGET_HOST = 'molgenis133.gcc.rug.nl'
+                            }
+                            steps {
+                                container('maven') {
+                                    dir("molgenis-api-tests") {
+                                        sh "java -jar downloader.jar -f ${MOLGENIS_TEST_UPLOAD_FILE} -u https://${MOLGENIS_TEST_TARGET_HOST}/ CHD7_Patients"
+                                        sh "mvn test -Dtest=ImportPublicDataIT"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            container('rancher') {
+                sh "rancher context switch dev-molgenis"
+                sh "rancher apps delete ${TAG}"
+            }
+            hubotSend(message: 'Build success', status: 'INFO', site: 'slack-general')
+        }
+        failure {
+            hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-general')
+        }
+    }
+}
