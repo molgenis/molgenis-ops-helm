@@ -69,17 +69,17 @@ spec:
             - name: minio_region
               value: {{ .minioConfig.region }}
             - name: minio_endpoint
-              value: http://{{ template "minio.fullname" $ }}:{{ .service.port }}
+              value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}:{{ .service.port }}
             {{- end}}
             - name: minio_access_key
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "call-nested" (list . "minio" "minio.fullname") }}
+                  name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: accesskey
             - name: minio_secret_key
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "call-nested" (list . "minio" "minio.fullname") }}
+                  name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: secretkey
             - name: CATALINA_OPTS
               value: {{ .Values.catalinaOpts }}
