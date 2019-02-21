@@ -179,7 +179,7 @@ questions:
     group: "Minio"
     label: "Minio image tag"
     type: string
-    default: "RELEASE.2019-01-10T00-21-20Z"
+    default: "RELEASE.2019-02-12T21-58-47Z"
   - variable: "minio.image.pullPolicy"
     show_if: "questions.advanced=true"
     group: "Minio"
