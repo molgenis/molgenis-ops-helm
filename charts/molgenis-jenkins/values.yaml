@@ -39,9 +39,6 @@ jenkins:
         memory: 4096Mi
     metrics:
       key: ""
-    CSRF:
-      DefaultCrumbIssuer:
-        Enabled: false
     NodeSelector: {
       deployPod: "true"
     }
