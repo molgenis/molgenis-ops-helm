@@ -15,8 +15,8 @@ questions:
     group: "Provisioning"
   - variable: image.tag
     label: Version
-    default: "stable"
-    description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for released tags)"
+    default: ""
+    description: "Select a MOLGENIS version (check https://hub.docker.com/molgenis/molgenis-app/tags for released tags)"
     type: string
     required: true
     group: "Provisioning"
