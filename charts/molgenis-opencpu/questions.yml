@@ -26,3 +26,20 @@ questions:
   type: string
   required: true
   group: "Provisioning"
+- variable: advanced
+  label: Advanced
+  default: false
+  type: boolean
+  required: true
+- variable: opencpu.resources.limits.cpu
+  label: CPU limit
+  default: "4"
+  type: string
+  required: true
+  show_if: "advanced=true"
+- variable: opencpu.resources.limits.memory
+  label: Memory limit
+  default: "3Gi"
+  type: string
+  required: true
+  show_if: "advanced=true"
