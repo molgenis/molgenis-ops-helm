@@ -7,19 +7,41 @@ questions:
   default: true
   type: boolean
   required: true
-  group: "Load balancing"
+  group: "Provisioning"
 - variable: ingress.hosts[0].name
   label: Hostname
   default: opencpu.molgenis.org
   type: hostname
   required: true
-  group: "Load balancing"
+  group: "Provisioning"
+- variable: opencpu.image.repository
+  label: Registry
+  default: "registry.hub.docker.com"
+  type: enum
+  options:
+    - "registry.hub.docker.com"
+    - "registry.molgenis.org"
+  required: true
+  group: "Provisioning"
+- variable: opencpu.image.tag
+  label: Version
+  default: "latest"
+  description: "Select a OpenCPU version (check the registry.molgenis.org or hub.docker.com for released tags)"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: advanced
+  label: Advanced
+  default: false
+  type: boolean
+  required: true
 - variable: ingress.firewall.enabled
   label: Enable firewall
-  default: true
+  default: false
   type: boolean
   required: true
   group: "Firewall"
+  show_if: "advanced=true"
 - variable: ingress.firewall.rules[0]
   label: Specify firewall rule
   default: "127.0.0.1/24"
@@ -36,27 +58,6 @@ questions:
   required: true
   group: "Firewall"
   show_if: "ingress.firewall.enabled=true"
-- variable: opencpu.image.repository
-  label: Registry
-  default: "registry.hub.docker.com"
-  type: enum
-  options:
-  - "registry.hub.docker.com"
-  - "registry.molgenis.org"
-  required: true
-  group: "Provisioning"
-- variable: opencpu.image.tag
-  label: Version
-  default: "latest"
-  description: "Select a OpenCPU version (check the registry.molgenis.org or hub.docker.com for released tags)"
-  type: string
-  required: true
-  group: "Provisioning"
-- variable: advanced
-  label: Advanced
-  default: false
-  type: boolean
-  required: true
 - variable: opencpu.resources.limits.cpu
   label: CPU limit
   default: "4"
