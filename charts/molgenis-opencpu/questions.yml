@@ -30,18 +30,12 @@ questions:
   type: string
   required: true
   group: "Provisioning"
-- variable: advanced
-  label: Advanced
-  default: false
-  type: boolean
-  required: true
 - variable: ingress.firewall.enabled
   label: Enable firewall
   default: false
   type: boolean
   required: true
   group: "Firewall"
-  show_if: "advanced=true"
 - variable: ingress.firewall.rules[0]
   label: Specify firewall rule
   default: "127.0.0.1/24"
@@ -61,12 +55,19 @@ questions:
 - variable: opencpu.resources.limits.cpu
   label: CPU limit
   default: "4"
-  type: string
+  type: enum
+  options:
+    - 4
+    - 8
   required: true
-  show_if: "advanced=true"
+  group: "Resources"
 - variable: opencpu.resources.limits.memory
   label: Memory limit
   default: "3Gi"
-  type: string
+  type: enum
+  options:
+    - 3Gi
+    - 6Gi
+    - 12Gi
   required: true
-  show_if: "advanced=true"
+  group: "Resources"
