@@ -4,15 +4,41 @@ categories:
 questions:
 - variable: ingress.enabled
   label: Enable ingress
-  default: false
-  description: "Enable ingress"
+  default: true
   type: boolean
   required: true
   group: "Load balancing"
+- variable: ingress.hosts[0].name
+  label: Hostname
+  default: opencpu.molgenis.org
+  type: hostname
+  required: true
+  group: "Load balancing"
+- variable: ingress.firewall.enabled
+  label: Enable firewall
+  default: true
+  type: boolean
+  required: true
+  group: "Firewall"
+- variable: ingress.firewall.rules[0]
+  label: Specify firewall rule
+  default: "127.0.0.1/24"
+  type: string
+  description: "Specify the ip-range (for instance 192.168.1.1/24)"
+  required: true
+  group: "Firewall"
+  show_if: "ingress.firewall.enabled=true"
+- variable: ingress.firewall.rules[1]
+  label: Specify firewall rule
+  default: "127.0.0.1/24"
+  type: string
+  description: "Specify the ip-range (for instance 192.168.1.1/24)"
+  required: true
+  group: "Firewall"
+  show_if: "ingress.firewall.enabled=true"
 - variable: opencpu.image.repository
   label: Registry
   default: "registry.hub.docker.com"
-  description: "Select a registry to pull from"
   type: enum
   options:
   - "registry.hub.docker.com"

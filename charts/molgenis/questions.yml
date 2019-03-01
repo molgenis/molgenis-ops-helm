@@ -15,8 +15,8 @@ questions:
     group: "Provisioning"
   - variable: image.tag
     label: Version
-    default: "stable"
-    description: "Select a MOLGENIS version (check the registry.molgenis.org or hub.docker.com for released tags)"
+    default: ""
+    description: "Select a MOLGENIS version (check https://hub.docker.com/molgenis/molgenis-app/tags for released tags)"
     type: string
     required: true
     group: "Provisioning"
@@ -179,7 +179,7 @@ questions:
     group: "Minio"
     label: "Minio image tag"
     type: string
-    default: "RELEASE.2019-01-10T00-21-20Z"
+    default: "RELEASE.2019-02-12T21-58-47Z"
   - variable: "minio.image.pullPolicy"
     show_if: "questions.advanced=true"
     group: "Minio"
