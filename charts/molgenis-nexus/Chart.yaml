@@ -5,7 +5,7 @@ name: molgenis-nexus
 version: 0.4.4
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
-icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-nexus/catalogIcon-molgenis-nexus.svg
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-nexus/catalogIcon-molgenis-nexus.png
 home: https://www.sonatype.com/nexus-repository-oss
 maintainers:
 - name: sidohaakma
