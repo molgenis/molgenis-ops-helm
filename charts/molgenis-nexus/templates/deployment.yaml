@@ -59,14 +59,14 @@ spec:
           periodSeconds: 30
           failureThreshold: 15
           successThreshold: 1
-
-    {{- if .Values.persistence.enabled }}
       volumes:
         - name: pv-molgenis-nexus
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.claim }}
-    {{- end }}
-
+            claimName: {{ .Values.persistence.existingClaim | default (include "nexus.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end -}}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

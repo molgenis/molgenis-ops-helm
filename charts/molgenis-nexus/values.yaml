@@ -35,11 +35,11 @@ ingress:
   tls: []
 
 persistence:
-  retain: true
   enabled: true
-  claim: pvc-molgenis-nexus
+  storageClass: ""
+  accessMode: ReadWriteMany
   size: 500Gi
-
+  # existingClaim: ""
 
 resources: {}
 
