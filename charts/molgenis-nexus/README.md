@@ -39,12 +39,12 @@ Go to the NFS-provisioner to the path of the persistent volume:
 
 List all the latest backups.
 ```bash
-ls -t --full-time | head -7
+ls -t | head -6
 ```
 
 Copy the latest files in the destination directory.
 ```bash
-ls -t | head -7 | xargs cp -u {} ../../#target-pv#/restore-from-backup/
+ls -t | head -6 | xargs cp -u {} ../../#target-pv#/restore-from-backup/
 ```
 
 ### Restore the blobstore
