@@ -13,9 +13,9 @@ nexus:
   restartPolicy: Always
   image:
     repository: registry.hub.docker.com
-    name: molgenis/nexus3
-    tag: latest
-    pullPolicy: Always
+    name: molgenis/nexus
+    tag: nexus-release-2019-03-06_08-18-10
+    pullPolicy: IfNotPresent
   port:
     docker: 5000
     ui: 8081
@@ -35,11 +35,11 @@ ingress:
   tls: []
 
 persistence:
-  retain: true
   enabled: true
-  claim: pvc-molgenis-nexus
+  storageClass: ""
+  accessMode: ReadWriteMany
   size: 500Gi
-
+  # existingClaim: ""
 
 resources: {}
 

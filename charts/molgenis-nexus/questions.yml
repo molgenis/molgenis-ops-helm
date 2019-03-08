@@ -21,7 +21,7 @@ questions:
   group: "Provisioning"
 - variable: nexus.image.tag
   label: Version
-  default: "latest"
+  default: "nexus-release-2019-03-06_08-18-10"
   description: "Select a NEXUS version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true
@@ -32,9 +32,13 @@ questions:
   type: boolean
   label: Persistence enabled
   group: "Persistence"
-- variable: persistence.retain
-  default: false
-  description: "Do you want to retain the persistent volume"
-  type: boolean
-  label: Retain volume
-  group: "Persistence"
+- variable: persistence.storageClass
+  show_if: "persistence.enabled=true"
+  required: false
+  type: storageclass
+  label: Storage class
+- variable: persistence.existingClaim
+  show_if: "persistence.enabled=true"
+  required: false
+  type: string
+  label: Existing claim name
