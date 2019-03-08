@@ -22,15 +22,15 @@ spec:
         release: {{ .Release.Name }}
     spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
+      {{- if .Values.persistence.enabled }}
       initContainers:
       - name: nexus-nfs
         image: busybox
         command: ["sh", "-c", "chown -R 200:200 /nexus-data"]
-        {{- if .Values.persistence.enabled }}
         volumeMounts:
         - name: pv-molgenis-nexus
           mountPath: "/nexus-data"
-        {{- end }}
+      {{- end}}
       containers:
       - name: {{ .Values.nexus.name }}
         image: "{{ .Values.nexus.image.repository }}/{{ .Values.nexus.image.name }}:{{ .Values.nexus.image.tag }}"
