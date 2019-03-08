@@ -44,7 +44,7 @@ ls -t | head -6
 
 Copy the latest files in the destination directory.
 ```bash
-ls -t | head -6 | xargs cp -u {} ../../#target-pv#/restore-from-backup/
+ls -t | head -6 | xargs -I{} cp "{}" ../#target-pv#/restore-from-backup/
 ```
 
 ### Restore the blobstore
