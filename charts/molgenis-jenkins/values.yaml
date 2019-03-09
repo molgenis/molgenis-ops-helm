@@ -420,18 +420,18 @@ jenkins:
       NodeUsageMode: NORMAL
       volumes:
         - type: HostPath
-          hostPath: "/var/run/docker.sock"
-          mountPath: "/var/run/docker.sock"
+          hostPath: '/var/run/docker.sock'
+          mountPath: '/var/run/docker.sock'
       Containers:
         rancher:
-          Image: "rancher/cli2"
-          ImageTag: "v2.0.6"
+          Image: rancher/cli2
+          ImageTag: v2.0.6
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         vault:
-          Image: "vault"
+          Image: vault
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -452,7 +452,7 @@ jenkins:
       EnvVars:
         - type: KeyValue
           key: npm_config_registry
-          value: "https://registry.molgenis.org/repository/npm-central/"
+          value: 'https://registry.molgenis.org/repository/npm-central/'
         - type: KeyValue
           key: LOCAL_REGISTRY
           value: registry.molgenis.org
@@ -472,7 +472,7 @@ jenkins:
       InheritFrom: shared
       Containers:
         maven:
-          Image: "registry.molgenis.org/molgenis/maven"
+          Image: registry.molgenis.org/molgenis/maven
           ImageTag: 3.5.4-jdk8
           AlwaysPullImage: false
           Command: cat
@@ -480,46 +480,46 @@ jenkins:
           TTY: true
           resources:
             requests:
-              cpu: "1"
-              memory: "4Gi"
+              cpu: '1'
+              memory: '4Gi'
           EnvVars:
             - type: KeyValue
               key: MAVEN_OPTS
-              value: "-Duser.home=/home/jenkins"
+              value: '-Duser.home=/home/jenkins'
             - type: KeyValue
               key: MAVEN_CONFIG
-              value: "/home/jenkins/.m2"
+              value: '/home/jenkins/.m2'
     molgenis-jdk11:
       Label: molgenis-jdk11
       NodeUsageMode: NORMAL
       InheritFrom: shared
       Containers:
         maven:
-          Image: "registry.molgenis.org/molgenis/maven"
-          ImageTag: 3.6.0-jdk11
+          Image: molgenis/maven
+          ImageTag: maven-release-2019-03-06_08-18-10
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
           resources:
             requests:
-              cpu: "1"
-              memory: "4Gi"
+              cpu: '1'
+              memory: '4Gi'
           EnvVars:
             - type: KeyValue
               key: MAVEN_OPTS
-              value: "-Duser.home=/home/jenkins"
+              value: '-Duser.home=/home/jenkins'
             - type: KeyValue
               key: MAVEN_CONFIG
-              value: "/home/jenkins/.m2"
+              value: '/home/jenkins/.m2'
     node:
       Label: node-carbon
       NodeUsageMode: EXCLUSIVE
       InheritFrom: shared
       Containers:
         node:
-          Image: "registry.molgenis.org/molgenis/node"
-          ImageTag: stable
+          Image: molgenis/node
+          ImageTag: node-release-2019-03-06_08-18-10
           AlwaysPullImage: false
           Retention: Never
           Command: cat
@@ -527,8 +527,8 @@ jenkins:
           TTY: true
           resources:
             requests:
-              cpu: "1"
-              memory: "1Gi"
+              cpu: '1'
+              memory: '1Gi'
       EnvVars:
         - type: KeyValue
           key: NPM_REGISTRY
@@ -542,7 +542,7 @@ jenkins:
       InheritFrom: shared
       Containers:
         python:
-          Image: "python"
+          Image: python
           ImageTag: stretch
           AlwaysPullImage: false
           Retention: Never
@@ -551,12 +551,12 @@ jenkins:
           TTY: true
           resources:
             requests:
-              cpu: "100m"
-              memory: "250Mi"
+              cpu: '100m'
+              memory: '250Mi'
             limits:
-              memory: "512Mi"
+              memory: '512Mi'
         sonar:
-          Image: "zaquestion/sonarqube-scanner"
+          Image: zaquestion/sonarqube-scanner
           ImageTag: latest
           AlwaysPullImage: false
           Retention: Never
@@ -582,24 +582,24 @@ jenkins:
           AlwaysPullImage: false
           resources:
             requests:
-              cpu: "100m"
-              memory: "1Gi"
+              cpu: '100m'
+              memory: '1Gi'
             limits:
-              cpu: "1"
-              memory: "1500Mi"
+              cpu: '1'
+              memory: '1500Mi'
           EnvVars:
             - type: KeyValue
               key: ES_JAVA_OPTS
-              value: "-Xms512m -Xmx512m"
+              value: '-Xms512m -Xmx512m'
             - type: KeyValue
               key: cluster.name
               value: molgenis
             - type: KeyValue
               key: bootstrap.memory_lock
-              value: "true"
+              value: 'true'
             - type: KeyValue
               key: xpack.security.enabled
-              value: "false"
+              value: 'false'
             - type: KeyValue
               key: discovery.type
               value: single-node
@@ -609,11 +609,11 @@ jenkins:
           AlwaysPullImage: false
           resources:
             requests:
-              cpu: "100m"
-              memory: "250Mi"
+              cpu: '100m'
+              memory: '250Mi'
             limits:
-              cpu: "1"
-              memory: "250Mi"
+              cpu: '1'
+              memory: '250Mi'
           EnvVars:
             - type: KeyValue
               key: POSTGRES_USER
@@ -626,14 +626,15 @@ jenkins:
               value: molgenis
         opencpu:
           Image: molgenis/opencpu
+          ImageTag: opencpu-release-2019-03-06_08-18-10
           AlwaysPullImage: false
           resources:
             requests:
-              cpu: "100m"
-              memory: "256Mi"
+              cpu: '100m'
+              memory: '256Mi'
             limits:
-              cpu: "1"
-              memory: "512Mi"
+              cpu: '1'
+              memory: '512Mi'
       NodeSelector: {}
     molgenis-it-jdk11:
       InheritFrom: molgenis-jdk11
@@ -646,24 +647,24 @@ jenkins:
           AlwaysPullImage: false
           resources:
             requests:
-              cpu: "100m"
-              memory: "1Gi"
+              cpu: '100m'
+              memory: '1Gi'
             limits:
-              cpu: "1"
-              memory: "1500Mi"
+              cpu: '1'
+              memory: '1500Mi'
           EnvVars:
             - type: KeyValue
               key: ES_JAVA_OPTS
-              value: "-Xms512m -Xmx512m"
+              value: '-Xms512m -Xmx512m'
             - type: KeyValue
               key: cluster.name
               value: molgenis
             - type: KeyValue
               key: bootstrap.memory_lock
-              value: "true"
+              value: 'true'
             - type: KeyValue
               key: xpack.security.enabled
-              value: "false"
+              value: 'false'
             - type: KeyValue
               key: discovery.type
               value: single-node
@@ -673,11 +674,11 @@ jenkins:
           AlwaysPullImage: false
           resources:
             requests:
-              cpu: "100m"
-              memory: "250Mi"
+              cpu: '100m'
+              memory: '250Mi'
             limits:
-              cpu: "1"
-              memory: "250Mi"
+              cpu: '1'
+              memory: '250Mi'
           EnvVars:
             - type: KeyValue
               key: POSTGRES_USER
@@ -690,28 +691,29 @@ jenkins:
               value: molgenis
         opencpu:
           Image: molgenis/opencpu
+          ImageTag: opencpu-release-2019-03-06_08-18-10
           AlwaysPullImage: false
           resources:
             requests:
-              cpu: "100m"
-              memory: "256Mi"
+              cpu: '100m'
+              memory: '256Mi'
             limits:
-              cpu: "1"
-              memory: "512Mi"
+              cpu: '1'
+              memory: '512Mi'
     helm:
       Label: helm
       InheritFrom: shared
       NodeUsageMode: EXCLUSIVE
       Containers:
         chart-testing:
-          Image: "quay.io/helmpack/chart-testing"
+          Image: quay.io/helmpack/chart-testing
           ImageTag: v2.2.0
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
         alpine:
-          Image: "spotify/alpine"
+          Image: spotify/alpine
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -722,8 +724,8 @@ jenkins:
       NodeUsageMode: EXCLUSIVE
       Containers:
         jekyll:
-          Image: "registry.molgenis.org/molgenis/jekyll"
-          ImageTag: stable
+          Image: molgenis/jekyll
+          ImageTag: jekyll-release-2019-03-06_08-18-10
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -734,8 +736,8 @@ jenkins:
       NodeUsageMode: EXCLUSIVE
       Containers:
         centos-6:
-          Image: "centos"
-          ImageTag: "6.10"
+          Image: centos
+          ImageTag: 6.10
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -767,18 +769,18 @@ jenkins:
 secret:
   # vault configures the vault secret
   vault:
-    token: xxxx
-    addr: "https://vault-operator.vault-operator.svc:8200"
-    skipVerify: "1"
+    token: 'xxxx'
+    addr: 'https://vault-operator.vault-operator.svc:8200'
+    skipVerify: '1'
   # githubToken contains access token for jenkins bot account on github.com
   gitHub:
-    user: "molgenis-jenkins"
-    token: xxxx
+    user: 'molgenis-jenkins'
+    token: 'xxxx'
   # registry contains credentials for registry.molgenis.org
   registry:
-    user: admin
-    password: xxxx
+    user: 'admin'
+    password: 'xxxx'
   # dockerHubPassword contains password for hub.docker.com
   dockerHub:
-    user: molgenisci
-    password: xxxx
+    user: 'molgenisci'
+    password: 'xxxx'
