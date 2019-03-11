@@ -21,6 +21,17 @@ opencpu:
     name: molgenis/opencpu
     tag: latest
     pullPolicy: Always
+  r:
+    packages:
+      - RCurl
+      - rjson
+      - httr
+      - ff
+      - e1071
+      - gridExtra
+      - molgenisApi
+      - mosaicr
+    registry: https://registry.molgenis.org/repository/R/
   resources:
     limits:
       cpu: 4

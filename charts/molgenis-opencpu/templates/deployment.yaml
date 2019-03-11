@@ -26,6 +26,11 @@ spec:
         imagePullPolicy: {{ .image.pullPolicy }}
         ports:
         - containerPort: {{ $.Values.service.port }}
+        env:
+          - name: REGISTRY
+            value: {{ .r.registry }}
+          - name: PACKAGES
+            value: {{ template "joinListWithComma" .r.packages }}
         resources:
 {{ toYaml .resources | indent 10 }}
       {{- end }}
