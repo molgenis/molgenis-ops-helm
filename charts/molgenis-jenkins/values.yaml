@@ -740,6 +740,25 @@ jenkins:
           Command: cat
           WorkingDir: /home/jenkins
           TTY: true
+    r-3.5.2:
+      Label: r-3.5.2
+      InheritFrom: shared
+      NodeUsageMode: EXCLUSIVE
+      Containers:
+        r:
+          Image: "rocker/verse"
+          ImageTag: "3.5.2"
+          AlwaysPullImage: true
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+        curl:
+          Image: "appropriate/curl"
+          ImageTag: "latest"
+          AlwaysPullImage: true
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
   hubot:
     sites:
       - name: hubot.molgenis.org
