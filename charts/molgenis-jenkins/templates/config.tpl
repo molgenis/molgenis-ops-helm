@@ -324,16 +324,19 @@ data:
     mkdir -p /usr/share/jenkins/ref/secrets/;
     echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch;
     cp /var/jenkins_config/github-plugin-configuration.xml /var/jenkins_home;
+    cp /var/jenkins_config/config.xml /var/jenkins_home;
 {{- if .Values.Master.git }}
-    cp -n /var/jenkins_config/hudson.plugins.git.GitSCM.xml /var/jenkins_home;
+    cp /var/jenkins_config/hudson.plugins.git.GitSCM.xml /var/jenkins_home;
 {{- end }}
     cp /var/jenkins_config/config.xml /var/jenkins_home;
     cp /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
     cp /var/jenkins_config/org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml /var/jenkins_home;
     cp /var/jenkins_config/jenkins.model.JenkinsLocationConfiguration.xml /var/jenkins_home;
 {{- if .Values.Master.InstallPlugins }}
-    # Install missing plugins
+    # Cleanup all plugins (also manually installed ones)
+    rm -rf /var/jenkins_home/plugins/*
     cp /var/jenkins_config/plugins.txt /var/jenkins_home;
+    # Install missing plugins
     rm -rf /usr/share/jenkins/ref/plugins/*.lock
     /usr/local/bin/install-plugins.sh `echo $(cat /var/jenkins_home/plugins.txt)`;
     # Copy plugins to shared volume
@@ -357,14 +360,14 @@ data:
         for job in $(ls /var/jenkins_jobs); do
             if [ -z "${job##*accept*}" ] || [ -z "${job##*preview*}" ] || [ -z "${job##*test-nightly*}" ] || [ -z "${job##*test-e2e*}" ] || [ -z "${job##*test-live*}" ] ; then
                 mkdir -p /var/jenkins_home/jobs/${job};
-                cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml;
+                cp /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml;
             fi
         done
     {{- else if eq .Values.Master.Environment "production" }}
         for job in $(ls /var/jenkins_jobs); do
             if [ ! -z "${job##*accept*}" ]; then
                 mkdir -p /var/jenkins_home/jobs/${job}
-                cp -n /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml
+                cp /var/jenkins_jobs/${job} /var/jenkins_home/jobs/${job}/config.xml
             fi
         done
     {{- end }}
