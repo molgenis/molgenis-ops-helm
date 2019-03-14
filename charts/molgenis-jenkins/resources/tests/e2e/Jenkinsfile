@@ -84,7 +84,7 @@ pipeline {
                         }
                         stage("BBMRI-NL") {
                             environment {
-                                MOLGENIS_TEST_UPLOAD_FILE = 'bbmri-nl.xlsx'
+                                MOLGENIS_TEST_UPLOAD_FILE = 'bbmri-nl-acc.xlsx'
                                 MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=bbmri_nl_sample_collections'
                                 MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'bbmri_nl'
                             }
@@ -114,7 +114,7 @@ pipeline {
                         }
                         stage("CHD7") {
                             environment {
-                                MOLGENIS_TEST_UPLOAD_FILE = 'chd7.xlsx'
+                                MOLGENIS_TEST_UPLOAD_FILE = 'chd7-acc.xlsx'
                                 MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=CHD7_Patients'
                                 MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'CHD7'
                             }
