@@ -332,8 +332,10 @@ data:
     cp /var/jenkins_config/org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml /var/jenkins_home;
     cp /var/jenkins_config/jenkins.model.JenkinsLocationConfiguration.xml /var/jenkins_home;
 {{- if .Values.Master.InstallPlugins }}
-    # Install missing plugins
+    # Cleanup all plugins (also manually installed ones)
+    rm -rf /var/jenkins_home/plugins/*
     cp /var/jenkins_config/plugins.txt /var/jenkins_home;
+    # Install missing plugins
     rm -rf /usr/share/jenkins/ref/plugins/*.lock
     /usr/local/bin/install-plugins.sh `echo $(cat /var/jenkins_home/plugins.txt)`;
     # Copy plugins to shared volume
