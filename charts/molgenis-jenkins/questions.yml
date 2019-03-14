@@ -29,6 +29,16 @@ questions:
   type: boolean
   required: true
   group: "Provisioning"
+- variable: jenkins.Persistence.StorageClass
+  show_if: "jenkins.Persistence.Enabled=true"
+  required: false
+  type: storageclass
+  label: Storage class
+- variable: jenkins.Persistence.ExistingClaim
+  show_if: "jenkins.Persistence.Enabled=true"
+  required: false
+  type: string
+  label: Existing claim name
 - variable: jenkins.Master.Security.UseGitHub
   label: Security via Github enabled
   default: true
