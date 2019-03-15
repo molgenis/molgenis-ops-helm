@@ -209,7 +209,7 @@ spec:
   volumeName: pvc-b7765e8e-465b-11e9-9352-005056b2844c
 ```
 
-Make sure the ```name```, ```namespace```, ```storageClassName``` and ```volumeName``` are correspongin with the persistent volume definition. 
+Make sure the ```name```, ```namespace```, ```storageClassName``` and ```volumeName``` are corresponding with the persistent volume definition. 
 
 ```bash
 kuebctl create -f pvc.yaml
