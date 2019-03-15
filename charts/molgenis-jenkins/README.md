@@ -112,3 +112,109 @@ $ helm install --name jenkins -f values.yaml molgenis-jenkins
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+## Restore persistence
+The persistent volumes of the Jenkins instance should always be "retain". That way you can easily delete and redeploy 
+the instance. The following procedure lets you reclaim the retained volume when the Jenkins deployment is killed.
+
+First of all you need to remove the ```claimRef``` in the target persistent volume.
+
+
+```bash
+## get all persistent volumes
+
+kubectl get pv | grep molgenis-jenkins
+
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                                         STORAGECLASS             REASON    AGE
+pvc-29f58f40-3b3e-11e9-879d-005056b2844c   10Gi       RWO            Delete           Bound     molgenis-dwgqr/data-biobank-postgresql-0      nfs-provisioner-delete             14d
+pvc-4a3c30b4-2f6b-11e9-879d-005056b2844c   5Gi        RWO            Delete           Bound     molgenis/data-sido-postgresql-0               nfs-provisioner-delete             30d
+pvc-b7765e8e-465b-11e9-9352-005056b2844c   8Gi        RWO            Retain           Bound     molgenis-jenkins-sidos/pvc-molgenis-jenkins   nfs-provisioner-retain             20h
+pvc-fa30c707-41b9-11e9-879d-005056b2844c   5Gi        RWO            Delete           Bound     molgenis-nexus-xvhmp/molgenis-nexus-xvhmp     nfs-provisioner-delete             6d
+
+## Choose the volume you want to edit
+
+kubectl edit pv pvc-b7765e8e-465b-11e9-9352-005056b2844c 
+```
+
+Delete the following part in the ```pv.yaml```.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+    pv.kubernetes.io/provisioned-by: cluster.local/nfs-client-provisioner
+  creationTimestamp: 2019-03-14T13:18:59Z
+  finalizers:
+  - kubernetes.io/pv-protection
+  name: pvc-b7765e8e-465b-11e9-9352-005056b2844c
+  resourceVersion: "7210901"
+  selfLink: /api/v1/persistentvolumes/pvc-b7765e8e-465b-11e9-9352-005056b2844c
+  uid: ba388f0b-465b-11e9-8fc9-005056b2f79d
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  ## START DELETE
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: molgenis-jenkins
+    namespace: molgenis-jenkins
+    resourceVersion: "7210898"
+    uid: 4d83e691-4660-11e9-9352-005056b2844c
+  ## STOP DELETE
+  nfs:
+    path: /molgenis-jenkins-xbxpn-molgenis-jenkins-xbxpn-pvc-b7765e8e-465b-11e9-9352-005056b2844c
+    server: 192.168.64.160
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-provisioner-retain
+  volumeMode: Filesystem
+status:
+  phase: Released
+```
+
+Save the changes in the volume. The status should now be ```available```
+
+When you deleted this part you need to delete the namespace ```molgenis-jenkins```
+
+```bash
+kubectl delete namespace molgenis-jenkins
+```
+
+When you deleted the namespace you need to recreate on in the target project ```dev-molgenis``` using the rancher client.
+
+```bash
+rancher namespaces create molgenis-jenkins
+```
+
+Then import the following persistent volume claim to rebind the persistence volume. 
+
+The ```pvc.yaml``` should look like this.
+
+```yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: molgenis-jenkins
+  namespace: molgenis-jenkins
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: nfs-provisioner-retain
+  volumeName: pvc-b7765e8e-465b-11e9-9352-005056b2844c
+```
+
+Make sure the ```name```, ```namespace```, ```storageClassName``` and ```volumeName``` are correspongin with the persistent volume definition. 
+
+```bash
+kuebctl create -f pvc.yaml
+```
+
+Now you can enter in the Jenkins chart the ```existingClaimName```. It should now refer to the ```name``` of the ```pvc.yaml```.
+
+>note: IMPORTANT make sure you deploy the chart in the ```molgenis-jenkins``` namespace you created. 
