@@ -113,10 +113,10 @@ $ helm install --name jenkins -f values.yaml molgenis-jenkins
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
 ## Restore persistence
-The persistent volumes of the Jenkins instance should always be "retain". That way you can easily delete and redeploy 
-the instance. The following procedure lets you reclaim the retained volume when the Jenkins deployment is killed.
+We start with the ```storageClass```-type of the ```persistent volume``` (from now on referred as ```pv```) you add to the Jenkins. The pv of the Jenkins instance should always be ```retain```. 
+That way you can easily delete and redeploy the instance. The following procedure lets you reclaim the retained pv when the Jenkins deployment is killed.
 
-First of all you need to remove the ```claimRef``` in the target persistent volume.
+First of all you need to remove the ```claimRef``` in the target ```pv```.
 
 
 ```bash
@@ -175,7 +175,7 @@ status:
   phase: Released
 ```
 
-Save the changes in the volume. The status should now be ```available```
+Save the changes in the ```pv.yaml```. The status should now be ```Available```
 
 When you deleted this part you need to delete the namespace ```molgenis-jenkins```
 
@@ -189,7 +189,7 @@ When you deleted the namespace you need to recreate on in the target project ```
 rancher namespaces create molgenis-jenkins
 ```
 
-Then import the following persistent volume claim to rebind the persistence volume. 
+Then import the following ```persistent volume claim``` (from now on referred as ```pvc```) to rebind the pv. 
 
 The ```pvc.yaml``` should look like this.
 
@@ -215,6 +215,6 @@ Make sure the ```name```, ```namespace```, ```storageClassName``` and ```volumeN
 kuebctl create -f pvc.yaml
 ```
 
-Now you can enter in the Jenkins chart the ```existingClaimName```. It should now refer to the ```name``` of the ```pvc.yaml```.
+Now you can enter in the Jenkins chart the ```existingClaimName```. It should now refer to the ```name``` of the ```pvc```.
 
 >note: IMPORTANT make sure you deploy the chart in the ```molgenis-jenkins``` namespace you created. 
