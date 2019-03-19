@@ -26,8 +26,16 @@ spec:
         imagePullPolicy: {{ .image.pullPolicy }}
         ports:
         - containerPort: {{ $.Values.service.port }}
+        volumeMounts:
+          - name: config-volume
+            mountPath: /etc/opencpu/server.conf.d
         resources:
 {{ toYaml .resources | indent 10 }}
       {{- end }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: server-conf-d
+
 
 

@@ -23,11 +23,16 @@ opencpu:
     pullPolicy: Always
   resources:
     limits:
-      cpu: 4
+      cpu: 2
       memory: 3Gi
     requests:
-      cpu: 200m
-      memory: 1500Mi
+      cpu: 2
+      memory: 3Gi
+  config:
+    # Override any config value from the server.conf
+    # Beware that values formatted like 1e9 will get string-escaped so you need to use
+    # 1000000000 instead
+    # timelimit.get: 120
 
 ingress:
   enabled: true
