@@ -11,7 +11,7 @@ pipeline {
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F_%H-%M-%S'").trim()
     }
     triggers {
-        cron('H 1 2 * 1-5')
+        cron('H 1 * * 1-5')
     }
     stages {
         stage('Prepare [ nightly ]') {
