@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
-        CHART_VERSION = '1.2.3'
+        CHART_VERSION = '1.2.4'
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
         DOWNLOAD_SERVER = 'https://molgenis26.gcc.rug.nl/releases/data'
