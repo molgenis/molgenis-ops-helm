@@ -5,7 +5,7 @@ pipeline {
         }
     }
     environment {
-        CHART_VERSION = '1.2.3'
+        CHART_VERSION = '1.2.4'
     }
     stages {
         stage("Deploy") {
