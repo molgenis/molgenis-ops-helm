@@ -64,19 +64,19 @@ spec:
             {{- end }}
             {{- end }}
             {{- with $.Values.minio }}
-            - name: minio_bucket_name
+            - name: MINIO_BUCKET_NAME
               value: {{ .defaultBucket.name }}
-            - name: minio_region
+            - name: MINIO_REGION
               value: {{ .minioConfig.region }}
-            - name: minio_endpoint
+            - name: MINIO_ENDPOINT
               value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}:{{ .service.port }}
             {{- end}}
-            - name: minio_access_key
+            - name: MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: accesskey
-            - name: minio_secret_key
+            - name: MINIO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
