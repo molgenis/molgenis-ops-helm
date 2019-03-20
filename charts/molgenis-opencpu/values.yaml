@@ -19,7 +19,7 @@ opencpu:
   image:
     repository: registry.hub.docker.com
     name: molgenis/opencpu
-    tag: latest
+    tag: opencpu-release-2019-03-20_12-07-11
     pullPolicy: Always
   resources:
     limits:
