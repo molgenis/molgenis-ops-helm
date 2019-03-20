@@ -11,9 +11,6 @@ pipeline {
         IMAGE_TAG = '7.4.1'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
     }
-    triggers {
-        cron('H 1 2 * 1-5')
-    }
     stages {
         stage('Prepare [ e2e ]') {
             steps {
