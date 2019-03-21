@@ -54,7 +54,7 @@ questions:
   show_if: "ingress.firewall.enabled=true"
 - variable: opencpu.resources.requests.cpu
   label: CPU requested
-  default: "4"
+  default: "2"
   type: enum
   options:
     - 2
