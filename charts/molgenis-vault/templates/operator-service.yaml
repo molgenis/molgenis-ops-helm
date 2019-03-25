@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "vault.fullname" . }}
+  labels:
+    app: {{ template "vault-operator.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.vault-operator.service.type }}
+  ports:
+    - port: {{ .Values..vault-operator.service.externalPort }}
+      targetPort: {{ .Values.vault-operator.service.internalPort }}
+      protocol: TCP
+      name: {{ .Values.vault-operator.service.name }}
+  selector:
+    app: {{ template "vault-operator.name" . }}
+    release: {{ .Release.Name }}
+    component: {{ .Values.vault-operator.name }}

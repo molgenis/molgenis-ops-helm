@@ -53,6 +53,12 @@ vault-operator:
     requests:
       cpu: 200m
       memory: 128Mi
+  service:
+    type: ClusterIP
+    internalPort: 8200
+  ingress:
+    enabled: true
+    host: vault.molgenis.org
 
 ui:
   name: "vault-ui"
@@ -69,7 +75,7 @@ ui:
   ingress:
     enabled: true
     # Used to create Ingress record (should used with service.type: ClusterIP).
-    host: vault.molgenis.org
+    host: vault-ui.molgenis.org
   resources:
     limits:
       cpu: 100m
