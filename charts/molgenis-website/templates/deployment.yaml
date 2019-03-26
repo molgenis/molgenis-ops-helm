@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "website.fullname" . }}
+  labels:
+    app: {{ template "website.name" . }}
+    chart: {{ template "website.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "website.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "website.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      {{- with .Values.website }}
+      - name: {{ .name }}
+        image: "{{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}"
+        imagePullPolicy: {{ .image.pullPolicy }}
+        ports:
+        - containerPort: {{ .service.port }}
+      {{- end }}
+
+
