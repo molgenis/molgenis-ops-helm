@@ -1,0 +1,8 @@
+# configmap to mount as /etc/opencpu/server.conf.d/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-conf-d
+data:
+  server-override.conf: |-
+{{ toPrettyJson .Values.opencpu.config | indent 4 }}

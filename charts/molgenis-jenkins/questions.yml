@@ -1,0 +1,115 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: jenkins.Master.Environment
+  label: Environment
+  default: production
+  type: enum
+  options:
+    - production
+    - acceptance
+  required: true
+  group: "Provisioning"
+- variable: jenkins.Master.HostName
+  label: Hostname
+  default: 'jenkins.dev.molgenis.org'
+  type: hostname
+  required: true
+  group: "Provisioning"
+- variable: jenkins.Master.AdminPassword
+  label: Administrator password
+  default:
+  type: password
+  required: true
+  group: "Provisioning"
+- variable: jenkins.Persistence.Enabled
+  label: Persistence enabled
+  default: true
+  type: boolean
+  required: true
+  group: "Persistence"
+- variable: jenkins.Persistence.StorageClass
+  show_if: "jenkins.Persistence.Enabled=true"
+  required: false
+  type: storageclass
+  label: Storage class
+  group: "Persistence"
+- variable: jenkins.Persistence.ExistingClaim
+  show_if: "jenkins.Persistence.Enabled=true"
+  required: false
+  type: string
+  label: Existing claim name
+  group: "Persistence"
+- variable: jenkins.Master.Security.UseGitHub
+  label: Security via Github enabled
+  default: true
+  type: boolean
+  required: true
+  group: "Security"
+- variable: jenkins.Master.Security.GitHub.ClientID
+  label: Github Client ID
+  default:
+  type: string
+  required: true
+  group: "Security"
+  show_if: "jenkins.Master.Security.UseGitHub=true"
+- variable: jenkins.Master.Security.GitHub.ClientSecret
+  label: Github Client Secret
+  default:
+  type: string
+  required: true
+  group: "Security"
+  show_if: "jenkins.Master.Security.UseGitHub=true"
+- variable: secret.vault.addr
+  label: Vault address
+  default: 'https://vault.vault-operator.svc:8200'
+  type: string
+  required: true
+  group: "Vault"
+- variable: secret.vault.token
+  label: Vault token
+  default:
+  description: "Generate a new Vault secret to read the build secrets. Please check the Vault SOP."
+  type: password
+  required: true
+  group: "Vault"
+- variable: secret.gitHub.user
+  label: Github bot-account username
+  default: molgenis-jenkins
+  type: string
+  required: true
+  group: "Accounts"
+- variable: secret.gitHub.token
+  label: Github bot-account token
+  default:
+  description: "Check the Vault for credentials"
+  type: password
+  required: true
+  group: "Accounts"
+- variable: secret.dockerHub.user
+  label: hub.docker.com username
+  default: molgenisci
+  type: string
+  required: true
+  group: "Accounts"
+- variable: secret.dockerHub.password
+  label: hub.docker.com password
+  default:
+  description: "Check the Vault for credentials"
+  type: password
+  required: true
+  group: "Accounts"
+- variable: secret.registry.username
+  label: registry.molgenis.org username
+  default: admin
+  type: string
+  required: true
+  group: "Accounts"
+- variable: secret.registry.password
+  label: registry.molgenis.org password
+  description: "Check the Vault for credentials"
+  default:
+  type: password
+  required: true
+  group: "Accounts"

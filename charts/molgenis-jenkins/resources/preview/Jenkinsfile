@@ -1,12 +1,11 @@
 pipeline {
     agent {
         kubernetes {
-            label 'helm'
+            label 'shared'
         }
     }
     environment {
-        HELM_REPO = 'https://registry.molgenis.org/repository/helm/'
-        LOCAL_REGISTRY = 'registry.molgenis.org'
+        CHART_VERSION = '1.2.4'
     }
     stages {
         stage("Deploy") {
@@ -14,11 +13,23 @@ pipeline {
                 equals expected: 'install', actual: params.ACTION
             }
             steps {
-                container('helm') {
-                    sh "helm init --client-only"
-                    sh "helm repo add molgenis ${HELM_REPO}"
-                    sh "helm repo update"
-                    sh "helm install molgenis/molgenis --wait --timeout 240 -n preview-${TAG.toLowerCase()} --namespace preview-${TAG.toLowerCase()} --set molgenis.image.tag=${TAG} --set molgenis.image.repository=${LOCAL_REGISTRY} --set molgenis.environment=dev --set molgenis.type.kind=small --set persistence.enabled=false --set molgenis.adminPassword=admin"
+                container('vault') {
+                    sh "mkdir /home/jenkins/.rancher"
+                    sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
+                }
+                container('rancher') {
+                    sh "rancher context switch dev-molgenis"
+                    sh "rancher apps install " +
+                            "-n preview-${TAG.toLowerCase()} " +
+                            "molgenis-helm-molgenis " +
+                            "preview-${TAG.toLowerCase()} " +
+                            "--version ${CHART_VERSION} " +
+                            "--no-prompt " +
+                            "--set adminPassword=admin " +
+                            "--set environment=dev " +
+                            "--set image.tag=${TAG} " +
+                            "--set image.repository=${LOCAL_REGISTRY} " +
+                            "--set image.pullPolicy=Always"
                 }
                 hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
             }
@@ -28,9 +39,13 @@ pipeline {
                 equals expected: 'delete', actual: params.ACTION
             }
             steps {
-                container('helm') {
-                    sh "helm init --client-only"
-                    sh "helm delete preview-${TAG.toLowerCase()} --purge"
+                container('vault') {
+                    sh "mkdir /home/jenkins/.rancher"
+                    sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
+                }
+                container('rancher') {
+                    sh "rancher context switch dev-molgenis"
+                    sh "rancher apps delete preview-${TAG.toLowerCase()}"
                 }
                 hubotSend message: "Deleted preview-${TAG.toLowerCase()}"
             }
@@ -40,10 +55,14 @@ pipeline {
                 equals expected: 'list', actual: params.ACTION
             }
             steps {
-                container('helm') {
-                    sh "helm init --client-only"
+                container('vault') {
+                    sh "mkdir /home/jenkins/.rancher"
+                    sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
+                }
+                container('rancher') {
+                    sh "rancher context switch dev-molgenis"
                     script {
-                        env.LIST = sh script:"helm list --all --col-width 120", returnStdout: true
+                        env.LIST = sh script:"rancher apps ls", returnStdout: true
                     }
                 }
                 hubotSend message: "Dit draait er allemaal:\n```${LIST}```"

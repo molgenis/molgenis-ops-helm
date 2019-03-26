@@ -19,24 +19,34 @@ opencpu:
   image:
     repository: registry.hub.docker.com
     name: molgenis/opencpu
-    tag: latest
+    tag: opencpu-release-2019-03-20_12-07-11
     pullPolicy: Always
   resources:
     limits:
-      cpu: 4
+      cpu: 2
       memory: 3Gi
     requests:
-      cpu: 200m
-      memory: 1500Mi
+      cpu: 2
+      memory: 3Gi
+  config:
+    # Override any config value from the server.conf
+    # Beware that values formatted like 1e9 will get string-escaped so you need to use
+    # 1000000000 instead
+    # timelimit.get: 120
 
 ingress:
-  enabled: false
+  enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 0
   path: /
   hosts:
-  - name: opencpu.molgenis.org
+    - name: opencpu.molgenis.org
+  firewall:
+    enabled: true
+    rules:
+      - 127.0.0.1/24
+      - 127.0.1.1/24
   tls: []
 
 nodeSelector: {}

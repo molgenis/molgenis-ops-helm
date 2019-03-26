@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: {{ template "molgenis.name" . }}
@@ -23,32 +23,34 @@ spec:
     spec:
       containers:
         - name: molgenis
-        {{- with .Values.molgenis }}
-          image: {{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}
-          imagePullPolicy: {{ .image.pullPolicy }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: molgenis.home
               value: /home/molgenis
             - name: opencpu.uri.host
-              value: {{ .services.opencpu.host }}
+              value: {{ .Values.opencpu }}
             - name: elasticsearch.transport.addresses
-              value: {{ $.Release.Name }}-molgenis-elasticsearch:9300
+              value: {{ include "call-nested" (list . "molgenis-elasticsearch" "molgenis-elasticsearch.fullname") }}:9300
             - name: elasticsearch.cluster.name
-              value: {{ index $.Values "molgenis-elasticsearch" "master" "clusterName" }}
+              value: {{ index .Values "molgenis-elasticsearch" "clusterName" }}
             - name: db_uri
-              value: jdbc:postgresql://{{ $.Release.Name -}}-postgresql/{{ $.Values.postgresql.postgresDatabase }}
+              value: jdbc:postgresql://{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ $.Values.postgresql.postgresqlDatabase }}
             - name: db_user
-              value: {{ $.Values.postgresql.postgresqlUsername }}
+              value: {{ .Values.postgresql.postgresqlUsername }}
             - name: db_password
-              value: "{{ $.Values.postgresql.postgresqlPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}
+                  key: postgresql-password
             - name: admin.password
-              value: "{{ .admin.password }}"
-            - name: admin.email
-              value: "{{ .admin.email }}"
-            - name: anonymous.email
-              value: "{{ .anonymous.email }}"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "molgenis.fullname" $ }}
+                  key: adminpassword
+              value: {{ .adminPassword | quote }}
             - name: python_script_executable
-              value: {{ .python.executable }}
+              value: {{ .Values.python.executable }}
             - name: mail.host
               value: "{{ .mail.host }}"
             - name: mail.username
@@ -56,37 +58,53 @@ spec:
             - name: mail.password
               value: "{{ .mail.password }}"
             - name: mail.port
-              value: "587"
+              value: "{{ .mail.port }}"
             - name: mail.protocol
-              value: smtp
+              value: "{{ .mail.smtp }}"
             {{- if .sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}
             - name: SENTRY_RELEASE
-              value: {{ .image.name }}@{{ .image.tag }}
+              value: {{ .Values.image.name }}@{{ .Values.image.tag }}
             - name: SENTRY_ENVIRONMENT
-              value: {{ .environment }}
+              value: {{ .Values.environment }}
             {{- range $key, $value := default dict .sentry }}
             - name: SENTRY_{{ $key | snakecase | upper }}
               value: {{ $value }}
             {{- end }}
+            {{- end }}
+            {{- with $.Values.minio }}
+            - name: MINIO_BUCKET_NAME
+              value: {{ .defaultBucket.name }}
+            - name: MINIO_REGION
+              value: {{ .minioConfig.region }}
+            - name: MINIO_ENDPOINT
+              value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}:{{ .service.port }}
             {{- end}}
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
+                  key: accesskey
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
+                  key: secretkey
             - name: CATALINA_OPTS
-              value: {{ template "molgenis.javaOpts" $ }}
+              value: {{ .Values.catalinaOpts }}
           ports:
             - containerPort: 8080
-          {{- if $.Values.persistence.enabled }}
           volumeMounts:
           - name: pv-molgenis
             mountPath: /home/molgenis
-          {{- end }}
           livenessProbe:
             httpGet:
               path: /
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 5
-            failureThreshold: 25
+            failureThreshold: 50
             successThreshold: 1
           readinessProbe:
             httpGet:
@@ -97,16 +115,15 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           resources:
-            {{ template "molgenis.resources" $ }}
-        {{- end }}
-
-{{- if .Values.persistence.enabled }}
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
         - name: pv-molgenis
+        {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.molgenis.persistence.claim }}
-{{- end }}
-
+            claimName: {{ .Values.persistence.existingClaim | default (include "molgenis.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

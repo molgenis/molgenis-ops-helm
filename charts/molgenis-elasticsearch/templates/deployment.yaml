@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-        {{- with .Values.master }}
+        {{- with .Values }}
           image: "{{ .image.repository }}:{{ .image.tag }}"
           imagePullPolicy: {{ .image.pullPolicy }}
           env:
@@ -40,21 +40,21 @@ spec:
           ports:
             - containerPort: 9200
             - containerPort: 9300
-          {{- if $.Values.persistence.enabled }}
           volumeMounts:
           - name: pv-elasticsearch
             mountPath: /usr/share/elasticsearch/data
-          {{- end }}
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
 
-{{- if .Values.persistence.enabled }}
       volumes:
         - name: pv-elasticsearch
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.master.persistence.claim }}
-{{- end }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "molgenis-elasticsearch.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end -}}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:

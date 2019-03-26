@@ -16,7 +16,7 @@ If release name contains chart name it will be used as a full name.
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- if contains $name .Release.Name -}}
+{{- if (contains $name .Release.Name) and not .Values.minio.enabled -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
@@ -35,50 +35,17 @@ Create chart name and version as used by the chart label.
 Resolve hostname for environment
 */}}
 {{- define "molgenis.hostname" -}}
-{{- if ne (.Values.molgenis.environment | default "prod" ) "prod" -}}
-{{- printf "%s.%s.molgenis.org" .Release.Name .Values.molgenis.environment -}}
+{{- if ne (.Values.environment | default "prod" ) "prod" -}}
+{{- printf "%s.%s.molgenis.org" .Release.Name .Values.environment -}}
 {{- else -}}
 {{- printf "%s.molgenis.org" .Release.Name -}}
 {{- end -}}
 {{- end -}}
 
-{{/*
-Resolve Java OPTS for memory settings MOLGENIS
-*/}}
-{{- define "molgenis.javaOpts" -}}
-{{- if eq .Values.molgenis.type.kind "large" -}}
-{{- printf "-Xmx%s -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled" .Values.molgenis.type.large.javaOpts.maxHeapSpace -}}
-{{- else if eq .Values.molgenis.type.kind "medium" -}}
-{{- printf "-Xmx%s -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled" .Values.molgenis.type.medium.javaOpts.maxHeapSpace -}}
-{{- else -}}
-{{- printf "-Xmx%s -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled" .Values.molgenis.type.small.javaOpts.maxHeapSpace -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Resolve storage size MOLGENIS
-*/}}
-{{- define "molgenis.storage.size" -}}
-{{- if eq .Values.molgenis.type.kind "large" -}}
-{{- printf "%s" .Values.molgenis.type.small.persistence.size }}
-{{- else if eq .Values.molgenis.type.kind "medium" }}
-{{- printf "%s" .Values.molgenis.type.medium.persistence.size }}
-{{- else }}
-{{- printf "%s" .Values.molgenis.type.large.persistence.size }}
+{{/* See https://github.com/helm/helm/issues/4535 */}}
+{{- define "call-nested" }}
+{{- $dot := index . 0 }}
+{{- $subchart := index . 1 }}
+{{- $template := index . 2 }}
+{{- include $template (dict "Chart" (dict "Name" $subchart) "Values" (index $dot.Values $subchart) "Release" $dot.Release "Capabilities" $dot.Capabilities) }}
 {{- end }}
-{{- end }}
-
-{{/*
-Resolve storage size MOLGENIS
-*/}}
-{{- define "molgenis.resources" -}}
-{{- if eq .Values.molgenis.type.kind "small" }}
-{{ toYaml .Values.molgenis.type.small.resources | indent 12 }}
-{{- else if eq .Values.molgenis.type.kind "medium" }}
-{{ toYaml .Values.molgenis.type.medium.resources | indent 12 }}
-{{- else }}
-{{ toYaml .Values.molgenis.type.large.resources | indent 12 }}
-{{- end }}
-{{- end }}
-
-

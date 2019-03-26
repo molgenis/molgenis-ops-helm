@@ -22,15 +22,15 @@ spec:
         release: {{ .Release.Name }}
     spec:
       restartPolicy: {{ .Values.nexus.restartPolicy }}
+      {{- if .Values.persistence.enabled }}
       initContainers:
       - name: nexus-nfs
         image: busybox
         command: ["sh", "-c", "chown -R 200:200 /nexus-data"]
-        {{- if .Values.persistence.enabled }}
         volumeMounts:
         - name: pv-molgenis-nexus
           mountPath: "/nexus-data"
-        {{- end }}
+      {{- end}}
       containers:
       - name: {{ .Values.nexus.name }}
         image: "{{ .Values.nexus.image.repository }}/{{ .Values.nexus.image.name }}:{{ .Values.nexus.image.tag }}"
@@ -59,14 +59,14 @@ spec:
           periodSeconds: 30
           failureThreshold: 15
           successThreshold: 1
-
-    {{- if .Values.persistence.enabled }}
       volumes:
         - name: pv-molgenis-nexus
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.claim }}
-    {{- end }}
-
+            claimName: {{ .Values.persistence.existingClaim | default (include "nexus.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end -}}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
