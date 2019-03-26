@@ -6,6 +6,13 @@ Define vault ui fullname
 {{- end -}}
 
 {{/*
+Define vault operator fullname
+*/}}
+{{- define "vault.vault-operator.fullname" -}}
+{{- printf "%s-vault-operator" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
 Define vault service url for the ui
 */}}
 {{- define "vault.service.url" -}}

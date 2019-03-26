@@ -46,6 +46,7 @@ etcd-operator:
       tag: v0.9.2
 
 vault-operator:
+  name: "vault"
   resources:
     limits:
       cpu: 200m
@@ -54,8 +55,9 @@ vault-operator:
       cpu: 200m
       memory: 128Mi
   service:
-    type: ClusterIP
-    internalPort: 8200
+    type: VaultService
+    nodes: 2
+    version: 0.9.1-0
   ingress:
     enabled: true
     host: vault.molgenis.org
