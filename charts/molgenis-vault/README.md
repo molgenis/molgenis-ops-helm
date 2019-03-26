@@ -1,10 +1,7 @@
 # MOLGENIS Vault helm chart
 
-This chart creates a vault operator, but NO vault.
+This chart creates a vault operator and 2 vault services.
 The vault operator defines a new custom resource named `vault` that you can use to create vaults.
-
-After launching the operator, create the molgenis vault manually:
-`kubectl create -f resources/vault.yaml`
 
 That creates a new vault with two vault pods.
 
