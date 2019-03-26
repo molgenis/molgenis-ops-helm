@@ -472,8 +472,8 @@ jenkins:
       InheritFrom: shared
       Containers:
         maven:
-          Image: registry.molgenis.org/molgenis/maven
-          ImageTag: 3.5.4-jdk8
+          Image: molgenis/maven
+          ImageTag: maven-release-jdk8-2019-03-20_12-07-11
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
