@@ -38,7 +38,7 @@ questions:
       - "registry.molgenis.org"
     required: true
     group: "Provisioning"
-  - variable: adminPassword
+  - variable: admin.password
     label: Administrator password
     default: ""
     description: "Enter the administrator password"
@@ -95,6 +95,56 @@ questions:
       - "2"
       - "4"
     default: "1"
+  - variable: "admin.email"
+    show_if: "questions.advanced=true"
+    group: "Mail"
+    label: "Administrator email"
+    description: "This address will be often used as reply address for server generated email. Also applicable on mail.from property."
+    required: true
+    type: string
+    default: "no-reply@molgenis.org"
+  - variable: "mail.host"
+    show_if: "questions.advanced=true"
+    required: true
+    group: "Mail"
+    label: "Mail host"
+    type: string
+    default: "smtp.rug.nl"
+  - variable: "mail.username"
+    show_if: "questions.advanced=true"
+    group: "Mail"
+    label: "Mail host username"
+    required: true
+    type: string
+    default: ""
+  - variable: "mail.password"
+    show_if: "questions.advanced=true"
+    group: "Mail"
+    label: "Mail host password"
+    required: true
+    type: string
+    default: ""
+  - variable: "mail.smtp.auth"
+    show_if: "questions.advanced=true"
+    group: "Mail"
+    label: "Is mail host authentication required"
+    required: true
+    type: string
+    default: "false"
+  - variable: "mail.port"
+    show_if: "questions.advanced=true"
+    group: "Mail"
+    label: "Mail host port"
+    required: true
+    type: string
+    default: "25"
+  - variable: "mail.protocol"
+    show_if: "questions.advanced=true"
+    group: "Mail"
+    label: "Mail host protocol"
+    required: true
+    type: string
+    default: "smtp"
   - variable: sentry.dsn
     show_if: "questions.advanced=true"
     label: Sentry datasource name

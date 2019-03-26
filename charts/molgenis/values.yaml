@@ -20,14 +20,14 @@ python:
 admin:
   password: ""
   email: no-reply@molgenis.org
-anonymous:
-  email: anonymous@molgenis.org
 mail:
   host: smtp.rug.nl
   username:
   password:
   port: 25
   protocol: smtp
+  smtp:
+    auth: false
 opencpu: opencpu-opencpu.molgenis-opencpu
 persistence:
   enabled: true
