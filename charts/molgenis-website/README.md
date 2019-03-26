@@ -17,6 +17,11 @@ You need to fill out 2 properties to determine which repository you are going to
 
 You can do this in the questions in Rancher or in the ```values.yaml```.
 
+### Docker container
+The NGINX container is build in the https://github.com/molgenis/molgenis.org repository. 
+
+The file is located here: https://github.com/molgenis/molgenis.org/blob/master/Dockerfile.
+
 ## Development
 You can test in install the chart by executing:
 
