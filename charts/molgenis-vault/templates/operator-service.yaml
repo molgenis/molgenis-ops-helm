@@ -1,6 +1,6 @@
 # Use kubectl create -f vault.yaml to manually create a vault
 apiVersion: "vault.security.coreos.com/v1alpha1"
-kind: {{ .Values.vaul-operator.service.type }}
+kind: {{ .Values.vault-operator.service.type }}
   name: {{ template "vault.vault-operator.fullname" . }}
   labels:
     app: {{ template "vault-operator.name" . }}

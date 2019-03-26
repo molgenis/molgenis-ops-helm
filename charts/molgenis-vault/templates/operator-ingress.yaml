@@ -1,6 +1,6 @@
 {{- if .Values.vault-operator.ingress.enabled -}}
-  {{- $serviceName := include "vault.vault-operator.fullname" . -}}
-  {{- $servicePort := .Values.vault-operator.service.internalPort -}}
+{{- $serviceName := include "vault.vault-operator.fullname" . -}}
+{{- $servicePort := .Values.vault-operator.service.internalPort -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
