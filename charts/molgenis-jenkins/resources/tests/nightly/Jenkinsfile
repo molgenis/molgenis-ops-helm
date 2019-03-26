@@ -6,12 +6,12 @@ pipeline {
     }
     environment {
         LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
-        CHART_VERSION = '1.2.3'
+        CHART_VERSION = '1.2.4'
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F_%H-%M-%S'").trim()
     }
     triggers {
-        cron('H 1 2 * 1-5')
+        cron('H 1 * * 1-5')
     }
     stages {
         stage('Prepare [ nightly ]') {

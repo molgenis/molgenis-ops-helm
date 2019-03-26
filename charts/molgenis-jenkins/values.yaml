@@ -11,20 +11,20 @@ jenkins:
       email: molgenis+ci@gmail.com
     JenkinsAdminEmail: molgenis+ci@gmail.com
     InstallPlugins:
-      - kubernetes:1.14.6
+      - kubernetes:1.14.8
       - workflow-aggregator:2.6
-      - workflow-job:2.31
+      - workflow-job:2.32
       - credentials-binding:1.18
       - git:3.9.3
       - github-branch-source:2.4.2
       - basic-branch-build-strategies:1.1.1
-      - kubernetes-credentials-provider:0.11
-      - blueocean:1.11.1
+      - kubernetes-credentials-provider:0.12.1
+      - blueocean:1.13.2
       - pipeline-github-lib:1.0
       - github-oauth:0.31
       - github-scm-trait-commit-skip:0.4.0
       - ansible:1.0
-      - hubot-steps:2.0.3
+      - hubot-steps:2.0.4
       - prometheus:2.0.0
     Security:
       UseGitHub: false

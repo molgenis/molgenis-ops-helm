@@ -6,13 +6,13 @@ pipeline {
     }
     environment {
         LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
-        CHART_VERSION = '1.2.3'
+        CHART_VERSION = '1.2.4'
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
         DOWNLOAD_SERVER = 'https://molgenis26.gcc.rug.nl/releases/data'
     }
     triggers {
-        cron('H 1 2 * 1-5')
+        cron('H 1 * * 1-5')
     }
     stages {
         stage('Prepare [ e2e ]') {
@@ -84,7 +84,7 @@ pipeline {
                         }
                         stage("BBMRI-NL") {
                             environment {
-                                MOLGENIS_TEST_UPLOAD_FILE = 'bbmri-nl.xlsx'
+                                MOLGENIS_TEST_UPLOAD_FILE = 'bbmri-nl-acc.xlsx'
                                 MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=bbmri_nl_sample_collections'
                                 MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'bbmri_nl'
                             }
@@ -114,7 +114,7 @@ pipeline {
                         }
                         stage("CHD7") {
                             environment {
-                                MOLGENIS_TEST_UPLOAD_FILE = 'chd7.xlsx'
+                                MOLGENIS_TEST_UPLOAD_FILE = 'chd7-acc.xlsx'
                                 MOLGENIS_TEST_UPLOAD_CHECK_URLS = 'menu/main/dataexplorer?entity=CHD7_Patients'
                                 MOLGENIS_TEST_UPLOAD_PACKAGE_TO_REMOVE = 'CHD7'
                             }
