@@ -50,7 +50,7 @@ spec:
                   key: adminpassword
               value: {{ .Values.admin.password | quote }}
             - name: admin.email
-              value: {{ .admin.email }}
+              value: {{ .Values.admin.email }}
             - name: python_script_executable
               value: {{ .Values.python.executable }}
             - name: mail.host
