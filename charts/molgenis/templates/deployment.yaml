@@ -64,7 +64,7 @@ spec:
               value: {{ .Values.mail.password }}
             {{- end }}
             - name: mail.port
-              value: {{ .Values.mail.port }}
+              value: {{ .Values.mail.port | quoted }}
             - name: mail.protocol
               value: {{ .Values.mail.protocol }}
             - name: mail.from
