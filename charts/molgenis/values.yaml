@@ -17,9 +17,8 @@ sentry:
   dsn: xxxx
 python:
   executable: "/usr/bin/python3"
-admin:
-  password: ""
-  email: no-reply@molgenis.org
+adminPassword: ""
+adminEmail: no-reply@molgenis.org
 mail:
   host: smtp.rug.nl
   # username: ""

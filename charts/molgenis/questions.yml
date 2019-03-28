@@ -38,7 +38,7 @@ questions:
       - "registry.molgenis.org"
     required: true
     group: "Provisioning"
-  - variable: admin.password
+  - variable: adminPassword
     label: Administrator password
     default: ""
     description: "Enter the administrator password"
@@ -128,14 +128,14 @@ questions:
     label: "Is mail host authentication required"
     required: true
     type: boolean
-    default: "false"
+    default: false
   - variable: "mail.port"
     show_if: "questions.advanced=true"
     group: "Mail"
     label: "Mail host port"
     required: true
-    type: string
-    default: "25"
+    type: integer
+    default: 25
   - variable: "mail.protocol"
     show_if: "questions.advanced=true"
     group: "Mail"
