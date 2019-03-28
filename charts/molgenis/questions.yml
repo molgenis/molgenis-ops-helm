@@ -122,7 +122,7 @@ questions:
     group: "Mail"
     label: "Mail host password"
     required: true
-    type: string
+    type: password
     default: ""
   - variable: "mail.smtp.auth"
     show_if: "questions.advanced=true"
