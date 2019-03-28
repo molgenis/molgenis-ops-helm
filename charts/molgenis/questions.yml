@@ -114,14 +114,14 @@ questions:
     show_if: "questions.advanced=true"
     group: "Mail"
     label: "Mail host username"
-    required: true
+    required: false
     type: string
     default: ""
   - variable: "mail.password"
     show_if: "questions.advanced=true"
     group: "Mail"
     label: "Mail host password"
-    required: true
+    required: false
     type: password
     default: ""
   - variable: "mail.smtp.auth"
@@ -129,7 +129,7 @@ questions:
     group: "Mail"
     label: "Is mail host authentication required"
     required: true
-    type: string
+    type: boolean
     default: "false"
   - variable: "mail.port"
     show_if: "questions.advanced=true"
