@@ -48,9 +48,28 @@ spec:
                 secretKeyRef:
                   name: {{ template "molgenis.fullname" $ }}
                   key: adminpassword
-              value: {{ .adminPassword | quote }}
+            - name: admin.email
+              value: {{ .Values.adminEmail | quote  }}
             - name: python_script_executable
               value: {{ .Values.python.executable }}
+            - name: mail.host
+              value: {{ .Values.mail.host }}
+            {{- if .Values.mail.username }}
+            - name: mail.username
+              value: {{ .Values.mail.username }}
+            {{- end }}
+            {{- if .Values.mail.password }}
+            - name: mail.password
+              value: {{ .Values.mail.password }}
+            {{- end }}
+            - name: mail.port
+              value: {{ .Values.mail.port | quote }}
+            - name: mail.protocol
+              value: {{ .Values.mail.protocol }}
+            - name: mail.from
+              value: {{ .Values.adminEmail | quote }}
+            - name: mail.smtp.auth
+              value: {{ .Values.mail.smtp.auth | quote }}
             {{- if .sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}
