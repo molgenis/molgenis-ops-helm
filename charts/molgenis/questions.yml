@@ -116,14 +116,12 @@ questions:
     label: "Mail host username"
     required: false
     type: string
-    default: ""
   - variable: "mail.password"
     show_if: "questions.advanced=true"
     group: "Mail"
     label: "Mail host password"
     required: false
     type: password
-    default: ""
   - variable: "mail.smtp.auth"
     show_if: "questions.advanced=true"
     group: "Mail"

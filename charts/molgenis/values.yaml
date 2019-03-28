@@ -22,8 +22,8 @@ admin:
   email: no-reply@molgenis.org
 mail:
   host: smtp.rug.nl
-  username: ""
-  password: ""
+  # username: ""
+  # password: ""
   port: 25
   protocol: smtp
   smtp:

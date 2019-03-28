@@ -55,10 +55,14 @@ spec:
               value: {{ .Values.python.executable }}
             - name: mail.host
               value: {{ .Values.mail.host }}
+            {{- if .Values.mail.username }}
             - name: mail.username
               value: {{ .Values.mail.username }}
+            {{- end }}
+            {{- if .Values.mail.password }}
             - name: mail.password
               value: {{ .Values.mail.password }}
+            {{- end }}
             - name: mail.port
               value: {{ .Values.mail.port }}
             - name: mail.protocol
