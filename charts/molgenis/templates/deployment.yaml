@@ -50,7 +50,7 @@ spec:
                   key: adminpassword
               value: {{ .Values.admin.password | quote }}
             - name: admin.email
-              value: {{ .Values.admin.email }}
+              value: {{ .Values.admin.email | quote  }}
             - name: python_script_executable
               value: {{ .Values.python.executable }}
             - name: mail.host
@@ -64,13 +64,13 @@ spec:
               value: {{ .Values.mail.password }}
             {{- end }}
             - name: mail.port
-              value: {{ .Values.mail.port | quoted }}
+              value: {{ .Values.mail.port | quote }}
             - name: mail.protocol
               value: {{ .Values.mail.protocol }}
             - name: mail.from
-              value: {{ .Values.admin.email }}
+              value: {{ .Values.admin.email | quote }}
             - name: mail.smtp.auth
-              value: {{ .Values.mail.smtp.auth }}
+              value: {{ .Values.mail.smtp.auth | quote }}
             {{- if .sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}
