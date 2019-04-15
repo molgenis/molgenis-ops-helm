@@ -70,14 +70,14 @@ spec:
               value: {{ .Values.adminEmail | quote }}
             - name: mail.smtp.auth
               value: {{ .Values.mail.smtp.auth | quote }}
-            {{- if .sentry }}
+            {{- if .Values.sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}
             - name: SENTRY_RELEASE
               value: {{ .Values.image.name }}@{{ .Values.image.tag }}
             - name: SENTRY_ENVIRONMENT
               value: {{ .Values.environment }}
-            {{- range $key, $value := default dict .sentry }}
+            {{- range $key, $value := default dict .Values.sentry }}
             - name: SENTRY_{{ $key | snakecase | upper }}
               value: {{ $value }}
             {{- end }}
