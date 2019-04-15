@@ -587,6 +587,13 @@ jenkins:
           hostPath: "/var/run/docker.sock"
           mountPath: "/var/run/docker.sock"
       Containers:
+        kaniko:
+          Image: "gcr.io/kaniko-project/executor"
+          ImageTag: "debug-v0.7.0"
+          AlwaysPullImage: false
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
         rancher:
           Image: "rancher/cli2"
           ImageTag: "v2.0.6"
