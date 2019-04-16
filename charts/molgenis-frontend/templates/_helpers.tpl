@@ -30,3 +30,14 @@ Create chart name and version as used by the chart label.
 {{- define "frontend.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Resolve hostname for environment
+*/}}
+{{- define "hostname" -}}
+{{- if ne (.Values.environment | default "prod" ) "prod" -}}
+{{- printf "%s.%s.molgenis.org" .Release.Name .Values.environment -}}
+{{- else -}}
+{{- printf "%s.molgenis.org" .Release.Name -}}
+{{- end -}}
+{{- end -}}

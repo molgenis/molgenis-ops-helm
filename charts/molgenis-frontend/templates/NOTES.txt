@@ -1,1 +1,1 @@
-Deployed frontend {{ .Values.image.tag }} proxying {{ .Values.backend.url }} on https://{{ .ingress.hosts[0].name }} .
+Deployed frontend {{ .Values.image.tag }} proxying {{ .Values.backend.url }} on https://{{ template "hostname" . }} .

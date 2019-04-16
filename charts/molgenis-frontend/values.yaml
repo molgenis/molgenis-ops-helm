@@ -4,8 +4,6 @@
 
 replicaCount: 1
 
-environment: production
-
 strategy:
   type: Recreate
 restartPolicy: Always
@@ -24,14 +22,10 @@ service:
 backend:
   url: https://latest.test.molgenis.org
 
+environment: dev
+
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  path: /
-  hosts:
-  - name: frontend.molgenis.org
-  tls: []
 
 nodeSelector: {}
 

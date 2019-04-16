@@ -1,4 +1,5 @@
 {{- if .Values.ingress.enabled }}
+{{- $fullName := include "frontend.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -25,22 +26,16 @@ metadata:
     {{- end }}
 spec:
   rules:
-  {{- range .Values.ingress.hosts }}
-  - host: {{ .name }}
-    http:
-      paths:
-        - path: {{ default "/" .path }}
-          backend:
-            serviceName: {{ $.Release.Name }}-{{ $.Values.service.name }}
-            servicePort: {{ $.Values.service.port }}
-  {{- end }}
-{{- if .tls }}
-  tls:
-  - hosts:
-    {{- range .Values.ingress.hosts }}
-    - {{ .name }}
-    {{- end }}
-    secretName: {{ .Values.ingress.tlsSecret }}
-{{- end }}
+    - host: {{ template "hostname" . }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $.Values.service.port }}
+      alpn:
+        - h2
+        - http/1.1
+        - http/1.0
 ---
 {{- end }}
