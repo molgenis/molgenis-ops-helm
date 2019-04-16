@@ -6,6 +6,7 @@ version: 0.0.1
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://github.com/molgenis/molgenis-ops-helm/raw/master/charts/molgenis-frontend/catalogIcon-molgenis-frontend.png
+home: https://www.molgenis.org
 maintainers:
 - name: sidohaakma
 - name: fdlk
