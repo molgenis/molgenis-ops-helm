@@ -2,13 +2,18 @@
 categories:
 - MOLGENIS
 questions:
-- variable: ingress.hosts[0].name
-  label: Hostname(s)
-  default: "frontend.molgenis.org"
-  description: "Specify a hostname"
-  type: string
+- variable: environment
+  label: Environment
+  description: "Environment of MOLGENIS instance"
+  type: enum
+  options:
+    - edge
+    - dev
+    - test
+    - accept
+    - prod
   required: true
-  group: "Loadbalancing"
+  group: "Provisioning"
 - variable: image.image.tag
   label: Version
   default: "dev"
