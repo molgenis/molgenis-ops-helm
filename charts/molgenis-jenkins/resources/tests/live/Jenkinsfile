@@ -146,10 +146,13 @@ pipeline {
                 sh "rancher context switch dev-molgenis"
                 sh "rancher apps delete ${TAG}"
             }
-            hubotSend(message: 'Build success', status: 'INFO', site: 'slack-general')
+        }
+        
+        unstable {
+            hubotSend message: 'Build unstable', site: 'slack-general', status: 'WARN'
         }
         failure {
-            hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-general')
+            hubotSend message: 'Build failed', site: 'slack-general', status: 'ERROR'
         }
     }
 }
