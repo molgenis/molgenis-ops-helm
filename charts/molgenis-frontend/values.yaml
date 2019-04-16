@@ -13,13 +13,16 @@ restartPolicy: Always
 image:
   repository: registry.molgenis.org
   name: molgenis/molgenis-frontend
-  tag: "PR-44-45"
+  tag: "dev"
   pullPolicy: Always
 
 service:
   name: molgenis-frontend
   type: ClusterIP
   port: 80
+
+backend:
+  ur;: https://latest.test.molgenis.org
 
 ingress:
   enabled: true

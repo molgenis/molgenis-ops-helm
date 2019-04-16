@@ -15,10 +15,10 @@ metadata:
     nginx.ingress.kubernetes.io/server-snippet: |
       proxy_intercept_errors on;
       recursive_error_pages on;
-      error_page 404 = @molgenis;
+      error_page 403 404 500 = @molgenis;
 
       location @molgenis {
-        proxy_pass https://latest.test.molgenis.org;
+        proxy_pass {{ .Values.backend.url }};
       }      
     {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key }}: {{ $value | quote }}
