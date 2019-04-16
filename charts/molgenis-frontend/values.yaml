@@ -22,7 +22,7 @@ service:
   port: 80
 
 backend:
-  ur;: https://latest.test.molgenis.org
+  url: https://latest.test.molgenis.org
 
 ingress:
   enabled: true
