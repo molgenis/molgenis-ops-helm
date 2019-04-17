@@ -597,7 +597,7 @@ jenkins:
           TTY: true
         rancher:
           Image: "rancher/cli2"
-          ImageTag: "v2.0.6"
+          ImageTag: "v2.2.0"
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
