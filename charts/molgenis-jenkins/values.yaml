@@ -26,6 +26,7 @@ jenkins:
       - ansible:1.0
       - hubot-steps:2.0.4
       - prometheus:2.0.0
+      - github-pullrequest:0.2.4
     Security:
       UseGitHub: false
       GitHub:
@@ -596,7 +597,7 @@ jenkins:
           TTY: true
         rancher:
           Image: "rancher/cli2"
-          ImageTag: "v2.0.6"
+          ImageTag: "v2.2.0"
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins

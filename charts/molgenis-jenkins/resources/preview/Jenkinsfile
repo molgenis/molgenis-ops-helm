@@ -4,9 +4,6 @@ pipeline {
             label 'shared'
         }
     }
-    environment {
-        CHART_VERSION = '1.3.1'
-    }
     stages {
         stage("Deploy") {
             when {
@@ -21,9 +18,8 @@ pipeline {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n preview-${TAG.toLowerCase()} " +
-                            "molgenis-helm-molgenis " +
+                            "molgenis " +
                             "preview-${TAG.toLowerCase()} " +
-                            "--version ${CHART_VERSION} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
                             "--set environment=dev " +
