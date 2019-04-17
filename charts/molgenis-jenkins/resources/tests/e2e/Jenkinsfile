@@ -42,7 +42,7 @@ pipeline {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n molgenis-${TAG} " +
-                            "molgenis-helm-molgenis " +
+                            "molgenis " +
                             "${TAG} " +
                             "--version ${CHART_VERSION} " +
                             "--no-prompt " +
