@@ -1,0 +1,25 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'shared'
+        }
+    }
+    triggers {
+        cron('H 1 * * *')
+    }
+    stages {
+        stage("Cleanup") {
+            steps {
+                container('vault') {
+                    sh "mkdir /home/jenkins/.rancher"
+                    sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
+                }
+                container('rancher') {
+                    sh "rancher context switch dev-molgenis"
+                    sh "rancher app | awk '{print $2}' | grep preview- > preview.list"
+                    sh "xargs rancher app delete < preview.list" 
+                }
+            }
+        }
+    }
+}
