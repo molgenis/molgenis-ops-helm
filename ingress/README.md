@@ -1,6 +1,7 @@
 Ik beschrijf even de losse stappen die ik heb uitgevoerd want de inhoud van de nginx.tmpl verschilt vast per versie van nginx
 Is gebaseerd op tip in https://github.com/kubernetes/ingress-nginx/issues/3481
 
+```
 # Haal de bestaande template op
 kubectl cp nginx-ingress-controller-4vqbd:/etc/nginx/template/nginx.tmpl .
 
@@ -21,3 +22,4 @@ kubectl apply -f daemonset.yaml
 # Delete 1 ingress controller pod, check dat hij weer goed up komt
 # Delete de ingress controller pods van de andere nodes
 # Check de echo service, (brndnmtthws/nginx-echo-headers) yay!!
+```
