@@ -21,7 +21,7 @@ jenkins:
       - kubernetes-credentials-provider:0.12.1
       - blueocean:1.13.2
       - pipeline-github-lib:1.0
-      - github-oauth:0.31
+      - github-oauth:0.32
       - github-scm-trait-commit-skip:0.4.0
       - ansible:1.0
       - hubot-steps:2.0.4
