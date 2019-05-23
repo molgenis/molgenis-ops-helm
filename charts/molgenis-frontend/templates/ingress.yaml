@@ -1,0 +1,41 @@
+{{- if .Values.ingress.enabled }}
+{{- $fullName := include "frontend.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "{{ $.Release.Name }}-ingress"
+  labels:
+    app: {{ template "frontend.name" . }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+  annotations:
+    {{- if .Values.ingress.tls }}
+    ingress.kubernetes.io/secure-backends: "true"
+    {{- end }}
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_intercept_errors on;
+      recursive_error_pages on;
+      error_page 400 401 403 404 405 406 413 414 415 416 417 431 500 501 502 503 504 506 = @molgenis;
+
+      location @molgenis {
+        proxy_pass {{ .Values.backend.url }};
+      }      
+    {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  rules:
+    - host: {{ template "hostname" . }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $.Values.service.port }}
+      alpn:
+        - h2
+        - http/1.1
+        - http/1.0
+---
+{{- end }}

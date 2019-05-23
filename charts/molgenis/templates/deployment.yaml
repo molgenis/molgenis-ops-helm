@@ -48,35 +48,54 @@ spec:
                 secretKeyRef:
                   name: {{ template "molgenis.fullname" $ }}
                   key: adminpassword
-              value: {{ .adminPassword | quote }}
+            - name: admin.email
+              value: {{ .Values.adminEmail | quote  }}
             - name: python_script_executable
               value: {{ .Values.python.executable }}
-            {{- if .sentry }}
+            - name: mail.host
+              value: {{ .Values.mail.host }}
+            {{- if .Values.mail.username }}
+            - name: mail.username
+              value: {{ .Values.mail.username }}
+            {{- end }}
+            {{- if .Values.mail.password }}
+            - name: mail.password
+              value: {{ .Values.mail.password }}
+            {{- end }}
+            - name: mail.port
+              value: {{ .Values.mail.port | quote }}
+            - name: mail.protocol
+              value: {{ .Values.mail.protocol }}
+            - name: mail.from
+              value: {{ .Values.adminEmail | quote }}
+            - name: mail.smtp.auth
+              value: {{ .Values.mail.smtp.auth | quote }}
+            {{- if .Values.sentry }}
             - name: SENTRY_SERVERNAME
               value: {{ template "molgenis.hostname" $ }}
             - name: SENTRY_RELEASE
               value: {{ .Values.image.name }}@{{ .Values.image.tag }}
             - name: SENTRY_ENVIRONMENT
               value: {{ .Values.environment }}
-            {{- range $key, $value := default dict .sentry }}
+            {{- range $key, $value := default dict .Values.sentry }}
             - name: SENTRY_{{ $key | snakecase | upper }}
               value: {{ $value }}
             {{- end }}
             {{- end }}
             {{- with $.Values.minio }}
-            - name: minio_bucket_name
+            - name: MINIO_BUCKET_NAME
               value: {{ .defaultBucket.name }}
-            - name: minio_region
+            - name: MINIO_REGION
               value: {{ .minioConfig.region }}
-            - name: minio_endpoint
+            - name: MINIO_ENDPOINT
               value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}:{{ .service.port }}
             {{- end}}
-            - name: minio_access_key
+            - name: MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: accesskey
-            - name: minio_secret_key
+            - name: MINIO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}

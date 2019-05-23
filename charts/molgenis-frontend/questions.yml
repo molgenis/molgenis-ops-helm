@@ -1,0 +1,48 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: environment
+  label: Environment
+  description: "Environment of MOLGENIS instance"
+  type: enum
+  options:
+    - edge
+    - dev
+    - test
+    - accept
+    - prod
+  required: true
+  group: "Provisioning"
+- variable: image.image.tag
+  label: Version
+  default: "dev"
+  description: "Select a version (check the registry.molgenis.org or hub.docker.com for released tags)"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: backend.url
+  label: Backend
+  default: "https://latest.test.molgenis.org"
+  description: "Specify a MOLGENIS backend"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: questions.advanced
+  label: Advanced mode
+  default: false
+  description: "Do you want to override the default values in advanced mode"
+  type: boolean
+  required: true
+  group: "Advanced"
+- variable: image.repository
+  show_if: "questions.advanced=true"
+  label: Registry
+  default: "registry.hub.docker.com"
+  description: "Select a registry to pull from"
+  type: enum
+  options:
+    - "registry.hub.docker.com"
+    - "registry.molgenis.org"
+  required: true
+  group: "Provisioning"

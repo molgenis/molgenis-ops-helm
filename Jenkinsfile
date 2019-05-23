@@ -41,7 +41,7 @@ pipeline {
                 }
                 container('alpine') {
                     sh 'set +x; for chart in target/*; do curl -L --fail -u $NEXUS_USER:$NEXUS_PWD $HELM_REPO --upload-file "$chart"; done'
-                    sh 'set +x; for chart in target/*; do curl -L --fail -u $CHARTMUSEUM_USER:$CHARTMUSEUM_PWD $HELM_REPOSITORY/api/charts --data-binary "@$chart"; done'
+                    sh 'set +x; for chart in target/*; do curl -L --fail -u $CHARTMUSEUM_USER:$CHARTMUSEUM_PWD ${HELM_REPOSITORY}api/charts --data-binary "@$chart"; done'
                 }
             }
         }
