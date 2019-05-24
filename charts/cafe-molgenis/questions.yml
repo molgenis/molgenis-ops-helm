@@ -1,0 +1,15 @@
+
+categories:
+- MOLGENIS
+- FAIR
+questions:
+- variable: ingress.hosts[0]
+  label: Hostname
+  default: 'cv.dev.molgenis.org'
+  type: hostname
+  required: true
+- variable: image.tag
+  label: Tag
+  default: 0.0.1-SNAPSHOT
+  type: string
+  required: true
