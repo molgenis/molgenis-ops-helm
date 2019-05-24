@@ -688,8 +688,8 @@ jenkins:
       InheritFrom: shared
       Containers:
         maven:
-          Image: molgenis/maven
-          ImageTag: maven-release-jdk8-2019-03-20_12-07-11
+          Image: molgenis/maven-jdk8
+          ImageTag: maven-jdk8-release-2019-05-24_09-24-16 
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -711,8 +711,8 @@ jenkins:
       InheritFrom: shared
       Containers:
         maven:
-          Image: molgenis/maven
-          ImageTag: maven-release-2019-03-06_08-18-10
+          Image: molgenis/maven-jdk11
+          ImageTag: maven-jdk11-release-2019-05-24_09-24-16
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
