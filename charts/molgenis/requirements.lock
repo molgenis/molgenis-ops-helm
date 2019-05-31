@@ -4,9 +4,9 @@ dependencies:
   version: 1.0.0
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com
-  version: 3.10.1
+  version: 5.2.1
 - name: minio
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 2.4.3
-digest: sha256:a87ed47ce0495cdac57b010713f854ac9ec2a1969be62313dbe987bded124c75
-generated: 2019-02-21T12:55:41.107387282+01:00
+digest: sha256:7200cf4de3cc6825fb4b617e6a5074a3b569f9d5b0c6fef3cbb96996daf56a67
+generated: "2019-05-31T18:12:13.378175+02:00"
