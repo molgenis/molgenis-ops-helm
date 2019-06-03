@@ -77,7 +77,12 @@ postgresql:
   postgresqlPassword: molgenis
   postgresqlDatabase: molgenis
   persistence:
+    # should always be set, the subchart cannot clean up the pvc it creates
+    existingClaim: postgres-pvc
+    # set to true if you really want to use a pre-existing claim
+    existingClaimReally: false
     size: 5Gi
+    accessMode: ReadWriteOnce
   resources:
     requests:
       cpu:
