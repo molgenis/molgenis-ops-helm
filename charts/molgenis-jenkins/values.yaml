@@ -712,7 +712,7 @@ jenkins:
       Containers:
         maven:
           Image: molgenis/maven-jdk11
-          ImageTag: maven-jdk11-release-2019-05-24_09-24-16
+          ImageTag: maven-jdk11-release-2019-06-05_07-25-15
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
