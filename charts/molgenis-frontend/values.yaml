@@ -20,14 +20,18 @@ service:
   port: 80
 
 backend:
-  url: https://latest.test.molgenis.org
+  name: molgenis-backend
+  type: ClusterIP
+  port: 80
+  url: https://master.dev.molgenis.org
 
 environment: dev
 
 ingress:
   enabled: true
 
-nodeSelector: {}
+nodeSelector:
+  deployPod: "true"
 
 tolerations: []
 
