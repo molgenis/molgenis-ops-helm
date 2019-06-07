@@ -291,6 +291,7 @@ jenkins:
         <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
           <actions/>
           <description></description>
+          <displayName>molgenis</displayName>
           <properties>
             <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
               <permittedClouds/>
@@ -373,6 +374,7 @@ jenkins:
         <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
           <actions/>
           <description></description>
+          <displayName>accept-molgenis</displayName>
           <properties>
             <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
               <permittedClouds/>
@@ -454,7 +456,8 @@ jenkins:
         <?xml version='1.1' encoding='UTF-8'?>
         <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
           <actions/>
-          <description>other</description>
+          <description>Other jobs in the MOLGENIS organisation</description>
+          <displayName>other</displayName>
           <properties>
             <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
               <permittedClouds/>
@@ -536,7 +539,8 @@ jenkins:
         <?xml version='1.1' encoding='UTF-8'?>
         <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
           <actions/>
-          <description>Other</description>
+          <description>Other jobs in MOLGENIS organisation</description>
+          <displayName>accept-other</displayName>
           <properties>
             <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
               <permittedClouds/>
@@ -712,7 +716,7 @@ jenkins:
       Containers:
         maven:
           Image: molgenis/maven-jdk11
-          ImageTag: maven-jdk11-release-2019-06-05_07-25-15
+          ImageTag: maven-jdk11-release-2019-05-07_09-20-11
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
@@ -953,7 +957,7 @@ jenkins:
       Containers:
         centos-6:
           Image: centos
-          ImageTag: 6.10
+          ImageTag: "6.10"
           AlwaysPullImage: false
           Command: cat
           WorkingDir: /home/jenkins
