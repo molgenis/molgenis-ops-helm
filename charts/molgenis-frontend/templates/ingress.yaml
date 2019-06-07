@@ -12,15 +12,7 @@ metadata:
   annotations:
     {{- if .Values.ingress.tls }}
     ingress.kubernetes.io/secure-backends: "true"
-    {{- end }}
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_intercept_errors on;
-      recursive_error_pages on;
-      error_page 400 401 403 404 405 406 413 414 415 416 417 431 500 501 502 503 504 506 = @molgenis;
-
-      location @molgenis {
-        proxy_pass {{ .Values.backend.url }};
-      }      
+    {{- end }}    
     {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key }}: {{ $value | quote }}
     {{- end }}
@@ -31,8 +23,12 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $.Values.service.port }}
+              serviceName: {{ .Release.Name }}-{{ .Values.backend.name }}
+              servicePort: {{ .Values.backend.port }}
+          - path: /@molgenis-ui
+            backend:
+              serviceName: {{ .Release.Name }}-{{ .Values.service.name }}
+              servicePort: {{ .Values.service.port }}
       alpn:
         - h2
         - http/1.1
