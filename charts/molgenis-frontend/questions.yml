@@ -14,7 +14,7 @@ questions:
     - prod
   required: true
   group: "Provisioning"
-- variable: image.image.tag
+- variable: image.tag
   label: Version
   default: "dev"
   description: "Select a version (check the registry.molgenis.org or hub.docker.com for released tags)"
