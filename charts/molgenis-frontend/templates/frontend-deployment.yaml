@@ -27,5 +27,7 @@ spec:
         ports:
         - containerPort: {{ .service.port }}
       {{- end -}}
-
-
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end}}
