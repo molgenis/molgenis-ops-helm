@@ -32,3 +32,7 @@ spec:
         - name: backend-conf
           configMap:
             name: backend-conf
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
