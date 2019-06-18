@@ -71,7 +71,7 @@ postgresql:
     pullPolicy: IfNotPresent
   ## Specify runtime config parameters as a dict, using camelCase
   ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
-  configuration:
+  postgresqlConfiguration:
     maxLocksPerTransaction: 1024
   postgresqlUsername: molgenis
   postgresqlPassword: molgenis
