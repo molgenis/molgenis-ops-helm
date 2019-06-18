@@ -69,9 +69,7 @@ postgresql:
   image:
     tag: 11.1.0-debian-9-r71
     pullPolicy: IfNotPresent
-  ## Specify runtime config parameters as a dict, using camelCase
-  ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
-  configuration:
+  postgresqlExtendedConf:
     maxLocksPerTransaction: 1024
   postgresqlUsername: molgenis
   postgresqlPassword: molgenis
