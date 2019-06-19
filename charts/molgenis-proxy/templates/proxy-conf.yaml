@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "proxy-conf"
+  labels:
+    app: {{ template "molgenis-proxy.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  default.conf: "server { listen 80; server_name localhost; location / { proxy_pass {{ .Values.url }}; } }"
