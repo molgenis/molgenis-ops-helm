@@ -38,6 +38,13 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: proxy-conf
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: proxy-conf
+          configMap:
+            name: proxy-conf
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

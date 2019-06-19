@@ -43,3 +43,14 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
+
+{{/*
+Resolve hostname for environment
+*/}}
+{{- define "proxy.hostname" -}}
+{{- if ne (.Values.environment | default "prod" ) "prod" -}}
+{{- printf "%s.%s.molgenis.org" .Release.Name .Values.environment -}}
+{{- else -}}
+{{- printf "%s.molgenis.org" .Release.Name -}}
+{{- end -}}
+{{- end -}}
