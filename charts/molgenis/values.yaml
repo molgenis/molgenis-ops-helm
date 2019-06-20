@@ -7,11 +7,16 @@ ingress:
   path: /
   tls: []
 
+molgenis-proxy:
+  environment: test
+  url: https://unpkg.com/
+  ingress:
+    path: /@molgenis-ui
+
 image:
   repository: registry.hub.docker.com
   name: molgenis/molgenis-app
   tag: stable
-environment: test
 # Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
 sentry:
   dsn: xxxx

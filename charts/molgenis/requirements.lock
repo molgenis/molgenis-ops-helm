@@ -8,5 +8,8 @@ dependencies:
 - name: minio
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 2.4.3
-digest: sha256:7200cf4de3cc6825fb4b617e6a5074a3b569f9d5b0c6fef3cbb96996daf56a67
-generated: "2019-05-31T18:12:13.378175+02:00"
+- name: molgenis-proxy
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.1.0
+digest: sha256:16c88033e3c75ce28e3185ce190067070e5b38b3dc5e5cd20e5c505de1666487
+generated: "2019-06-20T12:54:42.748696+02:00"

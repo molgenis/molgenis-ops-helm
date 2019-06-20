@@ -11,3 +11,6 @@ dependencies:
     version: 2.4.3
     repository: https://kubernetes-charts.storage.googleapis.com
     condition: minio.enabled
+  - name: molgenis-proxy
+    version: 0.1.0
+    repository: https://registry.molgenis.org/repository/helm
