@@ -1,7 +1,14 @@
 categories:
   - MOLGENIS
 questions:
-  - variable: environment
+  - variable: molgenis-proxy.url
+    label: Frontend URL
+    description: "URL where the frontend is hosted"
+    type: string
+    required: true
+    group: "Frontend"
+    default: "https://unpkg.com/"
+  - variable: molgenis-proxy.environment
     label: Environment
     description: "Environment of MOLGENIS instance"
     type: enum
