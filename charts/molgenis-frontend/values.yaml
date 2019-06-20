@@ -20,7 +20,7 @@ service:
   port: 80
 
 molgenis-proxy:
-  url: https://master.dev.molgenis.org/
+  url: http://master-molgenis.molgenis-abcde.svc:8080/
   ingress:
     path: /
   environment: dev

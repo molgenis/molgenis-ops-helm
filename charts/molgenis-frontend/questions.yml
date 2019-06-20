@@ -23,8 +23,8 @@ questions:
   group: "Provisioning"
 - variable: molgenis-proxy.url
   label: Backend
-  default: "https://latest.test.molgenis.org"
-  description: "Specify a MOLGENIS backend"
+  default: "http://master-molgenis.molgenis-abcde.svc:8080/"
+  description: "Specify a MOLGENIS backend URL. Use a local URL on the same cluster."
   type: string
   required: true
   group: "Provisioning"
