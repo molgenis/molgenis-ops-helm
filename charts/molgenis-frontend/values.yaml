@@ -19,13 +19,11 @@ service:
   type: ClusterIP
   port: 80
 
-backend:
-  name: molgenis-backend
-  type: ClusterIP
-  port: 80
-  url: https://master.dev.molgenis.org
-
-environment: dev
+molgenis-proxy:
+  url: https://master.dev.molgenis.org/
+  ingress:
+    path: /
+  environment: dev
 
 ingress:
   enabled: true
