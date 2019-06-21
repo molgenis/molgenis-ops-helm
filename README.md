@@ -1,4 +1,4 @@
-# MOLGENIS - Helm templates
+# test MOLGENIS - Helm templates
 
 These are the Helm templates that we will use for MOLGENIS operations. Basic concepts in respect to docker you need to know.
 
