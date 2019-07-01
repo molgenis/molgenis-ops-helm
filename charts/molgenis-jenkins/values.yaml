@@ -27,6 +27,7 @@ jenkins:
       - hubot-steps:2.0.4
       - prometheus:2.0.0
       - github-pullrequest:0.2.4
+      - token-macro:2.8
     Security:
       UseGitHub: false
       GitHub:
