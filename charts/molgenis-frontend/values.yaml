@@ -18,6 +18,7 @@ service:
   name: molgenis-frontend
   type: ClusterIP
   port: 80
+  path: '/@molgenis-ui'
 
 molgenis-proxy:
   url: http://master-molgenis.molgenis-abcde.svc:8080/

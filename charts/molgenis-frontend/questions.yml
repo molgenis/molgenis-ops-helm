@@ -35,6 +35,13 @@ questions:
   type: boolean
   required: true
   group: "Advanced"
+- variable: image.name
+  show_if: "questions.advanced=true"
+  label: Image name
+  default: molgenis/molgenis-frontend
+  type: string
+  group: Provisioning
+  required: true
 - variable: image.repository
   show_if: "questions.advanced=true"
   label: Registry
@@ -46,3 +53,9 @@ questions:
     - "registry.molgenis.org"
   required: true
   group: "Provisioning"
+- variable: service.path
+  show_if: "questions.advanced=true"
+  label: "Proxy path"
+  type: string
+  default: '/@molgenis-ui'
+  required: true

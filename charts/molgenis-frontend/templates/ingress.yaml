@@ -21,7 +21,7 @@ spec:
     - host: {{ template "hostname" . }}
       http:
         paths:
-          - path: /@molgenis-ui
+          - path: {{ .values.service.path }}
             backend:
               serviceName: {{ .Release.Name }}-{{ .Values.service.name }}
               servicePort: {{ .Values.service.port }}
