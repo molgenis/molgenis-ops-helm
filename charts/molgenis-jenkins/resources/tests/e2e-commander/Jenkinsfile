@@ -46,7 +46,9 @@ pipeline {
                             "--set environment=dev " +
                             "--set image.tag=dev " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
-                            "--set image.pullPolicy=Always "
+                            "--set image.pullPolicy=Always " +
+                            "--set resources.limits.cpu=2 " +
+                            "--set resources.limits.memory=4Gi"
                 }
             }
         }
