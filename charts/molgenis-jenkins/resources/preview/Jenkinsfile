@@ -22,7 +22,7 @@ pipeline {
                             "preview-${TAG.toLowerCase()} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
-                            "--set environment=dev " +
+                            "--set molgenis-proxy.environment=dev " +
                             "--set image.tag=${TAG} " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
                             "--set image.pullPolicy=Always"
