@@ -47,3 +47,16 @@ Parameter | Description | Default
 `ui.service.externalPort` | Vault UI service target port | `8000`
 `ui.service.internalPort` | Vault UI container port | `8000`
 `ui.service.nodePort` | Port to be used as the service NodePort (ignored if `server.service.type` is not `NodePort`) | `0`
+
+### Deploy the vault services
+You need to apply this in the namespace you configured the vault in:
+
+```
+apiVersion: "vault.security.coreos.com/v1alpha1"
+kind: "VaultService"
+metadata:
+  name: "vault"
+spec:
+  nodes: 2
+  version: "0.9.1-0"
+```
