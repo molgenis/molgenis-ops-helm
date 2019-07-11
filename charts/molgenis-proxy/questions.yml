@@ -1,0 +1,27 @@
+
+categories:
+- MOLGENIS
+questions:
+- variable: environment
+  label: Environment
+  description: "Environment of this instance"
+  type: enum
+  options:
+    - edge
+    - dev
+    - test
+    - accept
+    - prod
+  required: true
+- variable: url
+  label: URL
+  default: "https://unpkg.com/@molgenis-ui/"
+  description: "Specify the url to proxy"
+  type: string
+  required: true
+- variable: ingress.path
+  label: Path
+  default: "/@molgenis-ui"
+  description: "Specify the path to proxy"
+  type: string
+  required: true

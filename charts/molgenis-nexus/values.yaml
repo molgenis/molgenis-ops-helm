@@ -14,7 +14,7 @@ nexus:
   image:
     repository: registry.hub.docker.com
     name: molgenis/nexus
-    tag: nexus-release-2019-03-06_08-18-10
+    tag: nexus-release-2019-06-03_10-34-45
     pullPolicy: IfNotPresent
   port:
     docker: 5000

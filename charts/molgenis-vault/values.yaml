@@ -44,6 +44,8 @@ etcd-operator:
   restoreOperator:
     image:
       tag: v0.9.2
+  nodeSelector:
+    deployPod: "true"
 
 vault-operator:
   name: "vault"
@@ -61,6 +63,8 @@ vault-operator:
   ingress:
     enabled: true
     host: vault.molgenis.org
+  nodeSelector:
+    deployPod: "true"
 
 ui:
   name: "vault-ui"

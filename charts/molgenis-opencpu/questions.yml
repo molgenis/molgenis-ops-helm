@@ -25,7 +25,7 @@ questions:
   group: "Provisioning"
 - variable: opencpu.image.tag
   label: Version
-  default: "opencpu-release-2019-03-20_12-07-11"
+  default: "opencpu-release-2019-04-24_09-10-13"
   description: "Select a OpenCPU version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true

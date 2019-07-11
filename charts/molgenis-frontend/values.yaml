@@ -1,0 +1,36 @@
+# Default values for nexus.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+strategy:
+  type: Recreate
+restartPolicy: Always
+
+image:
+  repository: registry.molgenis.org
+  name: molgenis/molgenis-frontend
+  tag: "dev"
+  pullPolicy: Always
+
+service:
+  name: molgenis-frontend
+  type: ClusterIP
+  port: 80
+
+molgenis-proxy:
+  url: http://master-molgenis.molgenis-abcde.svc:8080/
+  ingress:
+    path: /
+  environment: dev
+
+ingress:
+  enabled: true
+
+nodeSelector:
+  deployPod: "true"
+
+tolerations: []
+
+affinity: {}

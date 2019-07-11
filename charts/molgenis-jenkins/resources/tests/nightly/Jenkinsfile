@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
-        CHART_VERSION = '1.2.4'
+        CHART_VERSION = '1.4.0'
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F_%H-%M-%S'").trim()
     }
@@ -64,11 +64,11 @@ pipeline {
         }
     }
     post {
-        success {
-            hubotSend(message: 'Build success', status: 'INFO', site: 'slack-general')
+        unstable {
+            hubotSend message: 'Build unstable', site: 'slack-general', status: 'WARN'
         }
         failure {
-            hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-general')
+            hubotSend message: 'Build failed', site: 'slack-general', status: 'ERROR'
         }
     }
 }

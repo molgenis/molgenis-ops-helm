@@ -1,0 +1,1 @@
+Deployed frontend {{ .Values.image.tag }} proxying {{ index (index .Values "molgenis-proxy") "url" }} on https://{{ template "hostname" . }} .

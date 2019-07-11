@@ -1,11 +1,8 @@
 pipeline {
     agent {
         kubernetes {
-            label 'shared'
+            label 'python-stretch'
         }
-    }
-    environment {
-        CHART_VERSION = '1.2.4'
     }
     stages {
         stage("Deploy") {
@@ -21,15 +18,25 @@ pipeline {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n preview-${TAG.toLowerCase()} " +
-                            "molgenis-helm-molgenis " +
+                            "molgenis " +
                             "preview-${TAG.toLowerCase()} " +
-                            "--version ${CHART_VERSION} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
-                            "--set environment=dev " +
+                            "--set molgenis-proxy.environment=dev " +
                             "--set image.tag=${TAG} " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
                             "--set image.pullPolicy=Always"
+                }
+                container('python'){
+                    timeout(8) {
+                        waitUntil {
+                           sleep(time:30, unit:'SECONDS')
+                           script {
+                              def r = sh(script: "wget -q https://preview-${TAG}.dev.molgenis.org -O /dev/null", returnStatus: true)
+                              return (r == 0);
+                           }
+                        }
+                    }
                 }
                 hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
             }

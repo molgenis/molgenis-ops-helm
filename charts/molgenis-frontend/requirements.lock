@@ -1,0 +1,6 @@
+dependencies:
+- name: molgenis-proxy
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.1.0
+digest: sha256:db2bce46c5bfddeb53efc9debbcd8d8c9f8ece100af0dd903043e74018435862
+generated: "2019-06-20T12:44:35.329405+02:00"

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.website.service.name }}
+  labels:
+    app: {{ .Values.website.service.name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.website.service.type }}
+  ports:
+    - name: {{ .Values.website.service.name }}
+      port: {{ .Values.website.service.port }}
+  selector:
+    app: {{ template "website.name" . }}
+    release: {{ .Release.Name }}
