@@ -57,9 +57,7 @@ vault-operator:
       cpu: 200m
       memory: 128Mi
   service:
-    type: VaultService
-    nodes: 2
-    version: 0.9.1-0
+    internalPort: 8200
   ingress:
     enabled: true
     host: vault.molgenis.org
