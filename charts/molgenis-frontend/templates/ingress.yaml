@@ -1,14 +1,15 @@
 {{- if .Values.ingress.enabled }}
 {{- $fullName := include "frontend.fullname" . -}}
+{{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: "{{ $.Release.Name }}-ingress"
+  name: {{ .Release.Name }}-ingress
   labels:
     app: {{ template "frontend.name" . }}
-    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
-    release: "{{ $.Release.Name }}"
-    heritage: "{{ $.Release.Service }}"
+    chart: {{ template "frontend.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   annotations:
     {{- if .Values.ingress.tls }}
     ingress.kubernetes.io/secure-backends: "true"
@@ -21,13 +22,12 @@ spec:
     - host: {{ template "hostname" . }}
       http:
         paths:
-          - path: /@molgenis-ui
+          - path:  {{ $ingressPath }}
             backend:
-              serviceName: {{ .Release.Name }}-{{ .Values.service.name }}
+              serviceName: {{ $fullName }}
               servicePort: {{ .Values.service.port }}
       alpn:
         - h2
         - http/1.1
         - http/1.0
----
 {{- end }}
