@@ -28,9 +28,9 @@ proxy:
   - url: https://unpkg.com/@mswertz
     path: experimental/@mswertz
 #
-# You can define custom urls you want to proxy on a certain path. 
+# You can define custom urls you want to proxy on a certain path.
 # This needs to be done in the values.yaml at this moment. In the questions.yaml you can specify only 1.
-#    
+#
 #  custom:
 #  - url: https://my-not-so-great-app
 #    path: my-not-so-great-app
