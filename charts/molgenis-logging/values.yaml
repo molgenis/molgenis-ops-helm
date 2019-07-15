@@ -10,17 +10,25 @@ elasticsearch:
     paths: /
     hosts:
       - logging.edge.molgenis.org
+    spec:
+      rules:
+        - host: "logging.edge.molgenis.org"
+          http:
+            - path: /
+              backend:
+                serviceName: "elasticsearch"
+                servicePort: 9200
     extraEnvs:
-    - name: ELASTIC_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: "elastic-credentials"
-          key: password
-    - name: ELASTIC_USERNAME
-      valueFrom:
-        secretKeyRef:
-          name: "elastic-credentials"
-          key: username
+      - name: ELASTIC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: "elastic-credentials"
+            key: password
+      - name: ELASTIC_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: "elastic-credentials"
+            key: username
     authentication:
       username: xxxx
       password: xxxx
@@ -35,7 +43,7 @@ kibana:
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
     path: /
     hosts:
-      - molgenis-logging.edge.molgenis.org
+      - kibana.edge.molgenis.org                
     extraEnvs:
       - name: 'ELASTICSEARCH_USERNAME'
         valueFrom:
