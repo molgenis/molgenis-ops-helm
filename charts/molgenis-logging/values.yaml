@@ -15,11 +15,11 @@ elasticsearch:
     spec:
       rules:
         - host: "logging.edge.molgenis.org"
-          http:
-            - path: /
-              backend:
-                serviceName: "molgenis-logging-master"
-                servicePort: 9200
+#          http:
+#            - path: /
+#              backend:
+#                serviceName: "molgenis-logging-master"
+#                servicePort: 9200
 kibana:
   clusterName: "molgenis-logging"
   elasticsearchURL: "logging.edge.molgenis.org"
@@ -33,8 +33,8 @@ kibana:
     spec:
       rules:
         - host: "molgenis-logging.edge.molgenis.org"
-          http:
-            - paths: /
-              backend:
-                serviceName: "molgenis-logging-kibana"
-                servicePort: 5601
+#          http:
+#            - paths: /
+#              backend:
+#                serviceName: "molgenis-logging-kibana"
+#                servicePort: 5601
