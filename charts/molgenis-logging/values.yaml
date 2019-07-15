@@ -1,5 +1,6 @@
 elasticsearch:
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  protocol: https
   # Enabling this will publically expose your Elasticsearch instance.
   # Only enable this if you have security enabled on your cluster
   ingress:
@@ -27,6 +28,7 @@ elasticsearch:
     
 kibana:
   image: "docker.elastic.co/kibana/kibana-oss"
+  protocol: https
   ingress:
     enabled: true
     annotations: 
