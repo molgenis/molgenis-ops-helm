@@ -14,7 +14,7 @@ elasticsearch:
       # kubernetes.io/tls-acme: "true"
     spec:
       rules:
-        - host: "logging.edge.molgenis.org"
+        - host: "logging.edge.molgenis.org:443"
 #          http:
 #            - path: /
 #              backend:
@@ -32,7 +32,7 @@ kibana:
       - molgenis-logging.edge.molgenis.org
     spec:
       rules:
-        - host: "molgenis-logging.edge.molgenis.org"
+        - host: "kibana.edge.molgenis.org:443"
 #          http:
 #            - paths: /
 #              backend:
