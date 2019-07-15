@@ -9,7 +9,7 @@ elasticsearch:
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
     paths: /
     hosts:
-      - https://logging.edge.molgenis.org
+      - logging.edge.molgenis.org
     extraEnvs:
       - name: ELASTIC_PASSWORD
         valueFrom:
