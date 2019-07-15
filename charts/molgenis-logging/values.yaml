@@ -22,7 +22,7 @@ elasticsearch:
                 servicePort: 9200
 kibana:
   clusterName: "molgenis-logging"
-  elasticsearchURL: "logging.edge.molgenis.org:443"
+  elasticsearchURL: "logging.edge.molgenis.org"
   image: "docker.elastic.co/kibana/kibana-oss"
   ingress:
     enabled: true
