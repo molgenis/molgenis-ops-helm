@@ -5,5 +5,4 @@ name: molgenis-logging
 version: 0.1.0
 home: https://github.com/molgenis/molgenis-ops-helm
 maintainers:
-- name: Christian_Hilbrands
-  email: c.g.hilbrands@umcg.nl
+- name: christianhilbrands
