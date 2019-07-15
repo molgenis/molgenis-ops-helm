@@ -1,7 +1,6 @@
 elasticsearch:
   clusterName: "molgenis-logging"
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
-  esJavaOpts: "-Xmx2g -Xms2g"
   protocol: https
   # Enabling this will publically expose your Elasticsearch instance.
   # Only enable this if you have security enabled on your cluster
