@@ -38,4 +38,3 @@ kibana:
               backend:
                 serviceName: "kibana"
                 servicePort: 5601
-                
