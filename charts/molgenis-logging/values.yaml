@@ -12,7 +12,7 @@ elasticsearch:
       # kubernetes.io/tls-acme: "true"
     paths: /
     hosts: 
-      - logging.edge.molgenis.org
+      - https://logging.edge.molgenis.org
 
 kibana:
   clusterName: "molgenis-logging"
@@ -23,4 +23,4 @@ kibana:
     annotations: {}
     path: /
     hosts:
-      - kibana.edge.molgenis.org
+      - https://kibana.edge.molgenis.org
