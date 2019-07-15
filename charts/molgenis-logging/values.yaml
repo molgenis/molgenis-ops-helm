@@ -9,15 +9,34 @@ elasticsearch:
     enabled: true
     hosts:
       - logging.edge.molgenis.org
-    annotations: {
+    annotations: 
       ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
-    }
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-    rules:
-      - host: "logging.edge.molgenis.org"
-        http:
-          - path: /
-            backend:
-              serviceName: "elasticsearch"
-              servicePort: 9200
+    spec:
+      rules:
+        - host: "logging.edge.molgenis.org"
+          http:
+            - path: /
+              backend:
+                serviceName: "elasticsearch"
+                servicePort: 9200
+kibana:
+  clusterName: "molgenis-kibana"
+  elasticsearchURL: "logging.edge.molgenis.org:443"
+  image: "docker.elastic.co/kibana/kibana-oss"
+
+  ingress:
+    enabled: true
+    annotations: {}
+#    path: /
+    hosts:
+      - molgenis-logging.edge.molgenis.org
+    spec:
+      rules:
+        - host: "molgenis-logging.edge.molgenis.org"
+          http:
+            - paths: /
+              backend:
+                serviceName: "kibana"
+                servicePort: 5601
