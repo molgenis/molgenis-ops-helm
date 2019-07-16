@@ -11,6 +11,17 @@ elasticsearch:
     paths: /
     hosts: 
       - logging.edge.molgenis.org
+  extraEnvs:
+    - name: ELASTIC_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: "Elastic password"
+          key: logging.password
+    - name: ELASTIC_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: "Elastic user"
+          key: logging.user
 
 kibana:
   elasticsearchURL: "logging.edge.molgenis.org:443"
@@ -21,3 +32,14 @@ kibana:
     path: /
     hosts:
       - kibana.edge.molgenis.org
+  extraEnvs:
+    - name: 'ELASTICSEARCH_USERNAME'
+      valueFrom:
+        secretKeyRef:
+          name: "Elastic user"
+          key: logging.user
+    - name: 'ELASTICSEARCH_PASSWORD'
+      valueFrom:
+        secretKeyRef:
+          name: "Elastic password"
+          key: logging.password
