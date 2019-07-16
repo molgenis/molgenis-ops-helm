@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-custom-config
+  labels:
+    app: {{ template "frontend.name" . }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+data:
+  custom.conf: |-
+    {{ range $index, $location := .Values.proxy.custom -}}
+    location /ui/{{ $location.path }}/ {
+      proxy_pass {{ $location.url }}/;
+    }
+    {{ end }}

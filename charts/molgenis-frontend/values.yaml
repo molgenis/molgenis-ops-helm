@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+environment: test
+
 strategy:
   type: Recreate
 restartPolicy: Always
@@ -11,7 +13,7 @@ restartPolicy: Always
 image:
   repository: registry.molgenis.org
   name: molgenis/molgenis-frontend
-  tag: "dev"
+  tag: latest
   pullPolicy: Always
 
 service:
@@ -19,14 +21,25 @@ service:
   type: ClusterIP
   port: 80
 
-molgenis-proxy:
-  url: http://master-molgenis.molgenis-abcde.svc:8080/
-  ingress:
-    path: /
-  environment: dev
+proxy:
+  backend:
+    url: http://master-molgenis.molgenis-abcde.svc:8080/
+  custom:
+  - url: https://unpkg.com/@mswertz
+    path: experimental/@mswertz
+#
+# You can define custom urls you want to proxy on a certain path.
+# This needs to be done in the values.yaml at this moment. In the questions.yaml you can specify only 1.
+#
+#  custom:
+#  - url: https://my-not-so-great-app
+#    path: my-not-so-great-app
 
 ingress:
   enabled: true
+  path: /
+
+resources: {}
 
 nodeSelector:
   deployPod: "true"

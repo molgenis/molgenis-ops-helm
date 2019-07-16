@@ -2,7 +2,7 @@
 categories:
 - MOLGENIS
 questions:
-- variable: molgenis-proxy.environment
+- variable: environment
   label: Environment
   description: "Environment of MOLGENIS instance"
   type: enum
@@ -16,12 +16,12 @@ questions:
   group: "Provisioning"
 - variable: image.tag
   label: Version
-  default: "dev"
+  default: "latest"
   description: "Select a version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true
   group: "Provisioning"
-- variable: molgenis-proxy.url
+- variable: proxy.backend.url
   label: Backend
   default: "http://master-molgenis.molgenis-abcde.svc:8080/"
   description: "Specify a MOLGENIS backend URL. Use a local URL on the same cluster."
