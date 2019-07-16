@@ -1,13 +1,9 @@
 questions:
-  - variable: kibana.elastic.password
+  - variable: logging.password
     type: password
     required: true
     label: "Elastic password"
-  - variable: kibana.elastic.username
-    type: string
+  - variable: logging.user
+    type: username
     required: true
     label: "Elastic user"
-#  - variable: kibana.user.password
-#    type: password
-#    required: true
-#    label: "Password Kibana user"
