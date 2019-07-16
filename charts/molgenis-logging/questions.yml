@@ -4,6 +4,6 @@ questions:
     required: true
     label: "Elastic password"
   - variable: logging.user
-    type: user
+    type: text
     required: true
     label: "Elastic user"
