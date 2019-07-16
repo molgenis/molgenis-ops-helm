@@ -40,7 +40,7 @@ pipeline {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n molgenis-${TAG} " +
-                            "molgenis " +
+                            "cattle-global-data:molgenis-helm-molgenis " +
                             "${TAG} " +
                             "--no-prompt " +
                             "--set adminPassword=${REST_TEST_ADMIN_PW} " +
