@@ -9,7 +9,7 @@ elasticsearch:
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
       # kubernetes.io/tls-acme: "true"
     paths: /
-    hosts: 
+    hosts:
       - logging.edge.molgenis.org
   extraEnvs:
     - name: ELASTIC_PASSWORD
@@ -22,7 +22,6 @@ elasticsearch:
         secretKeyRef:
           name: "elastic-credentials"
           key: logging.username
-
 kibana:
   image: "docker.elastic.co/kibana/kibana-oss"
   ingress:
