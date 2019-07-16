@@ -1,7 +1,7 @@
 elasticsearch:
   clusterName: "molgenis-logging"
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
-  protocol: https
+  #protocol: https
   # Enabling this will publically expose your Elasticsearch instance.
   # Only enable this if you have security enabled on your cluster
   ingress:
@@ -18,9 +18,9 @@ kibana:
   clusterName: "molgenis-logging"
   elasticsearchURL: "logging.edge.molgenis.org"
   image: "docker.elastic.co/kibana/kibana-oss"
-  protocol: https
+  #protocol: https
   ingress:
-    enabled: true
+    enabled: false
     annotations: {}
     path: /
     hosts:
