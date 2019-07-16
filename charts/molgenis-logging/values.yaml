@@ -15,13 +15,13 @@ elasticsearch:
     - name: ELASTIC_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: "Elastic password"
+          name: "elastic-credentials"
           key: logging.password
     - name: ELASTIC_USERNAME
       valueFrom:
         secretKeyRef:
-          name: "Elastic user"
-          key: logging.user
+          name: "elastic-credentials"
+          key: logging.username
 
 kibana:
   elasticsearchURL: "logging.edge.molgenis.org:443"
@@ -36,10 +36,13 @@ kibana:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
         secretKeyRef:
-          name: "Elastic user"
-          key: logging.user
+          name: "elastic-credentials"
+          key: logging.username
     - name: 'ELASTICSEARCH_PASSWORD'
       valueFrom:
         secretKeyRef:
-          name: "Elastic password"
+          name: "elastic-credentials"
           key: logging.password
+  elastic:
+    username: xxxx
+    password: xxxx
