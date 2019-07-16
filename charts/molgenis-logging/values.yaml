@@ -24,7 +24,7 @@ elasticsearch:
           key: logging.username
 
 kibana:
-  elasticsearchURL: "logging.edge.molgenis.org:443"
+  elasticsearchHosts: "logging.edge.molgenis.org:443"
   image: "docker.elastic.co/kibana/kibana-oss"
   ingress:
     enabled: true
