@@ -1,5 +1,5 @@
 elasticsearch:
-  clusterName: "molgenis-logging"
+  #clusterName: "molgenis-logging"
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
   #protocol: https
   # Enabling this will publically expose your Elasticsearch instance.
@@ -15,7 +15,7 @@ elasticsearch:
       - logging.edge.molgenis.org
 
 kibana:
-  clusterName: "molgenis-logging"
+  #clusterName: "molgenis-logging"
   elasticsearchURL: "logging.edge.molgenis.org"
   image: "docker.elastic.co/kibana/kibana-oss"
   #protocol: https
