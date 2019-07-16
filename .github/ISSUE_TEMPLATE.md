@@ -1,4 +1,4 @@
-### Which chart are you referening?
+### Which chart are you referring?
 
 ### How to reproduce
 
