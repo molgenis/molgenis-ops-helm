@@ -15,12 +15,12 @@ elasticsearch:
     - name: ELASTIC_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: "Elastic password"
+          name: Elastic password
           key: logging.password
     - name: ELASTIC_USERNAME
       valueFrom:
         secretKeyRef:
-          name: "Elastic user"
+          name: Elastic user
           key: logging.user
 
 kibana:
@@ -36,10 +36,10 @@ kibana:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
         secretKeyRef:
-          name: "Elastic user"
+          name: Elastic user
           key: logging.user
     - name: 'ELASTICSEARCH_PASSWORD'
       valueFrom:
         secretKeyRef:
-          name: "Elastic password"
+          name: Elastic password
           key: logging.password
