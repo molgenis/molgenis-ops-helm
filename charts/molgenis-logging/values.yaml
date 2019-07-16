@@ -14,28 +14,16 @@ elasticsearch:
     - name: ELASTIC_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: "Elastic password"
+          name: "elastic-credentials"
           key: logging.password
     - name: ELASTIC_USERNAME
       valueFrom:
         secretKeyRef:
-          name: "Elastic user"
-          key: logging.user
-
-    extraEnvs:
-      - name: ELASTIC_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: "elastic-credentials"
-            key: password
-      - name: ELASTIC_USERNAME
-        valueFrom:
-          secretKeyRef:
-            name: "elastic-credentials"
-            key: username
-    authentication:
-      username: xxxx
-      password: xxxx
+          name: "elastic-credentials"
+          key: logging.username
+  authentication:
+    username: xxxx
+    password: xxxx
     
 kibana:
   image: "docker.elastic.co/kibana/kibana-oss"
@@ -52,12 +40,12 @@ kibana:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
         secretKeyRef:
-          name: "Elastic user"
-          key: logging.user
+          name: "elastic-credentials"
+          key: logging.username
     - name: 'ELASTICSEARCH_PASSWORD'
       valueFrom:
         secretKeyRef:
-          name: "Elastic password"
+          name: "elastic-credentials"
           key: logging.password
   authentication:
     username: xxxx
