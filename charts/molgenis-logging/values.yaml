@@ -53,8 +53,8 @@ kibana:
     password: xxxx
   kibanaConfig:
     kibana.yml: |
-      elasticsearch.username: {{ ${ELASTIC_USERNAME} }}
-      elasticsearch.password: {{ ${ELASTIC_PASSWORD} }}
+      elasticsearch.username: {{ ELASTIC_USERNAME }}
+      elasticsearch.password: {{ ELASTIC_PASSWORD }}
 #      xpack.security.encryptionKey: "qwertyuiASDFGHJK123456781qAZxsW@"
 #      xpack.security.sessionTimeout: 600000
 #      xpack.security.authc.providers: [oidc]
