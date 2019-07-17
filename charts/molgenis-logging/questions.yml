@@ -7,7 +7,7 @@ questions:
     type: string
     required: true
     label: "Elastic user"
-  - variable: kibana.user.password
-    type: password
-    required: true
-    label: "Password Kibana user"
+#  - variable: kibana.user.password
+#    type: password
+#    required: true
+#    label: "Password Kibana user"
