@@ -5,11 +5,12 @@ elasticsearch:
   # Only enable this if you have security enabled on your cluster
   esConfig:
     elasticsearch.yml: |
-      xpack.license.self_generated.type: trial
       xpack.security.enabled: true
       #xpack.security.authProviders: [basic]
       #xpack.security.authc.realms.basic:
       #  order: 0
+  vars:
+    es_enable_xpack: true
   ingress:
     enabled: true
     annotations:
@@ -30,6 +31,7 @@ elasticsearch:
         secretKeyRef:
           name: "elastic-credentials"
           key: logging.username
+    
 kibana:
   cluster.xpackEnable: true
   image: "docker.elastic.co/kibana/kibana-oss"
