@@ -52,6 +52,7 @@ kibana:
     password: xxxx
   kibanaConfig:
     kibana.yml: |
+      xpack.security.enabled: true
       xpack.security.authProviders: [basic]
       xpack.security.authc.realms.basic:
         order: 0
