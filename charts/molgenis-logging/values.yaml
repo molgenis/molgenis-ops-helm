@@ -5,7 +5,7 @@ elasticsearch:
   # Only enable this if you have security enabled on your cluster
   esConfig:
     elasticsearch.yml: |
-      xpack.security.enabled: true
+      xpack.security.enable: true
       #xpack.security.authProviders: [basic]
       #xpack.security.authc.realms.basic:
       #  order: 0
