@@ -2,6 +2,12 @@ elasticsearch:
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
   # Enabling this will publically expose your Elasticsearch instance.
   # Only enable this if you have security enabled on your cluster
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.enabled: true
+      xpack.security.authProviders: [basic]
+      xpack.security.authc.realms.basic:
+        order: 0
   ingress:
     enabled: true
     annotations:
@@ -52,10 +58,6 @@ kibana:
     password: xxxx
   kibanaConfig:
     kibana.yml: |
-      xpack.security.enabled: true
-      xpack.security.authProviders: [basic]
-      xpack.security.authc.realms.basic:
-        order: 0
       elasticsearch.username: "kibana"
       elasticsearch.password: "Test123!"
 #      xpack.security.encryptionKey: "qwertyuiASDFGHJK123456781qAZxsW@"
