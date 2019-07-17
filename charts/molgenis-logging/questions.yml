@@ -1,9 +1,10 @@
 questions:
-  - variable: logging.password
+  - variable: kibana.elastic.password
     type: password
     required: true
     label: "Elastic password"
-  - variable: logging.user
+  - variable: kibana.elastic.username
     type: string
     required: true
     label: "Elastic user"
+
