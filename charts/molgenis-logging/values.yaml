@@ -5,7 +5,7 @@ elasticsearch:
   # Only enable this if you have security enabled on your cluster
   esConfig:
     elasticsearch.yml: |
-      xpack.security.enabled: true
+      #xpack.security.enabled: true
       #xpack.security.authProviders: [basic]
       #xpack.security.authc.realms.basic:
       #  order: 0
@@ -53,8 +53,8 @@ kibana:
     password: xxxx
   kibanaConfig:
     kibana.yml: |
-      elasticsearch.username: "kibana"
-      elasticsearch.password: "Test123!"
+      elasticsearch.username: ${ELASTIC_USERNAME}
+      elasticsearch.password: ${ELASTIC_PASSWORD}
 #      xpack.security.encryptionKey: "qwertyuiASDFGHJK123456781qAZxsW@"
 #      xpack.security.sessionTimeout: 600000
 #      xpack.security.authc.providers: [oidc]
