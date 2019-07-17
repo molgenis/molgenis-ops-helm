@@ -44,3 +44,19 @@ kibana:
   elastic:
     username: xxxx
     password: xxxx
+  kibanaConfig:
+    kibana.yml: |
+      elasticsearch.username: "kibana"
+      elasticsearch.password: "Test123!"
+      xpack.security.encryptionKey: "qwertyuiASDFGHJK123456781qAZxsW@"
+      xpack.security.sessionTimeout: 600000
+#      xpack.security.authc.providers: [oidc]
+#      xpack.security.authc.realms.oidc1:
+#        order: 1
+#
+#      searchguard.openid.connect_url: https://github.com/login/oauth/authorize
+#      searchguard.openid.client_id: xxxx
+#      searchguard.openid.client_secret: xxxx
+#      searchguard.openid.scopes: user:email,read:org
+#      searchguard.openid.base_redirect_url: https://kibana.edge.molgenis.org/auth/openid/login
+#      searchguard.openid.header: "Authorization"
