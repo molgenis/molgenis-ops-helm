@@ -48,3 +48,4 @@ kibana:
   authentication:
     username: xxxx
     password: xxxx
+  
