@@ -1,5 +1,5 @@
-cluster.xpackEnable: true
 elasticsearch:
+  cluster.xpackEnable: true
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
   # Enabling this will publically expose your Elasticsearch instance.
   # Only enable this if you have security enabled on your cluster
@@ -30,6 +30,7 @@ elasticsearch:
           name: "elastic-credentials"
           key: logging.username
 kibana:
+  cluster.xpackEnable: true
   image: "docker.elastic.co/kibana/kibana-oss"
   ingress:
     enabled: true
