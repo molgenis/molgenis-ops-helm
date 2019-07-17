@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ include "cafe-molgenis.fullname" . }}
+  name: {{ include "molgenis-cafe.fullname" . }}
   labels:
-    app: {{ include "cafe-molgenis.name" . }}
-    chart: {{ include "cafe-molgenis.chart" . }}
+    app: {{ include "molgenis-cafe.name" . }}
+    chart: {{ include "molgenis-cafe.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "cafe-molgenis.name" . }}
+      app: {{ include "molgenis-cafe.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "cafe-molgenis.name" . }}
+        app: {{ include "molgenis-cafe.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:

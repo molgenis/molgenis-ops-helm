@@ -1,12 +1,12 @@
 apiVersion: v1
 appVersion: "0.0.1-SNAPSHOT"
 description: Hackathon chart for molgenis cafe variome integration
-name: cafe-molgenis
+name: molgenis-cafe
 home: https://molgenis.org
 version: 0.0.1
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
-icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/cafe-molgenis/catalogIcon-cafe-molgenis.png
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-cafe/catalogIcon-molgenis-cafe.png
 maintainers:
 - name: fdlk
 - name: sidohaakma

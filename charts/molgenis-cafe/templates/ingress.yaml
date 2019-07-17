@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "cafe-molgenis.fullname" . -}}
+{{- $fullName := include "molgenis-cafe.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app: {{ include "cafe-molgenis.name" . }}
-    chart: {{ include "cafe-molgenis.chart" . }}
+    app: {{ include "molgenis-cafe.name" . }}
+    chart: {{ include "molgenis-cafe.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}
