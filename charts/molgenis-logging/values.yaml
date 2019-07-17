@@ -8,13 +8,7 @@ elasticsearch:
       xpack:
         security:
           enabled: true
-          authProviders: [basic]
-          authc:
-            realms:
-              basic:
-                order: 0
-  vars:
-    es_enable_xpack: true
+          
   ingress:
     enabled: true
     annotations:
