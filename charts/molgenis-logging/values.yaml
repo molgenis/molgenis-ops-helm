@@ -46,9 +46,11 @@ kibana:
     password: xxxx
   kibanaConfig:
     kibana.yml: |
+      xpack.security.authProviders: [basic]
+      xpack.security.authc.realms.basic:
+        order: 0
       elasticsearch.username: "kibana"
       elasticsearch.password: "Test123!"
-      xpack.security.authProviders: [basic]
 #      xpack.security.encryptionKey: "qwertyuiASDFGHJK123456781qAZxsW@"
 #      xpack.security.sessionTimeout: 600000
 #      xpack.security.authc.providers: [oidc]
