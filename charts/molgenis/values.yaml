@@ -1,4 +1,6 @@
 # Default values for molgenis
+environment: test
+
 ingress:
   enabled: true
   annotations:
@@ -6,12 +8,6 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: 0
   path: /
   tls: []
-
-molgenis-proxy:
-  environment: test
-  url: https://unpkg.com/
-  ingress:
-    path: /@molgenis-ui
 
 image:
   repository: registry.hub.docker.com
@@ -56,6 +52,12 @@ nodeSelector:
   deployPod: "true"
 tolerations: []
 affinity: {}
+
+molgenis-frontend:
+  enabled: true
+  image:
+    tag: latest
+    repository: registry.hub.docker.com
 
 molgenis-elasticsearch:
   enabled: true

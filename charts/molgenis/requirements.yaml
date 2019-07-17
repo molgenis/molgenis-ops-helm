@@ -3,6 +3,10 @@ dependencies:
     version: 1.0.0
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-elasticsearch.enabled
+  - name: molgenis-frontend
+    version: 1.1.0
+    repository: https://registry.molgenis.org/repository/helm
+    condition: molgenis-frontend.enabled
   - name: postgresql
     version: 5.2.1
     repository: https://kubernetes-charts.storage.googleapis.com
@@ -11,6 +15,4 @@ dependencies:
     version: 2.4.3
     repository: https://kubernetes-charts.storage.googleapis.com
     condition: minio.enabled
-  - name: molgenis-proxy
-    version: 0.1.0
-    repository: https://registry.molgenis.org/repository/helm
+  
