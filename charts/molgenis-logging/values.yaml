@@ -6,9 +6,9 @@ elasticsearch:
   esConfig:
     elasticsearch.yml: |
       #xpack.security.enabled: true
-      xpack.security.authProviders: [basic]
-      xpack.security.authc.realms.basic:
-        order: 0
+      #xpack.security.authProviders: [basic]
+      #xpack.security.authc.realms.basic:
+      #  order: 0
   ingress:
     enabled: true
     annotations:
