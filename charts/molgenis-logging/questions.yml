@@ -11,7 +11,7 @@ questions:
     type: string
     required: true
     label: "Username Kibana user(login)"
-  - variable: kibana.authentication.username
+  - variable: kibana.authentication.password
     type: password
     required: true
     label: "Password Kibana user"
