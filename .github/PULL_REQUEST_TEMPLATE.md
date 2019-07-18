@@ -1,8 +1,6 @@
 #### Checklist
-- [ ] Functionality works & meets specifications
-- [ ] Code reviewed
-- [ ] Code unit/integration/system tested
-- [ ] User documentation updated
-- [ ] Conventional commits (squash if needed)
-- [ ] No warnings during install
-- [ ] Updated javascript typing
+- [ ] Functionality works & meets specifications (tested on rancher)
+- [ ] Templates reviewed
+- [ ] Added values to questions
+- [ ] Bumped the chart version
+- [ ] Updated appVersion (if needed)
