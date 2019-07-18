@@ -1,13 +1,17 @@
 questions:
-  - variable: kibana.elastic.password
-    type: password
-    required: true
-    label: "Elastic password"
-  - variable: kibana.elastic.username
+  - variable: elasticsearch.authentication.username
     type: string
     required: true
     label: "Elastic user"
-#  - variable: kibana.user.password
-#    type: password
-#    required: true
-#    label: "Password Kibana user"
+  - variable: elasticsearch.authentication.password
+    type: password
+    required: true
+    label: "Elastic password"
+  - variable: kibana.authentication.username
+    type: string
+    required: true
+    label: "Username Kibana user(login)"
+  - variable: kibana.authentication.username
+    type: password
+    required: true
+    label: "Password Kibana user"
