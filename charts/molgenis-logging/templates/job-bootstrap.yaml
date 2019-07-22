@@ -1,11 +1,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: kibana-poppulate-bootstrapper
+  name: kibana-populate-bootstrapper
 spec:
   template:
     metadata:
-      name: kibana-poppulate-bootstrapper
+      name: kibana-populate-bootstrapper
     spec:
       initContainers:
         - name: init-kibana
@@ -20,7 +20,7 @@ spec:
           command: ["/bin/sh"]
           args: ["-c", "fabric8-dependency-wait-service-linux-amd64 http://$(KIBANA_HOST):5601"]
       containers:
-        - name: kibana-poppulate-bootstrapper
+        - name: kibana-populate-bootstrapper
           image: "docker.elastic.co/beats/filebeat-oss:7.2.0"
           imagePullPolicy: IfNotPresent
           env:
