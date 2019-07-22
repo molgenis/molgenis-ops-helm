@@ -7,7 +7,7 @@ elasticsearch:
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
     paths: /
     hosts:
-      - logging.edge.molgenis.org
+      - logging.molgenis.org
   extraEnvs:
     - name: ELASTIC_PASSWORD
       valueFrom:
@@ -24,10 +24,7 @@ elasticsearch:
     password: xxxx
     
 kibana:
-  image: "docker.elastic.co/kibana/kibana-oss"
-  kibanaConfig:
-    kibana.yml: |
-      kibana.index: ".kibana"      
+  image: "docker.elastic.co/kibana/kibana-oss"     
   ingress:
     enabled: true
     annotations: 
@@ -36,7 +33,7 @@ kibana:
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
     path: /
     hosts:
-      - kibana.edge.molgenis.org
+      - kibana.molgenis.org
   extraEnvs:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
