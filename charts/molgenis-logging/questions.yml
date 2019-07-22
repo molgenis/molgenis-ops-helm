@@ -1,0 +1,13 @@
+questions:
+  - variable: elasticsearch.authentication.username
+    type: string
+    required: true
+    label: "Username Elastic user (for cluster)"
+  - variable: elasticsearch.authentication.password
+    type: password
+    required: true
+    label: "Password Elastic password (for cluster)"
+  - variable: kibana.authentication.htpasswordString
+    type: string
+    required: true
+    label: "htpassword string(<username>:<password hash>) for kibana."
