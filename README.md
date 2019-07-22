@@ -103,6 +103,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Elasticsearch](charts/molgenis-elasticsearch/README.md)
 - [OpenCPU](charts/molgenis-opencpu/README.md)
 - [Hubot](chart/molgenis-hubot/README.md)
+- [Logging](charts/molgenis-logging/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts
