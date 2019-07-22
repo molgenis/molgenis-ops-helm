@@ -21,7 +21,7 @@ elasticsearch:
           key: username
   authentication:
     username: xxxx
-    password: xxxx    
+    password: xxxx
 kibana:
   image: "docker.elastic.co/kibana/kibana-oss"
   ingress:
