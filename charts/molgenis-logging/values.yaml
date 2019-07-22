@@ -21,13 +21,12 @@ elasticsearch:
           key: username
   authentication:
     username: xxxx
-    password: xxxx
-    
+    password: xxxx    
 kibana:
-  image: "docker.elastic.co/kibana/kibana-oss"     
+  image: "docker.elastic.co/kibana/kibana-oss"
   ingress:
     enabled: true
-    annotations: 
+    annotations:
       nginx.ingress.kubernetes.io/auth-type: basic
       nginx.ingress.kubernetes.io/auth-secret: kibana-credentials
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
