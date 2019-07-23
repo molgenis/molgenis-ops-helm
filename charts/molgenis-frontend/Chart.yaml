@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "8.1"
 description: MOLGENIS Helm chart for the frontend
 name: molgenis-frontend
-version: 1.1.0
+version: 1.1.1
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://github.com/molgenis/molgenis-ops-helm/raw/master/charts/molgenis-frontend/catalogIcon-molgenis-frontend.png
