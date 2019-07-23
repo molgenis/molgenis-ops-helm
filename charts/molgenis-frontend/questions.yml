@@ -21,13 +21,37 @@ questions:
   type: string
   required: true
   group: "Provisioning"
+- variable: proxy.backend.service.enabled
+  label: Service configuration enabled
+  default: false
+  description: "Service configuration for deployment or cluster configuration is set"
+  type: boolean
+  required: true
+  group: "Backend"
+- variable: proxy.backend.service.targetNamespace
+  label: Specify target namespace
+  default: ""
+  description: "Specify a target namespace to resolve to. If you want to configure the backend within the same deployment you can leave this empty."
+  type: string
+  required: false
+  show_if: "proxy.backend.service.enabled=true"
+  group: "Backend"
+- variable: proxy.backend.service.targetRelease
+  label: Specify target release
+  default: ""
+  description: "Specify a target release to resolve to. If you want to configure the backend within the same deployment you can leave this empty"
+  type: string
+  required: false
+  show_if: "proxy.backend.service.enabled=true"
+  group: "Backend"  
 - variable: proxy.backend.url
-  label: Backend
-  default: "http://master-molgenis.molgenis-abcde.svc:8080/"
-  description: "Specify a MOLGENIS backend URL. Use a local URL on the same cluster."
+  label: External backend
+  default: "https://master.dev.molgenis.org/"
+  description: "Specify a MOLGENIS backend URL."
   type: string
   required: true
-  group: "Provisioning"
+  show_if: "proxy.backend.service.enabled=false"
+  group: "Backend"
 - variable: questions.advanced
   label: Advanced mode
   default: false

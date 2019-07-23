@@ -10,7 +10,12 @@ metadata:
 data:
   custom.conf: |-
     {{ range $index, $location := .Values.proxy.custom -}}
-    location /ui/{{ $location.path }}/ {
+    location /{{ $location.path }}/ {
       proxy_pass {{ $location.url }}/;
+      {{- if and (index $location.unpkg) $location.unpkg -}}
+      proxy_intercept_errors on;
+      recursive_error_pages on;
+      error_page 301 302 307 = @handle_redirect;
+      {{- end -}}
     }
     {{ end }}
