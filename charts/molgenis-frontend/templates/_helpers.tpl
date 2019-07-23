@@ -50,7 +50,7 @@ Resolve hostname for environment
 {{- if and .Values.proxy.backend.service.targetRelease .Values.proxy.backend.service.targetNamespace -}}
 {{- printf "http://%s-molgenis.%s.svc:8080" .Values.proxy.backend.service.targetRelease .Values.proxy.backend.service.targetNamespace -}}
 {{- else -}}
-{{- printf "http://%s-molgenis.svc:8080" .Release.Name -}}
+{{- printf "http://%s-molgenis:8080" .Release.Name -}}
 {{- end -}}
 {{- else -}}
 {{- printf "%s" .Values.proxy.backend.url -}}
