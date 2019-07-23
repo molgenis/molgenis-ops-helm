@@ -10,5 +10,5 @@ metadata:
 data:
   backend.conf: |-
     location / {  
-      proxy_pass {{ .Values.proxy.backend.url }}/;
+      proxy_pass {{ template "backend.servicename" . }};
     }
