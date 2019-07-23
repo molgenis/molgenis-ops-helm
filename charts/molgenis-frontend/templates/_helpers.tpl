@@ -48,7 +48,7 @@ Resolve hostname for environment
 {{- define "backend.servicename" -}}
 {{- if .Values.proxy.backend.service.enabled -}}
 {{- if and .Values.proxy.backend.service.targetRelease .Values.proxy.backend.service.targetNamespace -}}
-{{- printf "http://%s.%s-molgenis.svc:8080" .Values.proxy.backend.service.targetRelease .Values.proxy.backend.service.targetNamespace -}}
+{{- printf "http://%s-molgenis.%s.svc:8080" .Values.proxy.backend.service.targetRelease .Values.proxy.backend.service.targetNamespace -}}
 {{- else -}}
 {{- printf "http://%s-molgenis.svc:8080" .Release.Name -}}
 {{- end -}}
