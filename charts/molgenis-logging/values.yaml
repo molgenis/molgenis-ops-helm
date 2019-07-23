@@ -7,7 +7,7 @@ elasticsearch:
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
     paths: /
     hosts:
-      - logging.edge.molgenis.org
+      - logging.molgenis.org
   extraEnvs:
     - name: ELASTIC_PASSWORD
       valueFrom:
@@ -32,7 +32,7 @@ kibana:
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
     path: /
     hosts:
-      - kibana.edge.molgenis.org
+      - kibana.molgenis.org
   extraEnvs:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
