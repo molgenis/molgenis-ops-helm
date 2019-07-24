@@ -17,7 +17,7 @@ questions:
   - variable: image.tag
     label: Version
     default: ""
-    description: "Select a MOLGENIS backend version (check https://hub.docker.com/molgenis/molgenis-app/tags for released tags)"
+    description: "Select a MOLGENIS backend version (check https://hub.docker.com/r/molgenis/molgenis-app/tags for released tags). For developers tags you can check: https://registry.molgenis.org/#browse/browse:docker:v2/molgenis/molgenis-app/tags"
     type: string
     required: true
     group: "Provisioning"
@@ -44,7 +44,7 @@ questions:
   - variable: molgenis-frontend.image.tag
     label: Version
     default: ""
-    description: "Select a MOLGENIS frontend version (check https://hub.docker.com/molgenis/molgenis-frontend/tags for released tags)"
+    description: "Select a MOLGENIS frontend version (check https://hub.docker.com/r/molgenis/molgenis-frontend/tags for released tags)"
     type: string
     required: true
     show_if: "molgenis-frontend.enabled=true"
