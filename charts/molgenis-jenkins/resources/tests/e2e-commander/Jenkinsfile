@@ -43,7 +43,7 @@ pipeline {
                             "${TAG} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
-                            "--set environment=dev " +
+                            "--set molgenis-frontend.environment=dev " +
                             "--set image.tag=dev " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
                             "--set image.pullPolicy=Always " +
