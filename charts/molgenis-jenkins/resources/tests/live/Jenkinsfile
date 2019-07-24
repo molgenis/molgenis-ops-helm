@@ -42,7 +42,7 @@ pipeline {
                             "--version ${CHART_VERSION} " +
                             "--no-prompt " +
                             "--set adminPassword=${REST_TEST_ADMIN_PW} " +
-                            "--set environment=dev " +
+                            "--set molgenis-frontend.environment=dev " +
                             "--set image.tag=${IMAGE_TAG} " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
                             "--set image.pullPolicy=Always " +
