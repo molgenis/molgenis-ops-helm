@@ -29,7 +29,7 @@ spec:
             - name: KIBANA_HOST
               value: http://molgenis-logging-kibana:5601
             - name: CUSTOM_DASHBOARD_URL
-              value: https://raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/import_custom_dashboard/charts/molgenis-logging/templates/import_job_bootstrap_files/custom_dashboards.ndjson
+              value: https://raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/import_custom_dashboard/charts/molgenis-logging/templates/import_job_bootstrap_files/custom_dashboards.ndjson.zip
           command: ["/bin/bash"]
           args: ["-c", "filebeat setup --dashboards -E setup.kibana.host=${KIBANA_HOST} -E output.elasticsearch.hosts=${ES_HOST} -E setup.dashboards.url=${CUSTOM_DASHBOARD_URL}"]
       restartPolicy: Never

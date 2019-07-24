@@ -20,4 +20,4 @@
 .idea/
 *.tmproj
 .vscode/
-charts/molgenis-logging/templates/import_job_bootstrap_files/custom_dashboards.ndjson
+templates/import_job_bootstrap_files/custom_dashboards.ndjson.zip
