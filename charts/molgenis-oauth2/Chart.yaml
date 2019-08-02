@@ -1,0 +1,9 @@
+name: molgenis-oauth2
+home: https://github.com/pusher/oauth2_proxy
+version: 0.1.0
+appVersion: 3.2.0
+description: Molgenis installation for the oauth2-proxy chart.
+sources:
+  - https://github.com/molgenis/molgenis-ops-helm.git
+maintainers:
+  - name: chilbrands
