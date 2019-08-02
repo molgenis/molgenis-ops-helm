@@ -40,7 +40,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
-  path: /
+  path: /oauth2
   hosts:
     - oauth2.molgenis.org
 

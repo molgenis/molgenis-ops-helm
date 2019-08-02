@@ -27,12 +27,9 @@ kibana:
   ingress:
     enabled: true
     annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/auth-signin: https://oauth2.edge.molgenis.org/oauth2/start
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/auth-signin: https://oauth2.edge.molgenis.org/oauth2/start?rd=https://$host$request_uri
       nginx.ingress.kubernetes.io/auth-url: https://oauth2.edge.molgenis.org/oauth2/auth
-#      nginx.ingress.kubernetes.io/auth-type: basic
-#      nginx.ingress.kubernetes.io/auth-secret: kibana-credentials
-#      nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
     path: /
     hosts:
       - kibana.edge.molgenis.org
