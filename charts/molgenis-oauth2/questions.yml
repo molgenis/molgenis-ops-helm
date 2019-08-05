@@ -1,0 +1,13 @@
+questions:
+  - variable: config.clientID
+    type: string
+    required: true
+    label: "Client ID for OAuth2"
+  - variable: config.clientSecret
+    type: string
+    required: true
+    label: "Client secret for OAuth2 "
+  - variable: config.cookieSecret
+    type: string
+    required: true
+    label: "Cookie secret from commandline"
