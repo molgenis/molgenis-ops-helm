@@ -13,6 +13,7 @@ oauth2-proxy:
     http-address: "0.0.0.0:4180"
     whitelist-domain: .molgenis.org
     email-domain: "*"
+    cookie-domain: .molgenis.org
 
   ingress:
     enabled: true
