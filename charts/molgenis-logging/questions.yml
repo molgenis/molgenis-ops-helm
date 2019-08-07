@@ -1,4 +1,8 @@
 questions:
+  - variable: elasticsearch.ingress.hosts[0]
+    type: string
+    required: false
+    label: "Host address for ElasticSearch to be reachable"
   - variable: elasticsearch.authentication.username
     type: string
     required: true
@@ -7,6 +11,10 @@ questions:
     type: password
     required: true
     label: "Password Elastic password (for cluster)"
+  - variable: kibana.ingress.hosts[0]
+    type: string
+    required: false
+    label: "Host address for kibana to be reachable"
   - variable: kibana.authentication.htpasswordString
     type: string
     required: true

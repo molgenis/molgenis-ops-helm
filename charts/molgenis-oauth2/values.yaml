@@ -1,21 +1,9 @@
-molgenis-oauth2:
-  config:
-    clientID: xxxx
-    clientSecret: xxxx
-    cookieSecret: "xxxx"
-    configFile: |-
-      pass_access_token = true
-
-  extraArgs:
-    provider: "github"
-    github-org: "molgenis"
-    upstream: "file:///dev/null"
-    http-address: "0.0.0.0:4180"
-
-image:
-  repository: "quay.io/pusher/oauth2_proxy"
-  tag: "v3.2.0"
-  pullPolicy: "IfNotPresent"
+config:
+  clientID: xxxx
+  clientSecret: xxxx
+  cookieSecret: "xxxx"
+  configFile: |-
+    pass_access_token = true
 
 extraArgs:
   provider: "github"
@@ -23,6 +11,11 @@ extraArgs:
   upstream: "file:///dev/null"
   http-address: "0.0.0.0:4180"
   whitelist-domain: .molgenis.org
+
+image:
+  repository: "quay.io/pusher/oauth2_proxy"
+  tag: "v3.2.0"
+  pullPolicy: "IfNotPresent"
 
 authenticatedEmailsFile:
   enabled: false
