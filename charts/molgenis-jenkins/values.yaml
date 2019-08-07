@@ -670,6 +670,14 @@ jenkins:
               key: VAULT_ADDR
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
+        sonar:
+          Image: zaquestion/sonarqube-scanner
+          ImageTag: latest
+          AlwaysPullImage: false
+          Retention: Never
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
       EnvVars:
         - type: KeyValue
           key: npm_config_registry
@@ -776,14 +784,6 @@ jenkins:
               memory: '250Mi'
             limits:
               memory: '512Mi'
-        sonar:
-          Image: zaquestion/sonarqube-scanner
-          ImageTag: latest
-          AlwaysPullImage: false
-          Retention: Never
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
       NodeSelector: {}
       EnvVars:
         - type: KeyValue
