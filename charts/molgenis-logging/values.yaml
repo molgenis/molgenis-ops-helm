@@ -6,8 +6,6 @@ elasticsearch:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
     paths: /
-    hosts:
-      - xxxx
   extraEnvs:
     - name: ELASTIC_PASSWORD
       valueFrom:
@@ -31,8 +29,6 @@ kibana:
       nginx.ingress.kubernetes.io/auth-signin: https://oauth2.edge.molgenis.org/oauth2/start?rd=https://$host$request_uri
       nginx.ingress.kubernetes.io/auth-url: https://oauth2.edge.molgenis.org/oauth2/auth
     path: /
-    hosts:
-      - xxxx
   extraEnvs:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
