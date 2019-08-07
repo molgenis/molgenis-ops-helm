@@ -671,8 +671,8 @@ jenkins:
               secretName: molgenis-pipeline-vault-secret
               secretKey: addr
         sonar:
-          Image: zaquestion/sonarqube-scanner
-          ImageTag: latest
+          Image: molgenis/sonarqube-scanner
+          ImageTag: sonarqube-scanner-release-2019-08-07_20-09-36
           AlwaysPullImage: false
           Retention: Never
           Command: cat
