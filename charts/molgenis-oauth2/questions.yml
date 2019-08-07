@@ -1,18 +1,18 @@
 questions:
-  - variable: ingress.hosts[0]
+  - variable: oauth2-proxy.ingress.hosts[0]
     type: string
     required: true
     default: oauth2.molgenis.org
     label: "Default oauth2 web address for authenticating service"
-  - variable: config.clientID
+  - variable: oauth2-proxy.config.clientID
     type: string
     required: true
     label: "Client ID for OAuth2"
-  - variable: config.clientSecret
+  - variable: oauth2-proxy.config.clientSecret
     type: string
     required: true
     label: "Client secret for OAuth2 "
-  - variable: config.cookieSecret
+  - variable: oauth2-proxy.config.cookieSecret
     type: string
     required: true
     label: "Cookie secret from commandline"
