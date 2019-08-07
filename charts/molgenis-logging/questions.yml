@@ -2,7 +2,7 @@ questions:
   - variable: elasticsearch.ingress.hosts[0]
     type: string
     required: true
-    delault: logging.molgenis.org
+    default: logging.molgenis.org
     label: "Host address for ElasticSearch to be reachable"
   - variable: elasticsearch.authentication.username
     type: string
