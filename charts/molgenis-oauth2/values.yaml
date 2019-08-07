@@ -13,5 +13,10 @@ oauth2-proxy:
     http-address: "0.0.0.0:4180"
     whitelist-domain: .molgenis.org
 
+  authenticatedEmailsFile:
+    enabled: false
+    template: ""
+    restricted_access: ""
+
   ingress:
     enabled: true
