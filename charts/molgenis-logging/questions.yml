@@ -1,7 +1,8 @@
 questions:
   - variable: elasticsearch.ingress.hosts[0]
     type: string
-    required: false
+    required: true
+    delault: logging.molgenis.org
     label: "Host address for ElasticSearch to be reachable"
   - variable: elasticsearch.authentication.username
     type: string
@@ -13,7 +14,8 @@ questions:
     label: "Password Elastic password (for cluster)"
   - variable: kibana.ingress.hosts[0]
     type: string
-    required: false
+    required: true
+    default: kibana.molgenis.org
     label: "Host address for kibana to be reachable"
   - variable: kibana.authentication.htpasswordString
     type: string
