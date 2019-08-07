@@ -1,38 +1,9 @@
-# Oauth client configuration specifics
 config:
-  # OAuth client ID
-  clientID: "XXXXXXX"
-  # OAuth client secret
-  clientSecret: "XXXXXXXX"
-  # Create a new secret with the following command
-  # openssl rand -base64 32 | head -c 32 | base64
-  # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)
-  # Example:
-  # existingSecret: secret
-  cookieSecret: "XXXXXXXXXX"
-  google: {}
-    # adminEmail: xxxx
-    # serviceAccountJson: xxxx
-    # Alternatively, use an existing secret (see google-secret.yaml for required fields)
-    # Example:
-    # existingSecret: google-secret
-  # Default configuration, to be overridden
+  clientID: xxxx
+  clientSecret: xxxx
+  cookieSecret: "xxxx"
   configFile: |-
-    email_domains = [ "*" ]
-    upstreams = [ "file:///dev/null" ]
     pass_access_token = true
-  # Custom configuration file: oauth2_proxy.cfg
-  # configFile: |-
-  #   pass_basic_auth = false
-  #   pass_access_token = true
-  # Use an existing config map (see configmap.yaml for required fields)
-  # Example:
-  # existingConfig: config
-
-image:
-  repository: "quay.io/pusher/oauth2_proxy"
-  tag: "v3.2.0"
-  pullPolicy: "IfNotPresent"
 
 # Optionally specify an array of imagePullSecrets.
 # Secrets must be manually created in the namespace.
@@ -47,8 +18,11 @@ extraArgs:
   http-address: "0.0.0.0:4180"
   whitelist-domain: .molgenis.org
 
-# To authorize individual email addresses
-# That is part of extraArgs but since this needs special treatment we need to do a separate section
+image:
+  repository: "quay.io/pusher/oauth2_proxy"
+  tag: "v3.2.0"
+  pullPolicy: "IfNotPresent"
+
 authenticatedEmailsFile:
   enabled: false
   # template is the name of the configmap what contains the email user list but has been configured without this chart.
