@@ -26,8 +26,8 @@ kibana:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: "nginx"
-      nginx.ingress.kubernetes.io/auth-signin: https://oauth2.edge.molgenis.org/oauth2/start?rd=https://$host$request_uri
-      nginx.ingress.kubernetes.io/auth-url: https://oauth2.edge.molgenis.org/oauth2/auth
+      nginx.ingress.kubernetes.io/auth-signin: https://oauth2.molgenis.org/oauth2/start?rd=https://$host$request_uri
+      nginx.ingress.kubernetes.io/auth-url: https://oauth2.molgenis.org/oauth2/auth
     path: /
   extraEnvs:
     - name: 'ELASTICSEARCH_USERNAME'
