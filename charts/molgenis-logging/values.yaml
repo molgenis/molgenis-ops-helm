@@ -6,8 +6,6 @@ elasticsearch:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
     paths: /
-    hosts:
-      - logging.molgenis.org
   extraEnvs:
     - name: ELASTIC_PASSWORD
       valueFrom:
@@ -27,12 +25,10 @@ kibana:
   ingress:
     enabled: true
     annotations:
-      nginx.ingress.kubernetes.io/auth-type: basic
-      nginx.ingress.kubernetes.io/auth-secret: kibana-credentials
-      nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/auth-signin: https://oauth2.molgenis.org/oauth2/start?rd=https://$host$request_uri
+      nginx.ingress.kubernetes.io/auth-url: https://oauth2.molgenis.org/oauth2/auth
     path: /
-    hosts:
-      - kibana.molgenis.org
   extraEnvs:
     - name: 'ELASTICSEARCH_USERNAME'
       valueFrom:
@@ -44,5 +40,3 @@ kibana:
         secretKeyRef:
           name: "elastic-credentials"
           key: password
-  authentication:
-    htpasswordString: xxxx:xxxx

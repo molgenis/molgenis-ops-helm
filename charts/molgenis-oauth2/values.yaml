@@ -1,0 +1,19 @@
+oauth2-proxy:
+  config:
+    clientID: xxxx
+    clientSecret: xxxx
+    cookieSecret: "xxxx"
+    configFile: |-
+      pass_access_token = true
+
+  extraArgs:
+    provider: "github"
+    github-team: 2879410,2957876
+    upstream: "file:///dev/null"
+    http-address: "0.0.0.0:4180"
+    whitelist-domain: .molgenis.org
+    email-domain: "*"
+    cookie-domain: .molgenis.org
+
+  ingress:
+    enabled: true
