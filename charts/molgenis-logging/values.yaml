@@ -40,5 +40,3 @@ kibana:
         secretKeyRef:
           name: "elastic-credentials"
           key: password
-  authentication:
-    htpasswordString: xxxx:xxxx

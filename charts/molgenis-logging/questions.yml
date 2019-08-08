@@ -17,17 +17,3 @@ questions:
     required: true
     default: kibana.molgenis.org
     label: "Host address for kibana to be reachable"
-  - variable: kibana.ingress.annotations.nginx.ingress.kubernetes.io/auth-signin
-    type: string
-    required: true
-    default: "https://oauth2.molgenis.org/oauth2/start?rd=https://$host$request_uri"
-    label: "Authentication address for kibana"
-  - variable: kibana.ingress.annotations.nginx.ingress.kubernetes.io/auth-url
-    type: string
-    required: true
-    default: "https://oauth2.molgenis.org/oauth2/auth"
-    label: "Authentication return address for kibana"
-  - variable: kibana.authentication.htpasswordString
-    type: string
-    required: true
-    label: "htpassword string(<username>:<password hash>) for kibana."
