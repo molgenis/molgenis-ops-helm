@@ -27,7 +27,7 @@ ingress:
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - OLS"
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - ols.molgenis.org
+    - host: ols.molgenis.org
 
 authentication:
   htpasswordString: xxxx:xxxx
