@@ -1,5 +1,5 @@
 questions:
-  - variable: ingress.hosts[0]
+  - variable: ingress.hosts[0].host
     type: string
     required: true
     default: ols.molgenis.org
