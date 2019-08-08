@@ -1,0 +1,10 @@
+questions:
+  - variable: ingress.hosts[0]
+    type: string
+    required: true
+    default: ols.molgenis.org
+    label: "Web address of OLS"
+  - variable: authentication.htpasswordString
+    type: string
+    required: true
+    label: "htpassword string(<username>:<password hash>) for OLS."
