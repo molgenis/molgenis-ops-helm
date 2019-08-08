@@ -27,10 +27,10 @@ spec:
       http:
         paths:
         {{- range .paths }}
-          - path: /
+          - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: 8080
+              servicePort: http
         {{- end }}
   {{- end }}
 {{- end }}
