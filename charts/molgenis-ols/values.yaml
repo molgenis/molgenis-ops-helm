@@ -25,7 +25,8 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: ols.edge.molgenis.org
-      paths: []
+      paths:
+        - path: /
 
   #tls: []
   #  - secretName: chart-example-tls
