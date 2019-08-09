@@ -4,5 +4,6 @@ description: A Helm chart for elesticsearch and kibana configured for getting lo
 name: molgenis-logging
 version: 0.2.2
 home: https://github.com/molgenis/molgenis-ops-helm
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-logging/catalogIcon-molgenis-logging.png
 maintainers:
   - name: ChristianHilbrands
