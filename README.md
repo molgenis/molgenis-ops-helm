@@ -1,3 +1,4 @@
+[![Build Status](http://jenkins.dev.molgenis.org/buildStatus/icon?job=molgenis%2Fmolgenis-ops-helm%2Fmaster)](http://jenkins.dev.molgenis.org/job/molgenis/job/molgenis-ops-helm/job/master/)
 # MOLGENIS - Helm templates
 
 These are the Helm templates that we will use for MOLGENIS operations. Basic concepts in respect to docker you need to know.
