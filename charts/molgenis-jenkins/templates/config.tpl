@@ -12,8 +12,23 @@ data:
       <numExecutors>0</numExecutors>
       <mode>NORMAL</mode>
       <useSecurity>{{ .Values.Master.UseSecurity }}</useSecurity>
-      <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
-        <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
+      <authorizationStrategy class="org.jenkinsci.plugins.GithubAuthorizationStrategy" plugin="github-oauth@0.32">
+        <rootACL>
+          <organizationNameList class="linked-list">
+            <string>molgenis</string>
+          </organizationNameList>
+          <adminUserNameList class="linked-list">
+            <string>sidohaakma</string>
+            <string>fdlk</string>
+          </adminUserNameList>
+          <authenticatedUserReadPermission>false</authenticatedUserReadPermission>
+          <useRepositoryPermissions>true</useRepositoryPermissions>
+          <authenticatedUserCreateJobPermission>false</authenticatedUserCreateJobPermission>
+          <allowGithubWebHookPermission>true</allowGithubWebHookPermission>
+          <allowCcTrayPermission>false</allowCcTrayPermission>
+          <allowAnonymousReadPermission>false</allowAnonymousReadPermission>
+          <allowAnonymousJobStatusPermission>true</allowAnonymousJobStatusPermission>
+        </rootACL>
       </authorizationStrategy>
 {{- if .Values.Master.Security.UseGitHub }}
       <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
