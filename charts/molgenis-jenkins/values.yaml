@@ -1010,7 +1010,9 @@ secret:
   # vault configures the vault secret
   vault:
     token: 'xxxx'
-    addr: 'https://vault-operator.vault-operator.svc:8200'
+    # local vault: 'https://vault-operator.vault-operator.svc:8200'
+    # But for cross-cluster access use the node port:
+    addr: 'https://192.168.64.161:30221'
     skipVerify: '1'
   # githubToken contains access token for jenkins bot account on github.com
   gitHub:
