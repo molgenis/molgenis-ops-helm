@@ -1,0 +1,8 @@
+categories:
+  - Vault
+questions:
+  - variable: ui.ingress.host
+    label: Hostname
+    default: vault.molgenis.org
+    type: hostname
+    required: true
