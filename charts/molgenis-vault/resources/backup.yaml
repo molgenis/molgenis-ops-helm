@@ -5,8 +5,10 @@ metadata:
 spec:
   clientTLSSecret: vault-etcd-client-tls
   etcdEndpoints:
-      - https://vault-etcd-client:2379
-  storageType: ABS
-  abs:
-    absSecret: abs
+    - https://vault-etcd-client:2379
+  storageType: S3
+  s3:
+    awsSecret: aws
     path: vault/<specify name>
+    endpoint: http://minio.minio.svc
+    forcePathStyle: true

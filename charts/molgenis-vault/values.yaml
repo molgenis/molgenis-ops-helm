@@ -2,14 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# abs gives details of the credentials to reach the azure backup storage
-abs:
-  # account is the name of the Storage account
-  account: fdlkops
-  # access key for the Storage account
-  accessKey: xxxx
-  # default cloud
-  cloud: AzurePublicCloud
+# aws gives details of the credentials to reach the s3 compatible storage
+aws:
+  accessKeyId: AKIAIOSFODNN7EXAMPLE
+  secretAccessKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  endpoint: http://minio.minio.svc
 
 # backupjob describes the backup cronjob
 backupJob:
