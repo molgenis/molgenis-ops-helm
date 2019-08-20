@@ -10,16 +10,21 @@ The deployment of the Vault consists of 7 steps.
 2. Deploy molgenis-vault in prod to the vault-operator namespace
 
 **On your own machine**
+
 *Context == prod-molgenis*
+
 3. *Create Vault service*
    ```rancher kubectl create -f resources/vault.yaml --namespace vault-operator```
    See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
+
 4. *Add NodePort service to expose to other clusters*
    Create a NodePort service on top of the Vault service
    ```rancher kubectl create -f resources/vault-nodeport.yaml --namespace vault-operator```
+
 5. *Restore backup*
    Fill in the filename of the Minio backup ```backup-move-to-minio``` in ```restore.yaml```
    ```rancher kubectl create -f resources/restore.yaml --namespace vault-operator```
+
 6. *Unlock the Vault*
    There are 2 Vault services which need to be unlocked.
    ```rancher kubectl describe vault --namespace vault-operator```
@@ -43,6 +48,7 @@ The deployment of the Vault consists of 7 steps.
    Run ```vault status``` again to check if the Vault is unsealed.
 
 **In Jenkins**
+
 7. The NodePort is random so you need to configure it in the Kubernetes secret (Rancher --> dev-molgenis project): ```molgenis-pipeline-vault-secret``` with key ```addr```. E.g. 'https://192.168.64.161:30221'.
    (Go to the ```prod-molgenis``` project and select **Resources** --> **Secrets**).
 
