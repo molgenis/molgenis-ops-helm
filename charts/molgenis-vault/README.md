@@ -25,7 +25,7 @@ The deployment of the Vault consists of 7 steps.
 
 5. *Restore backup*
 
-   Fill in the filename of the Minio backup ```backup-move-to-minio``` in ```restore.yaml```
+   Fill in the filename of the Minio backup ```move-to-minio``` in ```restore.yaml```
    ```rancher kubectl create -f resources/restore.yaml --namespace vault-operator```
 
 6. *Unlock the Vault*
