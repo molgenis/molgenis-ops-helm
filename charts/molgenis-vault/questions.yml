@@ -1,0 +1,24 @@
+categories:
+  - Vault
+questions:
+  - variable: ui.ingress.host
+    label: Hostname
+    default: vault.molgenis.org
+    type: hostname
+    required: true
+  - variable: aws.accessKeyId
+    label: Backup S3 key ID
+    group: backup
+    type: string
+    required: true
+  - variable: aws.secretAccessKey
+    label: Backup S3 secret
+    group: backup
+    type: string
+    required: true
+  - variable: aws.endpoint
+    label: Backup S3 endpoint
+    group: backup
+    type: string
+    required: true
+    default: http://minio.minio.svc

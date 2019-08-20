@@ -11,8 +11,22 @@ data:
       generateName: vault-backup-
     spec:
       etcdEndpoints: ["https://vault-etcd-client:2379"]
-      storageType: ABS
+      storageType: S3
       clientTLSSecret: vault-etcd-client-tls
-      abs:
+      s3:
+        # Path is the full s3 path where the backup is saved.
+        # The format of the path must be: "<s3-bucket-name>/<path-to-backup-file>"
+        # e.g: "mybucket/etcd.backup"
         path: vault/backup.<NOW>
-        absSecret: abs
+        # The name of the secret object that stores the AWS credential and config files.
+        # The file name of the credential MUST be 'credentials'.
+        # The file name of the config MUST be 'config'.
+        # The profile to use in both files will be 'default'.
+        awsSecret: aws
+        # Endpoint if blank points to aws. If specified, can point to s3 compatible object
+        # stores.
+        endpoint: {{ .Values.aws.endpoint }}
+        # ForcePathStyle forces to use path style over the default subdomain style.
+        # This is useful when you have an s3 compatible endpoint that doesn't support
+        # subdomain buckets.
+        forcePathStyle: true

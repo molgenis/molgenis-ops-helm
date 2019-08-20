@@ -10,6 +10,9 @@ That creates a new vault with two vault pods.
 
 See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
 
+And expose the vault api on a node port so clients on other clusters can read from it too:
+`kubectl create -f resources/vault-nodeport.yaml`
+
 ## Parameters
 
 ### Azure cloud credentials
