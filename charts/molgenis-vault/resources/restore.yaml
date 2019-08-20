@@ -9,7 +9,9 @@ spec:
   etcdCluster:
     # The namespace is the same as this EtcdRestore CR
     name: vault-etcd
-  backupStorageType: ABS
-  abs:
+  backupStorageType: S3
+  s3:
     path: vault/backup-<specify the backup name>
-    absSecret: abs
+    awsSecret: aws
+    endpoint: http://minio.minio.svc
+    forcePathStyle: true
