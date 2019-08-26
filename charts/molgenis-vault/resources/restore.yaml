@@ -13,5 +13,5 @@ spec:
   s3:
     path: vault/backup-<specify the backup name>
     awsSecret: aws
-    endpoint: http://minio.minio.svc
+    endpoint: http://minio.minio.svc:9000
     forcePathStyle: true
