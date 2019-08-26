@@ -13,11 +13,13 @@ questions:
     required: true
   - variable: aws.secretAccessKey
     label: Backup S3 secret
+    description: Backups fail if this contains special characters!
     group: backup
     type: string
     required: true
   - variable: aws.endpoint
     label: Backup S3 endpoint
+    description: Backups fail if this contains special characters!
     group: backup
     type: string
     required: true
