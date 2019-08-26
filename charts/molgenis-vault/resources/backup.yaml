@@ -10,5 +10,5 @@ spec:
   s3:
     awsSecret: aws
     path: vault/<specify name>
-    endpoint: http://minio.minio.svc
+    endpoint: http://minio.minio.svc:9000
     forcePathStyle: true

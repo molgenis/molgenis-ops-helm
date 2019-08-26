@@ -16,6 +16,7 @@ The deployment of the Vault consists of 7 steps.
 3. *Create Vault service*
 
    ```rancher kubectl create -f resources/vault.yaml --namespace vault-operator```
+   
    See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
 
 4. *Add NodePort service to expose to other clusters*
@@ -25,7 +26,7 @@ The deployment of the Vault consists of 7 steps.
 
 5. *Restore backup*
 
-   Fill in the filename of the Minio backup ```move-to-minio``` in ```restore.yaml```
+   Fill in the filename of the Minio backup ```<specify the backup name>``` in ```restore.yaml```
    ```rancher kubectl create -f resources/restore.yaml --namespace vault-operator```
 
 6. *Unlock the Vault*
