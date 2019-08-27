@@ -150,7 +150,7 @@ jenkins:
                           container(&apos;rancher&apos;) {
                               sh &quot;rancher context switch dev-molgenis&quot;
                               sh &quot;rancher app | awk &apos;{print \$2}&apos; | grep preview- &gt; preview.list&quot;
-                              sh &quot;xargs rancher app delete &lt; preview.list&quot; 
+                              sh &quot;xargs rancher app delete &lt; preview.list&quot;
                           }
                       }
                   }
