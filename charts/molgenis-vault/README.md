@@ -1,26 +1,75 @@
 # MOLGENIS Vault helm chart
 
 This chart creates a vault operator, but NO vault.
-The vault operator defines a new custom resource named `vault` that you can use to create vaults.
 
-After launching the operator, create the molgenis vault manually:
-`kubectl create -f resources/vault.yaml`
+## Deploy
+The deployment of the Vault consists of 7 steps.
 
-That creates a new vault with two vault pods.
+**In Rancher**
+1. Delete molgenis-vault app in prod
+2. Deploy molgenis-vault in prod to the vault-operator namespace
 
-See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
+**On your own machine**
+
+*Context == prod-molgenis*
+
+3. *Create Vault service*
+
+   ```rancher kubectl create -f resources/vault.yaml --namespace vault-operator```
+   
+   See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
+
+4. *Add NodePort service to expose to other clusters*
+
+   Create a NodePort service on top of the Vault service
+   ```rancher kubectl create -f resources/vault-nodeport.yaml --namespace vault-operator```
+
+5. *Restore backup*
+
+   Fill in the filename of the Minio backup ```<specify the backup name>``` in ```restore.yaml```
+   ```rancher kubectl create -f resources/restore.yaml --namespace vault-operator```
+
+6. *Unlock the Vault*
+
+   There are 2 Vault services which need to be unlocked.
+   ```rancher kubectl describe vault --namespace vault-operator```
+   You need to look here:
+   ```
+   Vault Status:
+     Active:
+     Sealed:
+       **vault-79f8d698fb-5thm2**
+       **vault-79f8d698fb-wh8js**
+     Standby:  <nil>
+   ```
+   Proxy-forward the Vault service to be able to make use of the client.
+   ```rancher kubectl port-forward #vault-pod# 8200 --namespace vault-operator```
+   Install Vault client: https://www.vaultproject.io/docs/install/
+   You need to add this line to your ```.profile```: ```export VAULT_SKIP_VERIFY=1```
+   Then execute the following commands:
+   ```vault status```
+   Exceute this three times (because of the three key encryption method)
+   ```vault operator unseal```
+   Run ```vault status``` again to check if the Vault is unsealed.
+
+**In Jenkins**
+
+7. The NodePort is random so you need to configure it in the Kubernetes secret 
+
+   (Rancher --> dev-molgenis project): ```molgenis-pipeline-vault-secret``` with key ```addr```. E.g. 'https://192.168.64.161:30221'.
+   (Go to the ```prod-molgenis``` project and select **Resources** --> **Secrets**).
 
 ## Parameters
 
-### Azure cloud credentials
+### Minio credentials
 Define credentials for backup to the Azure Blob Store.
 See [etcd-operator documentation](https://github.com/coreos/etcd-operator/blob/master/doc/user/abs_backup.md).
 
-| Parameter       | Description                   | Default            |
-| --------------- | ----------------------------- | ------------------ |
-| `abs.account`   | name of storage account       | `fdlkops`          |
-| `abs.accessKey` | access key of storage account | `xxxx`             |
-| `abs.cloud`     | name of cloud environment     | `AzurePublicCloud` |
+| Parameter             | Description                   | Default            |
+| --------------------- | ----------------------------- | ------------------ |
+| `aws.accessKeyId`     | name accessKeyId Minio        | `xxxx`             |
+| `aws.secretAccessKey` | access secretKey Minio        | `xxxx`             |
+| `aws.endpoint`        | endpoint Minio                | `Minio`            |
 
 ### Backup job
 Define the schedule of the backup job
@@ -50,3 +99,5 @@ Parameter | Description | Default
 `ui.service.externalPort` | Vault UI service target port | `8000`
 `ui.service.internalPort` | Vault UI container port | `8000`
 `ui.service.nodePort` | Port to be used as the service NodePort (ignored if `server.service.type` is not `NodePort`) | `0`
+
+

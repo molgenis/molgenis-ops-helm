@@ -12,14 +12,43 @@ questions:
       - accept
       - prod
     required: true
+    show_if: "molgenis-frontend.enabled=false"
     group: "Provisioning"
   - variable: image.tag
     label: Version
     default: ""
-    description: "Select a MOLGENIS version (check https://hub.docker.com/molgenis/molgenis-app/tags for released tags)"
+    description: "Select a MOLGENIS backend version (check https://hub.docker.com/r/molgenis/molgenis-app/tags for released tags). For developers tags you can check: https://registry.molgenis.org/#browse/browse:docker:v2/molgenis/molgenis-app/tags"
     type: string
     required: true
     group: "Provisioning"
+  - variable: molgenis-frontend.enabled
+    label: Frontend enabled
+    default: true
+    description: "Do you want to deploy a MOLGENIS frontend"
+    type: boolean
+    required: true
+    group: "Provisioning - Frontend"
+  - variable: molgenis-frontend.environment
+    label: Environment
+    description: "Environment of MOLGENIS instance"
+    type: enum
+    options:
+      - edge
+      - dev
+      - test
+      - accept
+      - prod
+    required: true
+    show_if: "molgenis-frontend.enabled=true"
+    group: "Provisioning - Frontend"  
+  - variable: molgenis-frontend.image.tag
+    label: Version
+    default: ""
+    description: "Select a MOLGENIS frontend version (check https://hub.docker.com/r/molgenis/molgenis-frontend/tags for released tags)"
+    type: string
+    required: true
+    show_if: "molgenis-frontend.enabled=true"
+    group: "Provisioning - Frontend"
   - variable: questions.advanced
     label: Advanced mode
     default: false
@@ -38,6 +67,17 @@ questions:
       - "registry.molgenis.org"
     required: true
     group: "Provisioning"
+  - variable: molgenis-frontend.image.repository
+    show_if: "questions.advanced=true"
+    label: Registry
+    default: "registry.hub.docker.com"
+    description: "Select a registry to pull from"
+    type: enum
+    options:
+      - "registry.hub.docker.com"
+      - "registry.molgenis.org"
+    required: true
+    group: "Provisioning - Frontend"    
   - variable: adminPassword
     label: Administrator password
     default: ""

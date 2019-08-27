@@ -1,0 +1,42 @@
+elasticsearch:
+  image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
+    paths: /
+  extraEnvs:
+    - name: ELASTIC_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: "elastic-credentials"
+          key: password
+    - name: ELASTIC_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: "elastic-credentials"
+          key: username
+  authentication:
+    username: xxxx
+    password: xxxx
+kibana:
+  image: "docker.elastic.co/kibana/kibana-oss"
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/auth-signin: https://oauth2.molgenis.org/oauth2/start?rd=https://$host$request_uri
+      nginx.ingress.kubernetes.io/auth-url: https://oauth2.molgenis.org/oauth2/auth
+    path: /
+  extraEnvs:
+    - name: 'ELASTICSEARCH_USERNAME'
+      valueFrom:
+        secretKeyRef:
+          name: "elastic-credentials"
+          key: username
+    - name: 'ELASTICSEARCH_PASSWORD'
+      valueFrom:
+        secretKeyRef:
+          name: "elastic-credentials"
+          key: password

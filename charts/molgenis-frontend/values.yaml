@@ -4,14 +4,16 @@
 
 replicaCount: 1
 
+environment: test
+
 strategy:
   type: Recreate
 restartPolicy: Always
 
 image:
-  repository: registry.molgenis.org
+  repository: registry.hub.docker.com
   name: molgenis/molgenis-frontend
-  tag: "dev"
+  tag: latest
   pullPolicy: Always
 
 service:
@@ -19,15 +21,43 @@ service:
   type: ClusterIP
   port: 80
 
-backend:
-  url: https://latest.test.molgenis.org
+proxy:
+  backend:
+    service:
+      enabled: true
+#
+# If you want to connect inside the same cluster you can specify the targetNamespace and targetRelease.
+# This way the service will be resolved inside the cluster.
+#
+#      targetNamespace:
+#      targetRelease:
 
-environment: dev
+# When you connect to an external MOLGENIS backend you can set proxy.backend.service.enabled=false and specify the backend url.
+#
+#    url: https://master.dev.molgenis.org
+  custom:
+  - url: https://unpkg.com/@mswertz
+    path: "@mswertz"
+    unpkg: true
+#
+# You can define custom urls you want to proxy on a certain path.
+# This needs to be done in the values.yaml at this moment. In the questions.yaml you can specify only 1.
+# You can specify whether you use unpkg.com or not. When you use unpgk.com the redirect target will be
+# used to resolve the right version.
+#
+#  custom:
+#  - url: https://my-app
+#    path: my-app
+#    unpkg: true
 
 ingress:
   enabled: true
+  path: /
 
-nodeSelector: {}
+resources: {}
+
+nodeSelector:
+  deployPod: "true"
 
 tolerations: []
 

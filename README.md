@@ -1,3 +1,4 @@
+[![Build Status](http://jenkins.dev.molgenis.org/buildStatus/icon?job=molgenis%2Fmolgenis-ops-helm%2Fmaster)](http://jenkins.dev.molgenis.org/job/molgenis/job/molgenis-ops-helm/job/master/)
 # MOLGENIS - Helm templates
 
 These are the Helm templates that we will use for MOLGENIS operations. Basic concepts in respect to docker you need to know.
@@ -103,6 +104,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Elasticsearch](charts/molgenis-elasticsearch/README.md)
 - [OpenCPU](charts/molgenis-opencpu/README.md)
 - [Hubot](chart/molgenis-hubot/README.md)
+- [Logging](charts/molgenis-logging/README.md)
 
 ### Useful commands
 You can you need to know to easily develop and deploy helm-charts

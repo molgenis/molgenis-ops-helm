@@ -8,6 +8,7 @@ This chart spins up a MOLGENIS instance. The created pods are:
 - ElasticSearch
 - PostgreSQL
 - Minio
+- Frontend
 
 Passwords will be stored as secrets in the namespace.
 
@@ -36,3 +37,14 @@ half the max elasticsearch container memory.
 images may not be compatible with special characters in the password.
 Specifically, the admin password will get parsed by the property evaluator and
 specifying `${blah}` as a password will cause your MOLGENIS installation not to boot.
+
+## Frontend
+The incoming traffic is split by the ingresses as follows:
+
+![proxy diagram](molgenis-proxy.png)
+
+* `/` goes to the molgenis container
+* `/@molgenis-ui` goes to a frontend proxy.
+
+The frontend URL can be anything you like, as long as it serves the frontend code on
+`/@molgenis-ui`. By default it points at `https://unpkg.com/@molgenis-ui`, which serves the latest released version of the plugins. But it may also be a deployment of a frontend container.

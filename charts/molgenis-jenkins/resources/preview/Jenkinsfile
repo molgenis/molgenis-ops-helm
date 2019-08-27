@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'shared'
+            label 'python-stretch'
         }
     }
     stages {
@@ -18,14 +18,25 @@ pipeline {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n preview-${TAG.toLowerCase()} " +
-                            "molgenis " +
+                            "cattle-global-data:molgenis-helm-molgenis " +
                             "preview-${TAG.toLowerCase()} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
-                            "--set environment=dev " +
+                            "--set molgenis-frontend.environment=dev " +
                             "--set image.tag=${TAG} " +
                             "--set image.repository=${LOCAL_REGISTRY} " +
                             "--set image.pullPolicy=Always"
+                }
+                container('python') {
+                    timeout(8) {
+                        waitUntil {
+                            sleep(time: 30, unit: 'SECONDS')
+                            script {
+                                def r = sh(script: "wget -q https://preview-${TAG}.dev.molgenis.org -O /dev/null", returnStatus: true)
+                                return (r == 0);
+                            }
+                        }
+                    }
                 }
                 hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
             }
@@ -58,7 +69,7 @@ pipeline {
                 container('rancher') {
                     sh "rancher context switch dev-molgenis"
                     script {
-                        env.LIST = sh script:"rancher apps ls", returnStdout: true
+                        env.LIST = sh script: "rancher apps ls", returnStdout: true
                     }
                 }
                 hubotSend message: "Dit draait er allemaal:\n```${LIST}```"

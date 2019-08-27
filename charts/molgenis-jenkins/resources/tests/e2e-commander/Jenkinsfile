@@ -1,0 +1,103 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'python-stretch'
+        }
+    }
+    environment {
+        BRANCH_NAME = 'master'
+        TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
+    }
+    triggers {
+        cron('H 23 * * 1-5')
+    }
+    stages {
+        stage('Prepare [ e2e ]') {
+            steps {
+                container('vault') {
+                    script {
+                        sh "mkdir /home/jenkins/.rancher"
+                        sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
+                        env.GITHUB_TOKEN = sh(script: 'vault read -field=value secret/ops/token/github', returnStdout: true)
+                        env.TAG = "e2e-commander-${TIMESTAMP}"
+                        env.MOLGENIS = "https://${TAG}.dev.molgenis.org"
+                    }
+                }
+
+                checkout scm: [$class: 'GitSCM', branches: [[name: "*/${env.BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: 'molgenis-jenkins-github-secret', url: 'https://github.com/molgenis/molgenis-tools-commander']]]
+
+                container('python') {
+                    script {
+                        sh "pip install --quiet bumpversion"
+                        sh "pip install --quiet twine"
+                    }
+                }
+            }
+        }
+        stage('Deploy [ e2e ]') {
+            steps {
+                container('rancher') {
+                    sh "rancher context switch dev-molgenis"
+                    sh "rancher apps install " +
+                            "cattle-global-data:molgenis-helm-molgenis " +
+                            "${TAG} " +
+                            "--no-prompt " +
+                            "--set adminPassword=admin " +
+                            "--set molgenis-frontend.environment=dev " +
+                            "--set image.tag=dev " +
+                            "--set image.repository=${LOCAL_REGISTRY} " +
+                            "--set image.pullPolicy=Always " +
+                            "--set resources.limits.cpu=2 " +
+                            "--set resources.limits.memory=4Gi"
+                }
+            }
+        }
+        stage('Build: [ master ]') {
+            steps {
+                container('python') {
+                    sh "pip install ."
+                }
+            }
+        }
+        stage('Tests [ e2e ]') {
+            steps{
+                container('python'){
+                    timeout(8) {
+                        waitUntil {
+                           sleep(time:30, unit:'SECONDS')
+                           script {
+                             def r = sh(script: "wget -q ${env.MOLGENIS} -O /dev/null", returnStatus: true)
+                             return (r == 0);
+                           }
+                        }
+                    }
+                    script{
+                        def r = sh(script: "python setup.py test --addopts \"--junitxml=junit.xml -m integration --ignore=tests/unit/ --url=${MOLGENIS}\"", returnStatus: true)
+                        if (r == 1){
+                            currentBuild.result = 'UNSTABLE'
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    junit 'junit.xml'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            container('rancher') {
+                sh "rancher context switch dev-molgenis"
+                sh "rancher apps delete ${TAG}"
+            }
+        }
+        unstable {
+            hubotSend message: ':warning: Nightly Commander integration tests failed', site: 'slack-general', status: 'ABORTED'
+        }
+        failure {
+            hubotSend message: ':x: Nightly Commander integration build failed', site: 'slack-general', status: 'ERROR'
+        }
+    }
+}

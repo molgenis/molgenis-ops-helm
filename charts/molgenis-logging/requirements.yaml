@@ -1,0 +1,7 @@
+dependencies:
+- name: elasticsearch
+  version: ^7.2.0
+  repository: https://registry.molgenis.org/repository/helm/
+- name: kibana
+  version: ^7.2.0
+  repository: https://registry.molgenis.org/repository/helm/

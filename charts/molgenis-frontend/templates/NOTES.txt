@@ -1,1 +1,1 @@
-Deployed frontend {{ .Values.image.tag }} proxying {{ .Values.backend.url }} on https://{{ template "hostname" . }} .
+Deployed frontend {{ .Values.image.tag }} proxying {{ .Values.proxy.backend.url }} on https://{{ template "hostname" . }} .

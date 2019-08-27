@@ -5,7 +5,6 @@ pipeline {
         }
     }
     environment {
-        LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
         DOWNLOAD_SERVER = 'https://molgenis26.gcc.rug.nl/releases/data'
@@ -41,7 +40,7 @@ pipeline {
                     sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n molgenis-${TAG} " +
-                            "molgenis " +
+                            "cattle-global-data:molgenis-helm-molgenis " +
                             "${TAG} " +
                             "--no-prompt " +
                             "--set adminPassword=${REST_TEST_ADMIN_PW} " +
@@ -169,10 +168,10 @@ pipeline {
             }
         }
         unstable {
-            hubotSend message: 'Build unstable', site: 'slack-general', status: 'WARN'
+            hubotSend message: ':warning: Build unstable', site: 'slack-general', status: 'ABORTED'
         }
         failure {
-            hubotSend message: 'Build failed', site: 'slack-general', status: 'ERROR'
+            hubotSend message: ':x: Build failed', site: 'slack-general', status: 'ERROR'
         }
     }
 }

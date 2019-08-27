@@ -1,4 +1,6 @@
 # Default values for molgenis
+environment: test
+
 ingress:
   enabled: true
   annotations:
@@ -11,7 +13,6 @@ image:
   repository: registry.hub.docker.com
   name: molgenis/molgenis-app
   tag: stable
-environment: test
 # Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
 sentry:
   dsn: xxxx
@@ -52,6 +53,16 @@ nodeSelector:
 tolerations: []
 affinity: {}
 
+molgenis-frontend:
+  enabled: true
+  image:
+    tag: latest
+    repository: registry.hub.docker.com
+  proxy:
+    backend:
+      service:
+        enabled: true
+
 molgenis-elasticsearch:
   enabled: true
   persistence:
@@ -69,15 +80,18 @@ postgresql:
   image:
     tag: 11.1.0-debian-9-r71
     pullPolicy: IfNotPresent
-  ## Specify runtime config parameters as a dict, using camelCase
-  ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
-  configuration:
+  postgresqlExtendedConf:
     maxLocksPerTransaction: 1024
   postgresqlUsername: molgenis
   postgresqlPassword: molgenis
   postgresqlDatabase: molgenis
   persistence:
+    # should always be set, the subchart cannot clean up the pvc it creates
+    existingClaim: postgres-pvc
+    # set to true if you really want to use a pre-existing claim
+    existingClaimReally: false
     size: 5Gi
+    accessMode: ReadWriteOnce
   resources:
     requests:
       cpu:
