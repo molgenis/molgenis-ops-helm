@@ -21,6 +21,7 @@ pipeline {
                             "cattle-global-data:molgenis-helm-molgenis " +
                             "preview-${TAG.toLowerCase()} " +
                             "--no-prompt " +
+                            "--set runtimeEnvironment=development " +
                             "--set adminPassword=admin " +
                             "--set molgenis-frontend.environment=dev " +
                             "--set image.tag=${TAG} " +
