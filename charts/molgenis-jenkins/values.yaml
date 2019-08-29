@@ -112,6 +112,55 @@ jenkins:
           <triggers/>
           <disabled>false</disabled>
         </flow-definition>
+      cleanup: |-
+        <?xml version='1.1' encoding='UTF-8'?>
+          <flow-definition plugin="workflow-job@2.32">
+            <actions/>
+            <description>Clean up preview deployments every night</description>
+            <keepDependencies>false</keepDependencies>
+            <properties>
+              <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.8"/>
+              <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.4">
+                <siteNames></siteNames>
+                <enableNotifications>false</enableNotifications>
+              </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
+              <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+                <triggers>
+                  <hudson.triggers.TimerTrigger>
+                    <spec>TZ=Europe/Amsterdam
+          H H(0-5) * * * </spec>
+                  </hudson.triggers.TimerTrigger>
+                </triggers>
+              </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+            </properties>
+            <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.71">
+              <script>pipeline {
+              agent {
+                  kubernetes {
+                      label &apos;shared&apos;
+                  }
+              }
+              stages {
+                  stage(&quot;Cleanup&quot;) {
+                      steps {
+                          container(&apos;vault&apos;) {
+                              sh &quot;mkdir /home/jenkins/.rancher&quot;
+                              sh(script: &apos;vault read -field=value secret/ops/jenkins/rancher/cli2.json &gt; /home/jenkins/.rancher/cli2.json&apos;)
+                          }
+                          container(&apos;rancher&apos;) {
+                              sh &quot;rancher context switch dev-molgenis&quot;
+                              sh &quot;rancher app | awk &apos;{print \$2}&apos; | grep preview- &gt; preview.list&quot;
+                              sh &quot;xargs rancher app delete &lt; preview.list&quot;
+                          }
+                      }
+                  }
+              }
+          }</script>
+              <sandbox>true</sandbox>
+            </definition>
+            <triggers/>
+            <disabled>false</disabled>
+          </flow-definition>
       test-nightly: |-
         <?xml version='1.1' encoding='UTF-8'?>
         <flow-definition plugin="workflow-job@2.25">
