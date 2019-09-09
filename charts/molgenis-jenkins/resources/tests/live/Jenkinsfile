@@ -34,7 +34,6 @@ pipeline {
         stage('Deploy [ live ]') {
             steps {
                 container('rancher') {
-                    sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n molgenis-${TAG} " +
                             "cattle-global-data:molgenis-helm-molgenis " +
@@ -143,7 +142,6 @@ pipeline {
     post {
         success {
             container('rancher') {
-                sh "rancher context switch dev-molgenis"
                 sh "rancher apps delete ${TAG}"
             }
         }
