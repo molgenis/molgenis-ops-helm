@@ -20,6 +20,7 @@ data:
           <adminUserNameList class="linked-list">
             <string>sidohaakma</string>
             <string>fdlk</string>
+            <string>molgenis-jenkins</string>
           </adminUserNameList>
           <authenticatedUserReadPermission>false</authenticatedUserReadPermission>
           <useRepositoryPermissions>true</useRepositoryPermissions>

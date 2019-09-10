@@ -7,7 +7,6 @@ hubot:
       # URL for the jenkins server
       HUBOT_JENKINS_URL: 'https://jenkins.dev.molgenis.org/'
       # AUTH token for the jenkins server.
-      # See https://slackapi.github.io/hubot-slack/#getting-a-slack-token
       HUBOT_JENKINS_AUTH: 'user:token'
       # URL for the registry server
       HUBOT_REGISTRY_URL: 'https://registry.molgenis.org/'
