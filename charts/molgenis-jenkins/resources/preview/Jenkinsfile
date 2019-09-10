@@ -15,7 +15,6 @@ pipeline {
                     sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
                 }
                 container('rancher') {
-                    sh "rancher context switch dev-molgenis"
                     sh "rancher apps install " +
                             "-n preview-${TAG.toLowerCase()} " +
                             "cattle-global-data:molgenis-helm-molgenis " +
@@ -51,7 +50,6 @@ pipeline {
                     sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
                 }
                 container('rancher') {
-                    sh "rancher context switch dev-molgenis"
                     sh "rancher apps delete preview-${TAG.toLowerCase()}"
                 }
                 hubotSend message: "Deleted preview-${TAG.toLowerCase()}"
@@ -67,7 +65,6 @@ pipeline {
                     sh(script: 'vault read -field=value secret/ops/jenkins/rancher/cli2.json > /home/jenkins/.rancher/cli2.json')
                 }
                 container('rancher') {
-                    sh "rancher context switch dev-molgenis"
                     script {
                         env.LIST = sh script: "rancher apps ls", returnStdout: true
                     }
