@@ -26,6 +26,8 @@ spec:
           image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: environment
+              value: {{ .Values.runtimeEnvironment }}
             - name: molgenis.home
               value: /home/molgenis
             - name: opencpu.uri.host

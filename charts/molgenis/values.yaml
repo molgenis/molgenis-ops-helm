@@ -13,6 +13,7 @@ image:
   repository: registry.hub.docker.com
   name: molgenis/molgenis-app
   tag: stable
+runtimeEnvironment: production
 # Sentry config. The format is https://{public key}@sentry.molgenis.org/{project id}
 sentry:
   dsn: xxxx
