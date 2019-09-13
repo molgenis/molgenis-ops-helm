@@ -4,12 +4,12 @@ dependencies:
   version: 1.0.0
 - name: molgenis-frontend
   repository: https://registry.molgenis.org/repository/helm
-  version: 1.1.2
+  version: 1.1.3
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 5.2.1
 - name: minio
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 2.4.3
-digest: sha256:24b14d7e7e6db065c651801c7a06bf4efc9b12bb42636d08371975e69aedf612
-generated: 2019-07-23T21:32:49.757085757+02:00
+digest: sha256:65af411e9acf10a594837a19f6c5c5b5bddb235ff9a09914ad154bd858a36ed5
+generated: "2019-09-13T16:08:27.78848+02:00"
