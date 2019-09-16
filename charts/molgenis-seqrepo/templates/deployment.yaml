@@ -24,22 +24,13 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          volumeMounts:
+          - mountPath: /usr/local/share/seqrepo
+            name: seqrepo-data
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: seqrepo
+        - name: seqrepo-data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "molgenis-seqrepo.fullname" .) }}
