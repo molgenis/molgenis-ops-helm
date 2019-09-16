@@ -2,12 +2,12 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "myapp.fullname" . }}
+  name: {{ include "molgenis-seqrepo.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "myapp.name" . }}
+    app.kubernetes.io/name: {{ include "molgenis-seqrepo.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "myapp.chart" . }}
+    helm.sh/chart: {{ include "molgenis-seqrepo.chart" . }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
