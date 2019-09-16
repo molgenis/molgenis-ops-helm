@@ -1,1 +1,1 @@
-Will download SeqRepo data to the pvc {{ include "myapp.fullname" . }} in namespace {{ .Release.Namespace }}.
+Will download SeqRepo data to the pvc {{ include "molgenis-seqrepo.fullname" . }} in namespace {{ .Release.Namespace }}.
