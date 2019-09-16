@@ -3,6 +3,6 @@ appVersion: "1.0"
 description: "BioCommons SeqRepo: non-redundant, compressed, journalled, file-based storage for biological sequences"
 name: molgenis-seqrepo
 home: https://github.com/biocommons/biocommons.seqrepo/
-version: 0.1.1
+version: 0.1.2
 maintainers:
   - name: fdlk

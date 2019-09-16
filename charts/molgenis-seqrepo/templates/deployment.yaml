@@ -42,7 +42,7 @@ spec:
         - name: seqrepo
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "myapp.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "molgenis-seqrepo.fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
