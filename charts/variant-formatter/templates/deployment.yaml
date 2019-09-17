@@ -20,10 +20,25 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      initContainers:
+        - name: seqrepo
+          image: "{{ .Values.seqrepo.image.repository }}:{{ .Values.seqrepo.image.tag }}"
+          imagePullPolicy: {{ .Values.seqrepo.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /usr/local/share/seqrepo
+              name: seqrepo
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /usr/local/share/seqrepo
+              name: seqrepo
+          env:
+            - name: HGVS_SEQREPO_DIR
+              value: /usr/local/share/seqrepo/{{ .Values.seqrepo.image.tag }}
+            - name: UTA_DB_URL
+              value: postgresql://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ .Values.postgresql.postgresqlDatabase }}/{{ .Values.uta.version }}
           ports:
             - name: http
               containerPort: 80
@@ -38,6 +53,14 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: seqrepo
+        {{- if .Values.seqrepo.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.seqrepo.persistence.existingClaim | default (include "variant-formatter.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
