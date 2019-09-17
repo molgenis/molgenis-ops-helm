@@ -11,4 +11,5 @@ data:
   backend.conf: |-
     location / {  
       proxy_pass {{ template "backend.servicename" . }};
+      client_max_body_size 0;
     }
