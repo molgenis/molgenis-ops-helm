@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: uta
       protocol: TCP
-      name: http
+      name: uta
   selector:
     app.kubernetes.io/name: {{ include "molgenis-uta.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
