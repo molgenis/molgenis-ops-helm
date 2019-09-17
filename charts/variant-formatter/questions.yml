@@ -29,3 +29,9 @@ questions:
     description: "Image tag for the SeqRepo container"
     type: string
     required: true
+  - variable: "image.tag"
+    label: "Variant formatter image tag"
+    default: "201909172207"
+    description: "Image tag for the variant formatter container"
+    type: string
+    required: true
