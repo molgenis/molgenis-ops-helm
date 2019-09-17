@@ -35,8 +35,8 @@ replicaCount: 1
 image:
   # TODO: Update after merging https://github.com/molgenis/molgenis-ops-docker/pull/34
   repository: fdlk/variant-formatter
-  tag: latest
-  pullPolicy: IfNotPresent
+  tag: "201909172207"
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""

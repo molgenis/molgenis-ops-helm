@@ -41,15 +41,15 @@ spec:
               value: postgresql://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ .Values.postgresql.postgresqlDatabase }}/{{ .Values.uta.version }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 1234
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
