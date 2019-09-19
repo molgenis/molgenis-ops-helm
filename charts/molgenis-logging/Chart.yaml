@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "7.2.0"
 description: A Helm chart for elesticsearch and kibana configured for getting logs from the Molgenis instances
 name: molgenis-logging
-version: 0.2.2
+version: 0.2.3
 home: https://github.com/molgenis/molgenis-ops-helm
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-logging/catalogIcon-molgenis-logging.png
 maintainers:
