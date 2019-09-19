@@ -31,7 +31,7 @@ questions:
     required: true
   - variable: "image.tag"
     label: "Variant formatter image tag"
-    default: "201909172207"
+    default: "variant-formatter-release-2019-09-19_11-18-57"
     description: "Image tag for the variant formatter container"
     type: string
     required: true
