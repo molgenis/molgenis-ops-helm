@@ -12,7 +12,7 @@ questions:
     show_if: "ingress.enabled=true"
     label: hostname
     type: hostname
-    default: "variants.dev.molgenis.org"
+    default: "variants.molgenis.org"
     description: "Specify the hostname (Make sure to match the cluster environment you're deploying to!)"
     required: true
   - variable: "uta.version"
