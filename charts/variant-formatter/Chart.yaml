@@ -3,7 +3,7 @@ appVersion: "1.0"
 description: Format variants using biocommons tools
 name: variant-formatter
 home: https://github.com/biocommons/hgvs
-version: 0.0.10
+version: 0.1.0
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/variant-formatter/catalogIcon-variant-formatter.png
 maintainers:
 - name: fdlk
