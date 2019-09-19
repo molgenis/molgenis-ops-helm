@@ -1,0 +1,37 @@
+categories:
+  - hgvs
+  - "variant calling"
+questions:
+  - variable: ingress.enabled
+    label: "Enable ingress"
+    type: boolean
+    default: true
+    description: "Make accessible from outside the cluster?"
+    required: true
+  - variable: "ingress.hosts[0].host"
+    show_if: "ingress.enabled=true"
+    label: hostname
+    type: hostname
+    default: "variants.molgenis.org"
+    description: "Specify the hostname (Make sure to match the cluster environment you're deploying to!)"
+    required: true
+  - variable: "uta.version"
+    group: uta
+    label: "UTA version"
+    default: "uta_20180821"
+    description: "Specify which release of the BioCommons Universal Transcript Archive (UTA) to use"
+    type: string
+    required: true
+  - variable: "seqrepo.image.tag"
+    group: seqrepo
+    label: "SeqRepo image tag"
+    default: "2018-08-21"
+    description: "Image tag for the SeqRepo container"
+    type: string
+    required: true
+  - variable: "image.tag"
+    label: "Variant formatter image tag"
+    default: "variant-formatter-release-2019-09-19_19-06-06"
+    description: "Image tag for the variant formatter container"
+    type: string
+    required: true

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-uta-config
+  labels:
+    app: {{ template "variant-formatter.name" . }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+data:
+  load-uta.sh: |-
+    #!/bin/bash -x
+    # This file downloads and imports data from UTA
+    # (https://bitbucket.org/biocommons/uta/).
+
+    # TODO:
+    # * consider how/whether to cache downloaded dump
+    # * fetch sha1 and check before loading
+    
+    # Stream db dump into psql
+    # When the image is first run, the output from curl and psql are
+    # comingled.  This is intentional so that the user can see curl
+    # progress and pg restore progress.
+
+    UTA_BASENAME={{ .Values.uta.version }}.pgd.gz
+    UTA_PGD_URL=http://dl.biocommons.org/uta/${UTA_BASENAME}
+    UTA_PGD_FN=/tmp/${UTA_BASENAME}
+
+    if ! [ -e "${UTA_PGD_FN}" ]; then
+        curl -o "${UTA_PGD_FN}.tmp" "$UTA_PGD_URL"
+        mv "${UTA_PGD_FN}.tmp" "${UTA_PGD_FN}"
+    fi
+
+    gzip -cdq < "${UTA_PGD_FN}" \
+        | psql -1e -U "$POSTGRES_USER" --password "$POSTGRES_PASSWORD" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1
+
+    cat <<EOF
+    =======================================================================
+    =======================================================================
+    == 
+    == {{ .Values.uta.version }} installed from
+    == $UTA_PGD_URL
+    == 
+    =======================================================================
+    =======================================================================
+
+    EOF
+
+    date >/tmp/uta-ready
