@@ -13,7 +13,7 @@ backupJob:
   # enable enables the backup job
   enable: true
   # schedule gives the cron schedule for the backup job
-  schedule: "0 12 * * *"
+  schedule: "0 0 * * *"
 
 ###
 # All of the config variables related to setting up the etcd-operator
