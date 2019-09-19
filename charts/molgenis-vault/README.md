@@ -18,6 +18,8 @@ The deployment of the Vault consists of 7 steps.
    ```rancher kubectl create -f resources/vault.yaml --namespace vault-operator```
    
    See https://github.com/coreos/vault-operator/blob/master/doc/user/vault.md
+   
+   >**IMPORTANT**: ```core: security barrier not initialized``` in logging is normal. Please restore the backup first and unseal the vault.
 
 4. *Add NodePort service to expose to other clusters*
 
