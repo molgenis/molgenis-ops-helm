@@ -10,6 +10,8 @@ strategy:
   type: Recreate
 restartPolicy: Always
 
+readinessPath: '/@molgenis-ui/legacy-lib/dist/context.css'
+
 image:
   repository: registry.hub.docker.com
   name: molgenis/molgenis-frontend
