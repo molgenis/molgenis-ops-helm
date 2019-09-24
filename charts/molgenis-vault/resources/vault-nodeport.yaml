@@ -16,4 +16,3 @@ spec:
     port: 8200
     protocol: TCP
     targetPort: 8200
-  publishNotReadyAddresses: true
