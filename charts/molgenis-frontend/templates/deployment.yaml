@@ -40,21 +40,12 @@ spec:
           resources:
 {{ toYaml .resources | nindent 12 }}
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            failureThreshold: 50
-            successThreshold: 1
           readinessProbe:
             httpGet:
-              path: /
+              path: {{ .readinessPath }}
               port: 80
-            initialDelaySeconds: 30
-            periodSeconds: 30
-            failureThreshold: 3
-            successThreshold: 1
       volumes:
         - name: proxy-backend-config
           configMap:
