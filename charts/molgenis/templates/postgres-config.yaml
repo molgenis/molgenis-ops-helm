@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-extended-postgres-config
+  labels:
+    app: {{ template "molgenis.name" . }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+data:
+  load-uta.sh: |-
+    # check: https://pgtune.leopard.in.ua/
+    # now based upon 512mi; see values.yaml --> postgresql --> resources --> limits
+    # properties larger then the limit
+    # WAL - writes to disk (somekind of swapping: https://www.postgresql.org/docs/11/wal-configuration.html)
+  {{- if eq not .Values.postgresql.resources.limits.memory "512mi" }}
+    {{- if eq .Values.postgresql.resources.limits.memory "1g" -}}
+    max_connections = 200
+    shared_buffers = 256MB
+    effective_cache_size = 768MB
+    maintenance_work_mem = 64MB
+    checkpoint_completion_target = 0.7
+    wal_buffers = 7864kB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 200
+    work_mem = 655kB
+    min_wal_size = 1GB
+    max_wal_size = 2GB
+    {{- else -}}
+    max_connections = 200
+    shared_buffers = 512MB
+    effective_cache_size = 1536MB
+    maintenance_work_mem = 128MB
+    checkpoint_completion_target = 0.7
+    wal_buffers = 16MB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 200
+    work_mem = 1310kB
+    min_wal_size = 1GB
+    max_wal_size = 2GB
+    {{- end -}}
+  {{- else -}}
+    {{- if eq .Values.postgresql.resources.limits.memory "512mi" -}}
+    maxLocksPerTransaction = 1024
+    max_connections = 200
+    shared_buffers = 128MB
+    effective_cache_size = 384MB
+    maintenance_work_mem = 32MB
+    checkpoint_completion_target = 0.7
+    wal_buffers = 3932kB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 300
+    work_mem = 327kB
+    min_wal_size = 1GB
+    max_wal_size = 2GB
+    {{- end -}}
+  {{- end -}}}
+

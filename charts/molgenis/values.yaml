@@ -81,8 +81,7 @@ postgresql:
   image:
     tag: 11.1.0-debian-9-r71
     pullPolicy: IfNotPresent
-  postgresqlExtendedConf:
-    maxLocksPerTransaction: 1024
+  extendedConfConfigMap: "{{ .Release.Name }}-extended-postgres-config"
   postgresqlUsername: molgenis
   postgresqlPassword: molgenis
   postgresqlDatabase: molgenis
