@@ -318,8 +318,8 @@ questions:
     type: enum
     options:
       - "512Mi"
-      - "1g"
-      - "2g"
+      - "1Gi"
+      - "2Gi"
     default: "512Mi"
   - variable: "minio.resources.requests.memory"
     show_if: "questions.advanced=true"
