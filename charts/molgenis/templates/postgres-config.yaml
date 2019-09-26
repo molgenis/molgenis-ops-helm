@@ -13,8 +13,8 @@ data:
     # now based upon 512mi; see values.yaml --> postgresql --> resources --> limits
     # properties larger then the limit
     # WAL - writes to disk (somekind of swapping: https://www.postgresql.org/docs/11/wal-configuration.html)
-  {{- if ne .Values.postgresql.resources.limits.memory "512Mi" }}
-    {{- if eq .Values.postgresql.resources.limits.memory "1Gi" -}}
+  {{ if ne .Values.postgresql.resources.limits.memory "512Mi" }}
+    {{ if eq .Values.postgresql.resources.limits.memory "1Gi" }}
     max_connections = 200
     shared_buffers = 256MB
     effective_cache_size = 768MB
@@ -27,7 +27,7 @@ data:
     work_mem = 655kB
     min_wal_size = 1GB
     max_wal_size = 2GB
-    {{- else -}}
+    {{ else }}
     max_connections = 200
     shared_buffers = 512MB
     effective_cache_size = 1536MB
@@ -40,8 +40,8 @@ data:
     work_mem = 1310kB
     min_wal_size = 1GB
     max_wal_size = 2GB
-    {{- end -}}
-  {{- else -}}
+    {{ end }}
+  {{ else }}
     maxLocksPerTransaction = 1024
     max_connections = 200
     shared_buffers = 128MB
@@ -55,5 +55,5 @@ data:
     work_mem = 327kB
     min_wal_size = 1GB
     max_wal_size = 2GB
-  {{- end -}}}
+  {{ end }}}
 
