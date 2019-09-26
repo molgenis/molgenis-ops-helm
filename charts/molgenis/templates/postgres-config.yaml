@@ -42,7 +42,6 @@ data:
     max_wal_size = 2GB
     {{- end -}}
   {{- else -}}
-    {{- if eq .Values.postgresql.resources.limits.memory "512Mi" -}}
     maxLocksPerTransaction = 1024
     max_connections = 200
     shared_buffers = 128MB
@@ -56,6 +55,5 @@ data:
     work_mem = 327kB
     min_wal_size = 1GB
     max_wal_size = 2GB
-    {{- end -}}
   {{- end -}}}
 
