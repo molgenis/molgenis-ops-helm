@@ -13,7 +13,7 @@ data:
     # now based upon 512mi; see values.yaml --> postgresql --> resources --> limits
     # properties larger then the limit
     # WAL - writes to disk (somekind of swapping: https://www.postgresql.org/docs/11/wal-configuration.html)
-  {{- if not .Values.postgresql.resources.limits.memory "512Mi" }}
+  {{- if ne .Values.postgresql.resources.limits.memory "512Mi" }}
     {{- if eq .Values.postgresql.resources.limits.memory "1Gi" -}}
     max_connections = 200
     shared_buffers = 256MB
