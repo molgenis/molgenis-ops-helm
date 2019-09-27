@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry.molgenis.org/molgenis/unpkg
-  tag: latest
+  tag: unpkg-latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
