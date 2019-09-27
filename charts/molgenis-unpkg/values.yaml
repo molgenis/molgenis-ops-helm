@@ -24,7 +24,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: unpkg.dev.molgenis.org
-      paths: []
+      paths: ['/']
 
   tls: []
   #  - secretName: chart-example-tls
