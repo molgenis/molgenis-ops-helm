@@ -19,7 +19,7 @@ service:
 
 ingress:
   enabled: true
-  annotations: 
+  annotations:
     nginx.ingress.kubernetes.io/whitelist-source-range: 129.125.2.0/24
     # kubernetes.io/tls-acme: "true"
   hosts:
