@@ -7,7 +7,8 @@ metadata:
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
-data: |-
+data: 
+  extended.conf: |-
     # check: https://pgtune.leopard.in.ua/
     # now based upon 512mi; see values.yaml --> postgresql --> resources --> limits
     # properties larger then the limit
