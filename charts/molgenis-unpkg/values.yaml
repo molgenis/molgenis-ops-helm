@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: registry.molgenis.org/molgenis/unpkg
-  tag: unpkg-latest
+  repository: molgenis/unpkg
+  tag: unpkg-release-2019-09-27_13-50-48
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -23,7 +23,7 @@ ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: 129.125.2.0/24
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: unpkg.dev.molgenis.org
+    - host: unpkg.molgenis.org
       paths: ['/']
 
   tls: []
