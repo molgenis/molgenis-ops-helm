@@ -5,3 +5,5 @@ icon: https://github.com/molgenis/molgenis-ops-helm/raw/master/charts/molgenis-u
 name: molgenis-unpkg
 version: 0.1.5
 home: https://www.molgenis.org
+maintainers:
+- name: connorstroomberg
