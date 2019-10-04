@@ -1,0 +1,34 @@
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: false
+    general: true
+    k8s: false
+    kubeApiserver: false
+    kubePrometheusNodeAlerting: true
+    kubePrometheusNodeRecording: true
+    kubernetesAbsent: false
+    kubernetesApps: false
+    kubernetesResources: false
+    kubernetesStorage: true
+    kubernetesSystem: false
+    kubeScheduler: false
+    network: false
+    node: false
+    prometheus: true
+    prometheusOperator: true
+    time: true
+
+grafana:
+  adminPassword: DitIsEenTijdelijkWachtwoord!
+  ingress:
+    hosts:
+      - grafana.edge.molgenis.org
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: 'node'
+        static_configs:
+        - targets: ['molgenis119.gcc.rug.nl:9100','molgenis121.gcc.rug.nl:9100']
+      
