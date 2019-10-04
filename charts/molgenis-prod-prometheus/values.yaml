@@ -6,12 +6,12 @@ defaultRules:
     general: true
     k8s: false
     kubeApiserver: false
-    kubePrometheusNodeAlerting: true
-    kubePrometheusNodeRecording: true
+    kubePrometheusNodeAlerting: false
+    kubePrometheusNodeRecording: false
     kubernetesAbsent: false
     kubernetesApps: false
     kubernetesResources: false
-    kubernetesStorage: true
+    kubernetesStorage: false
     kubernetesSystem: false
     kubeScheduler: false
     network: false
