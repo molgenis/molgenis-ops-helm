@@ -1,9 +1,9 @@
 defaultRules:
   create: false
   rules:
-    alertmanager: true
+    alertmanager: false
     etcd: false
-    general: true
+    general: false
     k8s: false
     kubeApiserver: false
     kubePrometheusNodeAlerting: false
@@ -18,7 +18,7 @@ defaultRules:
     node: false
     prometheus: true
     prometheusOperator: true
-    time: true
+    time: false
 
 grafana:
   adminPassword: DitIsEenTijdelijkWachtwoord!
