@@ -1,5 +1,6 @@
 jenkins:
   Master:
+    ImageTag: "2.176.3"
     Environment: production
     HostName: jenkins.dev.molgenis.org
     ServiceType: ClusterIP
