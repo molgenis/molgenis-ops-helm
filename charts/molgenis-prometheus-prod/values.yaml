@@ -28,6 +28,7 @@ prometheus:
         repeat_interval: 3h
 
   kubeStateMetrics:
+    enabled: false
     nodeSelector:
       deployPod: "false"
     resources:
@@ -60,7 +61,7 @@ prometheus:
 
   server:
     nodeSelector:
-      deployPod: "false"
+      deployPod: "true"
     extraSecretMounts:
       - name: scrape-secrets
         secretName: scrape-secrets
@@ -139,8 +140,8 @@ prometheus:
         - job_name: 'node_exporter_nodes'
           static_configs:
             - targets:
-                - molgenis117.gcc.rug.nl:9100
-                - molgenis121.gcc.rug.nl:9100
-                - molgenis119.gcc.rug.nl:9100
+                - 'molgenis117.gcc.rug.nl:9100'
+                - 'molgenis121.gcc.rug.nl:9100'
+                - 'molgenis119.gcc.rug.nl:9100'
 secret:
   molgenisMetrics: "xxxx"
