@@ -9,6 +9,8 @@ prometheus:
       requests:
         cpu: 10m
         memory: 32Mi
+    persistentVolume:
+      enabled: false
   alertmanagerFiles:
     alertmanager.yml:
       global:
