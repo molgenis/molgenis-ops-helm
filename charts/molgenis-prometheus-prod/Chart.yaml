@@ -1,11 +1,12 @@
-name: molgenis-prometheus
+name: molgenis-prometheus-prod
 home: https://prometheus.io/
 version: 0.0.1
 appVersion: 2.7.0
-description: Molgenis installation for the Prometheus chart.
+description: Molgenis installation for the Prometheus chart for production.
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/catalogIcon-molgenis-prometheus.png
 maintainers:
 - name: fdlk
 - name: sidohaakma
+- name: christianhilbrands
