@@ -27,7 +27,7 @@ prometheus:
 
   kubeStateMetrics:
     nodeSelector:
-      deployPod: "true"
+      deployPod: "false"
     resources:
       limits:
         cpu: 10m
