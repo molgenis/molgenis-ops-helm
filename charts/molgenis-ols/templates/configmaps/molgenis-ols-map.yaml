@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-mapping
+  labels:
+    app: {{ template "molgenis-ols.name" . }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+data:
+  locations:
+    - https://owls.org/iets.owl
+    - https://owls.org/iets.owl
+    - https://owls.org/iets.owl
+    - https://owls.org/iets.owl
+    - https://owls.org/iets.owl
+    - https://owls.org/iets.owl
+
+
+    #bin/bash
+
+
+    OWLS=locations
+
+    for url in locations then
+      wget url
+    done
+
+    

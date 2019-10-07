@@ -1,0 +1,142 @@
+prometheus:
+  alertmanager:
+    nodeSelector:
+      deployPod: "true"
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+  alertmanagerFiles:
+    alertmanager.yml:
+      global:
+        slack_api_url: ''
+      receivers:
+        - name: default-receiver
+          slack_configs:
+            - channel: '#alerts'
+              send_resolved: true
+              text: "{{ range .Alerts }}{{ .Annotations.message }}\n{{ end }}"
+      route:
+        group_wait: 10s
+        group_interval: 5m
+        receiver: default-receiver
+        repeat_interval: 3h
+
+  kubeStateMetrics:
+    nodeSelector:
+      deployPod: "true"
+    resources:
+      limits:
+        cpu: 10m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+
+  nodeExporter:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 50Mi
+      requests:
+        cpu: 100m
+        memory: 30Mi
+
+  pushgateway:
+    nodeSelector:
+      deployPod: "true"
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
+  server:
+    nodeSelector:
+      deployPod: "true"
+    extraSecretMounts:
+      - name: scrape-secrets
+        secretName: scrape-secrets
+        mountPath: /etc/secrets
+        readOnly: true
+    resources:
+      limits:
+        cpu: 1
+        memory: 6Gi
+      requests:
+        cpu: 1
+        memory: 6Gi
+  configmapReload:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+  serverFiles:
+    alerts:
+      #groups:
+      #  - name: nodes
+      #    rules:
+      #      - alert: "Node Down"
+      #        expr: up{job="kubernetes-nodes"} == 0
+      #        annotations:
+      #          miqTarget: "ContainerNode"
+      #          severity: "ERROR"
+      #          message: "Node {{$labels.instance}} is down"
+      #  - name: pods
+      #    rules:
+      #      - alert: "Pod OOMKilled"
+      #        expr: kube_pod_container_status_terminated_reason{reason='OOMKilled'} == 1
+      #        annotations:
+      #          severity: "WARN"
+      #          message: "Pod {{$labels.container}} in namespace {{$labels.namespace}} got OOMKilled."
+      #  - name: services
+      #    rules:
+      #      - alert: "Many Previews Up"
+      #        expr: sum(kube_service_info{namespace=~"preview.*", service=~".*molgenis"}) > 5
+      #        annotations:
+      #          severity: "DEBUG"
+      #          message: "{{$value}} PR previews are currently deployed"
+      #  - name: molgenis
+      #    rules:
+      #      - alert: "Molgenis Down"
+      #        expr: up{job="node_exporter_nodes"} == 0
+      #        annotations:
+      #          severity: "ERROR"
+      #          message: "{{$labels.instance}} is down"
+    rules: {}
+    prometheus.yml:
+      rule_files:
+        - /etc/config/rules
+        - /etc/config/alerts
+      scrape_configs:
+        #- job_name: jenkins
+        #  metrics_path: '/prometheus/'
+        #  scheme: https
+        #  static_configs:
+        #    - targets: ['jenkins.dev.molgenis.org:443']
+        #- job_name: 'molgenis-metrics'
+        #  metrics_path: /api/metrics/prometheus
+        #  scheme: https
+        #  static_configs:
+        #    - targets:
+        #        - master.dev.molgenis.org:443
+        #        - latest.test.molgenis.org:443
+        #  basic_auth:
+        #    username: prometheus
+        #    password_file: '/etc/secrets/molgenis-metrics'
+        - job_name: node_exporter_nodes
+          static_configs:
+            - targets:
+                - molgenis117.gcc.rug.nl:9100
+                - molgenis121.gcc.rug.nl:9100
+                - molgenis119.gcc.rug.nl:9100
+secret:
+  molgenisMetrics: "xxxx"
