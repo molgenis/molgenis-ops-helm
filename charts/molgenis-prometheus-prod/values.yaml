@@ -66,6 +66,8 @@ prometheus:
         secretName: scrape-secrets
         mountPath: /etc/secrets
         readOnly: true
+    persistentVolume:
+      enabled: false
     resources:
       limits:
         cpu: 1
@@ -134,7 +136,7 @@ prometheus:
         #  basic_auth:
         #    username: prometheus
         #    password_file: '/etc/secrets/molgenis-metrics'
-        - job_name: node_exporter_nodes
+        - job_name: 'node_exporter_nodes'
           static_configs:
             - targets:
                 - molgenis117.gcc.rug.nl:9100
