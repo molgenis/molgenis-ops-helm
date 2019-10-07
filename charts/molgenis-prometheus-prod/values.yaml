@@ -58,7 +58,7 @@ prometheus:
 
   server:
     nodeSelector:
-      deployPod: "true"
+      deployPod: "false"
     extraSecretMounts:
       - name: scrape-secrets
         secretName: scrape-secrets
