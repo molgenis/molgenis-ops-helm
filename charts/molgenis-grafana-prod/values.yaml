@@ -1,0 +1,116 @@
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.dev.molgenis.org
+  persistence:
+    enabled: false
+  adminUser: admin
+
+  ## Configure grafana datasources
+  ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+  ##
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: k8-prometheus
+        type: prometheus
+        url: http://molgenis-prometheus-prod-server.molgenis-prometheus-prod.svc
+        access: proxy
+        isDefault: true
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      jenkins:
+        gnetId: 306
+        revision: 1
+        datasource: k8-prometheus
+      prometheus-stats:
+        gnetId: 2
+        revision: 2
+        datasource: k8-prometheus
+      kubernetes-cluster-monitoring:
+        gnetId: 1621
+        revision: 1
+        datasource: k8-prometheus
+      kubernetes-resource-requests:
+        gnetId: 7187
+        revision: 1
+        datasource: k8-prometheus
+      kubernetes-capacity:
+        gnetId: 5309
+        revision: 1
+        datasource: k8-prometheus
+      kubernetes-pods:
+        gnetId: 6336
+        revision: 1
+        datasource: k8-prometheus
+      kubernetes-cluster:
+        gnetId: 6417
+        revision: 1
+        datasource: k8-prometheus
+      jvm-micrometer:
+        gnetId: 4701
+        revision: 1
+        datasource: k8-prometheus
+      node-exporter:
+        gnetId: 1860
+        revision: 12
+        datasource: k8-prometheus
+      grafana:
+        gnetId: 3590
+        revision: 3
+        datasource: k8-prometheus
+      postgres:
+        gnedId: 9628
+        revision: 4
+        datasource: k8-prometheus
+
+  grafana.ini:
+    auth.github:
+      enabled: true
+      allow_sign_up: true
+      client_id: xxxx
+      client_secret: xxxx
+      scopes: user:email,read:org
+      auth_url: https://github.com/login/oauth/authorize
+      token_url: https://github.com/login/oauth/access_token
+      api_url: https://api.github.com/user
+      team_ids: 2879410,2957876
+#     allowed_organizations: molgenis
+
+    server:
+      root_url: "https://grafana.dev.molgenis.org"
+
+    users:
+      auto_assign_org_role: Editor
+
+    smtp:
+      enabled: true
+      host: smtp.rug.nl:25
+      from_address: grafana@molgenis.org
+
+  nodeSelector:
+    deployPod: "true"
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
