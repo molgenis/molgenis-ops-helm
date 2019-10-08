@@ -2,7 +2,7 @@ name: molgenis-grafana-prod
 home: https://grafana.net
 version: 0.0.1
 appVersion: 5.4.3
-description: Molgenis installation for the Grafana chart.
+description: Molgenis installation for the Grafana chart for production.
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/catalogIcon-molgenis-grafana.png
