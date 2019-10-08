@@ -9,8 +9,6 @@ prometheus:
       requests:
         cpu: 10m
         memory: 32Mi
-    persistentVolume:
-      enabled: false
   alertmanagerFiles:
     alertmanager.yml:
       global:
@@ -67,8 +65,6 @@ prometheus:
         secretName: scrape-secrets
         mountPath: /etc/secrets
         readOnly: true
-    persistentVolume:
-      enabled: false
     resources:
       limits:
         cpu: 1
@@ -139,6 +135,9 @@ prometheus:
         #    password_file: '/etc/secrets/molgenis-metrics'
         - job_name: 'node'
           static_configs:
-          - targets: ['http://molgenis117.gcc.rug.nl:9100','http://molgenis121.gcc.rug.nl:9100','http://molgenis119.gcc.rug.nl:9100']
+          - targets: 
+            - 'http://molgenis117.gcc.rug.nl:9100'
+            - 'http://molgenis121.gcc.rug.nl:9100'
+            - 'http://molgenis119.gcc.rug.nl:9100'
 secret:
   molgenisMetrics: "xxxx"
