@@ -83,15 +83,15 @@ prometheus:
         memory: 64Mi
   serverFiles:
     alerts:
-      #groups:
-      #  - name: nodes
-      #    rules:
-      #      - alert: "Node Down"
-      #        expr: up{job="kubernetes-nodes"} == 0
-      #        annotations:
-      #          miqTarget: "ContainerNode"
-      #          severity: "ERROR"
-      #          message: "Node {{$labels.instance}} is down"
+      groups:
+        - name: nodes
+          rules:
+            - alert: "Node Down"
+              expr: up{job="nodes"} == 0
+              annotations:
+                miqTarget: "Instance"
+                severity: "ERROR"
+                message: "Node {{$labels.instance}} is down"
       #  - name: pods
       #    rules:
       #      - alert: "Pod OOMKilled"
@@ -134,7 +134,7 @@ prometheus:
         #  basic_auth:
         #    username: prometheus
         #    password_file: '/etc/secrets/molgenis-metrics'
-        - job_name: 'node'
+        - job_name: 'nodes'
           static_configs:
           - targets: 
             - molgenis117.gcc.rug.nl:9100
