@@ -133,12 +133,11 @@ prometheus:
         #  basic_auth:
         #    username: prometheus
         #    password_file: '/etc/secrets/molgenis-metrics'
-extraScrapeConfigs: |
-  - job_name: 'node'
-    static_configs:
-    - targets: 
-      - molgenis117.gcc.rug.nl:9100
-      - molgenis121.gcc.rug.nl:9100
-      - molgenis119.gcc.rug.nl:9100
+        - job_name: 'node'
+          static_configs:
+          - targets: 
+            - molgenis117.gcc.rug.nl:9100
+            - molgenis121.gcc.rug.nl:9100
+            - molgenis119.gcc.rug.nl:9100
 secret:
   molgenisMetrics: "xxxx"
