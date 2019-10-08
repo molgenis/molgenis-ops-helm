@@ -38,6 +38,7 @@ prometheus:
         memory: 64Mi
 
   nodeExporter:
+    enabled: false
     resources:
       limits:
         cpu: 200m

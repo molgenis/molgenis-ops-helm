@@ -23,6 +23,6 @@ questions:
         type: string
         required: true
   - variable: "grafana.ingress.hosts[0]"
-    default: "grafana.dev.molgenis.org"
+    default: "grafana.molgenis.org"
     type: string
     label: "Hostname"

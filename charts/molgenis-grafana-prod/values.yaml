@@ -2,7 +2,7 @@ grafana:
   ingress:
     enabled: true
     hosts:
-      - grafana.dev.molgenis.org
+      - grafana.molgenis.org
   persistence:
     enabled: false
   adminUser: admin
@@ -35,37 +35,9 @@ grafana:
 
   dashboards:
     default:
-      jenkins:
-        gnetId: 306
-        revision: 1
-        datasource: k8-prometheus
       prometheus-stats:
         gnetId: 2
         revision: 2
-        datasource: k8-prometheus
-      kubernetes-cluster-monitoring:
-        gnetId: 1621
-        revision: 1
-        datasource: k8-prometheus
-      kubernetes-resource-requests:
-        gnetId: 7187
-        revision: 1
-        datasource: k8-prometheus
-      kubernetes-capacity:
-        gnetId: 5309
-        revision: 1
-        datasource: k8-prometheus
-      kubernetes-pods:
-        gnetId: 6336
-        revision: 1
-        datasource: k8-prometheus
-      kubernetes-cluster:
-        gnetId: 6417
-        revision: 1
-        datasource: k8-prometheus
-      jvm-micrometer:
-        gnetId: 4701
-        revision: 1
         datasource: k8-prometheus
       node-exporter:
         gnetId: 1860
@@ -94,7 +66,7 @@ grafana:
 #     allowed_organizations: molgenis
 
     server:
-      root_url: "https://grafana.dev.molgenis.org"
+      root_url: "https://grafana.molgenis.org"
 
     users:
       auto_assign_org_role: Editor
