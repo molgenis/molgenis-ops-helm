@@ -87,7 +87,7 @@ prometheus:
         - name: nodes
           rules:
             - alert: "Instance Down"
-              expr: up{job="nodes"} == 0
+              expr: up == 0
               annotations:
                 miqTarget: "Instance"
                 severity: "ERROR"
