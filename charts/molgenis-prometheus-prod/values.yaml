@@ -18,7 +18,7 @@ prometheus:
           slack_configs:
             - channel: '#alerts'
               send_resolved: true
-              text: "{{ range .Alerts }}{{ .Annotation.summary }}\n{{ .Annotations.message }}\n{{ end }}"
+              text: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ .Annotations.message }}\n{{ end }}"
               #text: "<!channel> \n{{ .Annotations.summary }}\n{{ .Annotations.desciption }}"
       route:
         group_wait: 10s
