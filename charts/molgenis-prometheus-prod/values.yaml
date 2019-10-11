@@ -93,7 +93,7 @@ prometheus:
                 severity: "ERROR"
                 message: "Instance {{$labels.instance}} is down"
             - alert: OutOfMemory
-              expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
+              expr: node_memory_MemFree / node_memory_MemTotal * 100 < 70
               for: 5m
               labels:
                 severity: warning
@@ -101,7 +101,7 @@ prometheus:
                 summary: "Out of memory (instance {{ $labels.instance }})"
                 description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: UnusualNetworkThroughputIn
-              expr: sum by (instance) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 100
+              expr: sum by (instance) (irate(node_network_receive_bytes[2m])) / 1024 / 1024 > 100
               for: 5m
               labels:
                 severity: warning
@@ -109,7 +109,7 @@ prometheus:
                 summary: "Unusual network throughput in (instance {{ $labels.instance }})"
                 description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: UnusualNetworkThroughputOut
-              expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 100
+              expr: sum by (instance) (irate(node_network_transmit_bytes[2m])) / 1024 / 1024 > 100
               for: 5m
               labels:
                 severity: warning
@@ -117,7 +117,7 @@ prometheus:
                 summary: "Unusual network throughput out (instance {{ $labels.instance }})"
                 description: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: UnusualDiskReadRate
-              expr: sum by (instance) (irate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50
+              expr: sum by (instance) (irate(node_disk_read_bytes[2m])) / 1024 / 1024 > 50
               for: 5m
               labels:
                 severity: warning
@@ -125,7 +125,7 @@ prometheus:
                 summary: "Unusual disk read rate (instance {{ $labels.instance }})"
                 description: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: UnusualDiskWriteRate
-              expr: sum by (instance) (irate(node_disk_written_bytes_total[2m])) / 1024 / 1024 > 50
+              expr: sum by (instance) (irate(node_disk_written_bytes[2m])) / 1024 / 1024 > 50
               for: 5m
               labels:
                 severity: warning
@@ -149,7 +149,7 @@ prometheus:
                 summary: "Out of inodes (instance {{ $labels.instance }})"
                 description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: UnusualDiskReadLatency
-              expr: rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > 100
+              expr: rate(node_disk_read_time_ms[1m]) / rate(node_disk_reads_completed[1m]) > 100
               for: 5m
               labels:
                 severity: warning
@@ -157,7 +157,7 @@ prometheus:
                 summary: "Unusual disk read latency (instance {{ $labels.instance }})"
                 description: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: UnusualDiskWriteLatency
-              expr: rate(node_disk_write_time_seconds_total[1m]) / rate(node_disk_writes_completed_total[1m]) > 100
+              expr: rate(node_disk_write_time_ms[1m]) / rate(node_disk_writes_completed[1m]) > 100
               for: 5m
               labels:
                 severity: warning
@@ -165,7 +165,7 @@ prometheus:
                 summary: "Unusual disk write latency (instance {{ $labels.instance }})"
                 description: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: HighCpuLoad
-              expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+              expr: 100 - (avg by(instance) (irate(node_cpu{mode="idle"}[5m])) * 100) > 80
               for: 5m
               labels:
                 severity: warning
@@ -173,7 +173,7 @@ prometheus:
                 summary: "High CPU load (instance {{ $labels.instance }})"
                 description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: ContextSwitching
-              expr: rate(node_context_switches_total[5m]) > 1000
+              expr: rate(node_context_switches[5m]) > 1000
               for: 5m
               labels:
                 severity: warning
@@ -181,7 +181,7 @@ prometheus:
                 summary: "Context switching (instance {{ $labels.instance }})"
                 description: "Context switching is growing on node (> 1000 / s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
             - alert: SwapIsFillingUp
-              expr: (1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) * 100 > 80
+              expr: (1 - (node_memory_SwapFree / node_memory_SwapTotal)) * 100 > 80
               for: 5m
               labels:
                 severity: warning
