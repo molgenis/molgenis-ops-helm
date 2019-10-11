@@ -19,7 +19,7 @@ prometheus:
             - channel: '#alerts'
               send_resolved: true
               #text: "{{ range .Alerts }}{{ .Annotations.message }}\n{{ end }}"
-              text: "{{ range .Alerts }}\n{{ .Annotations.summary }}\n{{ .Annotations.desciption }}\n{{ end }}"
+              text: "<!channel> \n{{ .Annotations.summary }}\n{{ .Annotations.desciption }}\n{{ end }}"
       route:
         group_wait: 10s
         group_interval: 5m
