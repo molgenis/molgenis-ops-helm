@@ -18,7 +18,8 @@ prometheus:
           slack_configs:
             - channel: '#alerts'
               send_resolved: true
-              text: "<!channel> summary: {{ .Annotations.summary }} description: {{ .Annotations.description }}"
+              #text: "{{ range .Alerts }}{{ .Annotations.message }}\n{{ end }}"
+              text: "{{ range .Alerts }}\n{{ .Annotations.summary }}\n{{ .Annotation.desciption }}\n{{ end }}"
       route:
         group_wait: 10s
         group_interval: 5m
@@ -88,7 +89,6 @@ prometheus:
           rules:
             - alert: "Instance Down"
               expr: up == 0
-              label:
               annotations:
                 severity: "ERROR"
                 summary: "Instance Down"
