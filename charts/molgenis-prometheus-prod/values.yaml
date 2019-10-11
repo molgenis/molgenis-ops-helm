@@ -92,7 +92,7 @@ prometheus:
               annotations:
                 severity: "ERROR"
                 summary: "Instance Down"
-                message: "Instance {{$labels.instance}} is down"
+                description: "Instance {{$labels.instance}} is down"
             - alert: OutOfMemory
               expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
               for: 5m
