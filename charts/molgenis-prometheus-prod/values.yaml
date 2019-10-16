@@ -85,98 +85,98 @@ prometheus:
   serverFiles:
     alerts:
       groups:
-        #- name: nodes
-        rules:
-          - alert: "Instance Down"
-            expr: up == 0
-            annotations:
-              severity: "ERROR"
-              summary: "Instance Down"
-              message: "Instance {{$labels.instance}} is down"
-          - alert: OutOfMemory
-            expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Out of memory (instance {{ $labels.instance }})"
-              message: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}"
-          - alert: UnusualNetworkThroughputIn
-            expr: sum by (instance) (irate(node_network_receive_bytes[2m])) / 1024 / 1024 > 100
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Unusual network throughput in (instance {{ $labels.instance }})"
-              message: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}"
-          - alert: UnusualNetworkThroughputOut
-            expr: sum by (instance) (irate(node_network_transmit_bytes[2m])) / 1024 / 1024 > 100
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Unusual network throughput out (instance {{ $labels.instance }})"
-              message: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}"
-          - alert: UnusualDiskReadRate
-            expr: sum by (instance) (irate(node_disk_read_bytes[2m])) / 1024 / 1024 > 50
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Unusual disk read rate (instance {{ $labels.instance }})"
-              message: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
-          - alert: UnusualDiskWriteRate
-            expr: sum by (instance) (irate(node_disk_written_bytes[2m])) / 1024 / 1024 > 50
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Unusual disk write rate (instance {{ $labels.instance }})"
-              message: "Disk is probably writing too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
-          - alert: OutOfDiskSpace
-            expr: node_filesystem_free_bytes{mountpoint ="/rootfs"} / node_filesystem_size_bytes{mountpoint ="/rootfs"} * 100 < 10
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Out of disk space (instance {{ $labels.instance }})"
-              message: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}"
-          - alert: OutOfInodes
-            expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint ="/rootfs"} * 100 < 10
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Out of inodes (instance {{ $labels.instance }})"
-              message: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}"
-          - alert: UnusualDiskReadLatency
-            expr: rate(node_disk_read_time_ms[1m]) / rate(node_disk_reads_completed[1m]) > 100
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Unusual disk read latency (instance {{ $labels.instance }})"
-              message: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ $value }}"
-          - alert: UnusualDiskWriteLatency
-            expr: rate(node_disk_write_time_ms[1m]) / rate(node_disk_writes_completed[1m]) > 100
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Unusual disk write latency (instance {{ $labels.instance }})"
-              message: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ $value }}"
-          - alert: HighCpuLoad
-            expr: 100 - (avg by(instance) (irate(node_cpu{mode="idle"}[5m])) * 100) > 80
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "High CPU load (instance {{ $labels.instance }})"
-              message: "CPU load is > 80%\n  VALUE = {{ $value }}"
-          - alert: ContextSwitching
-            expr: rate(node_context_switches[5m]) > 1000
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Context switching (instance {{ $labels.instance }})"
-              message: "Context switching is growing on node (> 1000 / s)\n  VALUE = {{ $value }}"
-          - alert: SwapIsFillingUp
-            expr: (1 - (node_memory_SwapFree / node_memory_SwapTotal)) * 100 > 80
-            for: 5m
-            annotations:
-              severity: warning
-              summary: "Swap is filling up (instance {{ $labels.instance }})"
-              message: "Swap is filling up (>80%)\n  VALUE = {{ $value }}"
+        - name: nodes
+          rules:
+            - alert: "Instance Down"
+              expr: up == 0
+              annotations:
+                severity: "ERROR"
+                summary: "Instance Down"
+                message: "Instance {{$labels.instance}} for {{ $labels.job }} is down"
+            - alert: OutOfMemory
+              expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Out of memory (instance {{ $labels.instance }})"
+                message: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}"
+            - alert: UnusualNetworkThroughputIn
+              expr: sum by (instance) (irate(node_network_receive_bytes[2m])) / 1024 / 1024 > 100
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Unusual network throughput in (instance {{ $labels.instance }})"
+                message: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}"
+            - alert: UnusualNetworkThroughputOut
+              expr: sum by (instance) (irate(node_network_transmit_bytes[2m])) / 1024 / 1024 > 100
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Unusual network throughput out (instance {{ $labels.instance }})"
+                message: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}"
+            - alert: UnusualDiskReadRate
+              expr: sum by (instance) (irate(node_disk_read_bytes[2m])) / 1024 / 1024 > 50
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Unusual disk read rate (instance {{ $labels.instance }})"
+                message: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
+            - alert: UnusualDiskWriteRate
+              expr: sum by (instance) (irate(node_disk_written_bytes[2m])) / 1024 / 1024 > 50
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Unusual disk write rate (instance {{ $labels.instance }})"
+                message: "Disk is probably writing too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
+            - alert: OutOfDiskSpace
+              expr: node_filesystem_free_bytes{mountpoint ="/rootfs"} / node_filesystem_size_bytes{mountpoint ="/rootfs"} * 100 < 10
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Out of disk space (instance {{ $labels.instance }})"
+                message: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}"
+            - alert: OutOfInodes
+              expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint ="/rootfs"} * 100 < 10
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Out of inodes (instance {{ $labels.instance }})"
+                message: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}"
+            - alert: UnusualDiskReadLatency
+              expr: rate(node_disk_read_time_ms[1m]) / rate(node_disk_reads_completed[1m]) > 100
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Unusual disk read latency (instance {{ $labels.instance }})"
+                message: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ $value }}"
+            - alert: UnusualDiskWriteLatency
+              expr: rate(node_disk_write_time_ms[1m]) / rate(node_disk_writes_completed[1m]) > 100
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Unusual disk write latency (instance {{ $labels.instance }})"
+                message: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ $value }}"
+            - alert: HighCpuLoad
+              expr: 100 - (avg by(instance) (irate(node_cpu{mode="idle"}[5m])) * 100) > 80
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "High CPU load (instance {{ $labels.instance }})"
+                message: "CPU load is > 80%\n  VALUE = {{ $value }}"
+            - alert: ContextSwitching
+              expr: rate(node_context_switches[5m]) > 1000
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Context switching (instance {{ $labels.instance }})"
+                message: "Context switching is growing on node (> 1000 / s)\n  VALUE = {{ $value }}"
+            - alert: SwapIsFillingUp
+              expr: (1 - (node_memory_SwapFree / node_memory_SwapTotal)) * 100 > 80
+              for: 5m
+              annotations:
+                severity: warning
+                summary: "Swap is filling up (instance {{ $labels.instance }})"
+                message: "Swap is filling up (>80%)\n  VALUE = {{ $value }}"
       #  - name: pods
       #    rules:
       #      - alert: "Pod OOMKilled"
