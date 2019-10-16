@@ -92,7 +92,7 @@ prometheus:
               annotations:
                 severity: "ERROR"
                 summary: "Instance Down"
-                message: "Instance {{$labels.instance}} for {{ $labels.job }} is down"
+                message: "Instance {{$labels.instance}} is down\nVersion molgenis: {{ $labels.branch }}\nProject: {{ $labels.project }}\nDTAP: {{ $labels.dtap }}"
             - alert: OutOfMemory
               expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
               for: 5m
@@ -223,15 +223,18 @@ prometheus:
           static_configs:
           - targets: ['molgenis117.gcc.rug.nl:9100'] 
             labels: 
-              customer: "GCC test server" 
+              project: "GCC test server" 
               branch: "master" 
+              dtap: "test"
           - targets: ['molgenis121.gcc.rug.nl:9100']
             labels: 
-              customer: "GCC test server" 
-              branch: "8.x" 
+              project: "GCC test server" 
+              branch: "8.x"
+              dtap: "test" 
           - targets: ['molgenis119.gcc.rug.nl:9100']
             labels: 
-              customer: "GCC test server" 
-              branch: "7.x" 
+              project: "GCC test server" 
+              branch: "7.x"
+              dtap: "test" 
 secret:
   molgenisMetrics: "xxxx"
