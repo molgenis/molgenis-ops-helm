@@ -40,8 +40,10 @@ grafana:
         revision: 2
         datasource: k8-prometheus
       node-exporter:
-        gnetId: 1860
-        revision: 12
+        #gnetId: 1860
+        ngetId: 8732
+        #revision: 12
+        revision: 1
         datasource: k8-prometheus
       grafana:
         gnetId: 3590
