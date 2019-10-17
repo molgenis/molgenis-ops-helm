@@ -199,9 +199,14 @@ prometheus:
       #          severity: "ERROR"
       #          message: "{{$labels.instance}} is down"
     rules: {}
-    volumeMounts:
-      - name: config-prometheus
-        mountPath: /etc/config/prometheus.yml
+    prometheus.yml: 
+      rule_files:
+        - /etc/config/rules
+        - /etc/config/alerts
+extraScrapeConfigs:
+  volumeMounts:
+    - name: config-prometheus
+      mountPath: /etc/config/prometheus.yml
 volumes:
   - name: config-prometheus
     configMap:
