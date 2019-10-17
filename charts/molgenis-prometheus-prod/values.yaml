@@ -74,6 +74,10 @@ prometheus:
       requests:
         cpu: 1
         memory: 6Gi
+    volumes:
+      - name: config-prometheus
+        configMap:
+          name: prometheus-yaml-config
   configmapReload:
     resources:
       limits:
@@ -199,13 +203,8 @@ prometheus:
       #          severity: "ERROR"
       #          message: "{{$labels.instance}} is down"
     rules: {}
-    prometheus.yml:
-      volumeMounts:
-        - name: config-prometheus
-          mountPath: /etc/config/prometheus.yml
-  volumes:
-    - name: config-prometheus
-      configMap:
-        name: prometheus-yaml-config
+    volumeMounts:
+      - name: config-prometheus
+        mountPath: /etc/config/prometheus.yml
 secret:
   molgenisMetrics: "xxxx"
