@@ -75,12 +75,11 @@ prometheus:
         cpu: 1
         memory: 6Gi
     volumeMounts:
-      - name: prometheus-yaml-config
-        mountPath: /etc/config/
+      - name: config-prometheus
+        mountPath: /etc/config/prometheus.yml
   volumes:
-    - name: prometheus-yaml-config
+    - name: config-prometheus
       configMap:
-        defaultMode: 420
         name: prometheus-yaml-config
   configmapReload:
     resources:
