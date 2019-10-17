@@ -206,7 +206,7 @@ prometheus:
     - name: prometheus-yaml-config
       configMap:
         defaultMode: 420
-        name: prometheus-yaml-conf
+        name: prometheus-yaml-config
           
 secret:
   molgenisMetrics: "xxxx"
