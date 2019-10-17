@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-server-conf
+  labels:
+    name: prometheus-server-conf
+  namespace: molgenis-prometheus-prod
+data:
+  prometheus.yml:
+    rule_files:
+      - /etc/config/rules
+      - /etc/config/alerts
+    scrape_configs:
+      #- job_name: jenkins
+      #  metrics_path: '/prometheus/'
+      #  scheme: https
+      #  static_configs:
+      #    - targets: ['jenkins.dev.molgenis.org:443']
+      #- job_name: 'molgenis-metrics'
+      #  metrics_path: /api/metrics/prometheus
+      #  scheme: https
+      #  static_configs:
+      #    - targets:
+      #        - master.dev.molgenis.org:443
+      #        - latest.test.molgenis.org:443
+      #  basic_auth:
+      #    username: prometheus
+      #    password_file: '/etc/secrets/molgenis-metrics'
+      - job_name: 'masterBranchNodes'
+        static_configs:
+        - targets: ['molgenis117.gcc.rug.nl:9100'] 
+          labels: 
+            project: "GCC test server" 
+            branch: "master" 
+            dtap: "test"
+      - job_name: 10BranchNodes
+        static_configs:
+        - targets: ['molgenis119.gcc.rug.nl:9100']
+          labels: 
+            project: "GCC test server" 
+            branch: "7.x"
+            dtap: "test" 
+        - targets: ['molgenis07.gcc.rug.nl:9100']
+          labels: 
+            project: "Central biobank" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis24.gcc.rug.nl:9100']
+          labels: 
+            project: "Chromosome6 acceptance server" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis30.gcc.rug.nl:9100']
+          labels: 
+            project: "UGLI Sample Tracking" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis32.gcc.rug.nl:9100']
+          labels: 
+            project: "Lung and eQTL pathology UMCG (new)" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis36.gcc.rug.nl:9100']
+          labels: 
+            project: "Lifecycle acceptance" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis39.gcc.rug.nl:9100']
+          labels: 
+            project: "BBMRI-DE acceptance German Biobank Directory" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis96.gcc.rug.nl:9100']
+          labels: 
+            project: "Samplesheets NGS_DNA/RNA" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis101.gcc.rug.nl:9100']
+          labels: 
+            project: "BBMRI-ERIC" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis112.gcc.rug.nl:9100']
+          labels: 
+            project: "Prenetal WES Acceptance v7.4.8" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis125.gcc.rug.nl:9100']
+          labels: 
+            project: "Pointing" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis127.gcc.rug.nl:9100']
+          labels: 
+            project: "RD-Connect acceptance" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis132.gcc.rug.nl:9100']
+          labels: 
+            project: "The Dutch Microbiome Project" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis133.gcc.rug.nl:9100']
+          labels: 
+            project: "CHD7" 
+            branch: "7.x"
+            dtap: "acceptance"
+        - targets: ['molgenis137.gcc.rug.nl:9100']
+          labels: 
+            project: "COL7A1" 
+            branch: "7.x"
+            dtap: "acceptance"
+      - job_name: 20BranchNodes
+        static_configs:
+        - targets: ['molgenis121.gcc.rug.nl:9100']
+          labels: 
+            project: "GCC test server" 
+            branch: "8.x"
+            dtap: "test" 
