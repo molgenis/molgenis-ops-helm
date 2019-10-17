@@ -8,7 +8,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   namespace: molgenis-prometheus-prod
-data:
+data: /
   - job_name: 'masterBranchNodes'
     static_configs:
     - targets: ['molgenis117.gcc.rug.nl:9100'] 
