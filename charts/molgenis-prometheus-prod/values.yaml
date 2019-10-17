@@ -204,9 +204,9 @@ prometheus:
         - /etc/config/rules
         - /etc/config/alerts
       scrape_configs:
-        volumeMounts:
-        - name: prometheus-scrape-configs
-          mountPath: /etc/config/
+        #volumeMounts:
+        #- name: prometheus-scrape-configs
+        #  mountPath: /etc/config/
     volumes:
       - name: prometheus-scrape-configs
         configMap:
