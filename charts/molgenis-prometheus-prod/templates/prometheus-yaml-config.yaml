@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
   namespace: molgenis-prometheus-prod
 data:
-  #scrape_configs:
+  scrape_configs: |
     #- job_name: jenkins
     #  metrics_path: '/prometheus/'
     #  scheme: https
