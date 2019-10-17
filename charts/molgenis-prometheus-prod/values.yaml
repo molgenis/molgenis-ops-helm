@@ -202,9 +202,9 @@ prometheus:
     volumeMounts:
       - name: config-prometheus
         mountPath: /etc/config/prometheus.yml
-volumes:
-  - name: config-prometheus
-    configMap:
-      name: prometheus-yaml-config
+  volumes:
+    - name: config-prometheus
+      configMap:
+        name: prometheus-yaml-config
 secret:
   molgenisMetrics: "xxxx"

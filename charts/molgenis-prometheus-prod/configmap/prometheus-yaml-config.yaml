@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
   namespace: molgenis-prometheus-prod
 data:
-  prometheus.yml: |-
+  prometheus.yml: |
     rule_files:
       - /etc/config/rules
       - /etc/config/alerts
