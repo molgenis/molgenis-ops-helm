@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
   namespace: molgenis-prometheus-prod
 data: 
-  masterBranchNodesConfig.json: |
+  masterBranchNodesConfig.json: /
     [
       {
         labels: {
