@@ -8,25 +8,40 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   namespace: molgenis-prometheus-prod
-data: |
-  - job_name: 'masterBranchNodes' 
-    static_configs: 
-      - targets: ['molgenis117.gcc.rug.nl:9100'] 
-        labels: 
-          project: "GCC test server" 
-          branch: "master" 
-          dtap: "test"
-  - job_name: '10BranchNodes'
-    static_configs:
-      - targets: ['molgenis119.gcc.rug.nl:9100']
-        labels: 
-          project: "GCC test server" 
-          branch: "7.x"
-          dtap: "test" 
-  - job_name: '20BranchNodes'
-    static_configs:
-      - targets: ['molgenis121.gcc.rug.nl:9100']
-        labels: 
-          project: "GCC test server" 
-          branch: "8.x"
-        dtap: "test" 
+data: 
+  masterBranchNodesConfig.json: |
+    [
+      {
+        "labels": {
+          "job": "masterBranchNodes"
+        },
+        "targets": ["molgenis117.gcc.rug.nl:9100"]{
+          "labels": {
+            "project": "GCC test server",
+            "branch": "master",
+            "dtap": "test"
+          }
+        }
+      }
+    ]
+    # - job_name: 'masterBranchNodes' 
+    #   static_configs: 
+    #     - targets: ['molgenis117.gcc.rug.nl:9100'] 
+    #       labels: 
+    #         project: "GCC test server" 
+    #         branch: "master" 
+    #         dtap: "test"
+    # - job_name: '10BranchNodes'
+    #   static_configs:
+    #     - targets: ['molgenis119.gcc.rug.nl:9100']
+    #       labels: 
+    #         project: "GCC test server" 
+    #         branch: "7.x"
+    #         dtap: "test" 
+    # - job_name: '20BranchNodes'
+    #   static_configs:
+    #     - targets: ['molgenis121.gcc.rug.nl:9100']
+    #       labels: 
+    #         project: "GCC test server" 
+    #         branch: "8.x"
+    #       dtap: "test" 
