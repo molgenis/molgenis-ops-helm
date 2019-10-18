@@ -77,6 +77,10 @@ prometheus:
     volumeMounts:
       - name: prometheus-scrape-configs
         mountPath: /etc/config/masterBranchNodesConfig.json
+    volumes:
+      - name: prometheus-scrape-configs
+        configMap:
+          name: prometheus-yaml-config 
   configmapReload:
     resources:
       limits:
@@ -300,10 +304,6 @@ prometheus:
         #     labels: 
         #       project: "GCC test server" 
         #       branch: "8.x"
-        #       dtap: "test" 
-volumes:
-  - name: prometheus-scrape-configs
-    configMap:
-      name: prometheus-yaml-config  
+        #       dtap: "test"  
 secret:
   molgenisMetrics: "xxxx"
