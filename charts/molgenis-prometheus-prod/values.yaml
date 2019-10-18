@@ -177,27 +177,27 @@ prometheus:
                 severity: warning
                 summary: "Swap is filling up (instance {{ $labels.instance }})"
                 message: "Swap is filling up (>80%)\n  VALUE = {{ $value }}\nBranch: {{ $labels.branch }}\nProject: {{ $labels.project }}\nDTAP: {{ $labels.dtap }}"
-       - name: pods
-         rules:
-           - alert: "Pod OOMKilled"
-             expr: kube_pod_container_status_terminated_reason{reason='OOMKilled'} == 1
-             annotations:
-               severity: "WARN"
-               message: "Pod {{$labels.container}} in namespace {{$labels.namespace}} got OOMKilled."
-       - name: services
-         rules:
-           - alert: "Many Previews Up"
-             expr: sum(kube_service_info{namespace=~"preview.*", service=~".*molgenis"}) > 5
-             annotations:
-               severity: "DEBUG"
-               message: "{{$value}} PR previews are currently deployed"
-       - name: molgenis
-         rules:
-           - alert: "Molgenis Down"
-             expr: up{job="node_exporter_nodes"} == 0
-             annotations:
-               severity: "ERROR"
-               message: "{{$labels.instance}} is down"
+        - name: pods
+          rules:
+            - alert: "Pod OOMKilled"
+              expr: kube_pod_container_status_terminated_reason{reason='OOMKilled'} == 1
+              annotations:
+                severity: "WARN"
+                message: "Pod {{$labels.container}} in namespace {{$labels.namespace}} got OOMKilled."
+        - name: services
+          rules:
+            - alert: "Many Previews Up"
+              expr: sum(kube_service_info{namespace=~"preview.*", service=~".*molgenis"}) > 5
+              annotations:
+                severity: "DEBUG"
+                message: "{{$value}} PR previews are currently deployed"
+        - name: molgenis
+          rules:
+            - alert: "Molgenis Down"
+              expr: up{job="node_exporter_nodes"} == 0
+              annotations:
+                severity: "ERROR"
+                message: "{{$labels.instance}} is down"
     rules: {}
     prometheus.yml: 
       rule_files:
