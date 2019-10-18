@@ -76,7 +76,7 @@ prometheus:
         memory: 6Gi
     volumeMounts:
       - name: prometheus-scrape-configs
-        mountPath: /etc/config/
+        mountPath: /etc/config/scrapers/
   volumes:
     - name: prometheus-scrape-configs
       configMap:
@@ -214,7 +214,7 @@ prometheus:
         - job_name: 'masterBranchNodes'
           file_sd_configs:
             - files:
-              - /etc/config/masterBranchNodesConfig.json
+              - /etc/config/scrapers/masterBranchNodesConfig.json
         #   static_configs:
         #   - targets: ['molgenis117.gcc.rug.nl:9100'] 
         #     labels: 
