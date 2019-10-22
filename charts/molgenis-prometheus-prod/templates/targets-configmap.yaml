@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: targets-configmap
 data:
-  targetsAcquired.yml: |
+  masterTargetsAcquired.yml: |
     #- job_name: 'masterBranchNodes'
     #  static_configs:
     - targets: ['molgenis117.gcc.rug.nl:9100'] 
@@ -11,3 +11,9 @@ data:
         project: "GCC test server" 
         branch: "master" 
         dtap: "test"
+  20TargetsAcquired.yml: |
+    #job
+  10TargetsAcquired.yml: |
+    #job
+  01TargetsAcquired.yml: |
+    #job
