@@ -1,6 +1,7 @@
 apiVersion: v1
 appVersion: "1.0"
 description: A chart to expose services on a MOLGENIS VM
+home: https://github.com/prometheus/node_exporter
 icon: https://img.icons8.com/ios-filled/50/000000/vmware.png
 name: molgenis-vm
 version: 0.2.1
