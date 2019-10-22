@@ -1,0 +1,8 @@
+categories:
+- MOLGENIS
+questions:
+- variable: name
+  label: Servername
+  description: "Name of the server, e.g. molgenis117"
+  type: string
+  required: true

@@ -1,0 +1,5 @@
+# Default values for molgenis-vm.
+# This is a YAML-formatted file.
+
+name: molgenis117
+port: 9100

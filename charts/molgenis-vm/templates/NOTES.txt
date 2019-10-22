@@ -1,0 +1,1 @@
+1. Created an ExternalName service for the node exporter on the VM.
