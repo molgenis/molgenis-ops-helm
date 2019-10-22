@@ -3,3 +3,4 @@
 
 name: molgenis117
 port: 9100
+environment: prod

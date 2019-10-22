@@ -3,6 +3,6 @@ appVersion: "1.0"
 description: A chart to expose services on a MOLGENIS VM
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
 name: molgenis-vm
-version: 0.1.1
+version: 0.2.0
 maintainers:
 - name: fdlk

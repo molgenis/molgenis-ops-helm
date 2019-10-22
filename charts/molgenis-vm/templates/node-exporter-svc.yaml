@@ -4,6 +4,7 @@ metadata:
   name: {{ include "molgenis-vm.fullname" . }}
   labels:
 {{ include "molgenis-vm.labels" . | indent 4 }}
+    molgenis.org/environment: {{ .Values.environment }}
   annotations:
     prometheus.io/port: "{{ .Values.port }}"
     prometheus.io/scrape: "true"

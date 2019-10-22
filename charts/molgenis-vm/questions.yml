@@ -6,3 +6,12 @@ questions:
   description: "Name of the server, e.g. molgenis117"
   type: string
   required: true
+- variable: environment
+  label: Environment
+  type: enum
+  required: true
+  options:
+  - dev
+  - test
+  - accept
+  - prod
