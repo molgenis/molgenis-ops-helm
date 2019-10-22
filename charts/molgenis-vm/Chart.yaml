@@ -1,8 +1,8 @@
 apiVersion: v1
 appVersion: "1.0"
 description: A chart to expose services on a MOLGENIS VM
-icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+icon: https://img.icons8.com/ios-filled/50/000000/vmware.png
 name: molgenis-vm
-version: 0.2.0
+version: 0.2.1
 maintainers:
 - name: fdlk
