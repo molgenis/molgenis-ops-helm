@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: targets-configmap
 data:
-  targetsAcquired.yml |
+  targetsAcquired.yml: |
     - job_name: 'masterBranchNodes'
       static_configs:
         - targets: ['molgenis117.gcc.rug.nl:9100'] 
