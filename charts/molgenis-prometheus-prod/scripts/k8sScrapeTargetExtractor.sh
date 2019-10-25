@@ -1,18 +1,24 @@
 #!/bin/bash
 # You can add ./k8sScrapeTargetExtractor <TOKEN> or just ./k8sScrapeTargetExtractor
-if [ $# -eq 0 ];
-then
-  echo "Input github personal token"
-  read TOKEN
-else
-  TOKEN=$1
-fi
+# # You can add ./k8sScrapeTargetExtractor <TOKEN> or just ./k8sScrapeTargetExtractor
+# if [ $# -eq 0 ];
+# then
+#   echo "Input github personal token"
+#   read GITHUB_TOKEN
+#   #echo "Input rancher token"
+#   #read RANCHER_TOKEN
+#   #echo "Input kubernetes token"
+#   #read KUBECTL_TOKEN
+# else
+  GITHUB_TOKEN=$1
+#  RANCHER_TOKEN=$2
+# fi
 nePort=9100
 serverlistServer=molgenis23.gcc.rug.nl
-BranchMASTER=$(curl -s https://${TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/master/inventory.ini | awk '$2' | cut -d' ' -f1)
-Branch20=$(curl -s https://${TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/2.0/inventory.ini | awk '$2' | cut -d' ' -f1)
-Branch10=$(curl -s https://${TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/1.0/inventory.ini | awk '$2' | cut -d' ' -f1)
-Branch01=$(curl -s https://${TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/0.1/inventory.ini | awk '$2' | cut -d' ' -f1)
+BranchMASTER=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/master/inventory.ini | awk '$2' | cut -d' ' -f1)
+Branch20=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/2.0/inventory.ini | awk '$2' | cut -d' ' -f1)
+Branch10=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/1.0/inventory.ini | awk '$2' | cut -d' ' -f1)
+Branch01=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/0.1/inventory.ini | awk '$2' | cut -d' ' -f1)
 #echo ${REPOMASTER}
 #echo ${REPO20}
 #echo ${REPO10}
@@ -95,8 +101,8 @@ done < <(printf '%s\n' "${Branch01}")
 printf "Branch 0.1 - finished\n"
 printf '%s\n' "${outputArray[@]}" >> 01TargetsAcquired.yml
 printf "Writing outputArray to 01TargetsAcquired.yml done\n"
-#$(kubectl create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml -o yaml --dry-run | kubectl replace -f -)
-#printf "Kubectl updatet configmap from molgenis-prometheus-prod\n"
-#$(rm -f *TargetsAcquired.yml)
-#printf "Removed artifacts\n"
-printf "Script done\n"
+echo $(rancher kubectl config set-context edgecluster --namespace=molgenis-prometheus-prod)
+echo $(rancher kubectl create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml -o yaml --dry-run | kubectl replace -f -)
+printf "Rancher kubectl updatet configmap from molgenis-prometheus-prod\n"
+$(rm -f *TargetsAcquired.yml)
+printf "Removed artifacts\n"printf "Script done\n"
