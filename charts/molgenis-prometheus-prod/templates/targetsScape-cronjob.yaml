@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: hello
+  name: molgenis-prometheus-prod
 spec:
   schedule: "30 5 * * *"
   jobTemplate:
