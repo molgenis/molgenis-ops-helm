@@ -13,7 +13,7 @@ spec:
             image: rancher/cli2:v2.2.0
             envFrom:
             - secretRef:
-              name: molgenis-prometheus-github-token
+                name: molgenis-prometheus-github-token
             args:
             - wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh
           restartPolicy: OnFailure
