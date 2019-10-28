@@ -15,5 +15,8 @@ spec:
             - secretRef:
                 name: molgenis-prometheus-github-token
             args:
-            - wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh
+            - /usr/bin/wget
+            - -c0
+            - /home/rancher-cli
+            - ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh
           restartPolicy: OnFailure
