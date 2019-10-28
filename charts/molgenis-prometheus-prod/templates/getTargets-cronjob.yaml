@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: get-targets
-            image: busyboxrancher/cli2:v2.2.0
+            image: rancher/cli2:v2.2.0
             args:
             - /bin/sh
             - -c
