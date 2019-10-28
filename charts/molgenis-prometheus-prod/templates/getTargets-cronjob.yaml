@@ -10,10 +10,14 @@ spec:
         spec:
           containers:
           - name: get-targets
-            image: rancher/cli2:v2.2.0
+            #image: rancher/cli2:v2.2.0
+            image: busybox
             envFrom:
             - secretRef:
                 name: molgenis-prometheus-github-token
             args:
-            - /usr/bin/wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh
+            - /bin/sh
+            - -c
+            - echo ${GITHUBTOKEN}
+            #- /usr/bin/wget '${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh'
           restartPolicy: OnFailure
