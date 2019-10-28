@@ -10,7 +10,7 @@ questions:
     label: "Prometheus User Password"
     description: "Password for the prometheus user on MOLGENIS deployments."
     type: string
-  - variable: "secret.GITHUB-TOKEN"
+  - variable: "secret.GITHUBTOKEN"
     required: true
     label: "Github token"
     description: "Github token for MOLGENIS deployments."

@@ -233,4 +233,4 @@ prometheus:
               - /etc/configProm/01TargetsAcquired.yml
 secret:
   molgenisMetrics: "xxxx"
-  GITHUB-TOKEN: "xxxx"
+  GITHUBTOKEN: "xxxx"
