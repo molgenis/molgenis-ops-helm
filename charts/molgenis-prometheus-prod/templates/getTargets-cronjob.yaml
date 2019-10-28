@@ -15,8 +15,15 @@ spec:
             envFrom:
             - secretRef:
                 name: molgenis-prometheus-github-token
-            #args:
+            volumeMounts:
+            - name: mount-secret-cli
+              mountPath: "~/.rancher/"
+              readOnly: true
             command: ["/bin/sh"]
-            args: ["-c", "echo ${GITHUBTOKEN}"]
-            #- /usr/bin/wget '${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh'
+            #args: ["-c", "echo ${GITHUBTOKEN}"]
+            args: ["-c", "wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh","&&","ls -al ~/.rancher/"]
+          volumes:
+            - name: mount-secret-cli
+              secret:
+                secretName: molgenis-prometheus-github-token
           restartPolicy: OnFailure

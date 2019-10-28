@@ -15,3 +15,8 @@ questions:
     label: "Github token"
     description: "Github token for MOLGENIS deployments."
     type: string
+  - variable: "secret.cli2.json"
+    required: true
+    label: "Rancher login credentials"
+    description: "Rancher cli login credentials for MOLGENIS deployments."
+    type: string
