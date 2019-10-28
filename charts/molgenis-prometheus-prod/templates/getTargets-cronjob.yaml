@@ -9,8 +9,8 @@ spec:
       template:
         spec:
           containers:
-          - name: hello
-            image: busybox
+          - name: getTargets
+            image: busyboxrancher/cli2:v2.2.0
             args:
             - /bin/sh
             - -c
