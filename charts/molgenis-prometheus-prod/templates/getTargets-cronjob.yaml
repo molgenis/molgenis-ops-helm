@@ -10,8 +10,8 @@ spec:
         spec:
           containers:
           - name: get-targets
-            #image: rancher/cli2:v2.2.0
-            image: busybox
+            image: rancher/cli2:v2.2.0
+            #image: busybox
             envFrom:
             - secretRef:
                 name: molgenis-prometheus-github-token
