@@ -11,8 +11,9 @@ spec:
           containers:
           - name: get-targets
             image: rancher/cli2:v2.2.0
+            envFrom:
+            - secretRef:
+              name: molgenis-prometheus-github-token
             args:
-            - /bin/sh
-            - -c
-            - date; echo Hello from the Kubernetes cluster
+            - wget ${GITHUB-TOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh
           restartPolicy: OnFailure
