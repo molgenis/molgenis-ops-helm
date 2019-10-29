@@ -21,7 +21,7 @@ spec:
               readOnly: true
             command: ["/bin/sh"]
             #args: ["-c", "echo ${GITHUBTOKEN}"]
-            args: ["-c", "ls -al /home","mv /config/.rancher/cli2.json /mnt/.rancher/ && wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh && chmod +x k8sScrapeTargetExtractor.sh && ./k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && rm -rf k8sScrapeTargetExtractor.sh"]
+            args: ["-c", "ls -al /","mv /config/.rancher/cli2.json /mnt/.rancher/ && wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh && chmod +x k8sScrapeTargetExtractor.sh && ./k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && rm -rf k8sScrapeTargetExtractor.sh"]
           volumes:
             - name: mount-secret-cli
               secret:
