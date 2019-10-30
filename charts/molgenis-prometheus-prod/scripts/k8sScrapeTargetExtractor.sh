@@ -105,4 +105,5 @@ printf "Writing outputArray to 01TargetsAcquired.yml done\n"
 echo $(rancher kubectl create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml -o yaml --dry-run | rancher kubectl replace -f -)
 printf "Rancher kubectl updatet configmap from molgenis-prometheus-prod\n"
 $(rm -f *TargetsAcquired.yml)
-printf "Removed artifacts\n"printf "Script done\n"
+printf "Removed artifacts\n"
+printf "Script done\n"

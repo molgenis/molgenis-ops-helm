@@ -18,5 +18,5 @@ questions:
   - variable: "secret.cli2.json"
     required: true
     label: "Rancher login credentials"
-    description: "Rancher cli login credentials for MOLGENIS deployments."
+    description: "Rancher cli login credentials for MOLGENIS deployments. Download the cli2.json and run in the commandline 'kubectl create secret generic test-secret --from-file=cli2.json -o yaml --dry-run' and copy the part after cli2.json: "
     type: string
