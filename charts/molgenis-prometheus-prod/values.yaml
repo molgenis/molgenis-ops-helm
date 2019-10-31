@@ -234,4 +234,3 @@ prometheus:
 secret:
   molgenisMetrics: "xxxx"
   GITHUBTOKEN: "xxxx"
-  #cli2.json: "xxxx"
