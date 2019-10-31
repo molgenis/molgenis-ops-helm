@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: update-configmap-bot-sa
+  annotations:
+    kubernetes.io/service-account.name: update-configmap-bot
+type: kubernetes.io/service-account-token
