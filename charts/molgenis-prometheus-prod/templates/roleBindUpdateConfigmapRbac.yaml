@@ -5,7 +5,7 @@ metadata:
   namespace: molgenis-prometheus-prod
 subjects:
 - kind: User
-  name: updateConfigmapBot
+  name: update-configmap-bot
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role 
