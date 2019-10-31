@@ -1,0 +1,10 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: molgenis-prometheus-prod
+  name: updateConfigmapRole
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["configmaps"]
+  resourceName: ["targets-configmap"]
+  verbs: ["create", "delete", "patch", "update"]
