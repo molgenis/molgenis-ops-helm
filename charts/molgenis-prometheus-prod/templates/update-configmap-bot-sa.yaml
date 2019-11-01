@@ -3,7 +3,7 @@ kind: ServiceAccount
 metadata:
   name: update-configmap-bot
   labels:
-    app: {{ template "drone.name" . }}
+    app: molgenis-prometheus-prod
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
