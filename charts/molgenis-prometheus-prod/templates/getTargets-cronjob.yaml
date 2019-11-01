@@ -21,7 +21,7 @@ spec:
             #   readOnly: true
             command: ["/bin/sh"]
             #args: ["-c", "echo ${GITHUBTOKEN}"]
-            args: ["-c", "apk add curl bash && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.2/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin/kubectl && OUTPUT=$(kubectl proxy --port=8080) && echo $OUTPUT && TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && echo $TOKEN && OUTPUT=$(curl -LO http://localhost:8080/api) && echo $OUTPUT && wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh -O k8sScrapeTargetExtractor.sh && chmod +x k8sScrapeTargetExtractor.sh && bash k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && rm -rf /mnt/k8sScrapeTargetExtractor.sh"]
+            args: ["-c", "apk add curl bash && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.2/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin/kubectl && kubectl proxy --port=8080 && TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && echo $TOKEN && curl -LO http://localhost:8080/api && wget ${GITHUBTOKEN}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/production-prometheus/charts/molgenis-prometheus-prod/scripts/k8sScrapeTargetExtractor.sh -O k8sScrapeTargetExtractor.sh && chmod +x k8sScrapeTargetExtractor.sh && bash k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && rm -rf /mnt/k8sScrapeTargetExtractor.sh"]
           serviceAccountName: default
           # volumes:
           #   - name: mount-secret-cli
