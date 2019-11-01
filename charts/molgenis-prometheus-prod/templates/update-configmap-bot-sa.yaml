@@ -1,7 +1,9 @@
 apiVersion: v1
-kind: Secret
+kind: ServiceAccount
 metadata:
-  name: update-configmap-bot-sa
-  annotations:
-    kubernetes.io/service-account.name: update-configmap-bot
-type: kubernetes.io/service-account-token
+  name: update-configmap-bot
+  labels:
+    app: {{ template "drone.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
