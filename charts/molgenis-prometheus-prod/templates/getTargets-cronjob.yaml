@@ -3,14 +3,16 @@ kind: CronJob
 metadata:
   name: molgenis-prometheus-prod
 spec:
-  schedule: "30 5 * * *"
+  #schedule: "30 5 * * *"
+  schedule: "*/1 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
           - name: get-targets
-            image: rancher/cli2:v2.2.0
+            #image: rancher/cli2:v2.2.0
+            image: alpine:latest
             envFrom:
             - secretRef:
                 name: molgenis-prometheus-github-token
