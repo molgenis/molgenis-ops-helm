@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: targets-configmap
+data:
+  {{ if eq .Values.environment "production" -}}
+  masterTargetsAcquired.yml: |
+    #job
+  20TargetsAcquired.yml: |
+    #job
+  10TargetsAcquired.yml: |
+    #job
+  01TargetsAcquired.yml: |
+    #job
+  {{ end -}}

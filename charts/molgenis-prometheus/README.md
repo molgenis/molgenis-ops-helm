@@ -23,7 +23,11 @@ For instance to access the prometheus UI:
 kubectl port-forward molgenis-prometheus-server-podname 9090
 ```
 
+## Script
+Every night at 5.30 AM there will be a cronjob started what will collect the production servers and will set them in the targets for prometheus to be scraped.
+
 ## Secrets
 When deploying the chart you'll be asked to fill in
 * the slack api url found on https://molgenisdev.slack.com/services/BFLLSRULF
 * the password for the prometheus user on molgenis-metrics servers
+* the github token for the molgenis github user
