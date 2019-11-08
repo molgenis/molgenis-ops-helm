@@ -56,12 +56,12 @@ proxy:
     unpkg: true
 
 #
-# You can define custom urls you want to proxy on a certain path.
+# You can define urls in the @molgenis-experimental namespace you want to proxy on a certain path.
 # This needs to be done in the values.yaml at this moment. In the questions.yaml you can specify only 1.
 # You can specify whether you use unpkg.com or not. When you use unpgk.com the redirect target will be
 # used to resolve the right version.
 #
-#  custom:
+#  experimental:
 #  - url: https://unpkg.com/@molgenis-experimental/app-name@x.x.x/
 #    path: @molgenis-experimental
 #    unpkg: true
