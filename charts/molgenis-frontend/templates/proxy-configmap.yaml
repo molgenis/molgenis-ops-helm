@@ -17,7 +17,7 @@ data:
     {{ range $index, $location := .Values.proxy.custom -}}
     location /{{ $location.path }}/ {
       proxy_pass {{ $location.url }}/;
-      {{- if and (index $location.unpkg) $location.unpkg -}}
+      {{- if and (index $location.unpkg) $location.unpkg }}
       proxy_intercept_errors on;
       recursive_error_pages on;
       error_page 301 302 307 = @handle_redirect;
@@ -28,7 +28,7 @@ data:
      {{ range $index, $location := .Values.proxy.experimental -}}
     location /{{ $location.path }}/ {
       proxy_pass {{ $location.url }}/;
-      {{- if and (index $location.unpkg) $location.unpkg -}}
+      {{- if and (index $location.unpkg) $location.unpkg }}
       proxy_intercept_errors on;
       recursive_error_pages on;
       error_page 301 302 307 = @handle_redirect;
