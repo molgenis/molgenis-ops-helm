@@ -29,14 +29,8 @@ spec:
           ports:
             - containerPort: {{ .service.port }}
           volumeMounts:
-          - name: proxy-backend-config
-            mountPath: /etc/nginx/proxy.d/backend.conf
-            subPath: backend.conf
-          {{- if index .proxy.custom }}
-          - name: proxy-custom-config
-            mountPath: /etc/nginx/proxy.d/custom.conf
-            subPath: custom.conf
-          {{- end }}
+          - name: proxy-config
+            mountPath: /etc/nginx/proxy.d/
           resources:
 {{ toYaml .resources | nindent 12 }}
           livenessProbe:
@@ -47,14 +41,9 @@ spec:
               path: {{ .readinessPath }}
               port: 80
       volumes:
-        - name: proxy-backend-config
+        - name: proxy-config
           configMap:
-            name: {{ $.Release.Name }}-backend-config
-        {{ if index .proxy.custom -}}
-        - name: proxy-custom-config
-          configMap:
-            name: {{ $.Release.Name }}-custom-config
-        {{- end -}}
+            name: {{ $.Release.Name }}-config
       {{- end -}}
 
 {{- with .Values.nodeSelector }}
