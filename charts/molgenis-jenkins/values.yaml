@@ -807,6 +807,23 @@ jenkins:
             requests:
               cpu: '1'
               memory: '1Gi'
+    node-dubnium:
+      Label: node-dubnium
+      NodeUsageMode: EXCLUSIVE
+      InheritFrom: shared
+      Containers:
+        node:
+          Image: molgenis/node-dubnium
+          ImageTag: node-dubnium-release-2019-11-25_10-52-39
+          AlwaysPullImage: false
+          Retention: Never
+          Command: cat
+          WorkingDir: /home/jenkins
+          TTY: true
+          resources:
+            requests:
+              cpu: '1'
+              memory: '1Gi'
       EnvVars:
         - type: KeyValue
           key: NPM_REGISTRY
