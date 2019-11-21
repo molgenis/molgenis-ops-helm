@@ -1,0 +1,53 @@
+categories:
+  - lifelines
+  - crm
+  - edge
+  - node
+questions:
+  - variable: image.tag
+    label: Image tag
+    description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
+    default: 1.0.0
+    type: string
+    required: true
+  - variable: molgenis.url
+    label: MOLGENIS URL
+    description: URL of the MOLGENIS server
+    default: "http://lifelines-molgenis.lifelines.svc:8080"
+    required: true
+    type: string
+    group: MOLGENIS
+  - variable: molgenis.token
+    label: MOLGENIS token
+    description: Token used to access the MOLGENIS server
+    required: true
+    type: password
+    group: MOLGENIS
+  - variable: crm.oauth2.tokenUrl
+    label: OAuth2 Token URL
+    type: string
+    required: true
+    default: "https://test.salesforce.com/services/oauth2/token"
+    group: CRM
+  - variable: crm.oauth2.username
+    label: OAuth2 username
+    type: string
+    required: true
+    default: "api@lifelines.nl.acc"
+    group: CRM
+  - variable: crm.oauth2.password
+    label: OAuth2 password
+    type: password
+    required: true
+    group: CRM
+  - variable: crm.oauth2.clientId
+    label: OAuth2 Client ID
+    type: password
+    required: true
+    group: CRM
+  - variable: crm.oauth2.clientSecret
+    label: OAuth2 Client Secret
+    type: password
+    required: true
+    group: CRM
+  
