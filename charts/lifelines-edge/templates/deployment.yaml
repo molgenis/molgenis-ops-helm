@@ -15,6 +15,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "lifelines-edge.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        prometheus.io.scrape: 'true'
+        prometheus.io.port: '9050'
+        prometheus.io.path: '/metrics'
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -27,6 +31,12 @@ spec:
           ports:
             - name: http
               containerPort: 3000
+              protocol: TCP
+            - name: probes
+              containerPort: 9000
+              protocol: TCP
+            - name: metrics
+              containerPort: 9050
               protocol: TCP
           envFrom:
             - configMapRef:
