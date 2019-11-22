@@ -4,6 +4,13 @@ categories:
   - edge
   - node
 questions:
+  - variable: image.repository
+    type: enum
+    options:
+      - molgenis/molgenis-node-lifelines-edge
+      - registry.molgenis.org/molgenis/molgenis-node-lifelines-edge
+    required: true
+    default: molgenis/molgenis-node-lifelines-edge
   - variable: image.tag
     label: Image tag
     description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
