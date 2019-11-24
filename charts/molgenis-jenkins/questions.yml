@@ -11,6 +11,12 @@ questions:
     - acceptance
   required: true
   group: "Provisioning"
+- variable: jenkins.Master.ImageTag
+  label: Version
+  default: "2.176.3"
+  type: string
+  required: true
+  group: "Provisioning"
 - variable: jenkins.Master.HostName
   label: Hostname
   default: 'jenkins.dev.molgenis.org'
@@ -63,7 +69,8 @@ questions:
   show_if: "jenkins.Master.Security.UseGitHub=true"
 - variable: secret.vault.addr
   label: Vault address
-  default: 'https://vault.vault-operator.svc:8200'
+  description: Node port of vault in prod cluster
+  default: 'https://192.168.64.161:32668'
   type: string
   required: true
   group: "Vault"
