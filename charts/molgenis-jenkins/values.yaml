@@ -796,8 +796,8 @@ jenkins:
       InheritFrom: shared
       Containers:
         node:
-          Image: molgenis/node
-          ImageTag: node-release-2019-03-06_08-18-10
+          Image: molgenis/node-carbon
+          ImageTag: node-carbon-release-2019-11-25_10-52-39
           AlwaysPullImage: false
           Retention: Never
           Command: cat
