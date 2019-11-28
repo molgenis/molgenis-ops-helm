@@ -13,109 +13,109 @@ data:
             annotations:
               severity: "ERROR"
               summary: {{ printf "\"Instance master branch Down\"" }}
-              message: {{ printf "\"Instance of {{$labels.instance}} from master branch is down\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Instance of {{$labels.instance}} from master branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: Instance20Down
             expr: up{job="20BranchNodes"} == 0
             annotations:
               severity: "ERROR"
               summary: {{ printf "\"Instance 2.0 branch Down\"" }}
-              message: {{ printf "\"Instance of {{$labels.instance}} from 2.0 branch is down\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Instance of {{$labels.instance}} from 2.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: Instance10Down
             expr: up{job="10BranchNodes"} == 0
             annotations:
               severity: "ERROR"
               summary: {{ printf "\"Instance 1.0 branch Down\"" }}
-              message: {{ printf "\"Instance of {{$labels.instance}} from 1.0 branch is down\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Instance of {{$labels.instance}} from 1.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: Instance01Down
             expr: up{job="01BranchNodes"} == 0
             annotations:
               severity: "ERROR"
               summary: {{ printf "\"Instance 0.1 branch Down\"" }}
-              message: {{ printf "\"Instance of {{$labels.instance}} from 0.1 branch is down\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Instance of {{$labels.instance}} from 0.1 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: OutOfMemory
             expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Out of memory (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Node memory is filling up (< 10%% left)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Node memory is filling up (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: UnusualNetworkThroughputIn
             expr: sum by (instance) (irate(node_network_receive_bytes[2m])) / 1024 / 1024 > 100
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Unusual network throughput in (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Host network interfaces are probably receiving too much data (> 100 MB/s)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Host network interfaces are probably receiving too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: UnusualNetworkThroughputOut
             expr: sum by (instance) (irate(node_network_transmit_bytes[2m])) / 1024 / 1024 > 100
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Unusual network throughput out (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Host network interfaces are probably sending too much data (> 100 MB/s)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Host network interfaces are probably sending too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: UnusualDiskReadRate
             expr: sum by (instance) (irate(node_disk_read_bytes[2m])) / 1024 / 1024 > 50
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Unusual disk read rate (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Disk is probably reading too much data (> 50 MB/s)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Disk is probably reading too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: UnusualDiskWriteRate
             expr: sum by (instance) (irate(node_disk_written_bytes[2m])) / 1024 / 1024 > 50
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Unusual disk write rate (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Disk is probably writing too much data (> 50 MB/s)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Disk is probably writing too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: OutOfDiskSpace
             expr: node_filesystem_free_bytes{mountpoint ="/rootfs"} / node_filesystem_size_bytes{mountpoint ="/rootfs"} * 100 < 10
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Out of disk space (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Disk is almost full (< 10%% left)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Disk is almost full (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: OutOfInodes
             expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint ="/rootfs"} * 100 < 10
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Out of inodes (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Disk is almost running out of available inodes (< 10%% left)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Disk is almost running out of available inodes (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: UnusualDiskReadLatency
             expr: rate(node_disk_read_time_ms[1m]) / rate(node_disk_reads_completed[1m]) > 100
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Unusual disk read latency (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Disk latency is growing (read operations > 100ms)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Disk latency is growing (read operations > 100ms)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: UnusualDiskWriteLatency
             expr: rate(node_disk_write_time_ms[1m]) / rate(node_disk_writes_completed[1m]) > 100
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Unusual disk write latency (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Disk latency is growing (write operations > 100ms)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Disk latency is growing (write operations > 100ms)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: HighCpuLoad
             expr: 100 - (avg by(instance) (irate(node_cpu{mode="idle"}[5m])) * 100) > 80
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"High CPU load (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"CPU load is > 80%%\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  CPU load is > 80%%\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: ContextSwitching
             expr: rate(node_context_switches[5m]) > 1000
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Context switching (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Context switching is growing on node (> 1000 / s)\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Context switching is growing on node (> 1000 / s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: SwapIsFillingUp
             expr: (1 - (node_memory_SwapFree / node_memory_SwapTotal)) * 100 > 80
             for: 5m
             annotations:
               severity: "WARN"
               summary: {{ printf "\"Swap is filling up (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Swap is filling up ( > 80%% )\\n  VALUE = {{ $value }}\\nBranch: {{ $labels.branch }}\\nProject: {{ $labels.project }}\\nDTAP: {{ $labels.dtap }}\\n \"" }}
+              message: {{ printf "\"  Swap is filling up ( > 80%% )\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           {{ end }}
       - name: nodes
         rules:
@@ -124,45 +124,45 @@ data:
             annotations:
               severity: "ERROR"
               summary: {{ printf "\"Node DOWN on rancher cluster\"" }}
-              message: {{ printf "\"Node {{$labels.instance}} is down\\n \"" }}
+              message: {{ printf "\"  Node {{$labels.instance}} is down\\n \"" }}
       - name: pods
         rules:
           - alert: PodIsDown
             expr: up == 0
             annotations:
-              severity: "ERROR"
+              severity: "WARN"
               summary: {{ printf "\"Pod down on rancher cluster\"" }}
-              message: {{ printf "\"Pod {{$labels.instance}} in namespace {{ $labels.kubernetes_namespace }} is down\\n \"" }}
+              message: {{ printf "\"  Pod is down\\n    Instance: {{$labels.instance}} \\n    Namespace: {{ $labels.kubernetes_namespace }} \\n \"" }}
           - alert: PodOOMKilled
             expr: kube_pod_container_status_terminated_reason{reason='OOMKilled'} == 1
             annotations:
               severity: "WARN"
               summary: {{ printf "\"OOMKilled\"" }}
-              message: {{ printf "\"Pod {{$labels.container}} in namespace {{$labels.namespace}} got OOMKilled.\\n \"" }}
+              message: {{ printf "\"  Pod {{$labels.container}} in namespace {{$labels.namespace}} got OOMKilled.\\n \"" }}
           - alert: KubernetesMemorypressure
             expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
             for: 5m
             labels:
-              severity: "ERROR"
+              severity: "WARN"
             annotations:
               summary: {{ printf "\"Kubernetes MemoryPressure (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"{{ $labels.node }} has MemoryPressure condition\\n  VALUE = {{ $value }}\\n \"" }}
+              message: {{ printf "\"  {{ $labels.node }} has MemoryPressure condition\\n    VALUE = {{ $value }}\\n \"" }}
           - alert: KubernetesDiskpressure
             expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
             for: 5m
             labels:
-              severity: "ERROR"
+              severity: "WARN"
             annotations:
               summary: {{ printf "\"Kubernetes DiskPressure (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"{{ $labels.node }} has DiskPressure condition\\n  Instance: {{ $labels.instance }}\\n \"" }}
+              message: {{ printf "\"  {{ $labels.node }} has DiskPressure condition\\n    Instance: {{ $labels.instance }}\\n \"" }}
           - alert: KubernetesOutofdisk
             expr: kube_node_status_condition{condition="OutOfDisk",status="true"} == 1
             for: 5m
             labels:
-              severity: "ERROR"
+              severity: "WARN"
             annotations:
               summary: {{ printf "\"Kubernetes OutOfDisk (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"{{ $labels.node }} has OutOfDisk condition\\n  VALUE = {{ $value }}\\n \"" }}
+              message: {{ printf "\"  {{ $labels.node }} has OutOfDisk condition\\n    VALUE = {{ $value }}\\n \"" }}
           - alert: KubernetesJobFailed
             expr: kube_job_status_failed > 0
             for: 5m
@@ -170,7 +170,7 @@ data:
               severity: "WARN"
             annotations:
               summary: {{ printf "\"Kubernetes Job failed (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"Job {{$labels.namespace}}/{{$labels.exported_job}} failed to complete on instance: {{ $labels.instance }}\\n  VALUE = {{ $value }}\\n \"" }}
+              message: {{ printf "\"  Job {{$labels.namespace}}/{{$labels.job}} failed to complete on instance: {{ $labels.instance }}\\n \"" }}
           - alert: KubernetesCronjobSuspended
             expr: kube_cronjob_spec_suspend != 0
             for: 5m
@@ -178,7 +178,7 @@ data:
               severity: "INFO"
             annotations:
               summary: {{ printf "\"Kubernetes CronJob suspended (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is suspended on instance: {{ $labels.instance }}\\n  VALUE = {{ $value }}\\n \"" }}
+              message: {{ printf "\"  CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is suspended on instance: {{ $labels.instance }}\\n    VALUE = {{ $value }}\\n \"" }}
           - alert: KubernetesPersistentvolumeclaimPending
             expr: kube_persistentvolumeclaim_status_phase{phase="Pending"} == 1
             for: 5m
@@ -186,7 +186,7 @@ data:
               severity: "WARN"
             annotations:
               summary: {{ printf "\"Kubernetes PersistentVolumeClaim pending (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"PersistentVolumeClaim {{ $labels.instance }} {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is pending\\n  VALUE = {{ $value }}\\n \"" }}
+              message: {{ printf "\"  PersistentVolumeClaim {{ $labels.instance }} {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is pending\\n    VALUE = {{ $value }}\\n \"" }}
           - alert: VolumeOutOfDiskSpace
             expr: kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes * 100 < 10
             for: 5m
@@ -199,18 +199,18 @@ data:
             expr: 100 * (kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes) < 15 and predict_linear(kubelet_volume_stats_available_bytes[6h], 4 * 24 * 3600) < 0
             for: 5m
             labels:
-              severity: "ERROR"
+              severity: "WARN"
             annotations:
               summary: {{ printf "\"Volume full in four days (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"{{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}%% is available.\\n  VALUE = {{ $value }}\\n \"" }}
+              message: {{ printf "\"  {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}%% is available.\\n  VALUE = {{ $value }}\\n \"" }}
           - alert: StatefulsetDown
             expr: (kube_statefulset_status_replicas_ready / kube_statefulset_status_replicas_current) != 1
             for: 5m
             labels:
-              severity: "ERROR"
+              severity: "WARN"
             annotations:
               summary: {{ printf "\"StatefulSet down (instance {{ $labels.instance }})\"" }}
-              message: {{ printf "\"A StatefulSet went down\\n  Instance: {{ $labels.instance }}\\n  Namespace: {{ $labels.kubernetes_namespace }}\\n \"" }}
+              message: {{ printf "\"  A StatefulSet went down\\n    Instance: {{ $labels.instance }}\\n    Namespace: {{ $labels.kubernetes_namespace }}\\n \"" }}
       - name: PostgreSQL
         rules:
           - alert: PostgreSQLMaxConnectionsReached
@@ -220,7 +220,7 @@ data:
               severity: "CRITICAL"
             annotations:
               summary: {{ printf "\"{{ $labels.instance }} has maxed out Postgres connections.\"" }}
-              message: {{ printf "\"{{ $labels.instance }} is exceeding the currently configured maximum Postgres connection limit (current value: {{ $value }}s).\\n \"" }}
+              message: {{ printf "\"  {{ $labels.instance }} is exceeding the currently configured maximum Postgres connection limit (current value: {{ $value }}s).\\n \"" }}
           - alert: PostgreSQLHighConnections
             expr: sum(pg_stat_activity_count) by (instance) > sum(pg_settings_max_connections * 0.8) by (instance)
             for: 10m
@@ -228,7 +228,7 @@ data:
               severity: "WARN"
             annotations:
               summary: {{ printf "\"{{ $labels.instance }} is over 80%% of max Postgres connections.\"" }}
-              message: {{ printf "\"{{ $labels.instance }} is exceeding 80%% of the currently configured maximum Postgres connection limit (current value: {{ $value }}s).\\n \"" }}
+              message: {{ printf "\"  {{ $labels.instance }} is exceeding 80%% of the currently configured maximum Postgres connection limit (current value: {{ $value }}s).\\n \"" }}
           - alert: PostgreSQLDown
             expr: pg_up != 1
             for: 1m
@@ -236,7 +236,7 @@ data:
               severity: "CRITICAL"
             annotations:
               summary: {{ printf "\"PostgreSQL is not processing queries: {{ $labels.instance }}\"" }}
-              message: {{ printf "\"{{ $labels.instance }} is rejecting query requests from the exporter, and thus probably not allowing DNS requests to work either.\\n \"" }}
+              message: {{ printf "\"  {{ $labels.instance }} is rejecting query requests from the exporter, and thus probably not allowing DNS requests to work either.\\n \"" }}
           - alert: PostgreSQLSlowQueries
             expr: avg(rate(pg_stat_activity_max_tx_duration{datname!~"template.*"}[2m])) by (datname) > 2 * 60
             for: 2m
@@ -244,7 +244,7 @@ data:
               severity: "ERROR"
             annotations:
               summary: {{ printf "\"PostgreSQL high number of slow on {{ $labels.cluster }} for database {{ $labels.datname }} \"" }}
-              message: {{ printf "\"PostgreSQL high number of slow queries {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }} \\n \"" }}
+              message: {{ printf "\"  PostgreSQL high number of slow queries {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }} \\n \"" }}
           - alert: PostgreSQLQPS
             expr: avg(irate(pg_stat_database_xact_commit{datname!~"template.*"}[5m]) + irate(pg_stat_database_xact_rollback{datname!~"template.*"}[5m])) by (datname) > 10000
             for: 5m
@@ -252,7 +252,7 @@ data:
               severity: "WARN"
             annotations:
               summary: {{ printf "\"PostgreSQL high number of queries per second {{ $labels.cluster }} for database {{ $labels.datname }}\"" }}
-              message: {{ printf "\"PostgreSQL high number of queries per second on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
+              message: {{ printf "\"  PostgreSQL high number of queries per second on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
           - alert: PostgreSQLCacheHitRatio
             expr: avg(rate(pg_stat_database_blks_hit{datname!~"template.*"}[5m]) / (rate(pg_stat_database_blks_hit{datname!~"template.*"}[5m]) + rate(pg_stat_database_blks_read{datname!~"template.*"}[5m]))) by (datname) < 0.98
             for: 5m
@@ -260,7 +260,7 @@ data:
               severity: "WARN"
             annotations:
               summary: {{ printf "\"PostgreSQL low cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }}\"" }}
-              message: {{ printf "\"PostgreSQL low on cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
+              message: {{ printf "\"  PostgreSQL low on cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
   rules: | 
     {}
   prometheus.yml: |
