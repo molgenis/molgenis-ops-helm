@@ -31,11 +31,11 @@ prometheus:
       deployPod: "true"
     resources:
       limits:
-        cpu: 10m
-        memory: 64Mi
+        cpu: 20m
+        memory: 128Mi
       requests:
-        cpu: 10m
-        memory: 64Mi
+        cpu: 20m
+        memory: 128Mi
 
   nodeExporter:
     enabled: false
