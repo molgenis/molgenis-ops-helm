@@ -1,12 +1,12 @@
 # Prometheus Monitoring
-This will install monitoring on your cluster. It supports legacy systems as well. So you can monitor your VM-stack with this setup.
+This will install monitoring on your cluster. It supports legacy systems as well. So you can monitor your VM-stack with this setup. This also include kubernetes monitoring.
 
 ## Chart Details
 This chart will deploy a number of services:
 
 For scraping purposes of the current cluster:
 
-- 1 node-exporter per node to export node stats
+- 1 kubeStateMetrics
 - 1 C-Advisor on each node to export container and pod stats
 - 1 Push gateway for short-lived jobs to push their metrics to
 
@@ -24,10 +24,28 @@ kubectl port-forward molgenis-prometheus-server-podname 9090
 ```
 
 ## Script
-Every night at 5.30 AM there will be a cronjob started what will collect the production servers and will set them in the targets for prometheus to be scraped.
+If you deploy the chart on prod-molgenis than there will run a script every night at 5.30 AM there will be a 
+cronjob started what will collect the production servers and will set them in the targets for prometheus to be scraped.
 
 ## Secrets
-When deploying the chart you'll be asked to fill in
+When deploying the chart for the dev-molgenis on rancher, you'll asked to fill in
 * the slack api url found on https://molgenisdev.slack.com/services/BFLLSRULF
-* the password for the prometheus user on molgenis-metrics servers
-* the github token for the molgenis github user
+When deploying the chart for the prod-molgenis on rancher, you'll asked to fill in
+* the slack api url found on https://molgenisops.slack.com/services/B8X3ZFG07
+* the github token for the molgenis github user(jenkins)
+
+## Alerts
+If you want to add or remove alerts from prometheus, you will need to edit the configmap with the alerts.
+1. Go to: https://rancher.molgenis.org:7777
+2. Login with your RuG account
+3. If you want to change the production prometheus, go to: molgenis-prod -> prod-molgenis
+   If you want to change the development prometheus, go to: devcluster -> dev-molgenis
+4. Under the tab "Apps" go to molgenis-prometheus
+5. At the bottom of the page you will find three Config maps, click on "molgenis-prometheus-serverfiles-configmap"
+6. Click on the three dots on the topside and select "Edit"
+### To Delete alert(s)
+7. Search for the alert you want to delete, start selecting from the point where you see "- alert ..." untill you hit the next "- alert" and delete it
+8. Repeat step 7 if needed and click "Save". The changed alerts will be automaticly picked up by the molgenis-prometheus.
+### To add alert(s)
+7. Add a newline after an alert. Make sure that you start with the same spacing as the alert above. Make sure that you use summary and message in the annotations section, if you don't use the summary and message you will not see the alert!
+8. Repeat step 7 if needed and click "Save". The changed alerts will be automaticly picked up by the molgenis-prometheus.
