@@ -5,6 +5,11 @@ metadata:
   name: molgenis-prometheus
 spec:
   schedule: "30 5 * * *"
+  concurrencyPolicy: "Forbid"
+  startingDeadlineSeconds: 120
+  suspend: false
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:

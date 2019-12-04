@@ -47,5 +47,5 @@ If you want to add or remove alerts from prometheus, you will need to edit the c
 7. Search for the alert you want to delete, start selecting from the point where you see "- alert ..." untill you hit the next "- alert" and delete it
 8. Repeat step 7 if needed and click "Save". The changed alerts will be automaticly picked up by the molgenis-prometheus.
 ### To add alert(s)
-7. Add a newline after an alert. Make sure that you start with the same spacing as the alert above. Make sure that you use summary and message in the annotations section, if you don't use the summary and message you will not see the alert!
+7. Add a newline after an alert. Make sure that you start with the same spacing as the alert above. Make sure that you use summary and description in the annotations section, if you don't use the summary and description you will not see the alert!
 8. Repeat step 7 if needed and click "Save". The changed alerts will be automaticly picked up by the molgenis-prometheus.
