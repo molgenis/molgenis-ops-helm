@@ -91,6 +91,29 @@ questions:
     type: string
     label: "Catalina options"
     group: "MOLGENIS"
+  - variable: molgenis-frontend.ingress.basicAuth.enabled
+    show_if: "molgenis-frontend.enabled=true"
+    label: Basic authentication
+    default: false
+    description: "Adds a basic authentication prompt"
+    type: boolean
+    required: false
+    group: "Provisioning - Frontend"
+  - variable: molgenis-frontend.ingress.basicAuth.auth
+    show_if: "molgenis-frontend.ingress.basicAuth.enabled=true"
+    label: Basic Auth secret
+    description: "Create using `htpasswd -bc authfile username password`"
+    type: password
+    required: true
+    group: "Provisioning - Frontend"
+  - variable: molgenis-frontend.ingress.basicAuth.realm
+    show_if: "molgenis-frontend.ingress.basicAuth.enabled=true"
+    label: Basic Auth realm
+    description: "The banner shown when the user tries to log in"
+    type: string
+    required: false
+    default: "Authentication Required"
+    group: "Provisioning - Frontend"
   - variable: "resources.requests.memory"
     show_if: "questions.advanced=true"
     group: "MOLGENIS"
