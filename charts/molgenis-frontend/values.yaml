@@ -76,6 +76,10 @@ ingress:
   path: /
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 0
+  basicAuth:
+    enabled: false
+    realm: "Authentication Required"
+    auth: "xxxx"
 
 resources: {}
 
