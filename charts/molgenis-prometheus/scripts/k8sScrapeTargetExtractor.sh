@@ -1,35 +1,20 @@
 #!/bin/bash
-# You can add ./k8sScrapeTargetExtractor <TOKEN> or just ./k8sScrapeTargetExtractor
-# if [ $# -eq 0 ];
-# then
-#   echo "Input github personal token"
-#   read GITHUB_TOKEN
-#   #echo "Input rancher token"
-#   #read RANCHER_TOKEN
-#   #echo "Input kubernetes token"
-#   #read KUBECTL_TOKEN
-# else
-  GITHUB_TOKEN=$1
-#  RANCHER_TOKEN=$2
-# fi
-nePort=9100
-serverlistServer=molgenis23.gcc.rug.nl
+GITHUB_TOKEN=$1
+NePort=9100
+ServerlistServer=molgenis23.gcc.rug.nl
 BranchMASTER=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/master/inventory.ini | awk '$2' | cut -d' ' -f1)
 Branch20=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/2.0/inventory.ini | awk '$2' | cut -d' ' -f1)
 Branch10=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/1.0/inventory.ini | awk '$2' | cut -d' ' -f1)
 Branch01=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/0.1/inventory.ini | awk '$2' | cut -d' ' -f1)
-#echo ${REPOMASTER}
-#echo ${REPO20}
-#echo ${REPO10}
 
 printf "Script - start\n"
 printf "Branch master - start\n"
 while IFS=" " read -r host
 do
   if [ ${host} != '#' ]; then
-    descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
-    dtapGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
-    outputArray=("- targets: ['${host}:${nePort}']")
+    descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
+    dtapGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
+    outputArray=("- targets: ['${host}:${NePort}']")
     outputArray+=("  labels: ")
     outputArray+=("    project: \"${descGrab}\"")
     outputArray+=("    branch: \"master\"")
@@ -44,12 +29,12 @@ outputArray=("")
 while IFS=" " read -r host
 do
   if [ ${host} != '#' ]; then
-    descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
-    dtapGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
+    descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
+    dtapGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
     if [ "${descGrab}" = "," ]; then
-      descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,description' | rev | cut -d':' -f3 | rev | cut -d'"' -f2)
+      descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,description' | rev | cut -d':' -f3 | rev | cut -d'"' -f2)
     fi
-    outputArray+=("- targets: ['${host}:${nePort}']")
+    outputArray+=("- targets: ['${host}:${NePort}']")
     outputArray+=("  labels: ")
     outputArray+=("    project: \"${descGrab}\"")
     outputArray+=("    branch: \"2.0\"")
@@ -64,12 +49,12 @@ outputArray=("")
 while IFS=" " read -r host
 do
   if [ ${host} != '#' ]; then
-    descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
-    dtapGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
+    descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
+    dtapGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
     if [ "${descGrab}" = "," ]; then
-      descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,description' | rev | cut -d':' -f3 | rev | cut -d'"' -f2)
+      descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,description' | rev | cut -d':' -f3 | rev | cut -d'"' -f2)
     fi
-    outputArray+=("- targets: ['${host}:${nePort}']")
+    outputArray+=("- targets: ['${host}:${NePort}']")
     outputArray+=("  labels: ")
     outputArray+=("    project: \"${descGrab}\"")
     outputArray+=("    branch: \"1.0\"")
@@ -84,12 +69,12 @@ outputArray=("")
 while IFS=" " read -r host
 do
   if [ ${host} != '#' ]; then
-    descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
-    dtapGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
+    descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f4 | rev | cut -d'"' -f2)
+    dtapGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,TAP,description,url' | rev | cut -d':' -f1 | rev | cut -d'"' -f2)
     if [ "${descGrab}" = "," ]; then
-      descGrab=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,description' | rev | cut -d':' -f3 | rev | cut -d'"' -f2)
+      descGrab=$(curl -s https://$ServerlistServer'/api/v2/mm_public_serverlist?q=url=='https://$host'&attrs=~id,description' | rev | cut -d':' -f3 | rev | cut -d'"' -f2)
     fi
-    outputArray+=("- targets: ['${host}:${nePort}']")
+    outputArray+=("- targets: ['${host}:${NePort}']")
     outputArray+=("  labels: ")
     outputArray+=("    project: \"${descGrab}\"")
     outputArray+=("    branch: \"0.1\"")
@@ -99,8 +84,6 @@ done < <(printf '%s\n' "${Branch01}")
 printf "Branch 0.1 - finished\n"
 printf '%s\n' "${outputArray[@]}" >> 01TargetsAcquired.yml
 printf "Writing outputArray to 01TargetsAcquired.yml done\n"
-#echo $(rancher kubectl config set-context edgecluster --cluster=edge-molgenis --namespace=molgenis-prometheus-prod)
-#echo $(rancher kubectl create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml -o yaml --dry-run | rancher kubectl replace -f -)
 echo $(kubectl --token=$TOKEN create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml -o yaml --dry-run | kubectl --token=$TOKEN replace -f -)
 printf "Rancher kubectl updatet configmap from molgenis-prometheus-prod\n"
 $(rm -f *TargetsAcquired.yml)

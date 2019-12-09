@@ -19,5 +19,5 @@ questions:
     required: true
     default: "https://hooks.slack.com/services/..."
     label: "Slack API URL"
-    description: "For development: Can be found on https://molgenisdev.slack.com/services/BFLLSRULF \nFor production: Can be found on https://molgenisops.slack.com/services/B8X3ZFG07"
+    description: "For development: https://molgenisdev.slack.com/services/... For production: https://molgenisops.slack.com/services/..."
     type: string

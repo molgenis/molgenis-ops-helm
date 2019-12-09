@@ -1,5 +1,11 @@
 # Prometheus Monitoring
-This will install monitoring on your cluster. It supports legacy systems as well. So you can monitor your VM-stack with this setup. This also include kubernetes monitoring.
+This will install monitoring on your cluster. It supports legacy systems as well. So you can monitor your VM-stack with this setup. This include kubernetes monitoring as well.
+
+In general the prometheus chart will monitor the kubernetes services and the kubernetes nodes. If you deploy the chart, you will be required to choose between development and production.
+
+If you choose development, you will deploy only the kubernetes monitoring. This will exclude the monitoring for the VM's. This is meant for the development on the development cluster. This will include the kubernetes and PostgreSQL alerts. You are required to fill in the slack url for development. This should be: https://hooks.slack.com/services/...
+
+If you choose production, you will deploy the kubernetes monitoring and the VM's monitoring. This include the alerts for kubernetes, PostgreSQL and VM's alerts. The VM scrapes are automatic populated via a cronjob. The cronjob will be scheduled every day at 7 o'clock. For the cronjob to succeed, you need to have a valid github token of molgenis. If you deploy the chart for production on the production cluster, then you are required to fill in a valid github token of molgenis and you need to fill in a slack url for production. This should look like: https://molgenisops.slack.com/services/...
 
 ## Chart Details
 This chart will deploy a number of services:
@@ -29,9 +35,9 @@ cronjob started what will collect the production servers and will set them in th
 
 ## Secrets
 When deploying the chart for the dev-molgenis on rancher, you'll asked to fill in
-* the slack api url found on https://molgenisdev.slack.com/services/BFLLSRULF
+* the slack api url should look like this: https://molgenisdev.slack.com/services/...
 When deploying the chart for the prod-molgenis on rancher, you'll asked to fill in
-* the slack api url found on https://molgenisops.slack.com/services/B8X3ZFG07
+* the slack api url should look like: https://molgenisops.slack.com/services/...
 * the github token for the molgenis github user(jenkins)
 
 ## Alerts
