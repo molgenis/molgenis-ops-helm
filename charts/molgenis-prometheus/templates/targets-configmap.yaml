@@ -5,11 +5,17 @@ metadata:
 data:
   {{ if eq .Values.environment "production" -}}
   masterTargetsAcquired.yml: |
-    #job
+    #get replaced with master branch server
   20TargetsAcquired.yml: |
-    #job
+    #get replaced with 2.0 branch servers
   10TargetsAcquired.yml: |
-    #job
+    #get replaced with 1.0 branch servers
   01TargetsAcquired.yml: |
-    #job
+    #get replaced with 0.1 branch servers
+  serverListServerAcquired.yml: |
+    - targets: ['molgenis23.gcc.rug.nl:9100']
+      labels:
+        project: "New server: MOLGENIS server list"
+        branch: "1.0"
+        dtap: "productie"
   {{ end -}}

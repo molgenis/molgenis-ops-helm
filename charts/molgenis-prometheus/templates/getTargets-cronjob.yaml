@@ -9,7 +9,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  schedule: "30 6 * * *"
+  schedule: "30 7 * * *"
+  startingDeadlineSeconds: 300
   jobTemplate:
     spec:
       template:

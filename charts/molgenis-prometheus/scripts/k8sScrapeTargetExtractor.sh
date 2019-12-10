@@ -1,11 +1,11 @@
 #!/bin/bash
-GITHUB_TOKEN=$1
+GITHUBTOKEN=$1
 NePort=9100
 ServerlistServer=molgenis23.gcc.rug.nl
-BranchMASTER=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/master/inventory.ini | awk '$2' | cut -d' ' -f1)
-Branch20=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/2.0/inventory.ini | awk '$2' | cut -d' ' -f1)
-Branch10=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/1.0/inventory.ini | awk '$2' | cut -d' ' -f1)
-Branch01=$(curl -s https://${GITHUB_TOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/0.1/inventory.ini | awk '$2' | cut -d' ' -f1)
+BranchMASTER=$(curl -s https://${GITHUBTOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/master/inventory.ini | awk '$2' | cut -d' ' -f1)
+Branch20=$(curl -s https://${GITHUBTOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/2.0/inventory.ini | awk '$2' | cut -d' ' -f1)
+Branch10=$(curl -s https://${GITHUBTOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/1.0/inventory.ini | awk '$2' | cut -d' ' -f1)
+Branch01=$(curl -s https://${GITHUBTOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/0.1/inventory.ini | awk '$2' | cut -d' ' -f1)
 
 printf "Script - start\n"
 printf "Branch master - start\n"

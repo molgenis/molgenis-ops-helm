@@ -36,6 +36,13 @@ data:
             annotations:
               summary: {{ printf "\"Instance 0.1 branch Down\"" }}
               description: {{ printf "\"  Instance of {{$labels.instance}} from 0.1 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: ServerlistInstanceDown
+            expr: up{job="serverListServer"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Serverlist server Down\"" }}
+              description: {{ printf "\"  Serverlist server {{$labels.instance}} from 1.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           - alert: OutOfMemory
             expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
             for: 5m
@@ -304,6 +311,10 @@ data:
         file_sd_configs:
           - files:
             - /etc/configProm/01TargetsAcquired.yml
+      - job_name: 'serverListServer'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/serverListServerAcquired.yml
       {{ end -}}
       - job_name: prometheus
         static_configs:
