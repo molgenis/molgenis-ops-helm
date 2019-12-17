@@ -27,7 +27,7 @@ spec:
                     chmod +x kubectl && 
                     mv kubectl /usr/local/bin/kubectl && 
                     TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
-                    wget ${GITHUBTOKEN}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/k8sScrapeTargetExtractor.sh -O k8sScrapeTargetExtractor.sh && 
+                    wget raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/k8sScrapeTargetExtractor.sh -O k8sScrapeTargetExtractor.sh && 
                     chmod +x k8sScrapeTargetExtractor.sh && 
                     bash k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && 
                     rm -rf /mnt/k8sScrapeTargetExtractor.sh"]

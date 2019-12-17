@@ -21,14 +21,6 @@ For monitoring purposes:
 - 1 alert manager instance
 - 1 prometheus instance
 
-The services are not accessable from outside the cluster, if you want to access them for debugging
-purposes you need to use kubectl to port-forward them to your localhost.
-
-For instance to access the prometheus UI:
-```
-kubectl port-forward molgenis-prometheus-server-podname 9090
-```
-
 ## Script
 If you deploy the chart on prod-molgenis than there will run a script every night at 5.30 AM there will be a 
 cronjob started what will collect the production servers and will set them in the targets for prometheus to be scraped.
@@ -55,3 +47,17 @@ If you want to add or remove alerts from prometheus, you will need to edit the c
 ### To add alert(s)
 7. Add a newline after an alert. Make sure that you start with the same spacing as the alert above. Make sure that you use summary and description in the annotations section, if you don't use the summary and description you will not see the alert!
 8. Repeat step 7 if needed and click "Save". The changed alerts will be automaticly picked up by the molgenis-prometheus.
+
+If you want to debug or mute alert(s) services like alert manager or the prometheus server you will need to port-forward because the services are not accessible from outside the cluster. For muting alert(s) you need to forward a port to the alert manager. For debugging you can forward port(s) to alert manager and/or prometheus server. To do this you will need to have open a commandline interface.
+
+If you want to access the prometheus server UI:
+```
+rancher kubectl port-forward molgenis-prometheus-server-podname 9090:9090 --namespace molgenis-prometheus
+```
+
+If you want to access the alert manager UI(silencing alert(s))
+```
+rancher kubectl port-forward molgenis-prometheus-alertmanager-podname 9093:9093 --namespace molgenis-prometheus
+```
+
+The pod is now available at: http://localhost:port in your browser. To close the connection you need to break the command in the commandline interface by pressing the shortcut on your keyboard: control + c
