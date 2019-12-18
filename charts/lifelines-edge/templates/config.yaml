@@ -8,3 +8,4 @@ data:
   CRM_TOKEN_URL: {{ .Values.crm.oauth2.tokenUrl | quote }}
   USERNAME: {{ .Values.crm.oauth2.username | quote }}
   PROXY_TARGET: {{ .Values.molgenis.url | quote }}
+  DATA_PLATFORM_URL: {{ .Values.dataPlatform.url | quote }}

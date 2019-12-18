@@ -57,4 +57,13 @@ questions:
     type: password
     required: true
     group: CRM
-  
+  - variable: dataPlatform.url
+    label: Lifelines data platform URL
+    type: string
+    required: true
+    group: Data platform
+  - variable: dataPlatform.token
+    label: Token for Lifelines data platform
+    type: password
+    required: true
+    group: Data platform
