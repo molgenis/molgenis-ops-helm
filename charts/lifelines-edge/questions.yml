@@ -14,7 +14,7 @@ questions:
   - variable: image.tag
     label: Image tag
     description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
-    default: 1.2.0
+    default: 1.5.0
     type: string
     required: true
   - variable: molgenis.url
