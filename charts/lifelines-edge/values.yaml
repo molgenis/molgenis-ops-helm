@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: molgenis/molgenis-node-lifelines-edge
-  tag: 1.2.0
+  tag: 1.5.0
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -26,6 +26,9 @@ crm:
     tokenUrl: "https://test.salesforce.com/services/oauth2/token"
 molgenis:
   url: "http://lifelines-molgenis.lifelines.svc:8080"
+  token: "xxxx"
+dataPlatform:
+  url: "https://acc-dp.lifelines.nl:8080"
   token: "xxxx"
 
 ingress:
