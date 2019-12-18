@@ -61,3 +61,8 @@ rancher kubectl port-forward molgenis-prometheus-alertmanager-podname 9093:9093 
 ```
 
 The pod is now available at: http://localhost:port in your browser. To close the connection you need to break the command in the commandline interface by pressing the shortcut on your keyboard: control + c
+
+## Upgrading the chart
+If you want to upgrade the chart, please keep in mind that every scrape config and (silenced) alert will be overwritten. To keep the (silenced) alerts and scrape configs you will need to backup the configmaps targets-configmap, serverfiles-configmap and alertmanager-configmap. When you upgraded the chart, overwrite the default configmaps with your stored configmaps.
+
+Note: you don't have to backup the scrape configs because a cronjob is set to replace the scrape configs every day at 7:30 hour utc.
