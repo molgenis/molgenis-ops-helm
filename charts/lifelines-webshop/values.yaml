@@ -1,0 +1,65 @@
+transform:
+  schedule: 0 4 * * *
+  image:
+    repository: registry.molgenis.org/molgenis/lifelines-transform
+    version: 0.5.2
+    pullPolicy: IfNotPresent
+  config:
+    s3:
+      accessKey: "xxxx"
+      secretKey: "xxxx"
+      bucket: "ll-catalogue-a"
+      hostname: "s3.amazonaws.com"
+      region: "eu-central-1"
+      catalog_folder: "latest"
+      secure: true
+    molgenis:
+      hostname: "http://molgenis:8080"
+      token: "xxxx"
+    src_dir: "catalog"
+    target_dir: "generated"
+
+lifelines-edge:
+  image: 
+    repository: "molgenis/molgenis-node-lifelines-edge"
+    tag: "1.5.3"
+  molgenis: 
+    url: "http://molgenis:8080"
+    token: ""
+  crm:
+    oauth2: 
+      tokenUrl: "https://test.salesforce.com/services/oauth2/token"
+      username: "api@lifelines.nl.acc"
+      password: ""
+      clientId: ""
+      clientSecret: ""
+  dataPlatform: 
+    url: "https://acc-dp.lifelines.nl:8080"
+    token: ""
+
+molgenis:
+  fullnameOverride: molgenis
+  image: 
+    tag: "8.2.4"
+    repository: "registry.hub.docker.com"
+  mail:
+    username: ""
+    password: ""
+  sentry:
+    dsn: "https://0145723ae6e44b8d90e58058ff301ba5@sentry.molgenis.org/2"
+  molgenis-frontend:
+    enabled: true
+    environment: "test"
+    image: 
+      tag: "8.2.4"
+      repository: "registry.hub.docker.com"
+    proxy:
+      backend:
+        service:
+          enabled: false
+        url: "http://molgenis:8080"
+    ingress: 
+      basicAuth: 
+        enabled: true
+        auth: "lifelines:$apr1$xxxxx"
+        realm: "Authentication Required"

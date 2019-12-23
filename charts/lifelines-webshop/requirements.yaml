@@ -1,0 +1,7 @@
+dependencies:
+  - name: molgenis
+    version: "1.x.x"
+    repository: "https://registry.molgenis.org/repository/helm"
+  - name: lifelines-edge
+    version: "0.x.x"
+    repository: "https://registry.molgenis.org/repository/helm"

@@ -1,0 +1,9 @@
+dependencies:
+- name: molgenis
+  repository: https://registry.molgenis.org/repository/helm
+  version: 1.x.x
+- name: lifelines-edge
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.x.x
+digest: sha256:e96c3ab642d6964bdb402b60172348accaf7d8e2aec9aa3dbb7259607b83e680
+generated: "2019-12-27T23:26:23.177683+01:00"
