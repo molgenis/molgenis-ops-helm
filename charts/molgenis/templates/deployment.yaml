@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "molgenis.fullname" . }}
@@ -112,14 +112,14 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8080
-              initialDelaySeconds: 60
-              periodSeconds: 30
+            initialDelaySeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /api/v2/version
               port: 8080
-              initialDelaySeconds: 120
-              periodSeconds: 30
+            initialDelaySeconds: 120
+            periodSeconds: 30
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
