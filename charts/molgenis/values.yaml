@@ -38,8 +38,8 @@ persistence:
   # existingClaim: ""
 resources:
   requests:
-    cpu:
-    memory:
+    cpu: 1
+    memory: 2.5Gi
   limits:
     cpu: 1
     memory: 2.5Gi
@@ -70,8 +70,8 @@ molgenis-elasticsearch:
     size: 5Gi
   resources:
     requests:
-      cpu:
-      memory:
+      cpu: 2
+      memory: 2Gi
     limits:
       cpu: 2
       memory: 2Gi
@@ -79,7 +79,7 @@ molgenis-elasticsearch:
 postgresql:
   enabled: true
   image:
-    tag: 11.1.0-debian-9-r71
+    tag: 11.6.0-debian-9-r28
     pullPolicy: IfNotPresent
   postgresqlExtendedConf:
     maxLocksPerTransaction: 1024
@@ -95,8 +95,8 @@ postgresql:
     accessMode: ReadWriteOnce
   resources:
     requests:
-      cpu:
-      memory:
+      cpu: 250m
+      memory: 512Mi
     limits:
       cpu: 250m
       memory: 512Mi
@@ -111,8 +111,8 @@ minio:
     size: 5Gi
   resources:
     requests:
-      cpu:
-      memory:
+      cpu: 250m
+      memory: 256Mi
     limits:
       cpu: 250m
       memory: 256Mi
