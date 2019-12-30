@@ -1,0 +1,31 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: transform
+  labels:
+    {{- include "lifelines-webshop.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.transform.schedule }}"
+  concurrencyPolicy: Replace
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "lifelines-webshop.labels" . | nindent 8 }}
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: transform
+            {{- with .Values.transform.image }}
+              image: "{{ .repository }}:{{ .version }}"
+              imagePullPolicy: {{ .pullPolicy }}
+            {{- end }}
+              volumeMounts:
+                - mountPath: /root/lifelines-transform/.config
+                  name: data-transform-config
+                  readOnly: true
+          volumes:
+            - name: data-transform-config
+              secret:
+                secretName: data-transform-config
