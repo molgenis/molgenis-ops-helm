@@ -20,6 +20,7 @@ transform:
     target_dir: "generated"
 
 lifelines-edge:
+  fullnameOverride: lifelines-edge
   image: 
     repository: "molgenis/molgenis-node-lifelines-edge"
     tag: "1.5.3"
@@ -58,6 +59,17 @@ molgenis:
         service:
           enabled: false
         url: "http://molgenis:8080"
+      experimental:
+        - path: "@molgenis-experimental/molgenis-app-lifelines-webshop"
+          url: https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@0.32.1
+          unpkg: true
+      custom:
+        - path: "account/activate"
+          url: "http://lifelines-edge:3000"
+          unpkg: false
+        - path: "edge-server"
+          url: "http://lifelines-edge:3000"
+          unpkg: false
     ingress: 
       basicAuth: 
         enabled: true

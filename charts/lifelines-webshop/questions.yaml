@@ -27,6 +27,27 @@ questions:
     type: string
     required: true
     group: "MOLGENIS"
+  - variable: "molgenis.molgenis-frontend.proxy.experimental[0].url"
+    label: Webshop URL on unpkg.com
+    default: "https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop"
+    description: "To pin a specific version, include it in the url, e.g. https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@0.22.x/"
+    type: string
+    required: true
+    group: "MOLGENIS Frontend"
+  - variable: "molgenis.molgenis-frontend.proxy.experimental[0].path"
+    label: Webapp proxy path
+    default: "@molgenis-experimental/molgenis-app-lifelines-webshop"
+    type: string
+    required: true
+    hidden: true
+    group: "MOLGENIS Frontend"
+  - variable: "molgenis.molgenis-frontend.proxy.experimental[0].unpkg"
+    label: Webapp proxy use unpkg
+    default: true
+    type: boolean
+    required: true
+    hidden: true
+    group: "MOLGENIS Frontend"
   - variable: molgenis.adminPassword
     label: Administrator password
     default: ""
