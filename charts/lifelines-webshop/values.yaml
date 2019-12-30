@@ -44,8 +44,7 @@ molgenis:
     tag: "8.2.4"
     repository: "registry.hub.docker.com"
   mail:
-    username: ""
-    password: ""
+    host: "smtp.rug.nl"
   sentry:
     dsn: "https://0145723ae6e44b8d90e58058ff301ba5@sentry.molgenis.org/2"
   molgenis-frontend:
