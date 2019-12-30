@@ -21,26 +21,26 @@ transform:
 
 lifelines-edge:
   fullnameOverride: lifelines-edge
-  image: 
+  image:
     repository: "molgenis/molgenis-node-lifelines-edge"
     tag: "1.5.3"
-  molgenis: 
+  molgenis:
     url: "http://molgenis:8080"
     token: ""
   crm:
-    oauth2: 
+    oauth2:
       tokenUrl: "https://test.salesforce.com/services/oauth2/token"
       username: "api@lifelines.nl.acc"
       password: ""
       clientId: ""
       clientSecret: ""
-  dataPlatform: 
+  dataPlatform:
     url: "https://acc-dp.lifelines.nl:8080"
     token: ""
 
 molgenis:
   fullnameOverride: molgenis
-  image: 
+  image:
     tag: "8.2.4"
     repository: "registry.hub.docker.com"
   mail:
@@ -50,7 +50,7 @@ molgenis:
   molgenis-frontend:
     enabled: true
     environment: "test"
-    image: 
+    image:
       tag: "8.2.4"
       repository: "registry.hub.docker.com"
     proxy:
@@ -69,8 +69,8 @@ molgenis:
         - path: "edge-server"
           url: "http://lifelines-edge:3000"
           unpkg: false
-    ingress: 
-      basicAuth: 
+    ingress:
+      basicAuth:
         enabled: true
         auth: "lifelines:$apr1$xxxxx"
         realm: "Authentication Required"
