@@ -60,7 +60,7 @@ questions:
     description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
     default: 1.5.0
     type: string
-    required: true\
+    required: true
     group: "Edge Server"
   - variable: lifelines-edge.molgenis.token
     label: Edge server MOLGENIS api token
