@@ -9,7 +9,7 @@ sources:
 - https://github.com/molgenis/molgenis-app-lifelines-webshop.git
 - https://github.com/molgenis/molgenis-node-lifelines-edge.git
 home: https://molgenis.org/
-icon: https://raw.githubusercontent.com/fdlk/molgenis-ops-helm/feat/webshop/charts/lifelines-webshop/lifelines-webshop.png
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/lifelines-webshop/lifelines-webshop.png
 maintainers:
 - name: fdlk
 - name: sidohaakma
