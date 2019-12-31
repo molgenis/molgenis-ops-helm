@@ -64,10 +64,10 @@ molgenis:
           unpkg: true
       custom:
         - path: "account/activate"
-          url: "http://lifelines-edge"
+          url: "http://lifelines-edge/account/activate"
           unpkg: false
         - path: "edge-server"
-          url: "http://lifelines-edge"
+          url: "http://lifelines-edge/edge-server"
           unpkg: false
     ingress:
       basicAuth:
