@@ -195,8 +195,8 @@ data:
             labels:
               severity: INFO
             annotations:
-              summary: {{ printf "\"Kubernetes Job failed (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Job {{$labels.namespace}}/{{$labels.job}} failed to complete on instance: {{ $labels.instance }}\\n \"" }}
+              summary: {{ printf "\"Kubernetes Job failed (job {{ $labels.job_name }})\"" }}
+              description: {{ printf "\"  Job {{$labels.kubernetes_namespace}}/{{$labels.component}}/{{$labels.job_name}} failed to complete\\n \"" }}
           - alert: KubernetesCronjobSuspended
             expr: kube_cronjob_spec_suspend != 0
             for: 5m
