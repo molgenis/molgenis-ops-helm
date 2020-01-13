@@ -415,6 +415,7 @@ hubot:
         #   hubot preview list - Welke preview omgevingen staan er allemaal gedeployed
         #   hubot preview delete <tag> - Verwijder de preview environment voor deze tag
         #   hubot preview <tag> - Deploy een molgenis preview environment voor deze tag
+        #   hubot preview pr <pr_number> - Deploy een molgenis preview environment voor de laatste tag van een pull request
         #
         # Author:
         #   fdlk
