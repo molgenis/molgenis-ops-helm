@@ -22,13 +22,12 @@ For monitoring purposes:
 - 1 prometheus instance
 
 ## Script
-If you deploy the chart on prod-molgenis than there will run a script every night at 5.30 AM there will be a 
-cronjob started what will collect the production servers and will set them in the targets for prometheus to be scraped.
+If you deploy the chart on prod-molgenis, each night a script will run at 6.30 AM that starts a cronjob that will collect the production servers and sets them in the targets list for prometheus to scrape.
 
 ## Secrets
-When deploying the chart for the dev-molgenis on rancher, you'll asked to fill in
+When deploying the chart for the dev-molgenis on rancher, you'll be asked to fill in
 * the slack api url should look like this: https://molgenisdev.slack.com/services/...
-When deploying the chart for the prod-molgenis on rancher, you'll asked to fill in
+When deploying the chart for the prod-molgenis on rancher, you'll be asked to fill in
 * the slack api url should look like: https://molgenisops.slack.com/services/...
 * the github token for the molgenis github user(jenkins)
 
