@@ -1,1054 +1,292 @@
 jenkins:
-  Master:
-    ImageTag: "2.176.3"
-    Environment: production
-    HostName: jenkins.dev.molgenis.org
-    ServiceType: ClusterIP
-    # git configures the global git config
-    git:
-      # name contains Global Config user.name Value
-      name: MOLGENIS Jenkins
-      # email contains Global Config user.email Value
-      email: molgenis+ci@gmail.com
-    JenkinsAdminEmail: molgenis+ci@gmail.com
-    InstallPlugins:
-      - kubernetes:1.14.8
+  # clusterZone: "edgecluster.local"
+  master:
+    image: "jenkins/jenkins"
+    tag: "2.214"
+    ingress:
+      enabled: true
+      # hostName: jenkins.edge.molgenis.org
+    # serviceType: ClusterIP
+    serviceType: NodePort
+    installPlugins:
+      - kubernetes:1.23.0
       - workflow-aggregator:2.6
-      - workflow-job:2.32
-      - credentials-binding:1.18
-      - embeddable-build-status:2.0.2
-      - git:3.9.3
-      - github-branch-source:2.4.2
-      - basic-branch-build-strategies:1.1.1
-      - kubernetes-credentials-provider:0.12.1
-      - blueocean:1.13.2
+      - workflow-job:2.36
+      - credentials-binding:1.20
+      - embeddable-build-status:2.0.3
+      - git:4.0.0
+      - github-branch-source:2.5.8
+      - basic-branch-build-strategies:1.3.2
+      - kubernetes-credentials-provider:0.13
+      - blueocean:1.21.0
       - pipeline-github-lib:1.0
-      - github-oauth:0.32
+      - github-oauth:0.33
       - github-scm-trait-commit-skip:0.4.0
       - ansible:1.0
-      - hubot-steps:2.0.4
-      - prometheus:2.0.0
-      - github-pullrequest:0.2.4
-      - token-macro:2.8
-    Security:
-      UseGitHub: false
-      GitHub:
-        ClientID: ""
-        ClienSecret: ""
+      - hubot-steps:2.0.5
+      - prometheus:2.0.6
+      - github-pullrequest:0.2.6
+      - token-macro:2.10
+      - configuration-as-code:1.35
+      - job-dsl:1.76
+    overwritePlugins: true
     resources:
       limits:
         cpu: 500m
         memory: 4096Mi
       requests:
         cpu: 500m
-        memory: 4096Mi
-    metrics:
-      key: ""
-    NodeSelector: {
-      deployPod: "true"
-    }
-    Jobs: |-
-      preview: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <flow-definition plugin="workflow-job@2.25">
-          <actions>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
-              <jobProperties/>
-              <triggers/>
-              <parameters/>
-              <options/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
-          </actions>
-          <description>Preview a molgenis PR</description>
-          <keepDependencies>false</keepDependencies>
-          <properties>
-            <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.2">
-              <siteNames>hubot.molgenis.org</siteNames>
-              <enableNotifications>true</enableNotifications>
-            </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
-            <hudson.model.ParametersDefinitionProperty>
-              <parameterDefinitions>
-                <hudson.model.ChoiceParameterDefinition>
-                  <name>ACTION</name>
-                  <description>What action to perform</description>
-                  <choices class="java.util.Arrays$ArrayList">
-                    <a class="string-array">
-                      <string>install</string>
-                      <string>delete</string>
-                      <string>list</string>
-                    </a>
-                  </choices>
-                </hudson.model.ChoiceParameterDefinition>
-                <hudson.model.StringParameterDefinition>
-                  <name>TAG</name>
-                  <description>The docker tag to deploy</description>
-                  <defaultValue>dev</defaultValue>
-                  <trim>true</trim>
-                </hudson.model.StringParameterDefinition>
-              </parameterDefinitions>
-            </hudson.model.ParametersDefinitionProperty>
-          </properties>
-          <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.59">
-            <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
-              <configVersion>2</configVersion>
-              <userRemoteConfigs>
-                <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
-                  <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-                </hudson.plugins.git.UserRemoteConfig>
-              </userRemoteConfigs>
-              <branches>
-                <hudson.plugins.git.BranchSpec>
-                  <name>master</name>
-                </hudson.plugins.git.BranchSpec>
-              </branches>
-              <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-              <submoduleCfg class="list"/>
-              <extensions/>
-            </scm>
-            <scriptPath>charts/molgenis-jenkins/resources/preview/Jenkinsfile</scriptPath>
-            <lightweight>true</lightweight>
-          </definition>
-          <triggers/>
-          <disabled>false</disabled>
-        </flow-definition>
-      cleanup: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-          <flow-definition plugin="workflow-job@2.32">
-            <actions/>
-            <description>Clean up preview deployments every night</description>
-            <keepDependencies>false</keepDependencies>
-            <properties>
-              <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.8"/>
-              <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.4">
-                <siteNames></siteNames>
-                <enableNotifications>false</enableNotifications>
-              </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
-              <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-                <triggers>
-                  <hudson.triggers.TimerTrigger>
-                    <spec>TZ=Europe/Amsterdam
-          H H(0-5) * * * </spec>
-                  </hudson.triggers.TimerTrigger>
-                </triggers>
-              </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-            </properties>
-            <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.71">
-              <script>pipeline {
-              agent {
-                  kubernetes {
-                      label &apos;shared&apos;
+        memory: 2000Mi
+    JCasC:
+      enabled: true
+      configScripts:
+        jobs: |-
+          jobs:
+            - script: >
+                organizationFolder('molgenis-jenkins') {
+                  description('Projects in the GitHub molgenis organization')
+                  displayName('molgenis-jenkins')
+                  triggers {
+                      periodic(86400)
                   }
-              }
-              stages {
-                  stage(&quot;Cleanup&quot;) {
-                      steps {
-                          container(&apos;vault&apos;) {
-                              sh &quot;mkdir /home/jenkins/.rancher&quot;
-                              sh(script: &apos;vault read -field=value secret/ops/jenkins/rancher/cli2.json &gt; /home/jenkins/.rancher/cli2.json&apos;)
-                          }
-                          container(&apos;rancher&apos;) {
-                              sh &quot;rancher app | awk &apos;{print \$2}&apos; | grep preview- &gt; preview.list&quot;
-                              sh &quot;xargs rancher app delete &lt; preview.list&quot;
-                          }
-                      }
+                  organizations {
+                    github {
+                      repoOwner("molgenis-jenkins")
+                      apiUri("https://api.github.com")
+                      credentialsId('molgenis-jenkins-github-secret')
+                      scanCredentialsId('molgenis-jenkins-github-secret')
+                    }
                   }
-              }
-          }</script>
-              <sandbox>true</sandbox>
-            </definition>
-            <triggers/>
-            <disabled>false</disabled>
-          </flow-definition>
-      test-nightly: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <flow-definition plugin="workflow-job@2.25">
-          <actions>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
-              <jobProperties/>
-              <triggers/>
-              <parameters/>
-              <options/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
-          </actions>
-          <description>The nightly build for MOLGENIS</description>
-          <keepDependencies>false</keepDependencies>
-          <properties>
-            <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.2">
-              <siteNames>slack-general</siteNames>
-              <enableNotifications>true</enableNotifications>
-            </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
-          </properties>
-          <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.59">
-            <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
-              <configVersion>2</configVersion>
-              <userRemoteConfigs>
-                <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
-                  <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-                </hudson.plugins.git.UserRemoteConfig>
-              </userRemoteConfigs>
-              <branches>
-                <hudson.plugins.git.BranchSpec>
-                  <name>master</name>
-                </hudson.plugins.git.BranchSpec>
-              </branches>
-              <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-              <submoduleCfg class="list"/>
-              <extensions/>
-            </scm>
-            <scriptPath>charts/molgenis-jenkins/resources/tests/nightly/Jenkinsfile</scriptPath>
-            <lightweight>true</lightweight>
-          </definition>
-          <triggers/>
-          <disabled>false</disabled>
-        </flow-definition>
-      test-e2e-commander: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <flow-definition plugin="workflow-job@2.25">
-          <actions>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
-              <jobProperties/>
-              <triggers/>
-              <parameters/>
-              <options/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
-          </actions>
-          <description>The nightly MOLGENIS Commander integration tests</description>
-          <keepDependencies>false</keepDependencies>
-          <properties>
-            <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.2">
-              <siteNames>slack-general</siteNames>
-              <enableNotifications>true</enableNotifications>
-            </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
-          </properties>
-          <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.59">
-            <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
-              <configVersion>2</configVersion>
-              <userRemoteConfigs>
-                <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
-                  <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-                </hudson.plugins.git.UserRemoteConfig>
-              </userRemoteConfigs>
-              <branches>
-                <hudson.plugins.git.BranchSpec>
-                  <name>master</name>
-                </hudson.plugins.git.BranchSpec>
-              </branches>
-              <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-              <submoduleCfg class="list"/>
-              <extensions/>
-            </scm>
-            <scriptPath>charts/molgenis-jenkins/resources/tests/e2e-commander/Jenkinsfile</scriptPath>
-            <lightweight>true</lightweight>
-          </definition>
-          <triggers/>
-          <disabled>false</disabled>
-        </flow-definition>
-      test-e2e: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <flow-definition plugin="workflow-job@2.25">
-          <actions>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
-              <jobProperties/>
-              <triggers/>
-              <parameters/>
-              <options/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
-          </actions>
-          <description>The end-2-end tests for MOLGENIS</description>
-          <keepDependencies>false</keepDependencies>
-          <properties>
-            <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.2">
-              <siteNames>slack-general</siteNames>
-              <enableNotifications>true</enableNotifications>
-            </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
-          </properties>
-          <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.59">
-            <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
-              <configVersion>2</configVersion>
-              <userRemoteConfigs>
-                <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
-                  <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-                </hudson.plugins.git.UserRemoteConfig>
-              </userRemoteConfigs>
-              <branches>
-                <hudson.plugins.git.BranchSpec>
-                  <name>master</name>
-                </hudson.plugins.git.BranchSpec>
-              </branches>
-              <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-              <submoduleCfg class="list"/>
-              <extensions/>
-            </scm>
-            <scriptPath>charts/molgenis-jenkins/resources/tests/e2e/Jenkinsfile</scriptPath>
-            <lightweight>true</lightweight>
-          </definition>
-          <triggers/>
-          <disabled>false</disabled>
-        </flow-definition>
-      test-live: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <flow-definition plugin="workflow-job@2.25">
-          <actions>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
-              <jobProperties/>
-              <triggers/>
-              <parameters/>
-              <options/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
-          </actions>
-          <description>The live data tests for MOLGENIS</description>
-          <keepDependencies>false</keepDependencies>
-          <properties>
-            <org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty plugin="hubot-steps@2.0.2">
-              <siteNames>slack-general</siteNames>
-              <enableNotifications>true</enableNotifications>
-            </org.thoughtslive.jenkins.plugins.hubot.config.HubotJobProperty>
-          </properties>
-          <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.59">
-            <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
-              <configVersion>2</configVersion>
-              <userRemoteConfigs>
-                <hudson.plugins.git.UserRemoteConfig>
-                  <url>https://github.com/molgenis/molgenis-ops-helm.git</url>
-                  <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-                </hudson.plugins.git.UserRemoteConfig>
-              </userRemoteConfigs>
-              <branches>
-                <hudson.plugins.git.BranchSpec>
-                  <name>master</name>
-                </hudson.plugins.git.BranchSpec>
-              </branches>
-              <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-              <submoduleCfg class="list"/>
-              <extensions/>
-            </scm>
-            <scriptPath>charts/molgenis-jenkins/resources/tests/live/Jenkinsfile</scriptPath>
-            <lightweight>true</lightweight>
-          </definition>
-          <triggers/>
-          <disabled>false</disabled>
-        </flow-definition>
-      molgenis: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
-          <actions/>
-          <description></description>
-          <displayName>molgenis</displayName>
-          <properties>
-            <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
-              <permittedClouds/>
-            </org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig plugin="pipeline-model-definition@1.3.4.1">
-              <dockerLabel></dockerLabel>
-              <registry plugin="docker-commons@1.13"/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig>
-          </properties>
-          <folderViews class="jenkins.branch.OrganizationFolderViewHolder">
-            <owner reference="../.."/>
-          </folderViews>
-          <healthMetrics>
-            <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.7">
-              <nonRecursive>false</nonRecursive>
-            </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
-          </healthMetrics>
-          <icon class="jenkins.branch.MetadataActionFolderIcon">
-            <owner class="jenkins.branch.OrganizationFolder" reference="../.."/>
-          </icon>
-          <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.7">
-            <pruneDeadBranches>true</pruneDeadBranches>
-            <daysToKeep>-1</daysToKeep>
-            <numToKeep>-1</numToKeep>
-          </orphanedItemStrategy>
-          <triggers>
-            <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.7">
-              <spec>H H/4 * * *</spec>
-              <interval>86400000</interval>
-            </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
-          </triggers>
-          <disabled>false</disabled>
-          <navigators>
-            <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.4.1">
-              <repoOwner>molgenis</repoOwner>
-              <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-              <traits>
-                <jenkins.scm.impl.trait.RegexSCMSourceFilterTrait plugin="scm-api@2.3.0">
-                  <regex>molgenis.*</regex>
-                </jenkins.scm.impl.trait.RegexSCMSourceFilterTrait>
-                <org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                  <strategyId>1</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                  <trust class="org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission"/>
-                </org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait plugin="github-scm-trait-commit-skip@0.1.1"/>
-                <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
-                    <localBranch>**</localBranch>
-                  </extension>
-                </jenkins.plugins.git.traits.LocalBranchTrait>
-                <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
-                    <name>MOLGENIS Jenkins</name>
-                    <email>molgenis+ci@gmail.com</email>
-                  </extension>
-                </jenkins.plugins.git.traits.UserIdentityTrait>
-              </traits>
-            </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
-          </navigators>
-          <projectFactories>
-            <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory plugin="workflow-multibranch@2.20">
-              <scriptPath>Jenkinsfile</scriptPath>
-            </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory>
-          </projectFactories>
-          <buildStrategies>
-            <jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1">
-              <ignoreTargetOnlyChanges>false</ignoreTargetOnlyChanges>
-            </jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl>
-            <jenkins.branch.buildstrategies.basic.BranchBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1"/>
-          </buildStrategies>
-        </jenkins.branch.OrganizationFolder>
-      accept-molgenis: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
-          <actions/>
-          <description></description>
-          <displayName>accept-molgenis</displayName>
-          <properties>
-            <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
-              <permittedClouds/>
-            </org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig plugin="pipeline-model-definition@1.3.4.1">
-              <dockerLabel></dockerLabel>
-              <registry plugin="docker-commons@1.13"/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig>
-          </properties>
-          <folderViews class="jenkins.branch.OrganizationFolderViewHolder">
-            <owner reference="../.."/>
-          </folderViews>
-          <healthMetrics>
-            <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.7">
-              <nonRecursive>false</nonRecursive>
-            </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
-          </healthMetrics>
-          <icon class="jenkins.branch.MetadataActionFolderIcon">
-            <owner class="jenkins.branch.OrganizationFolder" reference="../.."/>
-          </icon>
-          <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.7">
-            <pruneDeadBranches>true</pruneDeadBranches>
-            <daysToKeep>-1</daysToKeep>
-            <numToKeep>-1</numToKeep>
-          </orphanedItemStrategy>
-          <triggers>
-            <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.7">
-              <spec>H H/4 * * *</spec>
-              <interval>86400000</interval>
-            </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
-          </triggers>
-          <disabled>false</disabled>
-          <navigators>
-            <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.4.1">
-              <repoOwner>molgenis-jenkins</repoOwner>
-              <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-              <traits>
-                <jenkins.scm.impl.trait.RegexSCMSourceFilterTrait plugin="scm-api@2.3.0">
-                  <regex>molgenis.*</regex>
-                </jenkins.scm.impl.trait.RegexSCMSourceFilterTrait>
-                <org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                  <strategyId>1</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                  <trust class="org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission"/>
-                </org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait plugin="github-scm-trait-commit-skip@0.1.1"/>
-                <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
-                    <localBranch>**</localBranch>
-                  </extension>
-                </jenkins.plugins.git.traits.LocalBranchTrait>
-                <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
-                    <name>MOLGENIS Jenkins</name>
-                    <email>molgenis+ci@gmail.com</email>
-                  </extension>
-                </jenkins.plugins.git.traits.UserIdentityTrait>
-              </traits>
-            </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
-          </navigators>
-          <projectFactories>
-            <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory plugin="workflow-multibranch@2.20">
-              <scriptPath>Jenkinsfile</scriptPath>
-            </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory>
-          </projectFactories>
-          <buildStrategies>
-            <jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1">
-              <ignoreTargetOnlyChanges>false</ignoreTargetOnlyChanges>
-            </jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl>
-            <jenkins.branch.buildstrategies.basic.BranchBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1"/>
-          </buildStrategies>
-        </jenkins.branch.OrganizationFolder>
-      other: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
-          <actions/>
-          <description>Other jobs in the MOLGENIS organisation</description>
-          <displayName>other</displayName>
-          <properties>
-            <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
-              <permittedClouds/>
-            </org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig plugin="pipeline-model-definition@1.3.4.1">
-              <dockerLabel></dockerLabel>
-              <registry plugin="docker-commons@1.13"/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig>
-          </properties>
-          <folderViews class="jenkins.branch.OrganizationFolderViewHolder">
-            <owner reference="../.."/>
-          </folderViews>
-          <healthMetrics>
-            <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.7">
-              <nonRecursive>false</nonRecursive>
-            </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
-          </healthMetrics>
-          <icon class="jenkins.branch.MetadataActionFolderIcon">
-            <owner class="jenkins.branch.OrganizationFolder" reference="../.."/>
-          </icon>
-          <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.7">
-            <pruneDeadBranches>true</pruneDeadBranches>
-            <daysToKeep>-1</daysToKeep>
-            <numToKeep>-1</numToKeep>
-          </orphanedItemStrategy>
-          <triggers>
-            <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.7">
-              <spec>H H/4 * * *</spec>
-              <interval>86400000</interval>
-            </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
-          </triggers>
-          <disabled>false</disabled>
-          <navigators>
-            <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.4.1">
-              <repoOwner>molgenis</repoOwner>
-              <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-              <traits>
-                <jenkins.scm.impl.trait.RegexSCMSourceFilterTrait plugin="scm-api@2.3.0">
-                  <regex>^(?!molgenis).*</regex>
-                </jenkins.scm.impl.trait.RegexSCMSourceFilterTrait>
-                <org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                  <strategyId>1</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                  <trust class="org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission"/>
-                </org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait plugin="github-scm-trait-commit-skip@0.1.1"/>
-                <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
-                    <localBranch>**</localBranch>
-                  </extension>
-                </jenkins.plugins.git.traits.LocalBranchTrait>
-                <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
-                    <name>MOLGENIS Jenkins</name>
-                    <email>molgenis+ci@gmail.com</email>
-                  </extension>
-                </jenkins.plugins.git.traits.UserIdentityTrait>
-              </traits>
-            </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
-          </navigators>
-          <projectFactories>
-            <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory plugin="workflow-multibranch@2.20">
-              <scriptPath>Jenkinsfile</scriptPath>
-            </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory>
-          </projectFactories>
-          <buildStrategies>
-            <jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1">
-              <ignoreTargetOnlyChanges>false</ignoreTargetOnlyChanges>
-            </jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl>
-            <jenkins.branch.buildstrategies.basic.BranchBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1"/>
-          </buildStrategies>
-        </jenkins.branch.OrganizationFolder>
-      accept-other: |-
-        <?xml version='1.1' encoding='UTF-8'?>
-        <jenkins.branch.OrganizationFolder plugin="branch-api@2.1.2">
-          <actions/>
-          <description>Other jobs in MOLGENIS organisation</description>
-          <displayName>accept-other</displayName>
-          <properties>
-            <org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty plugin="kubernetes@1.14.3">
-              <permittedClouds/>
-            </org.csanchez.jenkins.plugins.kubernetes.KubernetesFolderProperty>
-            <org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig plugin="pipeline-model-definition@1.3.4.1">
-              <dockerLabel></dockerLabel>
-              <registry plugin="docker-commons@1.13"/>
-            </org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig>
-          </properties>
-          <folderViews class="jenkins.branch.OrganizationFolderViewHolder">
-            <owner reference="../.."/>
-          </folderViews>
-          <healthMetrics>
-            <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.7">
-              <nonRecursive>false</nonRecursive>
-            </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
-          </healthMetrics>
-          <icon class="jenkins.branch.MetadataActionFolderIcon">
-            <owner class="jenkins.branch.OrganizationFolder" reference="../.."/>
-          </icon>
-          <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.7">
-            <pruneDeadBranches>true</pruneDeadBranches>
-            <daysToKeep>-1</daysToKeep>
-            <numToKeep>-1</numToKeep>
-          </orphanedItemStrategy>
-          <triggers>
-            <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.7">
-              <spec>H H/4 * * *</spec>
-              <interval>86400000</interval>
-            </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
-          </triggers>
-          <disabled>false</disabled>
-          <navigators>
-            <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.4.1">
-              <repoOwner>molgenis-jenkins</repoOwner>
-              <credentialsId>molgenis-jenkins-github-secret</credentialsId>
-              <traits>
-                <jenkins.scm.impl.trait.RegexSCMSourceFilterTrait plugin="scm-api@2.3.0">
-                  <regex>^(?!molgenis).*</regex>
-                </jenkins.scm.impl.trait.RegexSCMSourceFilterTrait>
-                <org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                  <strategyId>1</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                </org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                  <strategyId>2</strategyId>
-                  <trust class="org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission"/>
-                </org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait>
-                <org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait plugin="github-scm-trait-commit-skip@0.1.1"/>
-                <jenkins.plugins.git.traits.LocalBranchTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.LocalBranch">
-                    <localBranch>**</localBranch>
-                  </extension>
-                </jenkins.plugins.git.traits.LocalBranchTrait>
-                <jenkins.plugins.git.traits.UserIdentityTrait plugin="git@3.9.1">
-                  <extension class="hudson.plugins.git.extensions.impl.UserIdentity">
-                    <name>MOLGENIS Jenkins</name>
-                    <email>molgenis+ci@gmail.com</email>
-                  </extension>
-                </jenkins.plugins.git.traits.UserIdentityTrait>
-              </traits>
-            </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
-          </navigators>
-          <projectFactories>
-            <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory plugin="workflow-multibranch@2.20">
-              <scriptPath>Jenkinsfile</scriptPath>
-            </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory>
-          </projectFactories>
-          <buildStrategies>
-            <jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1">
-              <ignoreTargetOnlyChanges>false</ignoreTargetOnlyChanges>
-            </jenkins.branch.buildstrategies.basic.ChangeRequestBuildStrategyImpl>
-            <jenkins.branch.buildstrategies.basic.BranchBuildStrategyImpl plugin="basic-branch-build-strategies@1.1.1"/>
-          </buildStrategies>
-        </jenkins.branch.OrganizationFolder>
-    # Kubernetes secret that contains a 'credentials.xml' for Jenkins
-    # CredentialsXmlSecret: jenkins-credentials
-    # Kubernetes secret that contains files to be put in the Jenkins 'secrets' directory,
-    # useful to manage encryption keys used for credentials.xml for instance (such as
-    # master.key and hudson.util.Secret)
-    # SecretsFilesSecret: jenkins-secrets
-    CustomConfigMap: true
+                  configure {
+                    def traits = it / navigators / 'org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator' / traits
+                    traits << 'jenkins.scm.impl.trait.RegexSCMSourceFilterTrait' {
+                        regex 'molgenis.*'
+                    }
+                    traits << 'org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait' {
+                        strategyId 1
+                    }
+                    traits << 'org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait' {
+                        strategyId 2
+                    }
+                    traits << 'org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait' {
+                        strategyId 2
+                        trust(class: 'org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission')
+                    }
+                    traits << 'org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait' {}
+                    traits << 'jenkins.plugins.git.traits.LocalBranchTrait' {
+                        extension(class: 'hudson.plugins.git.extensions.impl.LocalBranch') {
+                            localBranch '**'
+                        }
+                    }
+                    traits << 'jenkins.plugins.git.traits.UserIdentityTrait' {
+                        extension(class: 'hudson.plugins.git.extensions.impl.UserIdentity') {
+                            name 'MOLGENIS Jenkins'
+                            email 'molgenis+ci@gmail.com'
+                        }
+                    }
+                  }
+                }
+            - script: >
+                multibranchPipelineJob('biobank-explorer') {
+                  branchSources {
+                    github {
+                      // The id option in the Git and GitHub branch source contexts is now mandatory (JENKINS-43693).
+                      id('12312313') // IMPORTANT: use a constant and unique identifier
+                      scanCredentialsId('molgenis-jenkins-github-secret')
+                      repoOwner('molgenis-jenkins')
+                      repository('molgenis-py-client')
+                    }
+                  }
+                  orphanedItemStrategy {
+                    discardOldItems {
+                      numToKeep(1)
+                    }
+                  }
+                  triggers {
+                    periodic(5)
+                  }
+                }
+        git: |
+          unclassified:
+            gitSCM:
+              globalConfigEmail: "molgenis+ci@gmail.com"
+              globalConfigName: "MOLGENIS Jenkins"
+            gitHubPluginConfig:
+              configs:
+                - name: GitHub
+                  manageHooks: false
+                  credentialsId: "molgenis-jenkins-github-token-secret"
+        security: |
+          jenkins:
+            securityRealm:
+              github:
+                githubWebUri: "https://github.com"
+                githubApiUri: "https://api.github.com"
+                clientID: "03c6a32798c2b6e12632"
+                clientSecret: "7b01d91890e00e12bf25e4d9649b0d4664db18bd"
+                oauthScopes: "read:org,user:email"
+            authorizationStrategy:
+              github:
+                organizationNames: "molgenis"
+                useRepositoryPermissions: true
+                adminUserNames: "sidohaakma, fdlk, molgenis-jenkins"
+                allowAnonymousJobStatusPermission: true
+                allowAnonymousReadPermission: false
+                allowCcTrayPermission: false
+                allowGithubWebHookPermission: true
+                authenticatedUserCreateJobPermission: false
+                authenticatedUserReadPermission: false
+        kubernetes: |-
+          jenkins:
+            clouds:
+            - kubernetes:
+                name: "kubernetes"
+                containerCapStr: "10"
+                jenkinsTunnel: "molgenis-jenkins-agent:50000"
+                jenkinsUrl: "http://molgenis-jenkins:8080"
+                maxRequestsPerHostStr: "32"
+                name: "kubernetes"
+                namespace: "default"
+                serverUrl: ""
+                templates:
+                  - name: shared
+                    label: shared
+                    containers:
+                      - name: kaniko
+                        image: "gcr.io/kaniko-project/executor:debug-v0.7.0"
+                        command: cat
+                        args: ""
+                        ttyEnabled: true
+                      - name: rancher
+                        image: "rancher/cli2:v2.2.0"
+                        ttyEnabled: true
+                      - name: vault
+                        image: "vault:1.3.1"
+                        ttyEnabled: true
+                        envVars:
+                          - secretEnvVar:
+                              key: VAULT_TOKEN
+                              secretName: molgenis-pipeline-vault-secret
+                              secretKey: token
+                          - secretEnvVar:
+                              key: VAULT_SKIP_VERIFY
+                              secretName: molgenis-pipeline-vault-secret
+                              secretKey: skipVerify
+                          - secretEnvVar:
+                              key: VAULT_ADDR
+                              secretName: molgenis-pipeline-vault-secret
+                              secretKey: addr
+                      - name: sonar
+                        image: "molgenis/sonarqube-scanner:sonarqube-scanner-release-2019-08-07_20-09-36"
+                        ttyEnabled: true
+                    envVars:
+                      - envVar:
+                          key: "npm_config_registry"
+                          value: "https://registry.molgenis.org/repository/npm-central/"
+                      - envVar:
+                          key: LOCAL_REGISTRY
+                          value: registry.molgenis.org
+                      - envVar:
+                          key: DOCKER_REGISTRY
+                          value: registry.hub.docker.com
+                      - envVar:
+                          key: HELM_REPO
+                          value: https://registry.molgenis.org/repository/helm/
+                      - envVar:
+                          key: HELM_REPOSITORY
+                          value: https://helm.molgenis.org/
+                    nodeUsageMode: NORMAL
+                    volumes:
+                      - hostPathVolume:
+                          hostPath: "/var/run/docker.sock"
+                          mountPath: "/var/run/docker.sock"
+                  - name: molgenis
+                    label: molgenis
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: maven
+                        image: "molgenis/maven-jdk8:maven-jdk8-release-2019-05-24_09-24-16"
+                        ttyEnabled: true
+                        resourceRequestCpu: "1"
+                        resourceRequestMemory: "4Gi"
+                        envVars:
+                          - envVar:
+                              key: MAVEN_OPTS
+                              value: "-Duser.home=/home/jenkins"
+                          - envVar:
+                              key: MAVEN_CONFIG
+                              value: "/home/jenkins/.m2"
+                  - name: molgenis-jdk11
+                    label: molgenis-jdk11
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: maven
+                        image: "molgenis/maven-jdk11:maven-jdk11-release-2019-05-07_09-20-11"
+                        ttyEnabled: true
+                        resourceRequestCpu: "1"
+                        resourceRequestMemory: "4Gi"
+                        envVars:
+                          - envVar:
+                              key: MAVEN_OPTS
+                              value: "-Duser.home=/home/jenkins"
+                          - envVar:
+                              key: MAVEN_CONFIG
+                              value: "/home/jenkins/.m2"
+                  - name: node
+                    label: node-carbon
+                    nodeUsageMode: EXCLUSIVE
+                    inheritFrom: shared
+                    containers:
+                      - name: node
+                        image: "molgenis/node-carbon:node-carbon-release-2019-11-25_10-52-39"
+                        ttyEnabled: true
+                        resourceRequestCpu: "1"
+                        resourceRequestMemory: "1Gi"
+                  - name: node-dubnium
+                    label: node-dubnium
+                    nodeUsageMode: EXCLUSIVE
+                    inheritFrom: shared
+                    containers:
+                      - name: node
+                        image: "molgenis/node-dubnium:node-dubnium-release-2019-11-25_10-52-39"
+                        ttyEnabled: true
+                        resourceRequestCpu: "1"
+                        resourceRequestMemory: "1Gi"
+                    envVars:
+                      - envVar:
+                          key: NPM_REGISTRY
+                          value: registry.npmjs.org
+                      - envVar:
+                          key: NPM_LOCAL_REGISTRY
+                          value: registry.molgenis.org/repository/npm-hosted
+                  - name: python
+                    label: python-stretch
+                    nodeUsageMode: EXCLUSIVE
+                    inheritFrom: shared
+                    containers:
+                      - name: python
+                        image: "python:stretch"
+                        ttyEnabled: true
+                        resourceRequestCpu: "100m"
+                        resourceRequestMemory: "250Mi"
+                        resourceLimitMemory: "512Mi"
+                    envVars:
+                      - envVar:
+                          key: PYPI_REGISTRY
+                          value: https://upload.pypi.org/legacy/
+                      - envVar:
+                          key: PYPI_LOCAL_REGISTRY
+                          value: https://registry.molgenis.org/repository/pypi/
+    # TODO: enable
+    # nodeSelector:
+      # deployPod: "true"
+    scriptApproval:
+      - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
-    install: true
-  Pods:
-    shared:
-      Label: shared
-      NodeUsageMode: NORMAL
-      volumes:
-        - type: HostPath
-          hostPath: '/var/run/docker.sock'
-          mountPath: '/var/run/docker.sock'
-      Containers:
-        kaniko:
-          Image: "gcr.io/kaniko-project/executor"
-          ImageTag: "debug-v0.7.0"
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-        rancher:
-          Image: rancher/cli2
-          ImageTag: v2.2.0
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-        vault:
-          Image: vault
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-          EnvVars:
-            - type: Secret
-              key: VAULT_TOKEN
-              secretName: molgenis-pipeline-vault-secret
-              secretKey: token
-            - type: Secret
-              key: VAULT_SKIP_VERIFY
-              secretName: molgenis-pipeline-vault-secret
-              secretKey: skipVerify
-            - type: Secret
-              key: VAULT_ADDR
-              secretName: molgenis-pipeline-vault-secret
-              secretKey: addr
-        sonar:
-          Image: molgenis/sonarqube-scanner
-          ImageTag: sonarqube-scanner-release-2019-08-07_20-09-36
-          AlwaysPullImage: false
-          Retention: Never
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-      EnvVars:
-        - type: KeyValue
-          key: npm_config_registry
-          value: 'https://registry.molgenis.org/repository/npm-central/'
-        - type: KeyValue
-          key: LOCAL_REGISTRY
-          value: registry.molgenis.org
-        - type: KeyValue
-          key: DOCKER_REGISTRY
-          value: registry.hub.docker.com
-        - type: KeyValue
-          key: HELM_REPO
-          value: https://registry.molgenis.org/repository/helm/
-        - type: KeyValue
-          key: HELM_REPOSITORY
-          value: https://helm.molgenis.org/
-      NodeSelector: {}
-    molgenis:
-      Label: molgenis
-      NodeUsageMode: NORMAL
-      InheritFrom: shared
-      Containers:
-        maven:
-          Image: molgenis/maven-jdk8
-          ImageTag: maven-jdk8-release-2019-05-24_09-24-16
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-          resources:
-            requests:
-              cpu: '1'
-              memory: '4Gi'
-          EnvVars:
-            - type: KeyValue
-              key: MAVEN_OPTS
-              value: '-Duser.home=/home/jenkins'
-            - type: KeyValue
-              key: MAVEN_CONFIG
-              value: '/home/jenkins/.m2'
-    molgenis-jdk11:
-      Label: molgenis-jdk11
-      NodeUsageMode: NORMAL
-      InheritFrom: shared
-      Containers:
-        maven:
-          Image: molgenis/maven-jdk11
-          ImageTag: maven-jdk11-release-2019-05-07_09-20-11
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-          resources:
-            requests:
-              cpu: '1'
-              memory: '4Gi'
-          EnvVars:
-            - type: KeyValue
-              key: MAVEN_OPTS
-              value: '-Duser.home=/home/jenkins'
-            - type: KeyValue
-              key: MAVEN_CONFIG
-              value: '/home/jenkins/.m2'
-    node:
-      Label: node-carbon
-      NodeUsageMode: EXCLUSIVE
-      InheritFrom: shared
-      Containers:
-        node:
-          Image: molgenis/node-carbon
-          ImageTag: node-carbon-release-2019-11-25_10-52-39
-          AlwaysPullImage: false
-          Retention: Never
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-          resources:
-            requests:
-              cpu: '1'
-              memory: '1Gi'
-    node-dubnium:
-      Label: node-dubnium
-      NodeUsageMode: EXCLUSIVE
-      InheritFrom: shared
-      Containers:
-        node:
-          Image: molgenis/node-dubnium
-          ImageTag: node-dubnium-release-2019-11-25_10-52-39
-          AlwaysPullImage: false
-          Retention: Never
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-          resources:
-            requests:
-              cpu: '1'
-              memory: '1Gi'
-      EnvVars:
-        - type: KeyValue
-          key: NPM_REGISTRY
-          value: 'registry.npmjs.org'
-        - type: KeyValue
-          key: NPM_LOCAL_REGISTRY
-          value: 'registry.molgenis.org/repository/npm-hosted'
-    python:
-      Label: python-stretch
-      NodeUsageMode: EXCLUSIVE
-      InheritFrom: shared
-      Containers:
-        python:
-          Image: python
-          ImageTag: stretch
-          AlwaysPullImage: false
-          Retention: Never
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '250Mi'
-            limits:
-              memory: '512Mi'
-      NodeSelector: {}
-      EnvVars:
-        - type: KeyValue
-          key: PYPI_REGISTRY
-          value: https://upload.pypi.org/legacy/
-        - type: KeyValue
-          key: PYPI_LOCAL_REGISTRY
-          value: https://registry.molgenis.org/repository/pypi/
-    molgenis-it:
-      InheritFrom: molgenis
-      Label: molgenis-it
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        elasticsearch:
-          Image: docker.elastic.co/elasticsearch/elasticsearch
-          ImageTag: 5.5.3
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '1Gi'
-            limits:
-              cpu: '1'
-              memory: '1500Mi'
-          EnvVars:
-            - type: KeyValue
-              key: ES_JAVA_OPTS
-              value: '-Xms512m -Xmx512m'
-            - type: KeyValue
-              key: cluster.name
-              value: molgenis
-            - type: KeyValue
-              key: bootstrap.memory_lock
-              value: 'true'
-            - type: KeyValue
-              key: xpack.security.enabled
-              value: 'false'
-            - type: KeyValue
-              key: discovery.type
-              value: single-node
-        postgres:
-          Image: postgres
-          ImageTag: 9.6-alpine
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '250Mi'
-            limits:
-              cpu: '1'
-              memory: '250Mi'
-          EnvVars:
-            - type: KeyValue
-              key: POSTGRES_USER
-              value: molgenis
-            - type: KeyValue
-              key: POSTGRES_PASSWORD
-              value: molgenis
-            - type: KeyValue
-              key: POSTGRES_DB
-              value: molgenis
-        opencpu:
-          Image: molgenis/opencpu
-          ImageTag: opencpu-release-2019-03-06_08-18-10
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '256Mi'
-            limits:
-              cpu: '1'
-              memory: '512Mi'
-      NodeSelector: {}
-    molgenis-it-jdk11:
-      InheritFrom: molgenis-jdk11
-      Label: molgenis-it-jdk11
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        elasticsearch:
-          Image: docker.elastic.co/elasticsearch/elasticsearch
-          ImageTag: 5.5.3
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '1Gi'
-            limits:
-              cpu: '1'
-              memory: '1500Mi'
-          EnvVars:
-            - type: KeyValue
-              key: ES_JAVA_OPTS
-              value: '-Xms512m -Xmx512m'
-            - type: KeyValue
-              key: cluster.name
-              value: molgenis
-            - type: KeyValue
-              key: bootstrap.memory_lock
-              value: 'true'
-            - type: KeyValue
-              key: xpack.security.enabled
-              value: 'false'
-            - type: KeyValue
-              key: discovery.type
-              value: single-node
-        postgres:
-          Image: postgres
-          ImageTag: 11-alpine
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '250Mi'
-            limits:
-              cpu: '1'
-              memory: '250Mi'
-          EnvVars:
-            - type: KeyValue
-              key: POSTGRES_USER
-              value: molgenis
-            - type: KeyValue
-              key: POSTGRES_PASSWORD
-              value: molgenis
-            - type: KeyValue
-              key: POSTGRES_DB
-              value: molgenis
-        opencpu:
-          Image: molgenis/opencpu
-          ImageTag: opencpu-release-2019-03-06_08-18-10
-          AlwaysPullImage: false
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '256Mi'
-            limits:
-              cpu: '1'
-              memory: '512Mi'
-    helm:
-      Label: helm
-      InheritFrom: shared
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        chart-testing:
-          Image: quay.io/helmpack/chart-testing
-          ImageTag: v2.2.0
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-        alpine:
-          Image: spotify/alpine
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-    site-gen:
-      Label: site-gen
-      InheritFrom: shared
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        jekyll:
-          Image: molgenis/jekyll
-          ImageTag: jekyll-release-2019-03-06_08-18-10
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-    ansible:
-      Label: ansible
-      InheritFrom: shared
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        centos-6:
-          Image: centos
-          ImageTag: "6.10"
-          AlwaysPullImage: false
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-    r-3.5.2:
-      Label: r-3.5.2
-      InheritFrom: shared
-      NodeUsageMode: EXCLUSIVE
-      Containers:
-        r:
-          Image: "rocker/verse"
-          ImageTag: "3.5.2"
-          AlwaysPullImage: true
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
-        curl:
-          Image: "appropriate/curl"
-          ImageTag: "latest"
-          AlwaysPullImage: true
-          Command: cat
-          WorkingDir: /home/jenkins
-          TTY: true
+    readSecrets: true
+  
   hubot:
     sites:
       - name: hubot.molgenis.org

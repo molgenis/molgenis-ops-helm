@@ -11,13 +11,13 @@ questions:
     - acceptance
   required: true
   group: "Provisioning"
-- variable: jenkins.Master.ImageTag
+- variable: jenkins.master.ImageTag
   label: Version
   default: "2.176.3"
   type: string
   required: true
   group: "Provisioning"
-- variable: jenkins.Master.HostName
+- variable: jenkins.master.ingress.hostName
   label: Hostname
   default: 'jenkins.dev.molgenis.org'
   type: hostname

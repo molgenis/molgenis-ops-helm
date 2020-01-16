@@ -22,16 +22,10 @@ catalog, pick the molgenis-jenkins app from the catalog and deploy it.
 When deploying, you can paste values into the Rancher Answers to override the defaults in this chart.
 Array values can be added as {value, value, value}.
 ```
-jenkins.Master.HostName=jenkins.dev.molgenis.org
-jenkins.Master.AdminPassword=pa$$word
+jenkins.master.ingress.hostName=jenkins.dev.molgenis.org
+jenkins.master.adminPassword=pa$$word
 jenkins.Persistence.Enabled=false
-jenkins.Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1, blueocean:1.6.2, github-oauth:0.29}
-jenkins.Master.Security.UseGitHub=false
-
-## if UseGitHub=true
-jenkins.Master.Security.GitHub.ClientID=id
-jenkins.Master.Security.GitHub.ClientSecret=S3cr3t
-## end UseGitHub=true
+jenkins.master.installPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1, blueocean:1.6.2, github-oauth:0.29}
 
 # Global git config
 jenkins.Master.git.name=MOLGENIS Jenkins
