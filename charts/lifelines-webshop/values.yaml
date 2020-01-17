@@ -2,7 +2,7 @@ transform:
   schedule: 0 4 * * *
   image:
     repository: registry.molgenis.org/molgenis/lifelines-transform
-    version: 0.5.2
+    version: 0.5.3
     pullPolicy: IfNotPresent
   config:
     s3:
