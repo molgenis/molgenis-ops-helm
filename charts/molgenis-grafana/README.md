@@ -21,4 +21,6 @@ To figure out a specific team's id:
 curl -H "Authorization: token <the token>" https://api.github.com/orgs/molgenis/teams
 ```
 
-
+## Import node_exporter dashboard for 0.15(VM's)
+To import the grafana node_exporter dashboard you will need to import a json file into grafana. The json file can be found in: github.com -> molgenis-ops-helm -> charts -> molgenis-grafana -> import dashboards -> linux-node-exporter-dashboard.json
+To import the dashboard, go to the grafana website and sign in with your github account. After signing in, go to Dashboards -> Manage and click on Import. Then press "Upload .json File" and select the file. When loaded, select by k8-prometheus "k8-prometheus" and press import and you are done.
