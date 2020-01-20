@@ -208,7 +208,7 @@ jenkins:
                               secretName: molgenis-pipeline-vault-secret
                               secretKey: skipVerify
                           - secretEnvVar:
-                              key: VAULT_URL
+                              key: VAULT_ADDR
                               secretName: molgenis-pipeline-vault-secret
                               secretKey: addr
                       - name: sonar
