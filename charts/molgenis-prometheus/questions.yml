@@ -1,12 +1,23 @@
 questions:
+  - variable: 'environment'
+    required: true
+    label: environment
+    default: "development"
+    type: enum
+    options:
+      - production
+      - development
+    description: "Cluster"
+    show_subquestion_if: production
+    subquestions:
+    - variable: "secret.GITHUBTOKEN"
+      required: true
+      label: "Github token"
+      description: "Github token for MOLGENIS deployments. Only if cluster is set to production. Otherwise set xxxx"
+      type: string
   - variable: 'prometheus.alertmanagerFiles.alertmanager\.yml.global.slack_api_url'
     required: true
     default: "https://hooks.slack.com/services/..."
     label: "Slack API URL"
-    description: "Can be found on https://molgenisdev.slack.com/services/BFLLSRULF"
-    type: string
-  - variable: "secret.molgenisMetrics"
-    required: true
-    label: "Prometheus User Password"
-    description: "Password for the prometheus user on MOLGENIS deployments."
+    description: "For development: https://molgenisdev.slack.com/services/... For production: https://molgenisops.slack.com/services/..."
     type: string

@@ -1,0 +1,602 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-serverfiles-configmap
+data:
+  alerts: |
+    groups:
+      {{ if eq .Values.environment "production" -}}
+      - name: virtualmachines
+        rules:
+          - alert: InstanceMasterDown
+            expr: up{job="masterBranchNodes"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Instance master branch Down\"" }}
+              description: {{ printf "\"  Instance of {{$labels.instance}} from master branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: Instance20Down
+            expr: up{job="20BranchNodes"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Instance 2.0 branch Down\"" }}
+              description: {{ printf "\"  Instance of {{$labels.instance}} from 2.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: Instance10Down
+            expr: up{job="10BranchNodes"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Instance 1.0 branch Down\"" }}
+              description: {{ printf "\"  Instance of {{$labels.instance}} from 1.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: Instance01Down
+            expr: up{job="01BranchNodes"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Instance 0.1 branch Down\"" }}
+              description: {{ printf "\"  Instance of {{$labels.instance}} from 0.1 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: ServerlistInstanceDown
+            expr: up{job="serverListServer"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Serverlist server Down\"" }}
+              description: {{ printf "\"  Serverlist server {{$labels.instance}} from 1.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: OutOfMemory
+            expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Out of memory (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Node memory is filling up (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: UnusualNetworkThroughputIn
+            expr: sum by (instance) (irate(node_network_receive_bytes[2m])) / 1024 / 1024 > 100
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Unusual network throughput in (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Host network interfaces are probably receiving too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: UnusualNetworkThroughputOut
+            expr: sum by (instance) (irate(node_network_transmit_bytes[2m])) / 1024 / 1024 > 100
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Unusual network throughput out (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Host network interfaces are probably sending too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: UnusualDiskReadRate
+            expr: sum by (instance) (irate(node_disk_read_bytes[2m])) / 1024 / 1024 > 50
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Unusual disk read rate (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Disk is probably reading too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: UnusualDiskWriteRate
+            expr: sum by (instance) (irate(node_disk_written_bytes[2m])) / 1024 / 1024 > 50
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Unusual disk write rate (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Disk is probably writing too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: OutOfDiskSpace
+            expr: node_filesystem_free_bytes{mountpoint ="/rootfs"} / node_filesystem_size_bytes{mountpoint ="/rootfs"} * 100 < 10
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Out of disk space (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Disk is almost full (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: OutOfInodes
+            expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint ="/rootfs"} * 100 < 10
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Out of inodes (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Disk is almost running out of available inodes (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: UnusualDiskReadLatency
+            expr: rate(node_disk_read_time_ms[1m]) / rate(node_disk_reads_completed[1m]) > 100
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Unusual disk read latency (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Disk latency is growing (read operations > 100ms)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: UnusualDiskWriteLatency
+            expr: rate(node_disk_write_time_ms[1m]) / rate(node_disk_writes_completed[1m]) > 100
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Unusual disk write latency (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Disk latency is growing (write operations > 100ms)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: HighCpuLoad
+            expr: 100 - (avg by(instance) (irate(node_cpu{mode="idle"}[5m])) * 100) > 80
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"High CPU load (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  CPU load is > 80%%\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: ContextSwitching
+            expr: rate(node_context_switches[5m]) > 1000
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Context switching (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Context switching is growing on node (> 1000 / s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          - alert: SwapIsFillingUp
+            expr: (1 - (node_memory_SwapFree / node_memory_SwapTotal)) * 100 > 80
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Swap is filling up (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  Swap is filling up ( > 80%% )\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+          {{ end }}
+      {{ if eq .Values.environment "development" }}
+      - name: nodes
+        rules:
+          - alert: NodeIsDown
+            expr: up{job="kubernetes-nodes"} == 0
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"Node DOWN on rancher cluster\"" }}
+              description: {{ printf "\"  Node {{$labels.instance}} is down\\n \"" }}
+      - name: pods
+        rules:
+          - alert: PodIsDown
+            expr: up == 0
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Pod down on rancher cluster\"" }}
+              description: {{ printf "\"  Pod is down\\n    Instance: {{$labels.instance}} \\n    Namespace: {{ $labels.kubernetes_namespace }} \\n \"" }}
+          - alert: PodOOMKilled
+            expr: kube_pod_container_status_terminated_reason{reason='OOMKilled'} == 1
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"OOMKilled\"" }}
+              description: {{ printf "\"  Pod {{$labels.container}} in namespace {{$labels.namespace}} got OOMKilled.\\n \"" }}
+          - alert: KubernetesMemorypressure
+            expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Kubernetes MemoryPressure (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  {{ $labels.node }} has MemoryPressure condition\\n    VALUE = {{ $value }}\\n \"" }}
+          - alert: KubernetesDiskpressure
+            expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Kubernetes DiskPressure (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  {{ $labels.node }} has DiskPressure condition\\n    Instance: {{ $labels.instance }}\\n \"" }}
+          - alert: KubernetesOutofdisk
+            expr: kube_node_status_condition{condition="OutOfDisk",status="true"} == 1
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Kubernetes OutOfDisk (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  {{ $labels.node }} has OutOfDisk condition\\n    VALUE = {{ $value }}\\n \"" }}
+          - alert: KubernetesJobFailed
+            expr: kube_job_status_failed > 0
+            for: 5m
+            labels:
+              severity: INFO
+            annotations:
+              summary: {{ printf "\"Kubernetes Job failed (job {{ $labels.job_name }})\"" }}
+              description: {{ printf "\"  Job {{$labels.kubernetes_namespace}}/{{$labels.component}}/{{$labels.job_name}} failed to complete\\n \"" }}
+          - alert: KubernetesCronjobSuspended
+            expr: kube_cronjob_spec_suspend != 0
+            for: 5m
+            labels:
+              severity: INFO
+            annotations:
+              summary: {{ printf "\"Kubernetes CronJob suspended (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is suspended on instance: {{ $labels.instance }}\\n    VALUE = {{ $value }}\\n \"" }}
+          - alert: KubernetesPersistentvolumeclaimPending
+            expr: kube_persistentvolumeclaim_status_phase{phase="Pending"} == 1
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Kubernetes PersistentVolumeClaim pending (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  PersistentVolumeClaim {{ $labels.instance }} {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is pending\\n    VALUE = {{ $value }}\\n \"" }}
+          - alert: VolumeOutOfDiskSpace
+            expr: kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes * 100 < 10
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Volume out of disk space (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"Volume is almost full (< 10%% left)\\n  Instance: {{ $labels.instance }}\\n  Namespace: {{ $labels.kubernetes_namespace }}\\n \"" }}
+          - alert: VolumeFullInFourDays
+            expr: 100 * (kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes) < 15 and predict_linear(kubelet_volume_stats_available_bytes[6h], 4 * 24 * 3600) < 0
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Volume full in four days (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}%% is available.\\n  VALUE = {{ $value }}\\n \"" }}
+          - alert: StatefulsetDown
+            expr: (kube_statefulset_status_replicas_ready / kube_statefulset_status_replicas_current) != 1
+            for: 5m
+            labels:
+              severity: INFO
+            annotations:
+              summary: {{ printf "\"StatefulSet down (instance {{ $labels.instance }})\"" }}
+              description: {{ printf "\"  A StatefulSet went down\\n    Instance: {{ $labels.instance }}\\n    Namespace: {{ $labels.kubernetes_namespace }}\\n \"" }}
+      - name: PostgreSQL
+        rules:
+          - alert: PostgreSQLMaxConnectionsReached
+            expr: sum(pg_stat_activity_count) by (instance) > sum(pg_settings_max_connections) by (instance)
+            for: 1m
+            labels:
+              severity: CRITICAL
+            annotations:
+              summary: {{ printf "\"{{ $labels.instance }} has maxed out Postgres connections.\"" }}
+              description: {{ printf "\"  {{ $labels.instance }} is exceeding the currently configured maximum Postgres connection limit (current value: {{ $value }}s).\\n \"" }}
+          - alert: PostgreSQLHighConnections
+            expr: sum(pg_stat_activity_count) by (instance) > sum(pg_settings_max_connections * 0.8) by (instance)
+            for: 10m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"{{ $labels.instance }} is over 80%% of max Postgres connections.\"" }}
+              description: {{ printf "\"  {{ $labels.instance }} is exceeding 80%% of the currently configured maximum Postgres connection limit (current value: {{ $value }}s).\\n \"" }}
+          - alert: PostgreSQLDown
+            expr: pg_up != 1
+            for: 1m
+            labels:
+              severity: CRITICAL
+            annotations:
+              summary: {{ printf "\"PostgreSQL is not processing queries: {{ $labels.instance }}\"" }}
+              description: {{ printf "\"  {{ $labels.instance }} is rejecting query requests from the exporter, and thus probably not allowing DNS requests to work either.\\n \"" }}
+          - alert: PostgreSQLSlowQueries
+            expr: avg(rate(pg_stat_activity_max_tx_duration{datname!~"template.*"}[2m])) by (datname) > 2 * 60
+            for: 2m
+            labels:
+              severity: ERROR
+            annotations:
+              summary: {{ printf "\"PostgreSQL high number of slow on {{ $labels.cluster }} for database {{ $labels.datname }} \"" }}
+              description: {{ printf "\"  PostgreSQL high number of slow queries {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }} \\n \"" }}
+          - alert: PostgreSQLQPS
+            expr: avg(irate(pg_stat_database_xact_commit{datname!~"template.*"}[5m]) + irate(pg_stat_database_xact_rollback{datname!~"template.*"}[5m])) by (datname) > 10000
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"PostgreSQL high number of queries per second {{ $labels.cluster }} for database {{ $labels.datname }}\"" }}
+              description: {{ printf "\"  PostgreSQL high number of queries per second on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
+          - alert: PostgreSQLCacheHitRatio
+            expr: avg(rate(pg_stat_database_blks_hit{datname!~"template.*"}[5m]) / (rate(pg_stat_database_blks_hit{datname!~"template.*"}[5m]) + rate(pg_stat_database_blks_read{datname!~"template.*"}[5m]))) by (datname) < 0.98
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"PostgreSQL low cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }}\"" }}
+              description: {{ printf "\"  PostgreSQL low on cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
+      {{ end }}
+  rules: | 
+    {}
+  prometheus.yml: |
+    rule_files:
+    - /etc/config/rules
+    - /etc/config/alerts
+    scrape_configs:
+      {{ if eq .Values.environment "production" -}}
+      - job_name: 'masterBranchNodes'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/masterTargetsAcquired.yml
+      - job_name: '20BranchNodes'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/20TargetsAcquired.yml
+      - job_name: '10BranchNodes'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/10TargetsAcquired.yml
+      - job_name: '01BranchNodes'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/01TargetsAcquired.yml
+      - job_name: 'serverListServer'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/serverListServerAcquired.yml
+      {{ end -}}
+      - job_name: prometheus
+        static_configs:
+          - targets:
+              - localhost:9090
+      # A scrape configuration for running Prometheus on a Kubernetes cluster.
+      # This uses separate scrape configs for cluster components (i.e. API server, node)
+      # and services to allow each to use different authentication configs.
+      #
+      # Kubernetes labels will be added as Prometheus labels on metrics via the
+      # `labelmap` relabeling action.
+      # Scrape config for API servers.
+      #
+      # Kubernetes exposes API servers as endpoints to the default/kubernetes
+      # service so this uses `endpoints` role and uses relabelling to only keep
+      # the endpoints associated with the default/kubernetes service using the
+      # default named port `https`. This works for single API server deployments as
+      # well as HA API server deployments.
+      - job_name: 'kubernetes-apiservers'
+        kubernetes_sd_configs:
+          - role: endpoints
+        # Default to scraping over https. If required, just disable this or change to
+        # `http`.
+        scheme: https
+        # This TLS & bearer token file config is used to connect to the actual scrape
+        # endpoints for cluster components. This is separate to discovery auth
+        # configuration because discovery & scraping are two separate concerns in
+        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+        # the cluster. Otherwise, more config options have to be provided within the
+        # <kubernetes_sd_config>.
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          # If your node certificates are self-signed or use a different CA to the
+          # master CA, then disable certificate verification below. Note that
+          # certificate verification is an integral part of a secure infrastructure
+          # so this should only be disabled in a controlled environment. You can
+          # disable certificate verification by uncommenting the line below.
+          #
+          insecure_skip_verify: true
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # Keep only the default/kubernetes service endpoints for the https port. This
+        # will add targets for each API server which Kubernetes adds an endpoint to
+        # the default/kubernetes service.
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: default;kubernetes;https
+      - job_name: 'kubernetes-nodes'
+        # Default to scraping over https. If required, just disable this or change to
+        # `http`.
+        scheme: https
+        # This TLS & bearer token file config is used to connect to the actual scrape
+        # endpoints for cluster components. This is separate to discovery auth
+        # configuration because discovery & scraping are two separate concerns in
+        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+        # the cluster. Otherwise, more config options have to be provided within the
+        # <kubernetes_sd_config>.
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          # If your node certificates are self-signed or use a different CA to the
+          # master CA, then disable certificate verification below. Note that
+          # certificate verification is an integral part of a secure infrastructure
+          # so this should only be disabled in a controlled environment. You can
+          # disable certificate verification by uncommenting the line below.
+          #
+          insecure_skip_verify: true
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/${1}/proxy/metrics
+      - job_name: 'kubernetes-nodes-cadvisor'
+        # Default to scraping over https. If required, just disable this or change to
+        # `http`.
+        scheme: https
+        # This TLS & bearer token file config is used to connect to the actual scrape
+        # endpoints for cluster components. This is separate to discovery auth
+        # configuration because discovery & scraping are two separate concerns in
+        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+        # the cluster. Otherwise, more config options have to be provided within the
+        # <kubernetes_sd_config>.
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          # If your node certificates are self-signed or use a different CA to the
+          # master CA, then disable certificate verification below. Note that
+          # certificate verification is an integral part of a secure infrastructure
+          # so this should only be disabled in a controlled environment. You can
+          # disable certificate verification by uncommenting the line below.
+          #
+          insecure_skip_verify: true
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        # This configuration will work only on kubelet 1.7.3+
+        # As the scrape endpoints for cAdvisor have changed
+        # if you are using older version you need to change the replacement to
+        # replacement: /api/v1/nodes/${1}:4194/proxy/metrics
+        # more info here https://github.com/coreos/prometheus-operator/issues/633
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          # Only for Kubernetes ^1.7.3.
+          # See: https://github.com/prometheus/prometheus/issues/2916
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+        metric_relabel_configs:
+          - action: replace
+            source_labels: [id]
+            regex: '^/machine\.slice/machine-rkt\\x2d([^\\]+)\\.+/([^/]+)\.service$'
+            target_label: rkt_container_name
+            replacement: '${2}-${1}'
+          - action: replace
+            source_labels: [id]
+            regex: '^/system\.slice/(.+)\.service$'
+            target_label: systemd_service_name
+            replacement: '${1}'
+      # Scrape config for service endpoints.
+      #
+      # The relabeling allows the actual service scrape endpoint to be configured
+      # via the following annotations:
+      #
+      # * `prometheus.io/scrape`: Only scrape services that have a value of `true`
+      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
+      # to set this to `https` & most likely set the `tls_config` of the scrape config.
+      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
+      # service then set this appropriately.
+      - job_name: 'kubernetes-service-endpoints'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            target_label: __address__
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            action: replace
+            target_label: instance
+          - source_labels: [__meta_kubernetes_service_name]
+            action: replace
+            target_label: kubernetes_name
+      - job_name: 'prometheus-pushgateway'
+        honor_labels: true
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+            action: keep
+            regex: pushgateway
+      # Example scrape config for probing services via the Blackbox Exporter.
+      #
+      # The relabeling allows the actual service scrape endpoint to be configured
+      # via the following annotations:
+      #
+      # * `prometheus.io/probe`: Only probe services that have a value of `true`
+      # - job_name: 'kubernetes-services'
+      #   metrics_path: /probe
+      #   params:
+      #     module: [http_2xx]
+      #   kubernetes_sd_configs:
+      #     - role: service
+      #   relabel_configs:
+      #     - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+      #       action: keep
+      #       regex: true
+      #     - source_labels: [__address__]
+      #       target_label: __param_target
+      #     - target_label: __address__
+      #       replacement: blackbox
+      #     - source_labels: [__param_target]
+      #       target_label: instance
+      #     - action: labelmap
+      #       regex: __meta_kubernetes_service_label_(.+)
+      #     - source_labels: [__meta_kubernetes_namespace]
+      #       target_label: kubernetes_namespace
+      #     - source_labels: [__meta_kubernetes_service_name]
+      #       target_label: kubernetes_name
+      - job_name: kubernetes-services
+        kubernetes_sd_configs:
+          - role: service
+        metrics_path: /metrics
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels:
+            - __meta_kubernetes_service_label_molgenis_org_environment
+            action: replace
+            target_label: environment
+            regex: (.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__address__]
+            action: replace
+            target_label: __param_target
+          - source_labels: [__param_target]
+            action: replace
+            target_label: instance
+      # Example scrape config for pods
+      #
+      # The relabeling allows the actual pod scrape endpoint to be configured via the
+      # following annotations:
+      #
+      # * `prometheus.io/scrape`: Only scrape pods that have a value of `true`
+      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+      # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the default of `9102`.
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name
+    alerting:
+      alertmanagers:
+      - kubernetes_sd_configs:
+          - role: pod
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_namespace]
+          regex: molgenis-prometheus
+          action: keep
+        - source_labels: [__meta_kubernetes_pod_label_app]
+          regex: prometheus
+          action: keep
+        - source_labels: [__meta_kubernetes_pod_label_component]
+          regex: alertmanager
+          action: keep
+        - source_labels: [__meta_kubernetes_pod_container_port_number]
+          regex:
+          action: drop
