@@ -35,6 +35,10 @@ spec:
               value: "{{ .javaOpts }}"
             - name: xpack.security.enabled
               value: "false"
+            - name: xpack.monitoring.enabled
+              value: "false"
+            - name: xpack.watcher.enabled
+              value: "false"    
             - name: discovery.type
               value: single-node
           ports:
