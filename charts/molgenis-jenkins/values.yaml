@@ -29,6 +29,7 @@ jenkins:
       - token-macro:2.10
       - configuration-as-code:1.35
       - job-dsl:1.76
+      - matrix-auth:2.5
     overwritePlugins: true
     resources:
       limits:
