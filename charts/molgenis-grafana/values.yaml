@@ -79,8 +79,10 @@ grafana:
         gnedId: 9628
         revision: 4
         datasource: k8-prometheus
-      linux-node-exporter-dashboard:
-        file: dashboards/linux-node-exporter-dashboard.json
+      linux-node-exporter:
+        gnedId: 7039
+        revision: 3
+        datasource: k8-prometheus
 
   grafana.ini:
     auth.github:
