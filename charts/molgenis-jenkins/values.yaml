@@ -37,21 +37,38 @@ jenkins:
       requests:
         cpu: 500m
         memory: 2000Mi
+    containerEnv:
+      - name: "GITHUB_AUTH_CLIENT_ID"
+        value: "03c6a32798c2b6e12632"
+      - name: "GITHUB_AUTH_CLIENT_SECRET"
+        value: "7b01d91890e00e12bf25e4d9649b0d4664db18bd"
+      - name: "GITHUB_ORG_NAME"
+        value: "molgenis-jenkins"
+      # - name: "CASC_VAULT_URL"
+      #   value: ""
+      # - name: "CASC_VAULT_APPROLE"
+      #   value: ""
+      # - name: "CASC_VAULT_SECRET"
+      #   value: ""
+      # - name: "CASC_VAULT_PATHS"
+      #   value: "secret/ops/..."
+      # - name: "CASC_VAULT_ENGINE_VERSION"
+      #   value: "1"
     JCasC:
       enabled: true
       configScripts:
         jobs: |-
           jobs:
             - script: >
-                organizationFolder('molgenis-jenkins') {
+                organizationFolder('${GITHUB_ORG_NAME}') {
                   description('Projects in the GitHub molgenis organization')
-                  displayName('molgenis-jenkins')
+                  displayName('${GITHUB_ORG_NAME}')
                   triggers {
                       periodic(86400)
                   }
                   organizations {
                     github {
-                      repoOwner("molgenis-jenkins")
+                      repoOwner('${GITHUB_ORG_NAME}')
                       apiUri("https://api.github.com")
                       credentialsId('molgenis-jenkins-github-secret')
                       scanCredentialsId('molgenis-jenkins-github-secret')
@@ -122,8 +139,8 @@ jenkins:
               github:
                 githubWebUri: "https://github.com"
                 githubApiUri: "https://api.github.com"
-                clientID: "03c6a32798c2b6e12632"
-                clientSecret: "7b01d91890e00e12bf25e4d9649b0d4664db18bd"
+                clientID: "${GITHUB_AUTH_CLIENT_ID}"
+                clientSecret: "${GITHUB_AUTH_CLIENT_SECRET}"
                 oauthScopes: "read:org,user:email"
             authorizationStrategy:
               github:
@@ -173,7 +190,7 @@ jenkins:
                               secretName: molgenis-pipeline-vault-secret
                               secretKey: skipVerify
                           - secretEnvVar:
-                              key: VAULT_ADDR
+                              key: VAULT_URL
                               secretName: molgenis-pipeline-vault-secret
                               secretKey: addr
                       - name: sonar
