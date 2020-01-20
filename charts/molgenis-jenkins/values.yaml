@@ -42,6 +42,8 @@ jenkins:
         value: "03c6a32798c2b6e12632"
       - name: "GITHUB_AUTH_CLIENT_SECRET"
         value: "7b01d91890e00e12bf25e4d9649b0d4664db18bd"
+      - name: "PREVIEW_JOB_AUTH_TOKEN"
+        value: "ABCDEFG"
       - name: "GITHUB_ORG_NAME"
         value: "molgenis-jenkins"
       # - name: "CASC_VAULT_URL"
@@ -66,10 +68,10 @@ jenkins:
                     choiceParam('ACTION', ['install', 'delete', 'list'], 'What action to perform')
                     stringParam('TAG', 'dev', 'The docker tag to deploy')
                   }
-                  authenticationToken('ABCDEFG')
+                  authenticationToken('${PREVIEW_JOB_AUTH_TOKEN}')
                   definition {
                     cpsScm {
-                      lightweight(true)
+                      lightweight()
                       scm {
                         github('molgenis/molgenis-ops-helm', 'master')
                         scriptPath('charts/molgenis-jenkins/resources/preview/Jenkinsfile')
