@@ -60,6 +60,24 @@ jenkins:
         jobs: |-
           jobs:
             - script: >
+                pipelineJob('preview') {
+                  description('Preview a molgenis PR')
+                  parameters {
+                    choiceParam('ACTION', ['install', 'delete', 'list'], 'What action to perform')
+                    stringParam('TAG', 'dev', 'The docker tag to deploy')
+                  }
+                  authenticationToken('ABCDEFG')
+                  definition {
+                    cpsScm {
+                      lightweight(true)
+                      scm {
+                        github('molgenis/molgenis-ops-helm', 'master')
+                        scriptPath('charts/molgenis-jenkins/resources/preview/Jenkinsfile')
+                      }
+                    }
+                  }
+                }
+            - script: >
                 organizationFolder('${GITHUB_ORG_NAME}') {
                   description('Projects in the GitHub molgenis organization')
                   displayName('${GITHUB_ORG_NAME}')
