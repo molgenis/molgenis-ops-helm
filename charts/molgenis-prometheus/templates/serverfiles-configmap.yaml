@@ -140,6 +140,7 @@ data:
               summary: {{ printf "\"Swap is filling up (instance {{ $labels.instance }})\"" }}
               description: {{ printf "\"  Swap is filling up ( > 80%% )\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
           {{ end }}
+      {{ if eq .Values.environment "development" }}
       - name: nodes
         rules:
           - alert: NodeIsDown
@@ -287,6 +288,7 @@ data:
             annotations:
               summary: {{ printf "\"PostgreSQL low cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }}\"" }}
               description: {{ printf "\"  PostgreSQL low on cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}\\n \"" }}
+      {{ end }}
   rules: | 
     {}
   prometheus.yml: |
