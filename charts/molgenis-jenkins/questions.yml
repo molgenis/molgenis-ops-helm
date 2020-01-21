@@ -2,18 +2,9 @@
 categories:
 - MOLGENIS
 questions:
-- variable: jenkins.Master.Environment
-  label: Environment
-  default: production
-  type: enum
-  options:
-    - production
-    - acceptance
-  required: true
-  group: "Provisioning"
 - variable: jenkins.master.ImageTag
   label: Version
-  default: "2.176.3"
+  default: "2.215"
   type: string
   required: true
   group: "Provisioning"
