@@ -779,29 +779,6 @@ jenkins:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
     readSecrets: true
-  
-  hubot:
-    sites:
-      - name: hubot.molgenis.org
-        url: http://molgenis-hubot.molgenis-hubot.svc
-        default: true
-        room: hubot
-      - name: slack-general
-        url: http://molgenis-hubot.molgenis-hubot.svc
-        default: false
-        room: general
-      - name: slack-pr-app-team
-        url: http://molgenis-hubot.molgenis-hubot.svc
-        default: false
-        room: pr-app-team
-      - name: slack-pr-platform
-        url: http://molgenis-hubot.molgenis-hubot.svc
-        default: false
-        room: pr-platform
-      - name: slack-pr-ops
-        url: http://molgenis-hubot.molgenis-hubot.svc
-        default: false
-        room: pr-ops
 
 # secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
