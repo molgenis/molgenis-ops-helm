@@ -731,14 +731,14 @@ jenkins:
                         resourceLimitMemory: "250Mi"
                         envVars:
                           - envVar:
-                            key: POSTGRES_USER
-                            value: molgenis
+                              key: POSTGRES_USER
+                              value: molgenis
                           - envVar:
-                            key: POSTGRES_PASSWORD
-                            value: molgenis
+                              key: POSTGRES_PASSWORD
+                              value: molgenis
                           - envVar:
-                            key: POSTGRES_DB
-                            value: molgenis
+                              key: POSTGRES_DB
+                              value: molgenis
                       - name: opencpu
                         image: "molgenis/opencpu:opencpu-release-2019-03-06_08-18-10"
                         ttyEnabled: true
