@@ -625,8 +625,8 @@ jenkins:
                       - hostPathVolume:
                           hostPath: "/var/run/docker.sock"
                           mountPath: "/var/run/docker.sock"
-                  - name: molgenis
-                    label: molgenis
+                  - name: molgenis-jdk11
+                    label: molgenis-jdk11
                     inheritFrom: shared
                     nodeUsageMode: EXCLUSIVE
                     containers:
@@ -695,8 +695,8 @@ jenkins:
                       - envVar:
                           key: PYPI_LOCAL_REGISTRY
                           value: https://registry.molgenis.org/repository/pypi/
-                  - name: molgenis-it
-                    label: molgenis-it
+                  - name: molgenis-it-jdk11
+                    label: molgenis-it-jdk11
                     nodeUsageMode: EXCLUSIVE
                     inheritFrom: molgenis
                     containers:
