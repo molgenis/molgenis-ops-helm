@@ -635,23 +635,6 @@ jenkins:
                     nodeUsageMode: EXCLUSIVE
                     containers:
                       - name: maven
-                        image: "molgenis/maven-jdk8:maven-jdk8-release-2019-05-24_09-24-16"
-                        ttyEnabled: true
-                        resourceRequestCpu: "1"
-                        resourceRequestMemory: "4Gi"
-                        envVars:
-                          - envVar:
-                              key: MAVEN_OPTS
-                              value: "-Duser.home=/home/jenkins"
-                          - envVar:
-                              key: MAVEN_CONFIG
-                              value: "/home/jenkins/.m2"
-                  - name: molgenis-jdk11
-                    label: molgenis-jdk11
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: maven
                         image: "molgenis/maven-jdk11:maven-jdk11-release-2019-05-07_09-20-11"
                         ttyEnabled: true
                         resourceRequestCpu: "1"
@@ -708,6 +691,87 @@ jenkins:
                       - envVar:
                           key: PYPI_LOCAL_REGISTRY
                           value: https://registry.molgenis.org/repository/pypi/
+                  - name: molgenis-it
+                    label: molgenis-it
+                    nodeUsageMode: EXCLUSIVE
+                    inheritFrom: molgenis
+                    containers:
+                      - name: elasticsearch
+                        image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+                        resourceRequestCpu: "100m"
+                        resourceRequestMemory: "1Gi"
+                        resourceLimitMemory: "1500Mi"
+                        envVars:
+                          - envVar:
+                              key: ES_JAVA_OPTS
+                              value: '-Xms512m -Xmx512m'
+                          - envVar:
+                              key: cluster.name
+                              value: molgenis
+                          - envVar:
+                              key: bootstrap.memory_lock
+                              value: 'true'
+                          - envVar:
+                              key: xpack.security.enabled
+                              value: 'false'
+                          - envVar: 
+                              key: xpack.monitoring.enabled
+                              value: 'false'
+                          - envVar: 
+                              key: xpack.watcher.enabled
+                              value: 'false'
+                          - envVar: 
+                              key: discovery.type
+                              value: single-node
+                      - name: postgres
+                        image: postgres:11-alpine
+                        ttyEnabled: true
+                        resourceRequestCpu: "100m"
+                        resourceRequestMemory: "250Mi"
+                        resourceLimitMemory: "250Mi"
+                        envVars:
+                          - envVar:
+                            key: POSTGRES_USER
+                            value: molgenis
+                          - envVar:
+                            key: POSTGRES_PASSWORD
+                            value: molgenis
+                          - envVar:
+                            key: POSTGRES_DB
+                            value: molgenis
+                      - name: opencpu
+                        image: "molgenis/opencpu:opencpu-release-2019-03-06_08-18-10"
+                        ttyEnabled: true
+                        resourceRequestCpu: "100m"
+                        resourceRequestMemory: "256Mi"
+                        resourceLimitMemory: "512Mi" 
+                  - name: site-gen
+                    label: site-gen
+                    nodeUsageMode: EXCLUSIVE
+                    inheritFrom: shared
+                    containers:
+                      - name: jekyll
+                        image: "molgenis/jekyll:jekyll-release-2019-03-06_08-18-10"
+                        ttyEnabled: true
+                  - name: ansible
+                    label: ansible
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: centos-6
+                        image: "centos:6.10"
+                        ttyEnabled: true
+                  - name: r-3.5.2
+                    label: r-3.5.2
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: r
+                        image: "rocker/verse:3.5.2"
+                        ttyEnabled: true
+                      - name: curl
+                        image: "appropriate/curl:latest"
+                        ttyEnabled: true
     # TODO: enable
     # nodeSelector:
       # deployPod: "true"
