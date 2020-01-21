@@ -565,7 +565,7 @@ jenkins:
                 jenkinsUrl: "http://molgenis-jenkins:8080"
                 maxRequestsPerHostStr: "32"
                 name: "kubernetes"
-                namespace: "default"
+                namespace: "molgenis-jenkins"
                 serverUrl: ""
                 templates:
                   - name: shared
