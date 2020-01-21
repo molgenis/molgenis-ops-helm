@@ -449,7 +449,7 @@ jenkins:
                 }
             - script: >
                 organizationFolder('${GITHUB_ORG_NAME}') {
-                  description('Projects in the GitHub molgenis organization')
+                  description('MOLGENIS projects in the MOLGENIS organization')
                   displayName('${GITHUB_ORG_NAME}')
                   triggers {
                       periodic(86400)
@@ -492,23 +492,47 @@ jenkins:
                   }
                 }
             - script: >
-                multibranchPipelineJob('biobank-explorer') {
-                  branchSources {
-                    github {
-                      // The id option in the Git and GitHub branch source contexts is now mandatory (JENKINS-43693).
-                      id('12312313') // IMPORTANT: use a constant and unique identifier
-                      scanCredentialsId('molgenis-jenkins-github-secret')
-                      repoOwner('molgenis-jenkins')
-                      repository('molgenis-py-client')
-                    }
-                  }
-                  orphanedItemStrategy {
-                    discardOldItems {
-                      numToKeep(1)
-                    }
-                  }
+                organizationFolder('other') {
+                  description('Non-MOLGENIS projects in the MOLGENIS organization')
+                  displayName('Other')
                   triggers {
-                    periodic(5)
+                      periodic(86400)
+                  }
+                  organizations {
+                    github {
+                      repoOwner('${GITHUB_ORG_NAME}')
+                      apiUri("https://api.github.com")
+                      credentialsId('molgenis-jenkins-github-secret')
+                      scanCredentialsId('molgenis-jenkins-github-secret')
+                    }
+                  }
+                  configure {
+                    def traits = it / navigators / 'org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator' / traits
+                    traits << 'jenkins.scm.impl.trait.RegexSCMSourceFilterTrait' {
+                        regex '^(?!molgenis)(?!NGS)(?!GAP).*'
+                    }
+                    traits << 'org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait' {
+                        strategyId 1
+                    }
+                    traits << 'org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait' {
+                        strategyId 2
+                    }
+                    traits << 'org.jenkinsci.plugins.github__branch__source.ForkPullRequestDiscoveryTrait' {
+                        strategyId 2
+                        trust(class: 'org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait$TrustPermission')
+                    }
+                    traits << 'org.jenkinsci.plugins.scm__filter.GitHubCommitSkipTrait' {}
+                    traits << 'jenkins.plugins.git.traits.LocalBranchTrait' {
+                        extension(class: 'hudson.plugins.git.extensions.impl.LocalBranch') {
+                            localBranch '**'
+                        }
+                    }
+                    traits << 'jenkins.plugins.git.traits.UserIdentityTrait' {
+                        extension(class: 'hudson.plugins.git.extensions.impl.UserIdentity') {
+                            name 'MOLGENIS Jenkins'
+                            email 'molgenis+ci@gmail.com'
+                        }
+                    }
                   }
                 }
         git: |
