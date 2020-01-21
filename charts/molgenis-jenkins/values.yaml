@@ -6,6 +6,7 @@ jenkins:
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
+    jenkinsUrlProtocol: "https"
     serviceType: ClusterIP
     installPlugins:
       - kubernetes:1.23.1
