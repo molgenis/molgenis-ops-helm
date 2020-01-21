@@ -5,9 +5,8 @@ jenkins:
     tag: "2.215"
     ingress:
       enabled: true
-      # hostName: jenkins.edge.molgenis.org
-    # serviceType: ClusterIP
-    serviceType: NodePort
+      hostName: jenkins.dev.molgenis.org
+    serviceType: ClusterIP
     installPlugins:
       - kubernetes:1.23.0
       - workflow-aggregator:2.6
@@ -30,6 +29,7 @@ jenkins:
       - configuration-as-code:1.35
       - job-dsl:1.76
       - matrix-auth:2.5
+      - block-queued-job:0.2.0
     overwritePlugins: true
     resources:
       limits:
@@ -47,16 +47,6 @@ jenkins:
         value: "ABCDEFG"
       - name: "GITHUB_ORG_NAME"
         value: "molgenis-jenkins"
-      # - name: "CASC_VAULT_URL"
-      #   value: ""
-      # - name: "CASC_VAULT_APPROLE"
-      #   value: ""
-      # - name: "CASC_VAULT_SECRET"
-      #   value: ""
-      # - name: "CASC_VAULT_PATHS"
-      #   value: "secret/ops/..."
-      # - name: "CASC_VAULT_ENGINE_VERSION"
-      #   value: "1"
     additionalConfig:
       org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml: |-
         <?xml version='1.1' encoding='UTF-8'?>
@@ -787,7 +777,7 @@ secret:
     token: 'xxxx'
     # local vault: 'https://vault-operator.vault-operator.svc:8200'
     # But for cross-cluster access use the node port:
-    addr: 'https://192.168.64.161:30221'
+    addr: 'http://192.168.64.161:30543'
     skipVerify: '1'
   # githubToken contains access token for jenkins bot account on github.com
   gitHub:
