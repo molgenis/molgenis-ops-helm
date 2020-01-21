@@ -598,6 +598,8 @@ jenkins:
                               secretKey: addr
                       - name: sonar
                         image: "molgenis/sonarqube-scanner:sonarqube-scanner-release-2019-08-07_20-09-36"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                     envVars:
                       - envVar:
