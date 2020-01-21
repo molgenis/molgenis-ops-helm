@@ -579,9 +579,13 @@ jenkins:
                         ttyEnabled: true
                       - name: rancher
                         image: "rancher/cli2:v2.2.0"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                       - name: vault
                         image: "vault:1.3.1"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                         envVars:
                           - secretEnvVar:
@@ -629,6 +633,8 @@ jenkins:
                     containers:
                       - name: maven
                         image: "molgenis/maven-jdk11:maven-jdk11-release-2019-05-07_09-20-11"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                         resourceRequestCpu: "1"
                         resourceRequestMemory: "4Gi"
@@ -646,6 +652,8 @@ jenkins:
                     containers:
                       - name: node
                         image: "molgenis/node-carbon:node-carbon-release-2019-11-25_10-52-39"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                         resourceRequestCpu: "1"
                         resourceRequestMemory: "1Gi"
@@ -656,6 +664,8 @@ jenkins:
                     containers:
                       - name: node
                         image: "molgenis/node-dubnium:node-dubnium-release-2019-11-25_10-52-39"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                         resourceRequestCpu: "1"
                         resourceRequestMemory: "1Gi"
@@ -673,6 +683,8 @@ jenkins:
                     containers:
                       - name: python
                         image: "python:stretch"
+                        command: cat
+                        args: ""
                         ttyEnabled: true
                         resourceRequestCpu: "100m"
                         resourceRequestMemory: "250Mi"
@@ -691,6 +703,9 @@ jenkins:
                     containers:
                       - name: elasticsearch
                         image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+                        workingDir: ""
+                        command: ""
+                        args: ""
                         resourceRequestCpu: "100m"
                         resourceRequestMemory: "1Gi"
                         resourceLimitMemory: "1500Mi"
@@ -718,7 +733,9 @@ jenkins:
                               value: single-node
                       - name: postgres
                         image: postgres:11-alpine
-                        ttyEnabled: true
+                        workingDir: ""
+                        command: ""
+                        args: ""
                         resourceRequestCpu: "100m"
                         resourceRequestMemory: "250Mi"
                         resourceLimitMemory: "250Mi"
@@ -746,6 +763,8 @@ jenkins:
                       - name: jekyll
                         image: "molgenis/jekyll:jekyll-release-2019-03-06_08-18-10"
                         ttyEnabled: true
+                        command: "cat"
+                        args: ""
                   - name: ansible
                     label: ansible
                     inheritFrom: shared
@@ -754,6 +773,8 @@ jenkins:
                       - name: centos-6
                         image: "centos:6.10"
                         ttyEnabled: true
+                        command: "cat"
+                        args: ""
                   - name: r-3.5.2
                     label: r-3.5.2
                     inheritFrom: shared
@@ -762,9 +783,13 @@ jenkins:
                       - name: r
                         image: "rocker/verse:3.5.2"
                         ttyEnabled: true
+                        command: "cat"
+                        args: ""
                       - name: curl
                         image: "appropriate/curl:latest"
                         ttyEnabled: true
+                        command: "cat"
+                        args: ""
     # TODO: enable
     # nodeSelector:
       # deployPod: "true"
