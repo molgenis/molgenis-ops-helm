@@ -588,14 +588,13 @@ jenkins:
                         args: ""
                         ttyEnabled: true
                         envVars:
+                          - envVar:
+                              key: VAULT_SKIP_VERIFY
+                              value: 1
                           - secretEnvVar:
                               key: VAULT_TOKEN
                               secretName: molgenis-pipeline-vault-secret
                               secretKey: token
-                          - secretEnvVar:
-                              key: VAULT_SKIP_VERIFY
-                              secretName: molgenis-pipeline-vault-secret
-                              secretKey: skipVerify
                           - secretEnvVar:
                               key: VAULT_ADDR
                               secretName: molgenis-pipeline-vault-secret
@@ -806,7 +805,6 @@ secret:
     # local vault: 'https://vault-operator.vault-operator.svc:8200'
     # But for cross-cluster access use the node port:
     addr: 'http://192.168.64.161:30543'
-    skipVerify: '1'
   # githubToken contains access token for jenkins bot account on github.com
   gitHub:
     user: 'molgenis-jenkins'
