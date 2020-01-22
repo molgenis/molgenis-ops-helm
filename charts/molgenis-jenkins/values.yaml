@@ -698,7 +698,7 @@ jenkins:
                   - name: molgenis-it-jdk11
                     label: molgenis-it-jdk11
                     nodeUsageMode: EXCLUSIVE
-                    inheritFrom: molgenis
+                    inheritFrom: molgenis-jdk11
                     containers:
                       - name: elasticsearch
                         image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
