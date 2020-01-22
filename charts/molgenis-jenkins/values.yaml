@@ -789,6 +789,21 @@ jenkins:
                         ttyEnabled: true
                         command: "cat"
                         args: ""
+                  - name: helm
+                    label: helm
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: chart-testing
+                        image: "quay.io/helmpack/chart-testing:v2.2.0"
+                        ttyEnabled: true
+                        command: "cat"
+                        args: ""
+                      - name: alpine
+                        image: "spotify/alpine"
+                        ttyEnabled: true
+                        command: "cat"
+                        args: ""
     # TODO: enable
     # nodeSelector:
       # deployPod: "true"
