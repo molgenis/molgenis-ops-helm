@@ -721,13 +721,13 @@ jenkins:
                           - envVar:
                               key: xpack.security.enabled
                               value: 'false'
-                          - envVar: 
+                          - envVar:
                               key: xpack.monitoring.enabled
                               value: 'false'
-                          - envVar: 
+                          - envVar:
                               key: xpack.watcher.enabled
                               value: 'false'
-                          - envVar: 
+                          - envVar:
                               key: discovery.type
                               value: single-node
                       - name: postgres
@@ -753,7 +753,7 @@ jenkins:
                         ttyEnabled: true
                         resourceRequestCpu: "100m"
                         resourceRequestMemory: "256Mi"
-                        resourceLimitMemory: "512Mi" 
+                        resourceLimitMemory: "512Mi"
                   - name: site-gen
                     label: site-gen
                     nodeUsageMode: EXCLUSIVE
