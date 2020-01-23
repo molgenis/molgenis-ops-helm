@@ -18,4 +18,7 @@ data:
         project: "New server: MOLGENIS server list"
         branch: "1.0"
         dtap: "productie"
+  http-domains.yml: |
+    - targets:
+      - https://molgenis117.gcc.rug.nl
   {{ end -}}

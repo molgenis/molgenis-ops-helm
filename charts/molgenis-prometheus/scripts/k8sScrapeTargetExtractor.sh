@@ -84,8 +84,4 @@ done < <(printf '%s\n' "${Branch01}")
 printf "Branch 0.1 - finished\n"
 printf '%s\n' "${outputArray[@]}" >> 01TargetsAcquired.yml
 printf "Writing outputArray to 01TargetsAcquired.yml done\n"
-echo $(kubectl --token=$TOKEN create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml -o yaml --dry-run | kubectl --token=$TOKEN replace -f -)
-printf "Rancher kubectl updatet configmap from molgenis-prometheus-prod\n"
-$(rm -f *TargetsAcquired.yml)
-printf "Removed artifacts\n"
 printf "Script done\n"

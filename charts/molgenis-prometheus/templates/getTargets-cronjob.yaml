@@ -28,9 +28,16 @@ spec:
                     mv kubectl /usr/local/bin/kubectl && 
                     TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
                     wget raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/k8sScrapeTargetExtractor.sh -O k8sScrapeTargetExtractor.sh && 
+                    wget {{ .Values.secret.GITHUBTOKEN }}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-prometheus/scripts/linkRequester.sh -O linkRequester.sh && 
                     chmod +x k8sScrapeTargetExtractor.sh && 
+                    chmod +x linkRequester.sh && 
                     bash k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && 
-                    rm -rf /mnt/k8sScrapeTargetExtractor.sh"]
+                    bash linkRequester.sh ${GITHUBTOKEN} &&
+                    kubectl --token=$TOKEN create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml --from-file http-domains.yml -o yaml --dry-run | kubectl --token=$TOKEN replace -f - && 
+                    rm -rf *TargetsAcquired.yml &&
+                    rm -rf http-domains.yml && 
+                    rm -rf /mnt/k8sScrapeTargetExtractor.sh && 
+                    rm -rf /mnt/linkRequester.sh"]
           serviceAccountName: update-configmap-bot
           restartPolicy: OnFailure
 {{- end -}}

@@ -6,6 +6,15 @@ data:
   alerts: |
     groups:
       {{ if eq .Values.environment "production" -}}
+      - name: SiteMonitoring
+        rules:
+          - alert: UnreachableURL
+            expr: probe_http_status_code != 200
+            labels:
+              severity: CRITICAL
+            annotations:
+              summary: {{ printf "\"Site unreachable\"" }}
+              description: {{ printf "\"  Website of instance {{$labels.instance}} is unreachable\\n    Branch: {{ $labels.groupOfDomain }}\\n \"" }}
       - name: virtualmachines
         rules:
           - alert: InstanceMasterDown
@@ -317,7 +326,22 @@ data:
         file_sd_configs:
           - files:
             - /etc/configProm/serverListServerAcquired.yml
+      - job_name: 'website-blackbox-requester'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        file_sd_configs:
+          - files:
+            - '/etc/configProm/http-domains.yml'
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
       {{ end -}}
+      {{ if eq .Values.environment "development" -}}
       - job_name: prometheus
         static_configs:
           - targets:
@@ -580,6 +604,7 @@ data:
           - source_labels: [__meta_kubernetes_pod_name]
             action: replace
             target_label: kubernetes_pod_name
+      {{ end }}
     alerting:
       alertmanagers:
       - kubernetes_sd_configs:
