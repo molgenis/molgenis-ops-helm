@@ -807,9 +807,6 @@ jenkins:
                         ttyEnabled: true
                         command: "cat"
                         args: ""
-    # TODO: enable
-    # nodeSelector:
-      # deployPod: "true"
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
