@@ -620,6 +620,9 @@ jenkins:
                       - envVar:
                           key: HELM_REPOSITORY
                           value: https://helm.molgenis.org/
+                      - envVar:
+                          key: HOME
+                          value: /home/jenkins/agent
                     nodeUsageMode: NORMAL
                     volumes:
                       - hostPathVolume:
@@ -640,10 +643,10 @@ jenkins:
                         envVars:
                           - envVar:
                               key: MAVEN_OPTS
-                              value: "-Duser.home=/home/jenkins"
+                              value: "-Duser.home=/home/jenkins/agent"
                           - envVar:
                               key: MAVEN_CONFIG
-                              value: "/home/jenkins/.m2"
+                              value: "/home/jenkins/agent/.m2"
                   - name: node
                     label: node-carbon
                     nodeUsageMode: EXCLUSIVE
