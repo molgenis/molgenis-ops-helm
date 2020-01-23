@@ -2,71 +2,85 @@
 categories:
 - MOLGENIS
 questions:
-- variable: jenkins.Master.Environment
-  label: Environment
-  default: production
-  type: enum
-  options:
-    - production
-    - acceptance
-  required: true
-  group: "Provisioning"
-- variable: jenkins.Master.ImageTag
+- variable: jenkins.master.ImageTag
   label: Version
-  default: "2.176.3"
+  default: "2.215"
   type: string
   required: true
   group: "Provisioning"
-- variable: jenkins.Master.HostName
+- variable: jenkins.master.ingress.hostName
   label: Hostname
   default: 'jenkins.dev.molgenis.org'
   type: hostname
   required: true
   group: "Provisioning"
-- variable: jenkins.Master.AdminPassword
-  label: Administrator password
-  default:
-  type: password
-  required: true
-  group: "Provisioning"
-- variable: jenkins.Persistence.Enabled
+- variable: jenkins.persistence.enabled
   label: Persistence enabled
   default: true
   type: boolean
   required: true
   group: "Persistence"
-- variable: jenkins.Persistence.StorageClass
-  show_if: "jenkins.Persistence.Enabled=true"
+- variable: jenkins.persistence.storageClass
+  show_if: "jenkins.persistence.enabled=true"
   required: false
   type: storageclass
   label: Storage class
   group: "Persistence"
-- variable: jenkins.Persistence.ExistingClaim
-  show_if: "jenkins.Persistence.Enabled=true"
+- variable: jenkins.persistence.existingClaim
+  show_if: "jenkins.persistence.enabled=true"
   required: false
   type: string
   label: Existing claim name
   group: "Persistence"
-- variable: jenkins.Master.Security.UseGitHub
-  label: Security via Github enabled
-  default: true
-  type: boolean
+- variable: jenkins.master.containerEnv[0].name
+  label: Github OAuth Client ID
+  default: "GITHUB_AUTH_CLIENT_ID"
+  type: string
   required: true
   group: "Security"
-- variable: jenkins.Master.Security.GitHub.ClientID
-  label: Github Client ID
+  show_if: false
+- variable: jenkins.master.containerEnv[0].value
+  label: Github OAuth Client ID
   default:
   type: string
   required: true
   group: "Security"
-  show_if: "jenkins.Master.Security.UseGitHub=true"
-- variable: jenkins.Master.Security.GitHub.ClientSecret
-  label: Github Client Secret
+- variable: jenkins.master.containerEnv[1].name
+  default: "GITHUB_AUTH_CLIENT_SECRET"
+  type: string
+  required: true
+  group: "Security"
+  show_if: false
+- variable: jenkins.master.containerEnv[1].value
+  label: Github OAuth Client Secret
   default:
   type: string
   required: true
   group: "Security"
-  show_if: "jenkins.Master.Security.UseGitHub=true"
+- variable: jenkins.master.containerEnv[2].name
+  default: "PREVIEW_JOB_AUTH_TOKEN"
+  type: string
+  required: true
+  group: "Security"
+  show_if: false
+- variable: jenkins.master.containerEnv[2].value
+  label: Preview job authentication token
+  default:
+  type: password
+  required: true
+  group: "Security"
+- variable: jenkins.master.containerEnv[3].name
+  default: "GITHUB_ORG_NAME"
+  type: string
+  required: true
+  group: "Security"
+  show_if: false
+- variable: jenkins.master.containerEnv[3].value
+  label: Github Organization name
+  default: "molgenis"
+  type: string
+  required: true
+  group: "Jobs"
 - variable: secret.vault.addr
   label: Vault address
   description: Node port of vault in prod cluster

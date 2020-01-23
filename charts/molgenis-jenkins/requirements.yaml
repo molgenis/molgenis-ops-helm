@@ -1,4 +1,4 @@
 dependencies:
   - name: jenkins
-    version: ^0.16
+    version: 1.9.16
     repository: https://kubernetes-charts.storage.googleapis.com/

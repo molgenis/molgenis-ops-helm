@@ -12,37 +12,23 @@ This chart will do the following:
 
 ## Installing the Chart
 
-Usually, you'll be deploying this to the molgenis cluster.
-In the [Rancher Catalog](https://rancher.molgenis.org:7443/g/catalog), add the latest version of this repository.
-In the [molgenis cluster management page](https://rancher.molgenis.org:7443/p/c-mhkqb:project-2pf45/apps), choose the 
-catalog, pick the molgenis-jenkins app from the catalog and deploy it.
+Usually, you'll be deploying this to the molgenis dev cluster.
+In the [molgenis cluster management page](https://rancher.molgenis.org:7777/p/c-qx6c7:p-vx5vf/apps), pick the molgenis-jenkins app and deploy it.
 
 ## Configuration
 
 When deploying, you can paste values into the Rancher Answers to override the defaults in this chart.
-Array values can be added as {value, value, value}.
-```
-jenkins.Master.HostName=jenkins.dev.molgenis.org
-jenkins.Master.AdminPassword=pa$$word
-jenkins.Persistence.Enabled=false
-jenkins.Master.InstallPlugins={kubernetes:1.8.4, workflow-aggregator:2.5, workflow-job:2.21, credentials-binding:1.16, git:3.9.1, blueocean:1.6.2, github-oauth:0.29}
-jenkins.Master.Security.UseGitHub=false
+We've added questions to make it easier to fill them in.
 
-## if UseGitHub=true
-jenkins.Master.Security.GitHub.ClientID=id
-jenkins.Master.Security.GitHub.ClientSecret=S3cr3t
-## end UseGitHub=true
-
-# Global git config
-jenkins.Master.git.name=MOLGENIS Jenkins
-jenkins.Master.git.user=molgenis+ci@gmail.com
-```
+> Because some of these values end up in an array of env variables in the jenkins container,
+you'll need to switch to yaml view before starting the deployment!
 
 You can use [all configuration values of the jenkins subchart](https://github.com/kubernetes/charts/tree/master/stable/jenkins).
 > Because we use jenkins as a sub-chart, you should prefix all value keys with `jenkins`!
 
 ### GitHub Authentication delegation
-You need to setup a MOLGENIS - Jenkins GitHub OAuth App. You can do this by accessing this url: [add new OAuth app](https://github.com/settings/applications/new).
+You need to configure the MOLGENIS - Jenkins GitHub OAuth App.
+Credentials are available on https://github.com/organizations/molgenis/settings/applications
 
 ### Secrets
    When deployed, the chart creates a couple of kubernetes secrets that get used by jenkins.
@@ -52,6 +38,8 @@ You need to setup a MOLGENIS - Jenkins GitHub OAuth App. You can do this by acce
 
 #### Vault
 
+The vault runs in the prod cluster, but is made available on a node port that you can access from the
+dev and edge clusters.
 The vault secret gets mounted in the vault pod so pipeline scripts can retrieve secrets from the vault.
 
 | Parameter                 | Description                                | Default                                        |
@@ -76,7 +64,7 @@ The Slack integration is done mostly in the Jenkinsfile of each project. It is s
 A scraping endpoint is made available on /prometheus/
 | Parameter             | Description                 | Default      |
 | --------------------- | --------------------------- | ------------ |
-| `Master.metrics.key`  | access key for the endpoint | none created |
+| `master.metrics.key`  | access key for the endpoint | none created |
 
 #### Legacy:
 
