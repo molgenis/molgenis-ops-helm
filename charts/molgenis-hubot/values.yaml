@@ -511,7 +511,7 @@ hubot:
           robot.respond /preview delete (.+)/i, (msg) -> deletePreview(msg)
           robot.respond /preview list/i, (msg) -> listPreview(msg)
           robot.respond /preview pr (\d+)/i, (msg) -> installPullRequestPreview(msg)
-          robot.respond /preview (?!delete|list)(.+)/i, (msg) -> installPreview(msg)
+          robot.respond /preview tag (.+)/i, (msg) -> installPreview(msg)
 
   ingress:
     enabled: false
