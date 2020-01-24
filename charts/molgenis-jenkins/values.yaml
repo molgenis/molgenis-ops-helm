@@ -775,7 +775,7 @@ jenkins:
                       - name: centos-6
                         image: "centos:6.10"
                         ttyEnabled: true
-                        command: "cat"
+                        command: "/bin/bash"
                         args: ""
                   - name: r-3.5.2
                     label: r-3.5.2
