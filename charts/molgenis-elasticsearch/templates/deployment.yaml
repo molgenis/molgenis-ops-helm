@@ -44,6 +44,11 @@ spec:
           ports:
             - containerPort: 9200
             - containerPort: 9300
+          ulimits:
+            nproc: 4096
+            memlock:
+              soft: -1
+              hard: -1
           volumeMounts:
           - name: pv-elasticsearch
             mountPath: /usr/share/elasticsearch/data
