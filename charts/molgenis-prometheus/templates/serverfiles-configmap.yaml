@@ -14,7 +14,7 @@ data:
               severity: CRITICAL
             annotations:
               summary: {{ printf "\"Site unreachable\"" }}
-              description: {{ printf "\"  Website of instance {{$labels.instance}} is unreachable\\n    Branch: {{ $labels.groupOfDomain }}\\n \"" }}
+              description: {{ printf "\"  Website of instance {{$labels.instance}} is unreachable\\n \"" }}
       - name: virtualmachines
         rules:
           - alert: InstanceMasterDown
@@ -327,6 +327,7 @@ data:
           - files:
             - /etc/configProm/serverListServerAcquired.yml
       - job_name: 'website-blackbox-requester'
+        scrape_interval: 5m
         metrics_path: /probe
         params:
           module: [http_2xx]
