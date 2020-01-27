@@ -249,7 +249,14 @@ Then you need delete some parts of the namespace JSON to purge the repo.
 ```
 
 Then when you determined the cluster name with ```rancher cluster``` you can enter it where *#cluster#* stands and you can fill the target namespace where #target-namespace# stands.
-Execute the curl.
+
+Before you can access the kubernetes API, you need to make it locally available by executing the following command:
+
+```
+rancher kubectl proxy --port=8001 &
+```
+
+Then execute the curl.
 
 ```bash
 curl -k -H "Content-Type: application/json" -X PUT --data-binary @sentry.json http://127.0.0.1:8001/k8s/clusters/#cluster#/api/v1/namespaces/#target-namespace#/finalize
