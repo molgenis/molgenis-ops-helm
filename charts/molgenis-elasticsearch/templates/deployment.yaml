@@ -30,7 +30,7 @@ spec:
             - name: cluster.name
               value: {{ .clusterName }}
             - name: bootstrap.memory_lock
-              value: "true"
+              value: "false"
             - name: ES_JAVA_OPTS
               value: "{{ .javaOpts }}"
             - name: xpack.security.enabled
@@ -38,7 +38,9 @@ spec:
             - name: xpack.monitoring.enabled
               value: "false"
             - name: xpack.watcher.enabled
-              value: "false"    
+              value: "false"
+            - name: xpack.ml.enabled
+              value: "false"
             - name: discovery.type
               value: single-node
           ports:
