@@ -7,9 +7,6 @@ metadata:
     chart: {{ template "molgenis-elasticsearch.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-data:
-  elasticsearch.yml: |-
-    bootstrap.memory_lock: ${BOOTSTRAP_MEMORY_LOCK:false}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -33,7 +30,7 @@ spec:
             - name: cluster.name
               value: {{ .clusterName }}
             - name: bootstrap.memory_lock
-              value: "true"
+              value: "false"
             - name: ES_JAVA_OPTS
               value: "{{ .javaOpts }}"
             - name: xpack.security.enabled
@@ -41,6 +38,8 @@ spec:
             - name: xpack.monitoring.enabled
               value: "false"
             - name: xpack.watcher.enabled
+              value: "false"
+            - name: xpack.ml.enabled
               value: "false"
             - name: discovery.type
               value: single-node
