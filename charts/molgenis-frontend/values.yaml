@@ -27,7 +27,7 @@ proxy:
   backend:
     service:
       enabled: true
-  frontend: 
+  frontend:
     override: true
   #
   # If you want to connect inside the same cluster you can specify the targetNamespace and targetRelease.
