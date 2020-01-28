@@ -32,7 +32,7 @@ spec:
           - name: proxy-config
             mountPath: /etc/nginx/proxy.d/
           resources:
-{{ toYaml .resources | nindent 12 }}
+{{ toYaml .resources | indent 12 }}
           livenessProbe:
             tcpSocket:
               port: 80
