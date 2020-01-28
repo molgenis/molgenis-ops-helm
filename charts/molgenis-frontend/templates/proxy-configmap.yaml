@@ -13,8 +13,9 @@ data:
       proxy_pass {{ template "backend.servicename" . }};
       client_max_body_size 0;
     }
+  {{- if .Values.proxy.frontend.override }}
   custom.conf: |
-    {{ range $index, $location := .Values.proxy.custom -}}
+    {{ range $index, $location := .Values.proxy.frontend.custom -}}
     location /{{ $location.path }}/ {
       proxy_pass {{ $location.url }}/;
       {{- if and (index $location.unpkg) $location.unpkg }}
@@ -25,7 +26,7 @@ data:
     }
     {{ end }}
   experimental.conf: |
-    {{ range $index, $location := .Values.proxy.experimental -}}
+    {{ range $index, $location := .Values.proxy.frontend.experimental -}}
     location /{{ $location.path }}/ {
       proxy_pass {{ $location.url }}/;
       {{- if and (index $location.unpkg) $location.unpkg }}
@@ -60,3 +61,4 @@ data:
       # Do not cache these redirects too long
       expires 10m;
     }
+  {{- end }}
