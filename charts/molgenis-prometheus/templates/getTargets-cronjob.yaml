@@ -9,7 +9,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  schedule: "30 7 * * *"
+  schedule: "30 7 * * 0-6"
   startingDeadlineSeconds: 300
   jobTemplate:
     spec:
@@ -21,23 +21,16 @@ spec:
             envFrom:
             - secretRef:
                 name: molgenis-prometheus-github-token
-            command: ["/bin/sh"]
+            command: ["/bin/ash"]
             args: ["-c", "apk add curl bash && 
                     curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.5/bin/linux/amd64/kubectl && 
                     chmod +x kubectl && 
                     mv kubectl /usr/local/bin/kubectl && 
                     TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
-                    wget raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/k8sScrapeTargetExtractor.sh -O k8sScrapeTargetExtractor.sh && 
-                    wget {{ .Values.secret.GITHUBTOKEN }}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-prometheus/scripts/linkRequester.sh -O linkRequester.sh && 
-                    chmod +x k8sScrapeTargetExtractor.sh && 
-                    chmod +x linkRequester.sh && 
-                    bash k8sScrapeTargetExtractor.sh ${GITHUBTOKEN} && 
-                    bash linkRequester.sh ${GITHUBTOKEN} &&
-                    kubectl --token=$TOKEN create configmap targets-configmap --from-file masterTargetsAcquired.yml --from-file 20TargetsAcquired.yml --from-file 10TargetsAcquired.yml --from-file 01TargetsAcquired.yml --from-file http-domains.yml -o yaml --dry-run | kubectl --token=$TOKEN replace -f - && 
-                    rm -rf *TargetsAcquired.yml &&
-                    rm -rf http-domains.yml && 
-                    rm -rf /mnt/k8sScrapeTargetExtractor.sh && 
-                    rm -rf /mnt/linkRequester.sh"]
+                    wget {{ .Values.secret.GITHUBTOKEN }}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-prometheus/scripts/targetWebGet.sh -O targetWebGet.sh && 
+                    chmod +x targetWebGet.sh && 
+                    bash targetWebGet.sh ${GITHUBTOKEN} &&
+                    rm -rf /mnt/targetWebGet.sh"]
           serviceAccountName: update-configmap-bot
           restartPolicy: OnFailure
 {{- end -}}

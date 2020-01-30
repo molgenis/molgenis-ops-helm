@@ -9,7 +9,7 @@ data:
       - name: SiteMonitoring
         rules:
           - alert: UnreachableURL
-            expr: probe_http_status_code != 200
+            expr: probe_http_status_code{job="prodWebsites"} != 200
             labels:
               severity: CRITICAL
             annotations:
@@ -17,137 +17,116 @@ data:
               description: {{ printf "\"  Website of instance {{$labels.instance}} is unreachable\\n \"" }}
       - name: virtualmachines
         rules:
-          - alert: InstanceMasterDown
-            expr: up{job="masterBranchNodes"} == 0
+          - alert: InstanceProdDown
+            expr: up{job="prodNodes"} == 0
             labels:
               severity: ERROR
             annotations:
-              summary: {{ printf "\"Instance master branch Down\"" }}
-              description: {{ printf "\"  Instance of {{$labels.instance}} from master branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
-          - alert: Instance20Down
-            expr: up{job="20BranchNodes"} == 0
-            labels:
-              severity: ERROR
-            annotations:
-              summary: {{ printf "\"Instance 2.0 branch Down\"" }}
-              description: {{ printf "\"  Instance of {{$labels.instance}} from 2.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
-          - alert: Instance10Down
-            expr: up{job="10BranchNodes"} == 0
-            labels:
-              severity: ERROR
-            annotations:
-              summary: {{ printf "\"Instance 1.0 branch Down\"" }}
-              description: {{ printf "\"  Instance of {{$labels.instance}} from 1.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
-          - alert: Instance01Down
-            expr: up{job="01BranchNodes"} == 0
-            labels:
-              severity: ERROR
-            annotations:
-              summary: {{ printf "\"Instance 0.1 branch Down\"" }}
-              description: {{ printf "\"  Instance of {{$labels.instance}} from 0.1 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              summary: {{ printf "\"Production instance Down\"" }}
+              description: {{ printf "\"  Instance of {{$labels.instance}} from {{ $labels.type }} is down\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: ServerlistInstanceDown
             expr: up{job="serverListServer"} == 0
             labels:
               severity: ERROR
             annotations:
               summary: {{ printf "\"Serverlist server Down\"" }}
-              description: {{ printf "\"  Serverlist server {{$labels.instance}} from 1.0 branch is down\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Serverlist server {{$labels.instance}} from 1.0 branch is down\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: OutOfMemory
-            expr: node_memory_MemFree / node_memory_MemTotal * 100 < 10
+            expr: job:node_memory_MemFree{job="prodNodes"} / job:node_memory_MemTotal{job="prodNodes"} * 100 < 10
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Out of memory (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Node memory is filling up (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Node memory is filling up (< 10%% left)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: UnusualNetworkThroughputIn
-            expr: sum by (instance) (irate(node_network_receive_bytes[2m])) / 1024 / 1024 > 100
+            expr: sum by (instance) (irate(job:node_network_receive_bytes{job="prodNodes"}[2m])) / 1024 / 1024 > 100
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Unusual network throughput in (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Host network interfaces are probably receiving too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Host network interfaces are probably receiving too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: UnusualNetworkThroughputOut
-            expr: sum by (instance) (irate(node_network_transmit_bytes[2m])) / 1024 / 1024 > 100
+            expr: sum by (instance) (irate(job:node_network_transmit_bytes{job="prodNodes"}[2m])) / 1024 / 1024 > 100
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Unusual network throughput out (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Host network interfaces are probably sending too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Host network interfaces are probably sending too much data (> 100 MB/s)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: UnusualDiskReadRate
-            expr: sum by (instance) (irate(node_disk_read_bytes[2m])) / 1024 / 1024 > 50
+            expr: sum by (instance) (irate(job:node_disk_read_bytes{job="prodNodes"}[2m])) / 1024 / 1024 > 50
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Unusual disk read rate (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Disk is probably reading too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Disk is probably reading too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: UnusualDiskWriteRate
-            expr: sum by (instance) (irate(node_disk_written_bytes[2m])) / 1024 / 1024 > 50
+            expr: sum by (instance) (irate(job:node_disk_written_bytes{job="prodNodes"}[2m])) / 1024 / 1024 > 50
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Unusual disk write rate (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Disk is probably writing too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Disk is probably writing too much data (> 50 MB/s)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: OutOfDiskSpace
-            expr: node_filesystem_free_bytes{mountpoint ="/rootfs"} / node_filesystem_size_bytes{mountpoint ="/rootfs"} * 100 < 10
+            expr: job:node_filesystem_free_bytes{job="prodNodes", mountpoint ="/rootfs"} / job:node_filesystem_size_bytes{job="prodNodes", mountpoint ="/rootfs"} * 100 < 10
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Out of disk space (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Disk is almost full (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Disk is almost full (< 10%% left)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: OutOfInodes
-            expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint ="/rootfs"} * 100 < 10
+            expr: job:node_filesystem_files_free{job="prodNodes", mountpoint ="/rootfs"} / job:node_filesystem_files{job="prodNodes", mountpoint ="/rootfs"} * 100 < 10
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Out of inodes (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Disk is almost running out of available inodes (< 10%% left)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Disk is almost running out of available inodes (< 10%% left)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: UnusualDiskReadLatency
-            expr: rate(node_disk_read_time_ms[1m]) / rate(node_disk_reads_completed[1m]) > 100
+            expr: rate(job:node_disk_read_time_ms{job="prodNodes"}[1m]) / rate(job:node_disk_reads_completed{job="prodNodes"}[1m]) > 100
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Unusual disk read latency (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Disk latency is growing (read operations > 100ms)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Disk latency is growing (read operations > 100ms)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: UnusualDiskWriteLatency
-            expr: rate(node_disk_write_time_ms[1m]) / rate(node_disk_writes_completed[1m]) > 100
+            expr: rate(job:node_disk_write_time_ms{job="prodNodes"}[1m]) / rate(job:node_disk_writes_completed{job="prodNodes"}[1m]) > 100
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Unusual disk write latency (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Disk latency is growing (write operations > 100ms)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Disk latency is growing (write operations > 100ms)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: HighCpuLoad
-            expr: 100 - (avg by(instance) (irate(node_cpu{mode="idle"}[5m])) * 100) > 80
+            expr: 100 - (avg by(instance) (irate(job:node_cpu{job="prodNodes", mode="idle"}[5m])) * 100) > 80
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"High CPU load (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  CPU load is > 80%%\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  CPU load is > 80%%\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: ContextSwitching
-            expr: rate(node_context_switches[5m]) > 1000
+            expr: rate(job:node_context_switches{job="prodNodes"}[5m]) > 1000
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Context switching (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Context switching is growing on node (> 1000 / s)\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Context switching is growing on node (> 1000 / s)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: SwapIsFillingUp
-            expr: (1 - (node_memory_SwapFree / node_memory_SwapTotal)) * 100 > 80
+            expr: (1 - (job:node_memory_SwapFree{job="prodNodes"} / job:node_memory_SwapTotal{job="prodNodes"})) * 100 > 80
             for: 5m
             labels:
               severity: WARN
             annotations:
               summary: {{ printf "\"Swap is filling up (instance {{ $labels.instance }})\"" }}
-              description: {{ printf "\"  Swap is filling up ( > 80%% )\\n    VALUE = {{ $value }}\\n    Branch: {{ $labels.branch }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.dtap }}\\n \"" }}
+              description: {{ printf "\"  Swap is filling up ( > 80%% )\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           {{ end }}
       {{ if eq .Values.environment "development" }}
       - name: nodes
@@ -306,34 +285,56 @@ data:
     - /etc/config/alerts
     scrape_configs:
       {{ if eq .Values.environment "production" -}}
-      - job_name: 'masterBranchNodes'
+      - job_name: 'prodNodes'
         file_sd_configs:
           - files:
-            - /etc/configProm/masterTargetsAcquired.yml
-      - job_name: '20BranchNodes'
+            - /etc/configProm/prod-target-list.yml
+      - job_name: 'acceptNodes'
         file_sd_configs:
           - files:
-            - /etc/configProm/20TargetsAcquired.yml
-      - job_name: '10BranchNodes'
+            - /etc/configProm/accept-target-list.yml
+      - job_name: 'testNodes'
         file_sd_configs:
           - files:
-            - /etc/configProm/10TargetsAcquired.yml
-      - job_name: '01BranchNodes'
-        file_sd_configs:
-          - files:
-            - /etc/configProm/01TargetsAcquired.yml
-      - job_name: 'serverListServer'
-        file_sd_configs:
-          - files:
-            - /etc/configProm/serverListServerAcquired.yml
-      - job_name: 'website-blackbox-requester'
+            - /etc/configProm/test-target-list.yml
+      - job_name: 'prodWebsites'
         scrape_interval: 5m
         metrics_path: /probe
         params:
           module: [http_2xx]
         file_sd_configs:
           - files:
-            - '/etc/configProm/http-domains.yml'
+            - '/etc/configProm/prod-http-list.yml'
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
+      - job_name: 'acceptWebsites'
+        scrape_interval: 5m
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        file_sd_configs:
+          - files:
+            - '/etc/configProm/accept-http-list.yml'
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
+      - job_name: 'testWebsites'
+        scrape_interval: 5m
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        file_sd_configs:
+          - files:
+            - '/etc/configProm/test-http-list.yml'
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target

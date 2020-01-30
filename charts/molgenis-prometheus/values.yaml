@@ -77,6 +77,7 @@ prometheus:
         subPath: ""
         configMap: targets-configmap
         readOnly: true
+
   configmapReload:
     resources:
       limits:
@@ -91,18 +92,19 @@ prometheus:
         subPath: ""
         configMap: targets-configmap
         readOnly: true
-  prometheus-blackbox-exporter:
-    config:
-      modules:
-        http_2xx:
-          prober: http
-          timeout: 60s
-          http:
-            valid_status_codes: []
-            method: GET
-            no_follow_redirects: false
-            preferred_ip_protocol: "ip4"
-          
+
+prometheus-blackbox-exporter:
+  config:
+    modules:
+      http_2xx:
+        prober: http
+        timeout: 60s
+        http:
+          valid_status_codes: []
+          method: GET
+          no_follow_redirects: false
+          preferred_ip_protocol: "ip4"
+
 secret:
   GITHUBTOKEN: "xxxx"
 environment: "development"
