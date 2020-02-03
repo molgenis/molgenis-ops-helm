@@ -6,7 +6,7 @@ sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 home: https://hubot.github.com/
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-hubot/catalogIcon-molgenis-hubot.png
-version: 0.3.0
+version: 1.0.0
 maintainers:
 - name: fdlk
 - name: sidohaakma

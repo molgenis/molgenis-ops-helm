@@ -1,6 +1,6 @@
 dependencies:
 - name: hubot
   repository: https://kubernetes-charts.storage.googleapis.com
-  version: 0.0.1
-digest: sha256:8f7da517f63376857c40bcaf2fa498e2ddb8939ff07f73e17dd3ab017776ae64
-generated: 2018-10-23T15:44:26.721569339+02:00
+  version: 1.0.1
+digest: sha256:ed4d7bec4d11be4c42d74c5856f0894981d3c003b3a46b4ebc57f33a4d0a988b
+generated: "2020-01-13T17:56:43.56055+01:00"

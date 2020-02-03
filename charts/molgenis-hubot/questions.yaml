@@ -3,11 +3,11 @@ categories:
 - devops
 - slack
 questions:
-- variable: hubot.hubot.slackToken
+- variable: hubot.secretConfig.HUBOT_SLACK_TOKEN
   label: Slack token
   type: string
   required: true
-- variable: hubot.hubot.config.HUBOT_JENKINS_AUTH
+- variable: hubot.secretConfig.HUBOT_JENKINS_AUTH
   label: Jenkins token
   type: string
   description: Should be in the "user:password" format. Password can be a token (which can be configured in https://jenkins.dev.molgenis.org/user/molgenis-jenkins/configure)
