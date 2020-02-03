@@ -415,6 +415,7 @@ hubot:
         #   hubot preview list - Welke preview omgevingen staan er allemaal gedeployed
         #   hubot preview delete <tag> - Verwijder de preview environment voor deze tag
         #   hubot preview <tag> - Deploy een molgenis preview environment voor deze tag
+        #   hubot preview pr <pr_number> - Deploy een molgenis preview environment voor de laatste tag van een pull request
         #
         # Author:
         #   fdlk
@@ -484,10 +485,33 @@ hubot:
             , ->
               msg.reply "Tag `#{tag}` kan ik niet vinden, en ook niets wat erop lijkt :thinking_face:"
 
+        installPullRequestPreview = (msg) ->
+          pr_number = msg.match[1].replace(/`/g, '')
+          tag_base = "PR-" + pr_number
+          searchRegistry msg, "q=#{tag_base}"
+          , (items) ->
+            tags = items.map (item) -> item.version
+            latest_pr_tag = null
+            highest_pr_tag_version = 0
+            for tag in tags
+              if tag.startsWith(tag_base + "-")
+                pr_tag_version = parseInt(tag.split("-").pop())
+                if pr_tag_version > highest_pr_tag_version
+                  latest_pr_tag = tag
+                  highest_pr_tag_version = pr_tag_version
+            if latest_pr_tag == null
+              msg.reply "Ik kon wel tags vinden maar niet iets waar je wat aan hebt :confused: `#{tags.join("`,`")}`"
+            else
+              runPreviewJob msg, "install", latest_pr_tag, ->
+                msg.reply "De laatste tag voor PR `#{pr_number}` is `#{latest_pr_tag}` en die ga ik voor je klaarzetten! :rocket: Let op: ik ruim het vannacht weer voor je op."
+          , ->
+            msg.reply "Ik kan geen enkele tag vinden voor PR `#{pr_number}` :sob:"
+
         module.exports = (robot) ->
           robot.respond /preview delete (.+)/i, (msg) -> deletePreview(msg)
           robot.respond /preview list/i, (msg) -> listPreview(msg)
-          robot.respond /preview (?!delete|list)(.+)/i, (msg) -> installPreview(msg)
+          robot.respond /preview pr (\d+)/i, (msg) -> installPullRequestPreview(msg)
+          robot.respond /preview tag (.+)/i, (msg) -> installPreview(msg)
 
   ingress:
     enabled: false
