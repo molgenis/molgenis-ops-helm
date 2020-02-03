@@ -31,6 +31,7 @@ jenkins:
       - job-dsl:1.76
       - matrix-auth:2.5
       - block-queued-job:0.2.0
+      - build-token-root:1.6
     overwritePlugins: true
     resources:
       limits:
