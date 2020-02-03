@@ -5,9 +5,9 @@ hubot:
   config:
     HUBOT_NAME: mark
     # URL for the jenkins server
-    HUBOT_JENKINS_URL: 'https://jenkins.dev.molgenis.org/'
+    HUBOT_JENKINS_URL: 'https://jenkins.dev.molgenis.org'
     # URL for the registry server
-    HUBOT_REGISTRY_URL: 'https://registry.molgenis.org/'
+    HUBOT_REGISTRY_URL: 'https://registry.molgenis.org'
   secretConfig:
     # Authorization token for the jenkins preview job
     JENKINS_PREVIEW_JOB_AUTH: 'xxxx'
@@ -148,12 +148,12 @@ hubot:
         return req
 
       runPreviewJob = (msg, action, tag, onSuccess) ->
-        url = "#{process.env.HUBOT_JENKINS_URL}/job/preview/buildWithParameters?ACTION=#{action}&TAG=#{querystring.escape(tag)}&token=#{process.env.JENKINS_PREVIEW_JOB_AUTH}"
+        url = "#{process.env.HUBOT_JENKINS_URL}/buildByToken/buildWithParameters?job=preview&ACTION=#{action}&TAG=#{querystring.escape(tag)}&token=#{process.env.JENKINS_PREVIEW_JOB_AUTH}"
         req = createRequest msg, url
         req.post() callback(onSuccess, -> msg.reply "Ik verwacht een parameterized preview job in Jenkins, misschien kan een echt mens die even configureren.")
 
       searchRegistry = (msg, params, ifFound, ifNotFound) ->
-        req = createRequest msg, "#{process.env.HUBOT_REGISTRY_URL}service/rest/v1/search?repository=docker&name=molgenis%2Fmolgenis-app&#{params}"
+        req = createRequest msg, "#{process.env.HUBOT_REGISTRY_URL}/service/rest/v1/search?repository=docker&name=molgenis%2Fmolgenis-app&#{params}"
         req.get() callback((body) ->
           items = JSON.parse(body).items
           if items && items.length
