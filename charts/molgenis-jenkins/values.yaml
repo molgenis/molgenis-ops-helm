@@ -630,6 +630,28 @@ jenkins:
                       - hostPathVolume:
                           hostPath: "/var/run/docker.sock"
                           mountPath: "/var/run/docker.sock"
+                  - name: molgenis-jdk8
+                    label: molgenis-jdk8
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: maven
+                        image: "molgenis/maven-jdk8:maven-jdk8-release-2019-12-24_12-50-19"
+                        command: cat
+                        args: ""
+                        ttyEnabled: true
+                        resourceRequestCpu: "1"
+                        resourceRequestMemory: "4Gi"
+                        envVars:
+                          - envVar:
+                              key: MAVEN_OPTS
+                              value: "-Duser.home=/home/jenkins/agent"
+                          - envVar:
+                              key: MAVEN_CONFIG
+                              value: "/home/jenkins/agent/.m2"
+                          - envVar:
+                              key: HOME
+                              value: /home/jenkins/agent
                   - name: molgenis-jdk11
                     label: molgenis-jdk11
                     inheritFrom: shared
