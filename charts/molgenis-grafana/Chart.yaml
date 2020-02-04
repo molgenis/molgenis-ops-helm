@@ -1,7 +1,7 @@
 name: molgenis-grafana
 home: https://grafana.net
 version: 0.2.0
-appVersion: 5.4.3
+appVersion: 6.6.0
 description: Molgenis installation for the Grafana chart.
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git

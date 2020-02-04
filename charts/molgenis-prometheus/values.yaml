@@ -98,12 +98,23 @@ prometheus-blackbox-exporter:
     modules:
       http_2xx:
         prober: http
-        timeout: 60s
+        timeout: 30s
         http:
           valid_status_codes: []
           method: GET
           no_follow_redirects: false
           preferred_ip_protocol: "ip4"
+          ip_protocol_fallback: false
+      http_api_2xx:
+        prober: http
+        timeout: 30s
+        http:
+          valid_status_codes: []
+          method: GET
+          fail_if_body_not_matches_regexp:
+            - "^.*buildDate.*molgenisVersion.*$"
+          preferred_ip_protocol: "ip4"
+          ip_protocol_fallback: false
 
 secret:
   GITHUBTOKEN: "xxxx"
