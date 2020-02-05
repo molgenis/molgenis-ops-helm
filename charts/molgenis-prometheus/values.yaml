@@ -26,7 +26,7 @@ prometheus:
         repeat_interval: 3h
 
   kubeStateMetrics:
-    enabled: false
+    enabled: true
     nodeSelector:
       deployPod: "true"
     resources:

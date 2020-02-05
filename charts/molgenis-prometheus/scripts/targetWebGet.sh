@@ -30,7 +30,7 @@ do
     then
         host=$(echo $val | cut -d'.' -f1)
         desc=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=id=='$host'&attrs=~id,description' | rev | cut -d'"' -f2 | rev )
-        result=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=id=='$host'&attrs=~id,url,dns' | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*\:?\d*/?[a-zA-Z0-9]*/?" | uniq | tr '\n' ' ' )
+        result=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=id=='$host'&attrs=~id,url,dns' | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*\:?\d*/?[a-zA-Z0-9./?=_-]*/?" | uniq | tr '\n' ' ' )
         case $group in 
             "prod")
                 prodTargetArray+=("- targets: ['${host}.gcc.rug.nl:${NePort}']")
