@@ -1,4 +1,4 @@
-# Default values for nexus.
+# Default values for frontend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -27,51 +27,29 @@ proxy:
   backend:
     service:
       enabled: true
-  frontend:
-    override: true
   #
   # If you want to connect inside the same cluster you can specify the targetNamespace and targetRelease.
   # This way the service will be resolved inside the cluster.
   #
   #      targetNamespace:
   #      targetRelease:
-
   # When you connect to an external MOLGENIS backend you can set proxy.backend.service.enabled=false and specify the backend url.
   #
   #    url: https://master.dev.molgenis.org
 
-
-  #
-  # You can define custom urls you want to proxy on a certain path.
-  # This needs to be done in the values.yaml at this moment. In the questions.yaml you can specify only 1.
-  # You can specify whether you use unpkg.com or not. When you use unpgk.com the redirect target will be
-  # used to resolve the right version.
-  #
-  #  custom:
-  #  - url: https://my-app
-  #    path: my-app
-  #    unpkg: true
-
-    custom:
-    - url: https://unpkg.com/@mswertz
-      path: "@mswertz"
-      unpkg: true
-
-  #
-  # You can define urls in the @molgenis-experimental namespace you want to proxy on a certain path.
-  # This needs to be done in the values.yaml at this moment. In the questions.yaml you can specify only 1.
-  # You can specify whether you use unpkg.com or not. When you use unpgk.com the redirect target will be
-  # used to resolve the right version.
-  #
-  #  experimental:
-  #  - url: https://unpkg.com/@molgenis-experimental/app-name@x.x.x/
-  #    path: @molgenis-experimental
-  #    unpkg: true
-
-    experimental:
-    - url: https://unpkg.com/@molgenis-experimental
-      path: "@molgenis-experimental"
-      unpkg: true
+  frontend:
+    # Add and replace files in the conf.d dir of the frontend container
+    # custom.conf: |-
+    #   location /my-app/ {
+    #     proxy_pass https://my-domain.ext/my-app/;
+    #   }
+    # experimental.conf: |-
+    #   location /@molgenis-experimental/ {
+    #     proxy_pass https://unpkg.com/@molgenis-experimental/;
+    #     proxy_intercept_errors on;
+    #     recursive_error_pages on;
+    #     error_page 301 302 307 = @handle_redirect;
+    #   }
 
 ingress:
   enabled: true

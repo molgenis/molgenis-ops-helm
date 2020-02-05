@@ -37,13 +37,16 @@ backend:
     targetRelease: master
 ```
 
-### Custom proxy configuration
-You can specify custom backends.
+### Other proxy configuration
+You can add or replace files in the `/etc/nginx/proxy.d/` dir of the container
 
 ```yaml
-custom:
-  - url: https://unpkg.com/@npm-organisation
-    path: @npm-organisation
+proxy:
+  frontend:
+    custom.conf: |-
+      location /my-app/ {
+        proxy_pass https://my-domain.ext/my-app/;
+      }
 ```
 
 
