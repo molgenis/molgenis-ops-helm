@@ -29,8 +29,14 @@ spec:
           ports:
             - containerPort: {{ .service.port }}
           volumeMounts:
-          - name: proxy-config
-            mountPath: /etc/nginx/proxy.d/
+            - name: proxy-config
+              mountPath: /etc/nginx/proxy.d/backend.conf
+              subPath: backend.conf
+          {{- range $filename, $contents := .proxy.frontend }}
+            - name: proxy-config
+              mountPath: /etc/nginx/proxy.d/{{ $filename }}
+              subPath: {{ $filename }}
+          {{- end }}
           resources:
 {{ toYaml .resources | indent 12 }}
           livenessProbe:
