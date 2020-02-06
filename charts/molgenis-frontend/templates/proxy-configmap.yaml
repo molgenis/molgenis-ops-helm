@@ -14,5 +14,5 @@ data:
       client_max_body_size 0;
     }
 {{- if .Values.proxy.frontend }}
-{{ toYaml .Values.proxy.frontend | indent 4  }}
+{{ toYaml .Values.proxy.frontend | indent 2 }}
 {{- end -}}
