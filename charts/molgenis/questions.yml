@@ -91,6 +91,42 @@ questions:
     type: string
     label: "Catalina options"
     group: "MOLGENIS"
+  - variable: molgenis-frontend.proxy.frontend.custom\.conf
+    show_if: "molgenis-frontend.enabled=true && questions.advanced=true"
+    label: custom.conf proxy config
+    default: |-
+      #
+      # Example configuration for your own app
+      #
+      # location /my-app/ {
+      #   proxy_pass https://my-domain.ext/my-app/;
+      # }
+    type: multiline
+    required: true
+    group: "Provisioning - Frontend"
+  - variable: molgenis-frontend.proxy.frontend.experimental\.conf
+    show_if: "molgenis-frontend.enabled=true && questions.advanced=true"
+    label: Proxy config experimental.conf
+    default: |-
+      #
+      # Serve the latest release of each experimental module:
+      #
+      # location /@molgenis-experimental/ {
+      #   proxy_pass https://unpkg.com/@molgenis-experimental/;
+      # }
+      
+      #
+      # Or specify which version to proxy:
+      #  
+      # location /@molgenis-experimental/molgenis-app-lifelines-webshop/ {
+      #   proxy_pass https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@1.5.2/;
+      #   proxy_intercept_errors on;
+      #   recursive_error_pages on;
+      #   error_page 301 302 307 = @handle_redirect;
+      # }
+    type: multiline
+    required: true
+    group: "Provisioning - Frontend"
   - variable: molgenis-frontend.ingress.basicAuth.enabled
     show_if: "molgenis-frontend.enabled=true"
     label: Basic authentication

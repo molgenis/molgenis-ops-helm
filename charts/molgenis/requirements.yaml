@@ -4,7 +4,7 @@ dependencies:
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-elasticsearch.enabled
   - name: molgenis-frontend
-    version: 1.4.0
+    version: 1.5.1
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-frontend.enabled
   - name: postgresql
