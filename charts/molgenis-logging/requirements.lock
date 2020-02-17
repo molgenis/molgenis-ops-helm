@@ -1,9 +1,9 @@
 dependencies:
 - name: elasticsearch
-  repository: https://registry.molgenis.org/repository/helm/
-  version: 7.2.0
+  repository: https://helm.elastic.co
+  version: 7.5.2
 - name: kibana
-  repository: https://registry.molgenis.org/repository/helm/
-  version: 7.2.0
-digest: sha256:8dd73322443df60715fe0035c05bac8c7af896d82173940bba1e19b150b83ad0
-generated: "2019-07-11T16:11:11.380924+02:00"
+  repository: https://helm.elastic.co
+  version: 7.5.2
+digest: sha256:b9dfc157739d3df9270952998d747204a7b8099e325a6a96d5cf05431e76576e
+generated: "2020-02-17T15:25:19.067793+01:00"
