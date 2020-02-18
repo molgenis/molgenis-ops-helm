@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-config
+  labels:
+{{ include "molgenis-datashield.labels" . | indent 4 }}
+data:
+  'MOLGENIS_URI': {{ .Values.molgenis.uri }}
+  'MOLGENIS_TOKEN': {{ .Values.molgenis.token }}
+  'SPRING_SECURITY_USER_PASSWORD': {{ .Values.security.user.password }}
+  'SPRING_SECURITY_USER_NAME': {{ .Values.security.user.name }}
