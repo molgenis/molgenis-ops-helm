@@ -14,6 +14,7 @@ pipeline {
                 container('chart-testing') {
                     sh "helm init --client-only"
                     sh "helm repo add molgenis ${HELM_REPO}"
+                    sh "helm repo add elastic https://helm.elastic.co/"
                     sh "ct lint --all"
                 }
             }
