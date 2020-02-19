@@ -18,15 +18,16 @@ questions:
     - accept
     - prod
   required: true
-- variable: image.repository
-  label: Container image repository
+- variable: server.image.repository
+  label: Server image repository
   type: string
   required: true
-  default: "molgenis/datashield-service"
-- variable: image.tag
-  label: Container image tag
+  default: "registry.molgenis.org/molgenis/datashield-service"
+- variable: server.image.tag
+  label: Server image tag
   type: string
   required: true
+  default: dev
 - variable: molgenis.uri
   label: MOLGENIS URI
   description: "MOLGENIS server to download data from."
@@ -34,13 +35,13 @@ questions:
   required: true
   default: "https://latest.test.molgenis.org"
   group: "MOLGENIS"
-- variable: molgenis.token
+- variable: server.config.molgenis.token
   label: MOLGENIS Token
   description: "Authentication token to download data from MOLGENIS."
   type: password
   required: true
   group: "MOLGENIS"
-- variable: security.user.password
+- variable: server.config.spring.security.user.password
   label: User password
   description: "Until we have proper authentication: the password to authenticate with the datashield"
   type: password

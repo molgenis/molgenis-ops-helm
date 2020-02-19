@@ -20,38 +20,38 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ template "molgenis-datashield.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
-          envFrom:
-            - configMapRef:
-                name: "server-config"
+          env:
+            - name: SPRING_APPLICATION_JSON
+              valueFrom:
+                configMapKeyRef:
+                  name: "server-config"
+                  key: "application.json"
+          {{ with .Values.server.config.spring.security.user }}
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: http
               httpHeaders:
                 - name: Authorization
-                  value: Basic {{ (printf "%s:%s" .Values.security.user.name .Values.security.user.password) | b64enc }}
+                  value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: http
               httpHeaders:
                 - name: Authorization
-                  value: Basic {{ (printf "%s:%s" .Values.security.user.name .Values.security.user.password) | b64enc }}
+                  value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
+          {{- end }}
           resources:
-{{- toYaml .Values.resources | nindent 12 }}
+{{ toYaml .Values.server.resources | nindent 12 }}
+{{- if .Values.rserver.enabled }}
         - name: rserver
           image: {{ .Values.rserver.image.repository }}:{{ .Values.rserver.image.tag }}
           tag: 
@@ -61,6 +61,7 @@ spec:
             - containerPort: 6311
           resources:
 {{ toYaml .Values.rserver.resources | indent 12 }}
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
