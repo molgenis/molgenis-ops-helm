@@ -8,9 +8,6 @@ pipeline {
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F-%H-%M-%S'").trim()
     }
-    triggers {
-        cron('H 23 * * 1-5')
-    }
     stages {
         stage('Prepare [ e2e ]') {
             steps {
