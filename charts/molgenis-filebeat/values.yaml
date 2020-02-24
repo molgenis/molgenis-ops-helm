@@ -9,13 +9,26 @@ filebeatConfig:
       - '*'
       processors:
       - add_kubernetes_metadata: ~
+      multiline:
+        pattern: '^[[:blank:]]+(at|\.{3}[[:space:]][[:digit:]]+)|^(<|[[:word:]]+(\.[[:word:]]+)+:|Exception:|Caused by:)'
+        negate: false
+        match: after
+
+    setup.template.name: "filebeat"
+    setup.template.pattern: "filebeat-*"
 
     output.elasticsearch:
-#      host: '${NODE_NAME}'
-#      hosts: '${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}'
-#      hosts: 'https://logging.molgenis.org:443'
-      hosts: 'http://10.3.57.53:9200'
-      index: 'filebeat-%{[agent.version]}-%{[service.type]}-%{+yyyy.MM}'
+      host: '${NODE_NAME}'
+      hosts: "http://elasticsearch-master.molgenis-logging:9200"
+      indices:
+        - index: "filebeat-%{[agent.version]}-rancher-%{[kubernetes.labels.app]}-%{+yyyy.MM}"
+          when.has_fields: ['kubernetes.labels.app']
+        - index: "filebeat-%{[agent.version]}-rancher-%{[kubernetes.container.name]}-%{+yyyy.MM}"
+          when.has_fields: ['kubernetes.container.name']
+        - index: "filebeat-%{[agent.version]}-rancher-other-%{+yyyy.MM}"
+          when.not.has_fields: ['kubernetes.labels.app']
+
+    logging.metrics.enabled: false
 
 # Extra environment variables to append to the DaemonSet pod spec.
 # This will be appended to the current 'env:' key. You can use any of the kubernetes env
@@ -50,7 +63,7 @@ envFrom: []
 # Root directory where Filebeat will write data to in order to persist registry data across pod restarts (file position and other metadata).
 hostPathRoot: /var/lib
 hostNetworking: false
-image: "docker.elastic.co/beats/filebeat"
+image: "docker.elastic.co/beats/filebeat-oss"
 imageTag: "7.5.2"
 imagePullPolicy: "IfNotPresent"
 imagePullSecrets: []

@@ -1,0 +1,56 @@
+categories:
+- MOLGENIS
+- DataSHIELD
+- R
+questions:
+- variable: ingress.enabled
+  type: boolean
+  default: true
+  required: true
+- variable: environment
+  label: Environment
+  description: "Environment of MOLGENIS instance"
+  type: enum
+  options:
+    - edge
+    - dev
+    - test
+    - accept
+    - prod
+  required: true
+- variable: server.image.repository
+  label: Server image repository
+  type: string
+  required: true
+  default: "registry.molgenis.org/molgenis/datashield-service"
+- variable: server.image.tag
+  label: Server image tag
+  type: string
+  required: true
+  default: dev
+- variable: server.config.molgenis.uri
+  label: MOLGENIS URI
+  description: "MOLGENIS server to download data from."
+  type: string
+  required: true
+  default: "https://latest.test.molgenis.org"
+  group: "MOLGENIS"
+- variable: server.config.molgenis.token
+  label: MOLGENIS Token
+  description: "Authentication token to download data from MOLGENIS."
+  type: password
+  required: true
+  group: "MOLGENIS"
+- variable: server.config.spring.security.user.password
+  label: User password
+  description: "Until we have proper authentication: the password to authenticate with the datashield"
+  type: password
+  required: true
+  group: "Security"
+- variable: rserver.image.tag
+  label: "RServer image tag"
+  description: "See https://hub.docker.com/r/obiba/opal-rserver/tags for options"
+  type: string
+  required: true
+  default: 1.6
+  group: "R"

@@ -1,0 +1,62 @@
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+server:
+  image:
+    repository: registry.molgenis.org/molgenis/datashield-service
+    tag: dev
+    pullPolicy: IfNotPresent
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  config:
+    spring:
+      security:
+        user:
+          name: admin
+          password: admin
+    molgenis:
+      uri: https://latest.test.molgenis.org
+      token: xxxx
+    # You can provide any environment property you like here, e.g.
+    # rserve:
+    #   connect:
+    #     attempts: 5
+    #     interval: 1000
+
+rserver:
+  enabled: true
+  image:
+    repository: registry.hub.docker.com/obiba/opal-rserver
+    tag: 1.6
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+nodeSelector:
+  deployPod: "true"
+
+tolerations: []
+
+affinity: {}

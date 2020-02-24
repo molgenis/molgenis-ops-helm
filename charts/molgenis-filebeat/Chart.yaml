@@ -6,7 +6,7 @@ maintainers:
   name: Elastic
 name: filebeat
 version: 7.5.2
-appVersion: 7.5.2
+appVersion: 1.0.0
 sources:
   - https://github.com/elastic/beats
 icon: https://helm.elastic.co/icons/beats.png
