@@ -28,7 +28,7 @@ questions:
   type: string
   required: true
   default: dev
-- variable: molgenis.uri
+- variable: server.config.molgenis.uri
   label: MOLGENIS URI
   description: "MOLGENIS server to download data from."
   type: string
