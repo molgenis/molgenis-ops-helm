@@ -49,6 +49,8 @@ jenkins:
         value: "ABCDEFG"
       - name: "GITHUB_ORG_NAME"
         value: "molgenis-jenkins"
+    healthProbeLivenessInitialDelay: 900
+    healthProbeReadinessInitialDelay: 600
     additionalConfig:
       org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml: |-
         <?xml version='1.1' encoding='UTF-8'?>
