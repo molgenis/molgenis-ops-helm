@@ -19,7 +19,6 @@ filebeatConfig:
 
     output.elasticsearch:
       host: '${NODE_NAME}'
-      hosts: "http://elasticsearch-master.molgenis-logging:9200"
       indices:
         - index: "filebeat-%{[agent.version]}-rancher-%{[kubernetes.labels.app]}-%{+yyyy.MM}"
           when.has_fields: ['kubernetes.labels.app']

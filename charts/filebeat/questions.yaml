@@ -1,0 +1,6 @@
+questions:
+  - variable: output.elasticsearch.hosts
+    type: string
+    required: true
+    default: http://elasticsearch-master.molgenis-logging:9200
+    label: "Host address for ElasticSearch to be reachable"
