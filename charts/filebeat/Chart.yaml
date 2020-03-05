@@ -1,9 +1,9 @@
 apiVersion: v1
-description: Official Elastic helm chart for Filebeat
+description: Customized Elastic helm chart for Filebeat
 home: https://github.com/elastic/helm-charts
 maintainers:
-- email: helm-charts@elastic.co
-  name: Elastic
+- email: a.j.kuperus@umcg.nl
+  name: Alex Kuperus
 name: filebeat
 version: 1.0.0
 appVersion: 7.5.2
