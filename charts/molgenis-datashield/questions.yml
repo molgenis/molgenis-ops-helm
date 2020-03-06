@@ -33,7 +33,7 @@ questions:
   description: "MOLGENIS server to download data from."
   type: string
   required: true
-  default: "https://datashield.dev.molgenis.org"
+  default: "https://datashield-backend.dev.molgenis.org"
   group: "MOLGENIS"
 - variable: server.config.molgenis.token
   label: MOLGENIS Token
