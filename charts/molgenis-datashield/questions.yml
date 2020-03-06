@@ -33,7 +33,7 @@ questions:
   description: "MOLGENIS server to download data from."
   type: string
   required: true
-  default: "https://latest.test.molgenis.org"
+  default: "https://datashield.dev.molgenis.org"
   group: "MOLGENIS"
 - variable: server.config.molgenis.token
   label: MOLGENIS Token
@@ -49,7 +49,7 @@ questions:
   group: "Security"
 - variable: rserver.image.tag
   label: "RServer image tag"
-  description: "See https://hub.docker.com/r/obiba/opal-rserver/tags for options"
+  description: "See https://hub.docker.com/r/molgenis/ds-51-rserver-363/tags for options"
   type: string
   required: true
   default: ds-51-rserver-363-release-2020-03-06_09-51-26
