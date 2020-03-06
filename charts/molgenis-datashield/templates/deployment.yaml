@@ -28,6 +28,10 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
+            - name: MINIO_ACCESS_KEY
+              value: {{ .Values.minio.accessKey }}
+            - name: MINIO_SECRET_KEY
+              value: {{ .Values.minio.secretKey }}
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:

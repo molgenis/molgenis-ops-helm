@@ -37,8 +37,8 @@ server:
 rserver:
   enabled: true
   image:
-    repository: registry.hub.docker.com/obiba/opal-rserver
-    tag: 1.6
+    repository: molgenis/ds-51-rserver-363
+    tag: ds-51-rserver-363-release-2020-03-06_09-51-26
   resources:
     limits:
       cpu: 2
@@ -46,6 +46,32 @@ rserver:
     requests:
       cpu: 1
       memory: 1Gi
+
+minio:
+  enabled: true
+  accessKey: 'molgenis'
+  secretKey: 'molgenis'
+  persistence:
+    enabled: true
+    retain: false
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  defaultBucket:
+    enabled: true
+    name: molgenis
+  minioConfig:
+    region: ""
+  service:
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/minio/prometheus/metrics'
+      prometheus.io/port: '9000'
 
 service:
   type: ClusterIP
