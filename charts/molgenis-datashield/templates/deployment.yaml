@@ -23,6 +23,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 8080
@@ -32,6 +33,8 @@ spec:
               value: {{ .Values.minio.accessKey }}
             - name: MINIO_SECRET_KEY
               value: {{ .Values.minio.secretKey }}
+            - name: MINIO_URL
+              value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:
