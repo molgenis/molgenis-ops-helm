@@ -47,6 +47,32 @@ rserver:
       cpu: 1
       memory: 1Gi
 
+minio:
+  enabled: true
+  accessKey: 'molgenis'
+  secretKey: 'molgenis'
+  persistence:
+    enabled: true
+    retain: false
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  defaultBucket:
+    enabled: true
+    name: molgenis
+  minioConfig:
+    region: ""
+  service:
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/minio/prometheus/metrics'
+      prometheus.io/port: '9000'
+
 service:
   type: ClusterIP
   port: 8080
