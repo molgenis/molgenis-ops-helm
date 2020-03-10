@@ -669,6 +669,18 @@ jenkins:
                       - envVar:
                           key: NPM_LOCAL_REGISTRY
                           value: registry.molgenis.org/repository/npm-hosted
+                  - name: node-erbium
+                    label: node-erbium
+                    nodeUsageMode: EXCLUSIVE
+                    inheritFrom: shared
+                    containers:
+                      - name: node
+                        image: "molgenis/node-erbium:1.0.0"
+                        command: cat
+                        args: ""
+                        ttyEnabled: true
+                        resourceRequestCpu: "1"
+                        resourceRequestMemory: "1Gi"
                   - name: python
                     label: python-stretch
                     nodeUsageMode: EXCLUSIVE
