@@ -1,7 +1,4 @@
 ---
-elasticsearch:
-  host: 'elasticsearch-master.molgenis-logging'
-
 # Allows you to add any config files in /usr/share/filebeat
 # such as filebeat.yml
 filebeat:
@@ -23,7 +20,7 @@ filebeat:
 
       output.elasticsearch:
         host: '${NODE_NAME}'
-        hosts: 'http://elasticsearch.filebeat4.svc:9200'
+        hosts: 'http://elasticsearch-master.molgenis-logging:9200'
         indices:
           - index: "filebeat-%{[agent.version]}-rancher-%{[kubernetes.labels.app]}-%{+yyyy.MM}"
             when.has_fields: ['kubernetes.labels.app']
@@ -39,7 +36,6 @@ filebeat:
   # syntax here
   extraEnvs: []
   #  - name: ELASTICSEARCH_HOSTS
-  #    value: 'http://elasticsearch:9200'
   #    value: 'http://elasticsearch-master.molgenis-logging:9200'
   #  - name: MY_ENVIRONMENT_VAR
   #    value: the_value_goes_here
