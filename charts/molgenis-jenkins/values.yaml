@@ -783,6 +783,21 @@ jenkins:
                         ttyEnabled: true
                         command: "cat"
                         args: ""
+                  - name: r-3.6.2
+                    label: r-3.6.2
+                    inheritFrom: shared
+                    nodeUsageMode: EXCLUSIVE
+                    containers:
+                      - name: r
+                        image: "rocker/verse:3.6.2"
+                        ttyEnabled: true
+                        command: "cat"
+                        args: ""
+                      - name: curl
+                        image: "appropriate/curl:latest"
+                        ttyEnabled: true
+                        command: "cat"
+                        args: ""
                   - name: helm
                     label: helm
                     inheritFrom: shared
