@@ -1,0 +1,7 @@
+questions:
+#  - variable: 'filebeat.filebeatConfig.filebeat\.yml.output.elasticsearch.hosts[0]'
+#  - variable: 'ELASTICSEARCH_HOSTS'
+#    type: string
+#    required: true
+#    default: "http://elasticsearch-master.molgenis-logging:9200"
+#    label: "Host address for ElasticSearch to be reachable"

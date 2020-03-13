@@ -1,0 +1,4 @@
+dependencies:
+- name: filebeat
+  version: 7.5.2
+  repository: https://helm.elastic.co
