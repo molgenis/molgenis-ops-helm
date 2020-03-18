@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-config
+  labels:
+{{ include "vue-pdfium.labels" . | indent 4 }}
+data:
+  "pdf.rc": {{ toJson .Values.config | quote }}
