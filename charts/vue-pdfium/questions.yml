@@ -1,0 +1,13 @@
+categories:
+  - pdf
+questions:
+  - variable: ingress.enabled
+    label: Expose under hostname?
+    default: true
+    type: boolean
+    required: true
+  - variable: ingress.hosts[0].host
+    show_if: "ingress.enabled=true"
+    label: Hostname
+    type: hostname
+    required: true
