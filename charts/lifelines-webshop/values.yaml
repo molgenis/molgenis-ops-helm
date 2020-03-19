@@ -19,6 +19,18 @@ transform:
     src_dir: "catalog"
     target_dir: "generated"
 
+vue-pdfium:
+  fullnameOverride: "vue-pdfium"
+  ingress:
+    enabled: false
+  image:
+    repository: registry.molgenis.org/molgenis/vue-pdfium
+    tag: master
+    pullPolicy: Always
+  config:
+    dev: false
+    postLimit: "10mb"
+
 lifelines-edge:
   fullnameOverride: lifelines-edge
   image:
@@ -68,6 +80,12 @@ molgenis:
           unpkg: false
         - path: "edge-server"
           url: "http://lifelines-edge/edge-server"
+          unpkg: false
+        - path: "vuepdf"
+          url: "http://vue-pdfium/vuepdf"
+          unpkg: false
+        - path: "vuepdf-dev"
+          url: "http://vue-pdfium/vuepdf-dev"
           unpkg: false
     ingress:
       basicAuth:

@@ -1,6 +1,37 @@
 categories:
   - MOLGENIS
 questions:
+  - variable: "vue-pdfium.image.tag"
+    group: "PDF"
+    label: "container version"
+    type: string
+  - variable: "vue-pdfium.image.repository"
+    group: "PDF"
+    label: "container repository"
+    type: enum
+    default: "registry.molgenis.org/molgenis/vue-pdfium"
+    required: true`
+    options:
+      - "registry.molgenis.org/molgenis/vue-pdfium"
+      - "molgenis/vue-pdfium"
+  - variable: "vue-pdfium.image.pullPolicy"
+    group: "PDF"
+    label: "container pull policy"
+    type: enum
+    default: IfNotPresent
+    options:
+      - Always
+      - IfNotPresent
+  - variable: "vue-pdfium.config.dev"
+    group: "PDF"
+    label: "PDF generator in dev mode"
+    type: boolean
+    default: false
+  - variable: "vue-pdfium.config.postLimit"
+    group: "PDF"
+    label: "PDF generator post limit"
+    type: string
+    default: "10mb"
   - variable: "molgenis.molgenis-frontend.environment"
     label: Environment
     description: "Environment of this release"
