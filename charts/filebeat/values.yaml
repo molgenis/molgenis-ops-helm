@@ -40,12 +40,18 @@ filebeat:
   #  - name: MY_ENVIRONMENT_VAR
   #    value: the_value_goes_here
 
-  extraVolumeMounts: []
+  extraVolumeMounts: #[]
+    - name: varlibdockercontainers
+      mountPath: /var/lib/docker/containers
+      readOnly: true
     # - name: extras
     #   mountPath: /usr/share/extras
     #   readOnly: true
 
-  extraVolumes: []
+  extraVolumes: #[]
+    - name: varlibdockercontainers
+      hostPath:
+      path: /var/lib/docker/containers
     # - name: extras
     #   emptyDir: {}
 
