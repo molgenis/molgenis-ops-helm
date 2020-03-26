@@ -28,6 +28,10 @@ filebeat:
             when.has_fields: ['kubernetes.container.name']
           - index: "filebeat-%{[agent.version]}-rancher-other-%{+yyyy.MM}"
             when.not.has_fields: ['kubernetes.labels.app']
+        pipelines:
+          - pipeline: "nginx-access"
+            when.contains:
+              kubernetes.labels.app: "molgenis-frontend"
 
       logging.metrics.enabled: false
 
@@ -40,18 +44,12 @@ filebeat:
   #  - name: MY_ENVIRONMENT_VAR
   #    value: the_value_goes_here
 
-  extraVolumeMounts: #[]
-    - name: varlibdockercontainers
-      mountPath: /var/lib/docker/containers
-      readOnly: true
+  extraVolumeMounts: []
     # - name: extras
     #   mountPath: /usr/share/extras
     #   readOnly: true
 
-  extraVolumes: #[]
-    - name: varlibdockercontainers
-      hostPath:
-      path: /var/lib/docker/containers
+  extraVolumes: []
     # - name: extras
     #   emptyDir: {}
 
