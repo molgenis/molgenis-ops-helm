@@ -28,10 +28,10 @@ filebeat:
             when.has_fields: ['kubernetes.container.name']
           - index: "filebeat-%{[agent.version]}-rancher-other-%{+yyyy.MM}"
             when.not.has_fields: ['kubernetes.labels.app']
-        #pipelines:
-        #  - pipeline: "nginx-access"
-        #    when.contains:
-        #      kubernetes.labels.app: "molgenis-frontend"
+        pipelines:
+          - pipeline: "nginx-access"
+            when.contains:
+              kubernetes.labels.app: "molgenis-frontend"
 
       logging.metrics.enabled: false
 
