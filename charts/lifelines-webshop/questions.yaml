@@ -3,8 +3,9 @@ categories:
 questions:
   - variable: "vue-pdfium.image.tag"
     group: "PDF"
-    label: "container version"
+    label: "Container version"
     type: string
+    default: latest
   - variable: "vue-pdfium.image.repository"
     group: "PDF"
     label: "container repository"
