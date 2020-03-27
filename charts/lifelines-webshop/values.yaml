@@ -25,7 +25,7 @@ vue-pdfium:
     enabled: false
   image:
     repository: registry.molgenis.org/molgenis/vue-pdfium
-    tag: master
+    tag: latest
     pullPolicy: Always
   config:
     dev: false
@@ -35,7 +35,7 @@ lifelines-edge:
   fullnameOverride: lifelines-edge
   image:
     repository: "molgenis/molgenis-node-lifelines-edge"
-    tag: "1.5.3"
+    tag: "1.5.5"
   molgenis:
     url: "http://molgenis:8080"
     token: ""
@@ -53,7 +53,7 @@ lifelines-edge:
 molgenis:
   fullnameOverride: molgenis
   image:
-    tag: "8.2.4"
+    tag: "8.3.5"
     repository: "registry.hub.docker.com"
   mail:
     host: "smtp.rug.nl"
