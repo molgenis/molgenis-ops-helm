@@ -15,7 +15,7 @@ pipeline {
                     sh "helm init --client-only"
                     sh "helm repo add molgenis ${HELM_REPO}"
                     sh "helm repo add elastic https://helm.elastic.co/"
-                    sh "ct lint --all"
+                    sh "ct lint --all --validate-maintainers=false"
                 }
             }
         }
