@@ -5,12 +5,12 @@ questions:
     group: "PDF"
     label: "Container version"
     type: string
-    default: latest
+    default: "1.0.0"
   - variable: "vue-pdfium.image.repository"
     group: "PDF"
     label: "container repository"
     type: enum
-    default: "registry.molgenis.org/molgenis/vue-pdfium"
+    default: "molgenis/vue-pdfium"
     required: true`
     options:
       - "registry.molgenis.org/molgenis/vue-pdfium"

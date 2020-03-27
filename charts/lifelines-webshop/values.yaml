@@ -24,8 +24,8 @@ vue-pdfium:
   ingress:
     enabled: false
   image:
-    repository: registry.molgenis.org/molgenis/vue-pdfium
-    tag: latest
+    repository: molgenis/vue-pdfium
+    tag: 1.0.0
     pullPolicy: Always
   config:
     dev: false
