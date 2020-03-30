@@ -1,6 +1,38 @@
 categories:
   - MOLGENIS
 questions:
+  - variable: "vue-pdfium.image.tag"
+    group: "PDF"
+    label: "Container version"
+    type: string
+    default: "1.0.0"
+  - variable: "vue-pdfium.image.repository"
+    group: "PDF"
+    label: "container repository"
+    type: enum
+    default: "molgenis/vue-pdfium"
+    required: true`
+    options:
+      - "registry.molgenis.org/molgenis/vue-pdfium"
+      - "molgenis/vue-pdfium"
+  - variable: "vue-pdfium.image.pullPolicy"
+    group: "PDF"
+    label: "container pull policy"
+    type: enum
+    default: IfNotPresent
+    options:
+      - Always
+      - IfNotPresent
+  - variable: "vue-pdfium.config.dev"
+    group: "PDF"
+    label: "PDF generator in dev mode"
+    type: boolean
+    default: false
+  - variable: "vue-pdfium.config.postLimit"
+    group: "PDF"
+    label: "PDF generator post limit"
+    type: string
+    default: "10mb"
   - variable: "molgenis.molgenis-frontend.environment"
     label: Environment
     description: "Environment of this release"
@@ -22,7 +54,7 @@ questions:
     group: "Ingress"
   - variable: molgenis.image.tag
     label: Molgenis version
-    default: "8.2.4"
+    default: "8.3.5"
     description: "MOLGENIS backend version (check https://hub.docker.com/r/molgenis/molgenis-app/tags for released tags)."
     type: string
     required: true
@@ -58,7 +90,7 @@ questions:
   - variable: lifelines-edge.image.tag
     label: Edge server image tag
     description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
-    default: 1.5.0
+    default: 1.5.5
     type: string
     required: true
     group: "Edge Server"
