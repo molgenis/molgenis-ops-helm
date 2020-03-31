@@ -35,6 +35,9 @@ filebeat:
           - pipeline: "filebeat-7.5.1-tomcat-molgenis-catalina-default"
             when.contains:
               kubernetes.labels.app: "molgenis"
+          - pipeline: "filebeat-7.5.1-elasticsearch-server-pipeline"
+            when.contains:
+              kubernetes.labels.app: "molgenis-elasticsearch"
 
       logging.metrics.enabled: false
 
