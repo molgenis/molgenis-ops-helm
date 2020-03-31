@@ -32,6 +32,9 @@ filebeat:
           - pipeline: "nginx-access"
             when.contains:
               kubernetes.labels.app: "molgenis-frontend"
+          - pipeline: "filebeat-7.5.1-tomcat-molgenis-catalina-default"
+            when.contains:
+              kubernetes.labels.app: "molgenis"
 
       logging.metrics.enabled: false
 
