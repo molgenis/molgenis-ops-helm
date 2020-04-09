@@ -5,7 +5,5 @@ metadata:
   labels:
 {{ include "lifelines-edge.labels" . | indent 4 }}
 data:
-  CRM_TOKEN_URL: {{ .Values.crm.oauth2.tokenUrl | quote }}
-  USERNAME: {{ .Values.crm.oauth2.username | quote }}
-  PROXY_TARGET: {{ .Values.molgenis.url | quote }}
+  MOLGENIS_URL: {{ .Values.molgenis.url | quote }}
   DATA_PLATFORM_URL: {{ .Values.dataPlatform.url | quote }}

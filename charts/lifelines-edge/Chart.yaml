@@ -1,8 +1,8 @@
 apiVersion: v1
-description: Lifelines edge server for custom integration with CRM and lifelines
+description: Lifelines edge server for custom integration with lifelines
 name: lifelines-edge
 home: https://github.com/molgenis/molgenis-node-lifelines-edge
-appVersion: "1.5.0"
+appVersion: "2.0.0"
 sources:
   - https://github.com/molgenis/molgenis-ops-helm.git
   - https://github.com/molgenis/molgenis-node-lifelines-edge.git
