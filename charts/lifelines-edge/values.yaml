@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: molgenis/molgenis-node-lifelines-edge
-  tag: 1.5.0
+  tag: 2.0.2
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -17,23 +17,16 @@ service:
   type: ClusterIP
   port: 80
 
-crm:
-  oauth2:
-    username: "api@lifelines.nl.acc"
-    password: "xxxx"
-    clientId: "xxxx"
-    clientSecret: "xxxx"
-    tokenUrl: "https://test.salesforce.com/services/oauth2/token"
 molgenis:
   url: "http://lifelines-molgenis.lifelines.svc:8080"
-  token: "xxxx"
 dataPlatform:
   url: "https://acc-dp.lifelines.nl:8080"
   token: "xxxx"
 
 ingress:
   enabled: false
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -57,7 +50,8 @@ resources:
     cpu: 100m
     memory: 64Mi
 
-nodeSelector: {}
+nodeSelector:
+  {}
   # deployPod: "true"
 
 tolerations: []
