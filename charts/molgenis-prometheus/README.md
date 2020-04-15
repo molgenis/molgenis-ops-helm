@@ -70,3 +70,11 @@ The pod is now available at: http://localhost:port in your browser. To close the
 If you want to upgrade the chart, please keep in mind that every scrape config and (silenced) alert will be overwritten. To keep the (silenced) alerts and scrape configs you will need to backup the configmaps targets-configmap, serverfiles-configmap and alertmanager-configmap. When you upgraded the chart, overwrite the default configmaps with your stored configmaps.
 
 > note: you don't have to backup the scrape configs because a cronjob is set to replace the scrape configs every day at 7:30 hour UTC.
+
+Things to know:
+1. In values.yml in the section prometheus-blackbox-exporter are two modules defined. Namely "http_2xx" and "http_api_2xx". The chart use the http_2xx to look and see if the VM is online or not. The http_api_2xx is ment for a api call to the api/v2/version and see if the VM respond with the buildDate and molgenisVersion. But VM's of the 0.1 branch are old and not every VM has the version call for the version. So as long as there are VM's in the 0.1 branch, it is recommended to use http_2xx instead of http_api_2xx because there are servers who dont have a api call to the version.
+2. In the testing phase of the chart we experienced that if you port-forward the prometheus server and look at the targets( http://localhost:9090/targets ( assuming that the cronjob has been running for at least once and filled the necessary configmaps )) that you everything with the status "UP". This status is not the status of the VM, this is only the status of the blackbox_exporter. To see if the status of the VM frontpage is 200( working ), go to http://localhost:9090/graph and type: "probe_success" or "probe_http_status_code" and press "Execute". With "probe_success" you need to see Value: 1 and with "probe_http_status_code" you need to see Value: 200.
+3. In values.yml: if the regex by http_api_2xx is not working
+```fail_if_body_not_matches_regexp:
+  - "^.*buildDate.*molgenisVersion.*$"```, replace it with: 
+```fail_if_body_not_matches_regexp: "^.*buildDate.*molgenisVersion.*$"```. Also make sure you use: "<VM>/api/v2/version" and that the requested link is available( see point 1 ).

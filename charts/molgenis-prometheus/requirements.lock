@@ -1,6 +1,9 @@
 dependencies:
 - name: prometheus
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 9.3.1
-digest: sha256:738d9407d33d4c5ab050ac0b719621d36fff5df2f77557723fee2ccb90770520
-generated: "2019-11-21T13:38:29.466974+01:00"
+  version: 9.7.5
+- name: prometheus-blackbox-exporter
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 3.0.0
+digest: sha256:29d9f66f33f9a89b93adca71d543578753ea3967ec29a7fbbdc96a1d2d410052
+generated: "2020-01-27T10:12:16.046122+01:00"
