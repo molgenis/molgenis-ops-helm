@@ -6,7 +6,7 @@ appVersion: "2.0.2"
 sources:
   - https://github.com/molgenis/molgenis-ops-helm.git
   - https://github.com/molgenis/molgenis-node-lifelines-edge.git
-version: 0.4.0
+version: 2.0.0
 icon: https://cdn3.iconfinder.com/data/icons/explosives/30/detonator-512.png
 maintainers:
   - name: fdlk
