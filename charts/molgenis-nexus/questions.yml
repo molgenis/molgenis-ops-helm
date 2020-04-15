@@ -21,7 +21,7 @@ questions:
   group: "Provisioning"
 - variable: nexus.image.tag
   label: Version
-  default: "nexus-release-2019-08-07_20-09-36"
+  default: "3.22.0"
   description: "Select a NEXUS version (check the registry.molgenis.org or hub.docker.com for released tags)"
   type: string
   required: true
