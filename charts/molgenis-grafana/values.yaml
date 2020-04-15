@@ -80,13 +80,13 @@ grafana:
         revision: 4
         datasource: k8-prometheus
       node-exporter-dashboard:
-        url: https://raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-grafana/dashboards/Node-Exporter-Dashboard.json
+        url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/Node-Exporter-Dashboard.json
         datasource: k8-prometheus
       blackbox-exporter-overview:
-        url: https://raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-grafana/dashboards/Blackbox-Exporter-Overview.json
+        url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/Blackbox-Exporter-Overview.json
         datasource: k8-prometheus
       Total-UP-websites:
-        url: https://raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-grafana/dashboards/Total-UP-websites.json
+        url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/Total-UP-websites.json
         datasource: k8-prometheus
 
   grafana.ini:
