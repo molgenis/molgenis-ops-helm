@@ -13,8 +13,8 @@ nexus:
   restartPolicy: Always
   image:
     repository: registry.hub.docker.com
-    name: molgenis/nexus
-    tag: nexus-release-2019-08-07_20-09-36
+    name: sonatype/nexus3
+    tag: 3.22.0
     pullPolicy: IfNotPresent
   port:
     docker: 5000
