@@ -35,17 +35,10 @@ lifelines-edge:
   fullnameOverride: lifelines-edge
   image:
     repository: "molgenis/molgenis-node-lifelines-edge"
-    tag: "1.5.5"
+    tag: "2.0.2"
   molgenis:
     url: "http://molgenis:8080"
     token: ""
-  crm:
-    oauth2:
-      tokenUrl: "https://test.salesforce.com/services/oauth2/token"
-      username: "api@lifelines.nl.acc"
-      password: ""
-      clientId: ""
-      clientSecret: ""
   dataPlatform:
     url: "https://acc-dp.lifelines.nl:8080"
     token: ""
@@ -74,10 +67,6 @@ molgenis:
         - path: "@molgenis-experimental/molgenis-app-lifelines-webshop"
           url: https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@0.32.1
           unpkg: true
-      custom:
-        - path: "account/activate"
-          url: "http://lifelines-edge/account/activate"
-          unpkg: false
         - path: "edge-server"
           url: "http://lifelines-edge/edge-server"
           unpkg: false

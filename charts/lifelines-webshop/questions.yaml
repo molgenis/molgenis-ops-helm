@@ -90,49 +90,16 @@ questions:
   - variable: lifelines-edge.image.tag
     label: Edge server image tag
     description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
-    default: 1.5.5
+    default: 2.0.2
     type: string
     required: true
     group: "Edge Server"
-  - variable: lifelines-edge.molgenis.token
-    label: Edge server MOLGENIS api token
-    description: "Provide here then create manually in the server"
-    required: true
-    type: password
-    group: MOLGENIS
   - variable: transform.config.molgenis.token
     label: Transform job MOLGENIS api token
     description: "Provide here then create manually in the server"
     required: true
     type: password
     group: MOLGENIS
-  - variable: lifelines-edge.crm.oauth2.tokenUrl
-    label: OAuth2 Token URL
-    type: string
-    required: true
-    default: "https://test.salesforce.com/services/oauth2/token"
-    group: CRM
-  - variable: lifelines-edge.crm.oauth2.username
-    label: OAuth2 username
-    type: string
-    required: true
-    default: "api@lifelines.nl.acc"
-    group: CRM
-  - variable: lifelines-edge.crm.oauth2.password
-    label: OAuth2 password
-    type: password
-    required: true
-    group: CRM
-  - variable: lifelines-edge.crm.oauth2.clientId
-    label: OAuth2 Client ID
-    type: password
-    required: true
-    group: CRM
-  - variable: lifelines-edge.crm.oauth2.clientSecret
-    label: OAuth2 Client Secret
-    type: password
-    required: true
-    group: CRM
   - variable: lifelines-edge.dataPlatform.url
     label: Lifelines data platform URL
     type: string
