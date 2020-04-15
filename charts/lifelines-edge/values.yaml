@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: molgenis/molgenis-node-lifelines-edge
-  tag: 2.0.0
+  tag: 2.0.2
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
