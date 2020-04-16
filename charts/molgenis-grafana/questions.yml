@@ -8,7 +8,7 @@ questions:
     type: boolean
     label: "Enable GitHub Authentication"
     group: "Github Authentication"
-    description: "Allow users to authenticate using GitHub. Configured on https://github.com/organizations/molgenis/settings/applications/955390"
+    description: "Allow users to authenticate using GitHub. Configured on https://github.com/organizations/molgenis/settings/applications/955390 (dev) or https://github.com/organizations/molgenis/settings/applications/1269446 (prod)"
     required: true
     show_subquestion_if: true
     subquestions:
@@ -20,6 +20,13 @@ questions:
       - variable: grafana.grafana\.ini.auth\.github.client_secret
         label: "Client Secret"
         group: "Github Authentication"
+        type: string
+        required: true
+      - variable: grafana.grafana\.ini.server.root_url
+        default: "https://grafana.dev.molgenis.org"
+        label: "Return address(MUST be same as Hostname and have https://)"
+        group: "Github Authentication"
+        description: "For prod cluster fill in: https://grafana.molgenis.org"
         type: string
         required: true
   - variable: "grafana.ingress.hosts[0]"
