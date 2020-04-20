@@ -94,6 +94,12 @@ questions:
     type: string
     required: true
     group: "Edge Server"
+  - variable: lifelines-edge.molgenis.url
+    label: Molgenis backend url
+    default: http://localhost:8080
+    type: string
+    required: true
+    group: "Edge Server"
   - variable: transform.config.molgenis.token
     label: Transform job MOLGENIS api token
     description: "Provide here then create manually in the server"
