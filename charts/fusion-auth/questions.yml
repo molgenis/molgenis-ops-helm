@@ -1,0 +1,13 @@
+categories:
+  - auth
+questions:
+  - variable: fusionauth.ingress.hosts[0]
+    type: hostname
+    label: Hostname
+    required: true
+    default: fusion-auth.dev.molgenis.org
+  - variable: fusionauth.image.tag
+    type: string
+    label: Image tag
+    required: true
+    default: "1.15.8"
