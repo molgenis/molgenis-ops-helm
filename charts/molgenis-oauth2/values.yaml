@@ -8,7 +8,7 @@ oauth2-proxy:
 
   extraArgs:
     provider: "github"
-    github-team: 2879410,2957876
+    github-team: 3794189,3794269
     upstream: "file:///dev/null"
     http-address: "0.0.0.0:4180"
     whitelist-domain: .molgenis.org
