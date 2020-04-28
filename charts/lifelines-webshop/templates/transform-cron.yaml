@@ -18,7 +18,7 @@ spec:
           containers:
             - name: transform
             {{- with .Values.transform.image }}
-              image: "{{ .repository }}:{{ .version }}"
+              image: "{{ .repository }}:{{ .tag }}"
               imagePullPolicy: {{ .pullPolicy }}
             {{- end }}
               volumeMounts:
