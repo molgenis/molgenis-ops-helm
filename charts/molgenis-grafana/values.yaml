@@ -99,7 +99,7 @@ grafana:
       auth_url: https://github.com/login/oauth/authorize
       token_url: https://github.com/login/oauth/access_token
       api_url: https://api.github.com/user
-      team_ids: 2879410,2957876
+      team_ids: 3794189,3794269
 #     allowed_organizations: molgenis
 
     server:
