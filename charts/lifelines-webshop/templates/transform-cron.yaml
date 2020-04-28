@@ -22,7 +22,7 @@ spec:
               imagePullPolicy: {{ .pullPolicy }}
             {{- end }}
               volumeMounts:
-                - mountPath: /root/lifelines-transform/.config
+                - mountPath: /usr/src/app/.config
                   name: data-transform-config
                   readOnly: true
           volumes:
