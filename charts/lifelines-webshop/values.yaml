@@ -11,7 +11,7 @@ transform:
       upload: true
       transform: true
     catalog_folder: "latest"
-    debug_mode: false,
+    debug_mode: false
     molgenis:
       hostname: "http://molgenis:8080"
       token: "xxxx"
