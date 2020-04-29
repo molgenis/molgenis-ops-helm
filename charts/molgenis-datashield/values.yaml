@@ -36,7 +36,7 @@ server:
 rserver:
   enabled: true
   image:
-    repository: molgenis/ds-61-rserver-363
+    repository: molgenis/ds-60-rserver-363
     tag: "1.0.0"
   resources:
     limits:
