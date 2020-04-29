@@ -1,0 +1,6 @@
+dependencies:
+- name: fusionauth
+  repository: https://fusionauth.github.io/charts
+  version: 0.3.4
+digest: sha256:173d3502c8e59238d5a3983e1360b40612e3cec7c33aed8fbc7c2b9a8fdac35a
+generated: "2020-04-21T09:59:12.259936+02:00"

@@ -1,0 +1,13 @@
+fusionauth:
+  ingress:
+    enabled: "true"
+    hosts:
+      - "fusion-auth.dev.molgenis.org"
+    paths:
+      - "/"
+  nodeSelector:
+    deployPod: "true"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
