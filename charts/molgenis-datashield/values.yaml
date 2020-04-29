@@ -20,25 +20,24 @@ server:
     #   cpu: 100m
     #   memory: 128Mi
   config:
+    # You can provide any config you like here
     spring:
       security:
         user:
           name: admin
           password: admin
-    molgenis:
-      uri: https://datashield-backend.dev.molgenis.org
-      token: xxxx
-    # You can provide any environment property you like here, e.g.
-    # rserve:
-    #   connect:
-    #     attempts: 5
-    #     interval: 1000
+          roles:
+            - SU
+    minio:
+      access-key: datashield
+      secret-key: datashield
+
 
 rserver:
   enabled: true
   image:
-    repository: molgenis/ds-51-rserver-363
-    tag: ds-51-rserver-363-release-2020-03-06_09-51-26
+    repository: molgenis/ds-60-rserver-363
+    tag: "1.0.0"
   resources:
     limits:
       cpu: 2
@@ -49,8 +48,8 @@ rserver:
 
 minio:
   enabled: true
-  accessKey: 'molgenis'
-  secretKey: 'molgenis'
+  accessKey: datashield
+  secretKey: datashield
   persistence:
     enabled: true
     retain: false
@@ -63,8 +62,7 @@ minio:
       cpu: 250m
       memory: 256Mi
   defaultBucket:
-    enabled: true
-    name: molgenis
+    enabled: false
   minioConfig:
     region: ""
   service:
