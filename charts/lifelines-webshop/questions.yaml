@@ -192,7 +192,7 @@ questions:
     type: password
     required: true
 
-    - variable: transform.config.s3.bucket
+  - variable: transform.config.s3.bucket
     group: TRANSFORM
     label: S3 Bucket
     type: string
