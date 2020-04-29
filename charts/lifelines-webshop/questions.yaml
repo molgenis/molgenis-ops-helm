@@ -178,14 +178,7 @@ questions:
     type: password
     group: TRANSFORM
 
-  - variable: transform.config.s3.bucket
-    group: TRANSFORM
-    label: S3 Bucket
-    type: string
-    required: true
-    default: "ll-catalogue-a"
-
-  - variable: transform.config.s3.catalog_folder
+  - variable: transform.config.catalog_folder
     group: TRANSFORM
     label: S3 Object name
     description: Name of the data folder in the bucket, use "latest" to use the latest one.
@@ -198,6 +191,13 @@ questions:
     label: S3 Access key
     type: password
     required: true
+
+    - variable: transform.config.s3.bucket
+    group: TRANSFORM
+    label: S3 Bucket
+    type: string
+    required: true
+    default: "ll-catalogue-a"
 
   - variable: transform.config.s3.secretKey
     group: TRANSFORM

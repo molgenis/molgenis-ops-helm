@@ -6,18 +6,23 @@ transform:
     tag: latest
     pullPolicy: Always
   config:
-    s3:
-      accessKey: "xxxx"
-      secretKey: "xxxx"
-      bucket: "ll-catalogue-a"
-      hostname: "s3.amazonaws.com"
-      region: "eu-central-1"
-      catalog_folder: "latest"
-      secure: true
+    actions:
+      download: true
+      upload: true
+      transform: true
+    catalog_folder: "latest"
+    debug_mode: false,
     molgenis:
       hostname: "http://molgenis:8080"
       token: "xxxx"
     src_dir: "catalog"
+    s3:
+      accessKey: "xxxx"
+      bucket: "ll-catalogue-a"
+      hostname: "s3.amazonaws.com"
+      region: "eu-central-1"
+      secretKey: "xxxx"
+      secure: true
     target_dir: "generated"
 
 vue-pdfium:
