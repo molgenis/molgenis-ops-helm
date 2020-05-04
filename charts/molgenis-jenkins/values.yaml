@@ -1,35 +1,35 @@
 jenkins:
-  # clusterZone: "edgecluster.local"
+  clusterZone: "edgecluster.local"
   master:
     image: "jenkins/jenkins"
-    tag: "2.215"
+    tag: "2.222.3"
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
     jenkinsUrlProtocol: "https"
     serviceType: ClusterIP
     installPlugins:
-      - kubernetes:1.23.1
+      - kubernetes:1.25.4
       - workflow-aggregator:2.6
-      - workflow-job:2.36
-      - credentials-binding:1.20
+      - workflow-job:2.39
+      - credentials-binding:1.22
       - embeddable-build-status:2.0.3
-      - git:4.1.1
-      - github-branch-source:2.5.8
+      - git:4.2.2
+      - github-branch-source:2.7.1
       - basic-branch-build-strategies:1.3.2
       - kubernetes-credentials-provider:0.13
-      - blueocean:1.21.0
+      - blueocean:1.23.1
       - pipeline-github-lib:1.0
       - github-oauth:0.33
       - github-scm-trait-commit-skip:0.4.0
       - ansible:1.0
       - hubot-steps:2.0.5
       - prometheus:2.0.6
-      - github-pullrequest:0.2.6
-      - token-macro:2.10
-      - configuration-as-code:1.35
-      - job-dsl:1.76
-      - matrix-auth:2.5
+      - github-pullrequest:0.2.8
+      - token-macro:2.12
+      - configuration-as-code:1.39
+      - job-dsl:1.77
+      - matrix-auth:2.6
       - block-queued-job:0.2.0
       - build-token-root:1.6
     overwritePlugins: true
@@ -325,6 +325,7 @@ jenkins:
         </org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig>
     JCasC:
       enabled: true
+      defaultConfig: true
       configScripts:
         jobs: |-
           jobs:
@@ -521,314 +522,317 @@ jenkins:
                 allowGithubWebHookPermission: true
                 authenticatedUserCreateJobPermission: false
                 authenticatedUserReadPermission: false
-        kubernetes: |-
-          jenkins:
-            clouds:
-            - kubernetes:
-                name: "kubernetes"
-                containerCapStr: "10"
-                jenkinsTunnel: "molgenis-jenkins-agent:50000"
-                jenkinsUrl: "http://molgenis-jenkins:8080"
-                maxRequestsPerHostStr: "32"
-                name: "kubernetes"
-                namespace: "molgenis-jenkins"
-                serverUrl: ""
-                templates:
-                  - name: shared
-                    label: shared
-                    containers:
-                      - name: kaniko
-                        image: "gcr.io/kaniko-project/executor:debug-v0.7.0"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                      - name: rancher
-                        image: "rancher/cli2:v2.2.0"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        envVars:
-                          - envVar:
-                              key: HOME
-                              value: /home/jenkins/agent
-                      - name: vault
-                        image: "vault:1.3.1"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        envVars:
-                          - envVar:
-                              key: VAULT_SKIP_VERIFY
-                              value: 1
-                          - secretEnvVar:
-                              key: VAULT_TOKEN
-                              secretName: molgenis-pipeline-vault-secret
-                              secretKey: token
-                          - secretEnvVar:
-                              key: VAULT_ADDR
-                              secretName: molgenis-pipeline-vault-secret
-                              secretKey: addr
-                      - name: sonar
-                        image: "molgenis/sonarqube-scanner:sonarqube-scanner-release-2019-08-07_20-09-36"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                    envVars:
-                      - envVar:
-                          key: "npm_config_registry"
-                          value: "https://registry.molgenis.org/repository/npm-central/"
-                      - envVar:
-                          key: LOCAL_REGISTRY
-                          value: registry.molgenis.org
-                      - envVar:
-                          key: DOCKER_REGISTRY
-                          value: registry.hub.docker.com
-                      - envVar:
-                          key: HELM_REPO
-                          value: https://registry.molgenis.org/repository/helm/
-                      - envVar:
-                          key: HELM_REPOSITORY
-                          value: https://helm.molgenis.org/
-                    nodeUsageMode: NORMAL
-                    volumes:
-                      - hostPathVolume:
-                          hostPath: "/var/run/docker.sock"
-                          mountPath: "/var/run/docker.sock"
-                  - name: molgenis-jdk8
-                    label: molgenis-jdk8
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: maven
-                        image: "molgenis/maven-jdk8:maven-jdk8-release-2019-12-24_12-50-19"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        resourceRequestCpu: "1"
-                        resourceRequestMemory: "4Gi"
-                        envVars:
-                          - envVar:
-                              key: MAVEN_OPTS
-                              value: "-Duser.home=/home/jenkins/agent"
-                          - envVar:
-                              key: MAVEN_CONFIG
-                              value: "/home/jenkins/agent/.m2"
-                          - envVar:
-                              key: HOME
-                              value: /home/jenkins/agent
-                  - name: molgenis-jdk11
-                    label: molgenis-jdk11
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: maven
-                        image: "molgenis/maven-jdk11:maven-jdk11-release-2019-05-07_09-20-11"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        resourceRequestCpu: "1"
-                        resourceRequestMemory: "4Gi"
-                        envVars:
-                          - envVar:
-                              key: MAVEN_OPTS
-                              value: "-Duser.home=/home/jenkins/agent"
-                          - envVar:
-                              key: MAVEN_CONFIG
-                              value: "/home/jenkins/agent/.m2"
-                          - envVar:
-                              key: HOME
-                              value: /home/jenkins/agent
-                  - name: node
-                    label: node-carbon
-                    nodeUsageMode: EXCLUSIVE
-                    inheritFrom: shared
-                    containers:
-                      - name: node
-                        image: "molgenis/node-carbon:node-carbon-release-2019-11-25_10-52-39"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        resourceRequestCpu: "1"
-                        resourceRequestMemory: "1Gi"
-                  - name: node-dubnium
-                    label: node-dubnium
-                    nodeUsageMode: EXCLUSIVE
-                    inheritFrom: shared
-                    containers:
-                      - name: node
-                        image: "molgenis/node-dubnium:node-dubnium-release-2019-11-25_10-52-39"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        resourceRequestCpu: "1"
-                        resourceRequestMemory: "1Gi"
-                    envVars:
-                      - envVar:
-                          key: NPM_REGISTRY
-                          value: registry.npmjs.org
-                      - envVar:
-                          key: NPM_LOCAL_REGISTRY
-                          value: registry.molgenis.org/repository/npm-hosted
-                  - name: node-erbium
-                    label: node-erbium
-                    nodeUsageMode: EXCLUSIVE
-                    inheritFrom: shared
-                    containers:
-                      - name: node
-                        image: "molgenis/node-erbium:1.0.0"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        resourceRequestCpu: "1"
-                        resourceRequestMemory: "1Gi"
-                  - name: python
-                    label: python-stretch
-                    nodeUsageMode: EXCLUSIVE
-                    inheritFrom: shared
-                    containers:
-                      - name: python
-                        image: "python:stretch"
-                        command: cat
-                        args: ""
-                        ttyEnabled: true
-                        resourceRequestCpu: "100m"
-                        resourceRequestMemory: "250Mi"
-                        resourceLimitMemory: "512Mi"
-                    envVars:
-                      - envVar:
-                          key: PYPI_REGISTRY
-                          value: https://upload.pypi.org/legacy/
-                      - envVar:
-                          key: PYPI_LOCAL_REGISTRY
-                          value: https://registry.molgenis.org/repository/pypi/
-                  - name: molgenis-it-jdk11
-                    label: molgenis-it-jdk11
-                    nodeUsageMode: EXCLUSIVE
-                    inheritFrom: molgenis-jdk11
-                    containers:
-                      - name: elasticsearch
-                        image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
-                        workingDir: ""
-                        command: ""
-                        args: ""
-                        resourceRequestCpu: "100m"
-                        resourceRequestMemory: "1Gi"
-                        resourceLimitMemory: "1500Mi"
-                        envVars:
-                          - envVar:
-                              key: ES_JAVA_OPTS
-                              value: '-Xms512m -Xmx512m'
-                          - envVar:
-                              key: cluster.name
-                              value: molgenis
-                          - envVar:
-                              key: bootstrap.memory_lock
-                              value: 'true'
-                          - envVar:
-                              key: xpack.security.enabled
-                              value: 'false'
-                          - envVar:
-                              key: xpack.monitoring.enabled
-                              value: 'false'
-                          - envVar:
-                              key: xpack.watcher.enabled
-                              value: 'false'
-                          - envVar:
-                              key: discovery.type
-                              value: single-node
-                      - name: postgres
-                        image: postgres:11-alpine
-                        workingDir: ""
-                        command: ""
-                        args: ""
-                        resourceRequestCpu: "100m"
-                        resourceRequestMemory: "250Mi"
-                        resourceLimitMemory: "250Mi"
-                        envVars:
-                          - envVar:
-                              key: POSTGRES_USER
-                              value: molgenis
-                          - envVar:
-                              key: POSTGRES_PASSWORD
-                              value: molgenis
-                          - envVar:
-                              key: POSTGRES_DB
-                              value: molgenis
-                      - name: opencpu
-                        image: "molgenis/opencpu:opencpu-release-2019-03-06_08-18-10"
-                        ttyEnabled: true
-                        resourceRequestCpu: "100m"
-                        resourceRequestMemory: "256Mi"
-                        resourceLimitMemory: "512Mi"
-                  - name: site-gen
-                    label: site-gen
-                    nodeUsageMode: EXCLUSIVE
-                    inheritFrom: shared
-                    containers:
-                      - name: jekyll
-                        image: "molgenis/jekyll:jekyll-release-2019-03-06_08-18-10"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
-                  - name: ansible
-                    label: ansible
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: centos-6
-                        image: "centos:6.10"
-                        ttyEnabled: true
-                        command: "/bin/bash"
-                        args: ""
-                  - name: r-3.5.2
-                    label: r-3.5.2
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: r
-                        image: "rocker/verse:3.5.2"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
-                      - name: curl
-                        image: "appropriate/curl:latest"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
-                  - name: r-3.6.2
-                    label: r-3.6.2
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: r
-                        image: "rocker/verse:3.6.2"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
-                      - name: curl
-                        image: "appropriate/curl:latest"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
-                  - name: helm
-                    label: helm
-                    inheritFrom: shared
-                    nodeUsageMode: EXCLUSIVE
-                    containers:
-                      - name: chart-testing
-                        image: "quay.io/helmpack/chart-testing:v2.2.0"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
-                      - name: alpine
-                        image: "spotify/alpine"
-                        ttyEnabled: true
-                        command: "cat"
-                        args: ""
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
     readSecrets: true
+  agent:
+    podTemplates:
+      shared: |
+        - name: shared
+          label: shared
+          containers:
+            - name: kaniko
+              image: "gcr.io/kaniko-project/executor:debug-v0.7.0"
+              command: cat
+              args: ""
+              ttyEnabled: true
+            - name: rancher
+              image: "rancher/cli2:v2.2.0"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              envVars:
+                - envVar:
+                    key: HOME
+                    value: /home/jenkins/agent
+            - name: vault
+              image: "vault:1.3.1"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              envVars:
+                - envVar:
+                    key: VAULT_SKIP_VERIFY
+                    value: 1
+                - secretEnvVar:
+                    key: VAULT_TOKEN
+                    secretName: molgenis-pipeline-vault-secret
+                    secretKey: token
+                - secretEnvVar:
+                    key: VAULT_ADDR
+                    secretName: molgenis-pipeline-vault-secret
+                    secretKey: addr
+            - name: sonar
+              image: "molgenis/sonarqube-scanner:sonarqube-scanner-release-2019-08-07_20-09-36"
+              command: cat
+              args: ""
+              ttyEnabled: true
+          envVars:
+            - envVar:
+                key: "npm_config_registry"
+                value: "https://registry.molgenis.org/repository/npm-central/"
+            - envVar:
+                key: LOCAL_REGISTRY
+                value: registry.molgenis.org
+            - envVar:
+                key: DOCKER_REGISTRY
+                value: registry.hub.docker.com
+            - envVar:
+                key: HELM_REPO
+                value: https://registry.molgenis.org/repository/helm/
+            - envVar:
+                key: HELM_REPOSITORY
+                value: https://helm.molgenis.org/
+          nodeUsageMode: NORMAL
+          volumes:
+            - hostPathVolume:
+                hostPath: "/var/run/docker.sock"
+                mountPath: "/var/run/docker.sock"
+      molgenis-jdk8: |
+        - name: molgenis-jdk8
+          label: molgenis-jdk8
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: maven
+              image: "molgenis/maven-jdk8:maven-jdk8-release-2019-12-24_12-50-19"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "4Gi"
+              envVars:
+                - envVar:
+                    key: MAVEN_OPTS
+                    value: "-Duser.home=/home/jenkins/agent"
+                - envVar:
+                    key: MAVEN_CONFIG
+                    value: "/home/jenkins/agent/.m2"
+                - envVar:
+                    key: HOME
+                    value: /home/jenkins/agent
+      molgenis-jdk11: |
+        - name: molgenis-jdk11
+          label: molgenis-jdk11
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: maven
+              image: "molgenis/maven-jdk11:maven-jdk11-release-2019-05-07_09-20-11"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "4Gi"
+              envVars:
+                - envVar:
+                    key: MAVEN_OPTS
+                    value: "-Duser.home=/home/jenkins/agent"
+                - envVar:
+                    key: MAVEN_CONFIG
+                    value: "/home/jenkins/agent/.m2"
+                - envVar:
+                    key: HOME
+                    value: /home/jenkins/agent
+      node: |
+        - name: node
+          label: node-carbon
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: shared
+          containers:
+            - name: node
+              image: "molgenis/node-carbon:node-carbon-release-2019-11-25_10-52-39"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+      node-dubnium: |
+        - name: node-dubnium
+          label: node-dubnium
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: shared
+          containers:
+            - name: node
+              image: "molgenis/node-dubnium:node-dubnium-release-2019-11-25_10-52-39"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+          envVars:
+            - envVar:
+                key: NPM_REGISTRY
+                value: registry.npmjs.org
+            - envVar:
+                key: NPM_LOCAL_REGISTRY
+                value: registry.molgenis.org/repository/npm-hosted
+      node-erbium: |
+        - name: node-erbium
+          label: node-erbium
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: shared
+          containers:
+            - name: node
+              image: "molgenis/node-erbium:1.0.0"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+      python: |
+        - name: python
+          label: python-stretch
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: shared
+          containers:
+            - name: python
+              image: "python:stretch"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "250Mi"
+              resourceLimitMemory: "512Mi"
+          envVars:
+            - envVar:
+                key: PYPI_REGISTRY
+                value: https://upload.pypi.org/legacy/
+            - envVar:
+                key: PYPI_LOCAL_REGISTRY
+                value: https://registry.molgenis.org/repository/pypi/
+      molgenis-it-jdk11: |
+        - name: molgenis-it-jdk11
+          label: molgenis-it-jdk11
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: molgenis-jdk11
+          containers:
+            - name: elasticsearch
+              image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+              workingDir: ""
+              command: ""
+              args: ""
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1500Mi"
+              envVars:
+                - envVar:
+                    key: ES_JAVA_OPTS
+                    value: '-Xms512m -Xmx512m'
+                - envVar:
+                    key: cluster.name
+                    value: molgenis
+                - envVar:
+                    key: bootstrap.memory_lock
+                    value: 'true'
+                - envVar:
+                    key: xpack.security.enabled
+                    value: 'false'
+                - envVar:
+                    key: xpack.monitoring.enabled
+                    value: 'false'
+                - envVar:
+                    key: xpack.watcher.enabled
+                    value: 'false'
+                - envVar:
+                    key: discovery.type
+                    value: single-node
+            - name: postgres
+              image: postgres:11-alpine
+              workingDir: ""
+              command: ""
+              args: ""
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "250Mi"
+              resourceLimitMemory: "250Mi"
+              envVars:
+                - envVar:
+                    key: POSTGRES_USER
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_PASSWORD
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_DB
+                    value: molgenis
+            - name: opencpu
+              image: "molgenis/opencpu:opencpu-release-2019-03-06_08-18-10"
+              ttyEnabled: true
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "256Mi"
+              resourceLimitMemory: "512Mi"
+      site-gen: |
+        - name: site-gen
+          label: site-gen
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: shared
+          containers:
+            - name: jekyll
+              image: "molgenis/jekyll:jekyll-release-2019-03-06_08-18-10"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+      ansible: |
+        - name: ansible
+          label: ansible
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: centos-6
+              image: "centos:6.10"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+      r-3.5.2: |
+        - name: r-3.5.2
+          label: r-3.5.2
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: r
+              image: "rocker/verse:3.5.2"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+            - name: curl
+              image: "appropriate/curl:latest"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+      r-3.6.2: |
+        - name: r-3.6.2
+          label: r-3.6.2
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: r
+              image: "rocker/verse:3.6.2"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+            - name: curl
+              image: "appropriate/curl:latest"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+      helm: |
+        - name: helm
+          label: helm
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: chart-testing
+              image: "quay.io/helmpack/chart-testing:v2.2.0"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+            - name: alpine
+              image: "spotify/alpine"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+
 
 # secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
