@@ -73,6 +73,7 @@ molgenis:
         - path: "@molgenis-experimental/molgenis-app-lifelines-webshop"
           url: https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@0.32.1
           unpkg: true
+      custom:
         - path: "edge-server"
           url: "http://lifelines-edge/edge-server"
           unpkg: false
