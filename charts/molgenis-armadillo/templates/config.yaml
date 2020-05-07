@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: server-config
   labels:
-{{ include "molgenis-datashield.labels" . | indent 4 }}
+{{ include "molgenis-armadillo.labels" . | indent 4 }}
 data:
   "application.json": {{ toJson .Values.server.config | quote }}

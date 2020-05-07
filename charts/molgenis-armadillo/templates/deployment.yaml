@@ -1,27 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "molgenis-datashield.fullname" . }}
+  name: {{ include "molgenis-armadillo.fullname" . }}
   labels:
-{{ include "molgenis-datashield.labels" . | indent 4 }}
+{{ include "molgenis-armadillo.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "molgenis-datashield.name" . }}
+      app.kubernetes.io/name: {{ include "molgenis-armadillo.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "molgenis-datashield.name" . }}
+        app.kubernetes.io/name: {{ include "molgenis-armadillo.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      serviceAccountName: {{ template "molgenis-armadillo.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           ports:
@@ -57,7 +62,7 @@ spec:
                   value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
           {{- end }}
           resources:
-{{ toYaml .Values.server.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
 {{- if .Values.rserver.enabled }}
         - name: rserver
           image: {{ .Values.rserver.image.repository }}:{{ .Values.rserver.image.tag }}

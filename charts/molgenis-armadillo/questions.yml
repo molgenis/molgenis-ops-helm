@@ -1,5 +1,6 @@
 categories:
 - MOLGENIS
+- Armadillo
 - DataSHIELD
 - R
 questions:
@@ -9,7 +10,7 @@ questions:
   required: true
 - variable: environment
   label: Environment
-  description: "Environment of MOLGENIS instance"
+  description: "Environment of this instance"
   type: enum
   options:
     - edge
@@ -20,9 +21,12 @@ questions:
   required: true
 - variable: server.image.repository
   label: Server image repository
-  type: string
+  type: enum
+  options:
+    - molgenis/armadillo
+    - registry.molgenis.org/molgenis/armadillo
   required: true
-  default: "registry.molgenis.org/molgenis/datashield-service"
+  default: "molgenis/armadillo"
 - variable: server.image.tag
   label: Server image tag
   type: string
