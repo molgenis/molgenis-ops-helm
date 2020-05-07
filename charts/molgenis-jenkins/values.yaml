@@ -12,7 +12,7 @@ jenkins:
       - kubernetes:1.25.4
       - workflow-aggregator:2.6
       - workflow-job:2.39
-      - credentials-binding:1.22
+      - credentials-binding:1.23
       - embeddable-build-status:2.0.3
       - git:4.2.2
       - github-branch-source:2.7.1
