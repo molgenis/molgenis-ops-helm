@@ -101,6 +101,7 @@ This repository is serves also as a catalogue for Rancher. We have serveral apps
 - [Vault](charts/molgenis-vault/README.md)
 - [Sentry](charts/molgenis-sentry/README.md)
 - [MOLGENIS](charts/molgenis/README.md)
+- [MOLGENIS Armadillo](charts/molgenis-armadillo/README.md)
 - [Elasticsearch](charts/molgenis-elasticsearch/README.md)
 - [OpenCPU](charts/molgenis-opencpu/README.md)
 - [Hubot](chart/molgenis-hubot/README.md)

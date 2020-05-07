@@ -27,22 +27,53 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
+          env:
+            - name: MINIO_ACCESS_KEY
+              value: {{ .Values.minio.accessKey }}
+            - name: MINIO_SECRET_KEY
+              value: {{ .Values.minio.secretKey }}
+            - name: MINIO_URL
+              value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}
+            - name: SPRING_APPLICATION_JSON
+              valueFrom:
+                configMapKeyRef:
+                  name: "server-config"
+                  key: "application.json"
+          {{ with .Values.server.config.spring.security.user }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /actuator/health
               port: http
+              httpHeaders:
+                - name: Authorization
+                  value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /actuator/health
               port: http
+              httpHeaders:
+                - name: Authorization
+                  value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+{{- if .Values.rserver.enabled }}
+        - name: rserver
+          image: {{ .Values.rserver.image.repository }}:{{ .Values.rserver.image.tag }}
+          tag: 
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6312
+            - containerPort: 6311
+          resources:
+{{ toYaml .Values.rserver.resources | indent 12 }}
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,0 +1,55 @@
+categories:
+- MOLGENIS
+- Armadillo
+- DataSHIELD
+- R
+questions:
+- variable: ingress.enabled
+  type: boolean
+  default: true
+  required: true
+- variable: environment
+  label: Environment
+  description: "Environment of this instance"
+  type: enum
+  options:
+    - edge
+    - dev
+    - test
+    - accept
+    - prod
+  required: true
+- variable: server.image.repository
+  label: Server image repository
+  type: enum
+  options:
+    - molgenis/armadillo
+    - registry.molgenis.org/molgenis/armadillo
+  required: true
+  default: "molgenis/armadillo"
+- variable: server.image.tag
+  label: Server image tag
+  type: string
+  required: true
+  default: dev
+- variable: server.config.spring.security.user.password
+  label: User password
+  description: "Until we have proper authentication: the password to authenticate with the datashield"
+  type: password
+  required: true
+  group: "Security"
+- variable: rserver.image.repository
+  label: RServer image repository
+  type: enum
+  options:
+    - molgenis/ds-60-rserver-363
+    - registry.molgenis.org/molgenis/ds-60-rserver-363
+  required: true
+  default: molgenis/ds-60-rserver-363
+  group: R
+- variable: rserver.image.tag
+  label: RServer image tag
+  type: string
+  required: true
+  default: latest
+  group: R
