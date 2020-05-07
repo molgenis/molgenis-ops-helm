@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: server-config
-  labels:
-{{ include "molgenis-datashield.labels" . | indent 4 }}
-data:
-  "application.json": {{ toJson .Values.server.config | quote }}
