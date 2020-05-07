@@ -128,7 +128,7 @@ questions:
 
   - variable: lifelines-edge.molgenis.url
     label: Molgenis backend url
-    default: http://localhost:8080
+    default: http://molgenis:8080
     type: string
     required: true
     group: EDGE
