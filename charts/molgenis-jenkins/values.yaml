@@ -12,7 +12,7 @@ jenkins:
       - kubernetes:1.25.4
       - workflow-aggregator:2.6
       - workflow-job:2.39
-      - credentials-binding:1.22
+      - credentials-binding:1.23
       - embeddable-build-status:2.0.3
       - git:4.2.2
       - github-branch-source:2.7.1
@@ -49,8 +49,14 @@ jenkins:
         value: "ABCDEFG"
       - name: "GITHUB_ORG_NAME"
         value: "molgenis-jenkins"
-    healthProbeLivenessInitialDelay: 900
-    healthProbeReadinessInitialDelay: 600
+    healthProbesLivenessTimeout: 5
+    healthProbesReadinessTimeout: 5
+    healthProbeLivenessPeriodSeconds: 10
+    healthProbeReadinessPeriodSeconds: 10
+    healthProbeLivenessFailureThreshold: 15
+    healthProbeReadinessFailureThreshold: 3
+    healthProbeLivenessInitialDelay: 300
+    healthProbeReadinessInitialDelay: 300
     additionalConfig:
       org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml: |-
         <?xml version='1.1' encoding='UTF-8'?>
