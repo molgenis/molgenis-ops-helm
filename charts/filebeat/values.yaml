@@ -27,7 +27,19 @@ filebeat:
           - index: "filebeat-%{[agent.version]}-rancher-%{[kubernetes.container.name]}-%{+yyyy.MM}"
             when.has_fields: ['kubernetes.container.name']
           - index: "filebeat-%{[agent.version]}-rancher-other-%{+yyyy.MM}"
-            when.not.has_fields: ['kubernetes.labels.app']
+            when.not.has_fields: ['kubernetes.container.name']
+        pipelines:
+          - pipeline: "nginx-access"
+            when.equals:
+              kubernetes.labels.app: "molgenis-frontend"
+          - pipeline: "filebeat-7.5.1-elasticsearch-server-pipeline"
+            when.equals:
+              kubernetes.labels.app: "molgenis-elasticsearch"
+          - pipeline: "filebeat-7.5.1-tomcat-molgenis-catalina-default"
+            when.equals:
+              kubernetes.labels.app: "molgenis"
+          - pipeline: "rancher-other"
+            when.not.has_fields: ['kubernetes.container.name']
 
       logging.metrics.enabled: false
 
