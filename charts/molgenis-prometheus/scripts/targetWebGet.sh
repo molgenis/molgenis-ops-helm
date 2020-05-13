@@ -4,6 +4,7 @@ githubtoken=$1
 serverlistServer=molgenis23.gcc.rug.nl
 NePort=9100
 serverlist=$(curl -s https://${githubtoken}@raw.githubusercontent.com/molgenis/molgenis-ops-ansible/master/inventory.ini)
+serverlist+=" [extra-prod-scrapes] molgenis79.gcc.rug.nl molgenis26.gcc.rug.nl molgenis27.gcc.rug.nl gbic.target.rug.nl"
 testTargetArray=("")
 testWebArray=("- targets:")
 acceptTargetArray=("")
@@ -26,7 +27,7 @@ do
         then
             group="test"
         fi
-    elif [[ $val =~ ^molgenis.* ]];
+    elif [[ $val =~ ".gcc.rug.nl" ]] || [[ $val =~ ".target.rug.nl" ]];
     then
         host=$(echo $val | cut -d'.' -f1)
         desc=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=id=='$host'&attrs=~id,description' | rev | cut -d'"' -f2 | rev )
@@ -71,6 +72,11 @@ do
         esac
     fi
 done
+prodWebArray+=("  - https://www.chromosome6.org/contact")
+prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer-Download")
+prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer")
+prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype%20Harmonizer%20Download")
+prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/QTL-mapping-pipeline")
 printf '%s\n' "${prodWebArray[@]}" >> prod-http-list.yml
 printf '%s\n' "${prodTargetArray[@]}" >> prod-target-list.yml
 printf '%s\n' "${acceptWebArray[@]}" >> accept-http-list.yml
