@@ -27,7 +27,7 @@ spec:
                     chmod +x kubectl && 
                     mv kubectl /usr/local/bin/kubectl && 
                     TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
-                    wget {{ .Values.secret.GITHUBTOKEN }}@raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/feat/link-checker-prometheus/charts/molgenis-prometheus/scripts/targetWebGet.sh -O targetWebGet.sh && 
+                    wget {{ .Values.secret.GITHUBTOKEN }}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/targetWebGet.sh -O targetWebGet.sh && 
                     chmod +x targetWebGet.sh && 
                     bash targetWebGet.sh ${GITHUBTOKEN} &&
                     rm -rf /mnt/targetWebGet.sh"]
