@@ -34,7 +34,12 @@ do
         result=$(curl -s https://$serverlistServer'/api/v2/mm_public_serverlist?q=id=='$host'&attrs=~id,url,dns' | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*\:?\d*/?[a-zA-Z0-9./?=_-]*/?" | uniq | tr '\n' ' ' )
         case $group in 
             "prod")
-                prodTargetArray+=("- targets: ['${host}.gcc.rug.nl:${NePort}']")
+                if [[ "$host" == 'gbic' ]]; 
+                then
+                    prodTargetArray+=("- targets: ['wiki.gcc.rug.nl:${NePort}']")
+                else
+                    prodTargetArray+=("- targets: ['${host}.gcc.rug.nl:${NePort}']")
+                fi
                 prodTargetArray+=("  labels: ")
                 prodTargetArray+=("    project: \"${desc}\"")
                 prodTargetArray+=("    type: \"prod\"")
@@ -83,7 +88,7 @@ printf '%s\n' "${acceptWebArray[@]}" >> accept-http-list.yml
 printf '%s\n' "${acceptTargetArray[@]}" >> accept-target-list.yml
 printf '%s\n' "${testWebArray[@]}" >> test-http-list.yml
 printf '%s\n' "${testTargetArray[@]}" >> test-target-list.yml
-echo $(kubectl --token=$TOKEN create configmap targets-configmap --from-file prod-target-list.yml --from-file accept-target-list.yml --from-file test-target-list.yml --from-file prod-http-list.yml --from-file accept-http-list.yml --from-file test-http-list.yml -o yaml --dry-run | kubectl --token=$TOKEN replace -f -)
+echo $(kubectl --token=$TOKEN create configmap targets-configmap --from-file prod-target-list.yml --from-file accept-target-list.yml --from-file test-target-list.yml --from-file prod-http-list.yml --from-file accept-http-list.yml -o yaml --dry-run | kubectl --token=$TOKEN replace -f -)
 echo $(rm -rf *.yml)
 echo "Done retrieving and saving to file"
 echo "End script"
