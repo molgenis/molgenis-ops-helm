@@ -1,5 +1,13 @@
 elasticsearch:
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  esJavaOpts: "-Xmx2g -Xms2g"
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "3Gi"
+    limits:
+      cpu: "1000m"
+      memory: "3Gi"
   ingress:
     enabled: true
     annotations:
