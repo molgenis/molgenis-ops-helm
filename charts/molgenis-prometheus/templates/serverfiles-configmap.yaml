@@ -119,6 +119,19 @@ data:
             replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
       {{ end -}}
       {{ if eq .Values.environment "development" -}}
+      - job_name: elasticsearch
+        static_configs:
+          # - targets: ['<host>:9114']
+      - job_name: molgenis
+        metrics_path: /api/metrics/prometheus
+        static_configs:
+          # - targets: ['<host>']
+      - job_name: node
+        static_configs:
+          # - targets: ['<host>:9100']
+      - job_name: postgres
+        static_configs:
+          # - targets: ['<host>:9187']
       - job_name: prometheus
         static_configs:
           - targets:
