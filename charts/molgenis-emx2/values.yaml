@@ -1,0 +1,14 @@
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+image:
+  repository: "mswertz/emx2"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+ingress:
+  hosts:
+    - name: emx2.local
+  enabled: true
+  path: /
