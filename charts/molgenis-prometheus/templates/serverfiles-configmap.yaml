@@ -132,6 +132,11 @@ data:
       - job_name: postgres
         static_configs:
           # - targets: ['<host>:9187']
+      - job_name: jenkins
+        metrics_path: '/prometheus/'
+        scheme: https
+        static_configs:
+          - targets: ['jenkins.dev.molgenis.org:443']
       - job_name: prometheus
         static_configs:
           - targets:
