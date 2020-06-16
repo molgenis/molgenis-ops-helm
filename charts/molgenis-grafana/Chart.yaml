@@ -1,6 +1,6 @@
 name: molgenis-grafana
 home: https://grafana.net
-version: 0.2.13
+version: 0.2.14
 appVersion: 6.6.0
 description: Molgenis installation for the Grafana chart.
 sources:

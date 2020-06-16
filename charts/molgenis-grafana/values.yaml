@@ -88,6 +88,12 @@ grafana:
       Total-UP-websites:
         url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/Total-UP-websites.json
         datasource: k8-prometheus
+      ElasticSearch:
+        url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/ElasticSearch.json
+        datasource: k8-prometheus
+      PostgreSQL-Performance-Analysis:
+        url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/PostgreSQLPerformanceAnalysis.json
+        datasource: k8-prometheus
 
   grafana.ini:
     auth.github:
