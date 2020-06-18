@@ -5,13 +5,22 @@ questions:
     type: hostname
     label: Hostname
     required: true
-    default: fusion-auth.dev.molgenis.org
+    default: auth.dev.molgenis.org
+    group: Fusion
   - variable: fusionauth.image.tag
     type: string
     label: Image tag
     required: true
-    default: "1.15.8"
+    default: "1.16.1"
+    group: Fusion
   - variable: fusionauth.environment.FUSIONAUTH_API_KEY
     type: password
     label: API Key
     required: true
+    group: Fusion
+  - variable: postgresql.password
+    type: password
+    label: Password for PostgreSQL
+    required: true
+    group: PostgreSQL
+  

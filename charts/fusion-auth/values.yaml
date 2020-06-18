@@ -3,6 +3,14 @@ fusionauth:
     FUSIONAUTH_MEMORY: 256M
     FUSIONAUTH_KICKSTART: /kickstart/kickstart.json
     FUSIONAUTH_API_KEY: "NLNH0X2cuVYKYKIRwl2u7eYZeKi5riBv7Jk4ytIp2PA"
+  database:
+    host: postgresql
+    existingSecret: fusion-postgresql
+    user: postgres
+    root:
+      user: postgres
+  search:
+    host: elasticsearch-master
   kickstart:
     enabled: true
     data:
@@ -10376,3 +10384,11 @@ fusionauth:
     requests:
       cpu: 100m
       memory: 128Mi
+
+elasticsearch:
+  fullnameOverride: elasticsearch-master
+
+postgresql:
+  fullnameOverride: postgresql
+  existingSecret: fusion-postgresql
+  postgresqlDatabase: fusionauth
