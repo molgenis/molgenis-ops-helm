@@ -16,6 +16,7 @@ pipeline {
                     sh "helm repo add molgenis ${HELM_REPO}"
                     sh "helm repo add elastic https://helm.elastic.co/"
                     sh "helm repo add fusionauth https://fusionauth.github.io/charts"
+                    sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                     sh "ct lint --all --validate-maintainers=false"
                 }
             }
