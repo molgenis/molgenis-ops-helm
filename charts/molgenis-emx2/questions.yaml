@@ -1,0 +1,10 @@
+categories:
+  - EMX2
+questions:
+  - variable: ingress.hosts[0].host
+    label: Hostname
+    description: "Specify a hostname for this EMX2  instance"
+    type: hostname
+    required: true
+    default: "emx2.test.molgenis.org"
+    group: "Loadbalancing"
