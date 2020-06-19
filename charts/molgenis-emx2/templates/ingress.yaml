@@ -19,7 +19,7 @@ spec:
         - path: {{ default "/" .path }}
           backend:
             serviceName: {{ $fullName }}
-            servicePort: 8088
+            servicePort: {{ $.Values.service.port }}
   {{- end }}
   {{- if .tls }}
   tls:
