@@ -27,6 +27,9 @@ server:
     tag: dev
     pullPolicy: Always
   debug: false
+  admin:
+    username: admin
+    password: admin
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -43,8 +46,6 @@ server:
     spring:
       security:
         user:
-          name: admin
-          password: admin
           roles:
             - SU
         oauth2:
@@ -53,9 +54,6 @@ server:
               issuer-uri: 'https://auth.molgenis.org'
             opaquetoken:
               client-id: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
-    minio:
-      access-key: datashield
-      secret-key: datashield
 
 rserver:
   enabled: true
@@ -71,10 +69,6 @@ rserver:
       memory: 1Gi
 
 minio:
-  ingress:
-    enabled: true
-    hosts:
-    - armadillo-minio.dev.molgenis.org
   enabled: true
   accessKey: datashield
   secretKey: datashield
@@ -99,7 +93,7 @@ minio:
       prometheus.io/path: '/minio/prometheus/metrics'
       prometheus.io/port: '9000'
   environment:
-    MINIO_IDENTITY_OPENID_CLIENT_ID: 
+    MINIO_IDENTITY_OPENID_CLIENT_ID:
     MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
 
 service:
@@ -107,7 +101,7 @@ service:
   port: 8080
 
 ingress:
-  enabled: false
+  enabled: true
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -24,4 +24,11 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
+    - host: {{ template "armadillo-minio.hostname" . }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
+              servicePort: {{ .Values.minio.service.port }}
 {{- end }}

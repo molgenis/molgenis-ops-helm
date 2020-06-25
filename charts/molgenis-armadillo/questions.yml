@@ -25,11 +25,6 @@ questions:
   required: true
   label: "MinIO OpenID Client ID"
   group: MinIO
-- variable: minio.ingress.hosts[0]
-  label: MinIO Hostname
-  type: hostname
-  required: true
-  group: MinIO
 - variable: environment
   label: Environment
   description: "Environment of this instance"
@@ -56,22 +51,24 @@ questions:
   required: true
   default: dev
   group: Armadillo
-- variable: server.config.spring.security.user.password
+- variable: server.admin.password
   label: Admin password
-  description: "Admin password to authenticate with the datashield"
+  description: "Admin password to authenticate with the armadillo"
   type: password
   required: true
   group: Armadillo
 - variable: oauth2.resourceserver.jwt.issuer-uri
   required: true
+  type: string
   default: https://auth.molgenis.org
   label: Armadillo OpenID JWT Issuer 
   group: Armadillo
 - variable: server.config.spring.oauth2.resourceserver.opaquetoken.client-id
-  label: Armadillo Client ID
-  type: password
+  label: Armadillo OpenID Client ID
+  type: string
   required: true
   group: Armadillo
+  description: Used to verify the audience of the ID token
 - variable: rserver.image.repository
   label: RServer image repository
   type: enum
