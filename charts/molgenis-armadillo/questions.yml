@@ -4,10 +4,32 @@ categories:
 - DataSHIELD
 - R
 questions:
-- variable: ingress.enabled
-  type: boolean
-  default: true
+- variable: minio.accessKey
+  label: MinIO Access Key
+  type: password
   required: true
+  group: MinIO
+- variable: minio.secretKey
+  label: MinIO Secret Key
+  type: password
+  required: true
+  group: MinIO
+- variable: minio.environment.MINIO_IDENTITY_OPENID_CONFIG_URL
+  type: string
+  required: true
+  default: https://auth.molgenis.org/.well-known/openid-configuration
+  label: "MinIO OpenID Config URL"
+  group: MinIO
+- variable: minio.environment.MINIO_IDENTITY_OPENID_CLIENT_ID
+  type: string
+  required: true
+  label: "MinIO OpenID Client ID"
+  group: MinIO
+- variable: minio.ingress.hosts[0]
+  label: MinIO Hostname
+  type: hostname
+  required: true
+  group: MinIO
 - variable: environment
   label: Environment
   description: "Environment of this instance"
@@ -27,17 +49,29 @@ questions:
     - registry.molgenis.org/molgenis/armadillo
   required: true
   default: "molgenis/armadillo"
+  group: Armadillo
 - variable: server.image.tag
   label: Server image tag
   type: string
   required: true
   default: dev
+  group: Armadillo
 - variable: server.config.spring.security.user.password
-  label: User password
-  description: "Until we have proper authentication: the password to authenticate with the datashield"
+  label: Admin password
+  description: "Admin password to authenticate with the datashield"
   type: password
   required: true
-  group: "Security"
+  group: Armadillo
+- variable: oauth2.resourceserver.jwt.issuer-uri
+  required: true
+  default: https://auth.molgenis.org
+  label: Armadillo OpenID JWT Issuer 
+  group: Armadillo
+- variable: server.config.spring.oauth2.resourceserver.opaquetoken.client-id
+  label: Armadillo Client ID
+  type: password
+  required: true
+  group: Armadillo
 - variable: rserver.image.repository
   label: RServer image repository
   type: enum

@@ -47,6 +47,12 @@ server:
           password: admin
           roles:
             - SU
+        oauth2:
+          resourceserver:
+            jwt:
+              issuer-uri: 'https://auth.molgenis.org'
+            opaquetoken:
+              client-id: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
     minio:
       access-key: datashield
       secret-key: datashield
@@ -65,6 +71,10 @@ rserver:
       memory: 1Gi
 
 minio:
+  ingress:
+    enabled: true
+    hosts:
+    - armadillo-minio.dev.molgenis.org
   enabled: true
   accessKey: datashield
   secretKey: datashield
@@ -88,6 +98,9 @@ minio:
       prometheus.io/scrape: 'true'
       prometheus.io/path: '/minio/prometheus/metrics'
       prometheus.io/port: '9000'
+  environment:
+    MINIO_IDENTITY_OPENID_CLIENT_ID: 
+    MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
 
 service:
   type: ClusterIP
