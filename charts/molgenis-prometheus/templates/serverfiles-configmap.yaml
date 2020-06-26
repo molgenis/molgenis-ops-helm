@@ -9,7 +9,7 @@ data:
       - name: SiteMonitoring
         rules:
           - alert: UnreachableURL
-            expr: probe_http_status_code{job="prodWebsites"} != 200
+            expr: up{job="prodWebsites"} == 0 or probe_success{job="prodWebsites"} == 0
             labels:
               severity: CRITICAL
             annotations:
