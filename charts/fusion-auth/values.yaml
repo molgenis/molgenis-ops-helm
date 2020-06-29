@@ -9929,7 +9929,7 @@ fusionauth:
           <div class="row justify-content-center">
             <div class="col-xs col-sm-8 col-md-6 col-lg-5 col-xl-4">
               <div class="card">
-                <img src="https://naughty-keller-161373.netlify.app/blueblue.png" class="card-img-top logo-top"/>
+                <img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/fusion-auth/resources/blueblue.png" class="card-img-top logo-top"/>
                 <div class="card-body">
                 [#if title?has_content]
                   <h2 class="card-title">${title}</h2>
