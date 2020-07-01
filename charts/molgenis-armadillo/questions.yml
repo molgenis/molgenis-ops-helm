@@ -53,3 +53,7 @@ questions:
   required: true
   default: latest
   group: R
+- variable: rserver.debug
+  label: Enable debugging
+  type: boolean
+  group: R
