@@ -68,6 +68,11 @@ spec:
           image: {{ .Values.rserver.image.repository }}:{{ .Values.rserver.image.tag }}
           tag: 
           imagePullPolicy: Always
+          {{- if .Values.rserver.debug }}
+          env:
+            - name: "DEBUG"
+              value: "TRUE"
+          {{- end }}
           ports:
             - containerPort: 6312
             - containerPort: 6311
