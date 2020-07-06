@@ -82,6 +82,8 @@ prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype-Ha
 prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer")
 prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype%20Harmonizer%20Download")
 prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/QTL-mapping-pipeline")
+prodWebArray+=("  - http://www.eucanconnect.eu")
+prodWebArray+=("  - http://www.eucanconnect.com")
 printf '%s\n' "${prodWebArray[@]}" >> prod-http-list.yml
 printf '%s\n' "${prodTargetArray[@]}" >> prod-target-list.yml
 printf '%s\n' "${acceptWebArray[@]}" >> accept-http-list.yml
