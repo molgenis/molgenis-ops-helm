@@ -63,7 +63,7 @@ questions:
   default: https://auth.molgenis.org
   label: Armadillo OpenID JWT Issuer 
   group: Armadillo
-- variable: server.config.spring.oauth2.resourceserver.opaquetoken.client-id
+- variable: server.config.spring.security.oauth2.resourceserver.opaquetoken.client-id
   label: Armadillo OpenID Client ID
   type: string
   required: true
