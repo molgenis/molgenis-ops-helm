@@ -69,6 +69,9 @@ rserver:
       memory: 1Gi
 
 minio:
+  image:
+    repository: minio/minio
+    tag: RELEASE.2020-07-02T00-15-09Z
   enabled: true
   accessKey: datashield
   secretKey: datashield

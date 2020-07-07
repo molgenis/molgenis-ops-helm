@@ -4,6 +4,12 @@ categories:
 - DataSHIELD
 - R
 questions:
+- variable: minio.image.tag
+  label: MinIO image tag
+  type: string
+  required: true
+  default: RELEASE.2020-07-02T00-15-09Z
+  group: MinIO
 - variable: minio.accessKey
   label: MinIO Access Key
   type: password
