@@ -66,6 +66,17 @@ Resolve hostname for environment
 {{- end -}}
 {{- end -}}
 
+{{/*
+Resolve minio hostname for environment
+*/}}
+{{- define "armadillo-minio.hostname" -}}
+{{- if ne (.Values.environment | default "prod" ) "prod" -}}
+{{- printf "%s-minio.%s.molgenis.org" .Release.Name .Values.environment -}}
+{{- else -}}
+{{- printf "%s-minio.molgenis.org" .Release.Name -}}
+{{- end -}}
+{{- end -}}
+
 {{/* See https://github.com/helm/helm/issues/4535 */}}
 {{- define "call-nested" }}
 {{- $dot := index . 0 }}

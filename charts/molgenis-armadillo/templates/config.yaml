@@ -5,4 +5,5 @@ metadata:
   labels:
 {{ include "molgenis-armadillo.labels" . | indent 4 }}
 data:
+  adminusername: {{ .Values.server.admin.username | quote }}
   "application.json": {{ toJson .Values.server.config | quote }}

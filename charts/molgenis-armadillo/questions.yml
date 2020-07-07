@@ -4,10 +4,33 @@ categories:
 - DataSHIELD
 - R
 questions:
-- variable: ingress.enabled
-  type: boolean
-  default: true
+- variable: minio.image.tag
+  label: MinIO image tag
+  type: string
   required: true
+  default: RELEASE.2020-07-02T00-15-09Z
+  group: MinIO
+- variable: minio.accessKey
+  label: MinIO Access Key
+  type: password
+  required: true
+  group: MinIO
+- variable: minio.secretKey
+  label: MinIO Secret Key
+  type: password
+  required: true
+  group: MinIO
+- variable: minio.environment.MINIO_IDENTITY_OPENID_CONFIG_URL
+  type: string
+  required: true
+  default: https://auth.molgenis.org/.well-known/openid-configuration
+  label: "MinIO OpenID Config URL"
+  group: MinIO
+- variable: minio.environment.MINIO_IDENTITY_OPENID_CLIENT_ID
+  type: string
+  required: true
+  label: "MinIO OpenID Client ID"
+  group: MinIO
 - variable: environment
   label: Environment
   description: "Environment of this instance"
@@ -27,17 +50,31 @@ questions:
     - registry.molgenis.org/molgenis/armadillo
   required: true
   default: "molgenis/armadillo"
+  group: Armadillo
 - variable: server.image.tag
   label: Server image tag
   type: string
   required: true
   default: dev
-- variable: server.config.spring.security.user.password
-  label: User password
-  description: "Until we have proper authentication: the password to authenticate with the datashield"
+  group: Armadillo
+- variable: server.admin.password
+  label: Admin password
+  description: "Admin password to authenticate with the armadillo"
   type: password
   required: true
-  group: "Security"
+  group: Armadillo
+- variable: oauth2.resourceserver.jwt.issuer-uri
+  required: true
+  type: string
+  default: https://auth.molgenis.org
+  label: Armadillo OpenID JWT Issuer 
+  group: Armadillo
+- variable: server.config.spring.security.oauth2.resourceserver.opaquetoken.client-id
+  label: Armadillo OpenID Client ID
+  type: string
+  required: true
+  group: Armadillo
+  description: Used to verify the audience of the ID token
 - variable: rserver.image.repository
   label: RServer image repository
   type: enum

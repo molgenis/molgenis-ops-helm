@@ -34,33 +34,41 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
-            - name: MINIO_ACCESS_KEY
-              value: {{ .Values.minio.accessKey }}
-            - name: MINIO_SECRET_KEY
-              value: {{ .Values.minio.secretKey }}
             - name: MINIO_URL
               value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
+                  key: accesskey
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
+                  key: secretkey
+            - name: SPRING_SECURITY_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-armadillo.fullname" . }}
+                  key: adminpassword
+            - name: SPRING_SECURITY_USER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: "server-config"
+                  key: adminusername
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:
                   name: "server-config"
                   key: "application.json"
-          {{ with .Values.server.config.spring.security.user }}
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: http
-              httpHeaders:
-                - name: Authorization
-                  value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: http
-              httpHeaders:
-                - name: Authorization
-                  value: Basic {{ (printf "%s:%s" .name .password) | b64enc }}
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 {{- if .Values.rserver.enabled }}
