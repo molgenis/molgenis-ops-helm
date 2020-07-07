@@ -61,22 +61,14 @@ spec:
                 configMapKeyRef:
                   name: "server-config"
                   key: "application.json"
-          {{ with .Values.server.admin }}
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: http
-              httpHeaders:
-                - name: Authorization
-                  value: Basic {{ (printf "%s:%s" .username .password) | b64enc }}
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: http
-              httpHeaders:
-                - name: Authorization
-                  value: Basic {{ (printf "%s:%s" .username .password) | b64enc }}
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 {{- if .Values.rserver.enabled }}
