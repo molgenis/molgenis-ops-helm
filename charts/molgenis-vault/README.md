@@ -107,7 +107,7 @@ Parameter | Description | Default
 First you need to logon to the Fusion server ([https://auth.molgenis.org](https://auth.molgenis.org))
 
 **Then create an application**
-![Create application](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-create.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-create.png" width="500px" />
 
 **Configure the application**
 Please note you need to fill the authorized redirect urls of the vault ([https://vault.molgenis.org](https://vault.molgenis.org)). 
