@@ -3,7 +3,7 @@ appVersion: "1.16.1"
 description: Rancher wrapper around fusionauth chart
 name: fusion-auth
 home: https://fusionauth.io/
-version: 0.3.0
+version: 0.3.1
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/fusion-auth/fusion-auth.png
 maintainers:
 - name: fdlk
