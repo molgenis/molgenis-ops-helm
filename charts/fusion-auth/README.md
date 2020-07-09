@@ -6,6 +6,7 @@ When you remove the application you need to remember three things:
 - namespace (eg. fusion-auth)
 - name of pvc (eg. data-postgresql-0)
 - name of pv (eg. pvc-xxxx-xxxx-xxxx-xxxx)
+- root password for postgres
 
 There are 2 policies you can assign to a volume; retain or delete. This implies two restore flows as well.
 
@@ -45,3 +46,4 @@ Now you can create a new pvc bind to the volume of the fusion-auth you created o
 ### Deploy app
 Specify in the form on the Rancher UI the exisiting claim name. Which has to be the same as you specified in the name of the pvc. 
 > make sure you deploy in the same namespace as the pvc is in.
+> fill in the same root-password for postgres as you had in the olkd deployment
