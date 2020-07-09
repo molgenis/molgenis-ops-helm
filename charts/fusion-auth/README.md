@@ -9,7 +9,7 @@ When you remove the application you need to remember three things:
 
 There are 2 policies you can assign to a volume; retain or delete. This implies two restore flows as well.
 
-## Retain policy
+### Retain policy
 You need to make sure the namespace is deleted. The volumeclaim is then deleted as well and the pv is in the "Released" state.
 When you run the command below you make it available again, using the Rancher client:
 
@@ -23,7 +23,7 @@ When you run the command below you make it available again, using the Rancher cl
 \> rancher kubectl patch pv data-postgresql-0 -p '{"spec":{"claimRef": null}}'
 ```
 
-## Delete policy
+### Delete policy
 The delete policy is a bit trickier. You need to build the volume from scratch. You need to specify 6 properties:
 - name
 - volume plugin - *NFS Share*
@@ -34,7 +34,7 @@ The delete policy is a bit trickier. You need to build the volume from scratch. 
 - Server - *192.168.64.160*
 - Access mode - *Single Node Read-Write*
 
-## Create the persistent volume claim
+### Create the persistent volume claim
 Now you can create a new pvc bind to the volume of the fusion-auth you created or made available again. You need to specify 3 things: 
 - namespace
   > needs to be the same as you are going to deploy the application in
@@ -42,6 +42,6 @@ Now you can create a new pvc bind to the volume of the fusion-auth you created o
 - Access modes 
   > needs to be the same as the access mode specified in the volume
 
-## Deploy app
+### Deploy app
 Specify in the form on the Rancher UI the exisiting claim name. Which has to be the same as you specified in the name of the pvc. 
 > make sure you deploy in the same namespace as the pvc is in.
