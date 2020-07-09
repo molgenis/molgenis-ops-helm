@@ -111,7 +111,7 @@ First you need to logon to the Fusion server ([https://auth.molgenis.org](https:
 #### Then create an application
 Navigate to "Applications" and click on the plus-sign
 
-<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-create.png" align="left" width="500px"/>
+![Create Fusion App](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-create.png)
 
 #### Configure the application
 Please note you need to fill the authorized redirect urls of the vault ([https://vault.molgenis.org](https://vault.molgenis.org)). 
