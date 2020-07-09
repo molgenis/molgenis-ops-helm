@@ -103,7 +103,7 @@ Parameter | Description | Default
 `ui.service.nodePort` | Port to be used as the service NodePort (ignored if `server.service.type` is not `NodePort`) | `0`
 
 ## Configure OpenID connect server
-Check: [OICD in Hashicorp Vault](https://learn.hashicorp.com/vault/operations/oidc-auth)
+Check: [OIDC in Hashicorp Vault](https://learn.hashicorp.com/vault/operations/oidc-auth)
 
 ### Add application in Fusion (OpenID connect server)
 First you need to logon to the Fusion server ([https://auth.molgenis.org](https://auth.molgenis.org))
