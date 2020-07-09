@@ -103,40 +103,44 @@ Parameter | Description | Default
 `ui.service.nodePort` | Port to be used as the service NodePort (ignored if `server.service.type` is not `NodePort`) | `0`
 
 ## Configure OpenID connect server
+Check: [OICD in Hashicorp Vault](https://learn.hashicorp.com/vault/operations/oidc-auth)
+
 ### Add application in Fusion (OpenID connect server)
 First you need to logon to the Fusion server ([https://auth.molgenis.org](https://auth.molgenis.org))
 
-**Then create an application**
-<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-create.png" align="left" width="500px" />
+#### Then create an application
+Navigate to "Applications" and click on the plus-sign
 
-**Configure the application**
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-create.png" align="left" width="500px"/>
+
+#### Configure the application
 Please note you need to fill the authorized redirect urls of the vault ([https://vault.molgenis.org](https://vault.molgenis.org)). 
 - UI: https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback
 - CLI: https://vault.molgenis.org/oidc/callback
 
-![Configure application](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-configure.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-configure.png" align="left" width="800px"/>
 
-**Obtain the discovery url of Fusion**
+#### Obtain the discovery url of Fusion
 You have to configure the discovery url in the vault to access the authentication server. 
 Navigate to the application overview and click on details.
-![Details button of application](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-details-btn.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-details-btn.png" align="left" width="800px"/>
 
 In the details you can see a item which is called *OpenID Connect Discovery*. That contains a values something like this:
 `https://auth.molgenis.org/.well-known/openid-configuration/xxxx-xxx-xxx-xxxx`
 Strip all of the text from `/.well-known/....` and remember: `https://auth.molgenis.org`.
 
-![Details of application](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-details.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-details.png" align="left" width="800px"/>
 
 ### Configure OID in the Vault
 Obtain the root token from the designated location. Logon to the [https://vault.molgenis.org](https://vault.molgenis.org).
 
 Navigate to *Access* and click on *Enable new method*
 
-![Enable new authentication method](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-enable.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-enable.png" align="left" width="500px"/>
 
 Select *OICD*
 
-![Select auth method](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-select-oicd.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-select-oicd.png" align="left" width="500px"/>
 
 Configure the OICD method by:
 1. Fill in the discovery url obtained from the authentication server (https://auth.molgenis.org)
@@ -144,21 +148,77 @@ Configure the OICD method by:
 > you need to add the role via CLI as well.
 3. Add the ClientID and ClientSecret
 
-![Configure auth method](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-configure.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-configuration.png" align="left" width="500px"/>
 
 Add the *reader* role via the CLI to the Vault
 
 This is an example of the payload you need to send to configure the role in the Vault:
 ```bash
-vault write auth/oidc/role/reader \
+vault write auth/oidc/role/dev \
         bound_audiences="xxxx-xxxx-xxxx" \
         allowed_redirect_uris="https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback" \
         allowed_redirect_uris="https://vault.molgenis.org/oidc/callback" \
         user_claim="sub" \
-        policies="reader"
+        policies="secret-reader"
 ```
 
-![Configure auth method](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-add-role.png)
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-add-role.png" align="left" width="800px"/>
 
 You are now able to authenticate with the authentication server in the Vault.
 
+### Mapping roles from Fusion to the Vault
+You can manage roles and groups in Fusion and use them in the Vault. The following configuration shows you how to do that.
+
+#### Add role to application in Fusion
+Navigate to "Applications" and select "Manage roles"
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-add-role.png" align="left" width="800px"/>
+
+Create a role.
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-role-details.png" align="left" width="800px"/>
+
+#### Add registration to user
+First navigate to "Users" --> "Select a user" --> "Manager user"
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-user-manage.png" align="left" width="800px"/>
+
+Click on "Add registration"
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-user-add-registration.png" align="left" width="800px"/>
+
+Select "Vault" and select the applicable role "dev".
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-user-registration-details.png" align="left" width="800px"/>
+
+#### Add groups_claim to role
+Run this command in the browser CLI of the Vault:
+
+```bash
+vault write auth/oidc/role/dev \
+        bound_audiences="xxxxx-xxxx-xxxx" \
+        allowed_redirect_uris="https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback" \
+        allowed_redirect_uris="https://vault.molgenis.org/oidc/callback" \
+        user_claim="sub" \
+        groups_claim="roles" \
+        policies="secret-reader"
+```
+
+#### Add group to vault
+Navigate to "Access" --> "Groups" --> "Create group"
+- Make it an "external" group
+- Select "policies" to attach to the group
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-create-group.png" align="left" width="500px"/>
+
+#### Add group_alias to group
+Navigate to the created group and select "Add alias"
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-create-group-alias.png" align="left" width="800px"/>
+
+Select "OIDC" for "Auth backend" and name it the same as the group
+
+<img src="https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-group-alias-details.png" align="left" width="800px"/>
+
+Your set to login with OIDC.
+        
