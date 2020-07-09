@@ -179,7 +179,7 @@ Create a role.
 ![Application role details](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-role-details.png)
 
 #### Add registration to user
-First navigate to "Users" --> "Select a user" --> "Manager user"
+First navigate to "Users" --> "Select a user" --> "Manage user"
 
 ![Manage user](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-user-manage.png)
 
