@@ -10390,6 +10390,8 @@ elasticsearch:
 
 postgresql:
   fullnameOverride: postgresql
-  existingSecret: fusion-postgresql
   postgresqlDatabase: fusionauth
   password: molgenis
+  persistence:
+  # existingClaim:
+  existingSecret: fusion-postgresql

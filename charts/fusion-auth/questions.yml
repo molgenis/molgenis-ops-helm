@@ -23,4 +23,10 @@ questions:
     label: Password for PostgreSQL
     required: true
     group: PostgreSQL
+  - variable: postgresql.persistence.existingClaim
+    show_if: "postgresql.persistence.enabled=true"
+    type: string
+    label: Specify existing claim 
+    required: true
+    group: PostgreSQL
   
