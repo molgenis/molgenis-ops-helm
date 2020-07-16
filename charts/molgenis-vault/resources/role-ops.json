@@ -1,0 +1,18 @@
+{
+  "allowed_redirect_uris": [
+    "https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback",
+    "https://vault.molgenis.org/oidc/callback"
+  ],
+  "bound_audiences": [
+    "7a92e810-fd6b-44ad-b2c9-8461abf5de78"
+  ],
+  "bound_claims": {
+    "roles": "ops"
+  },
+  "policies": [
+    "default",
+    "secret-reader",
+    "secret-manager"
+  ],
+  "user_claim": "email"
+}
