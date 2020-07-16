@@ -27,6 +27,7 @@ proxy:
   backend:
     service:
       enabled: true
+    proxy_read_timeout: 600s
   #
   # If you want to connect inside the same cluster you can specify the targetNamespace and targetRelease.
   # This way the service will be resolved inside the cluster.

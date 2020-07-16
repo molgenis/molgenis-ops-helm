@@ -12,6 +12,7 @@ data:
     location / {  
       proxy_pass {{ template "backend.servicename" . }};
       client_max_body_size 0;
+      proxy_read_timeout {{ .Values.proxy.backend.proxy_read_timeout }};
     }
 {{- if .Values.proxy.frontend }}
 {{ toYaml .Values.proxy.frontend | indent 2 }}
