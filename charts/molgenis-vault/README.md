@@ -45,21 +45,30 @@ The deployment of the Vault consists of 7 steps.
      Standby:  <nil>
    ```
    Proxy-forward the Vault service to be able to make use of the client.
-   ```rancher kubectl port-forward #vault-pod# 8200 --namespace vault-operator```
+   ```
+   rancher kubectl port-forward #vault-pod# 8200 --namespace vault-operator
+   ```
    Install Vault client: https://www.vaultproject.io/docs/install/
-   You need to add this line to your ```.profile```: ```export VAULT_SKIP_VERIFY=1```
+   You need to add this line to your `.profile`:
+   ```
+   export VAULT_SKIP_VERIFY=1
+   ```
    Then execute the following commands:
-   ```vault status```
-   Exceute this three times (because of the three key encryption method)
-   ```vault operator unseal```
-   Run ```vault status``` again to check if the Vault is unsealed.
+   ```
+   vault status
+   ```
+   Execute this three times (because of the three key encryption method)
+   ```
+   vault operator unseal
+   ```
+   Run `vault status` again to check if the Vault is unsealed.
 
 **In Jenkins**
 
 7. The NodePort is random so you need to configure it in the Kubernetes secret 
 
-   (Rancher --> dev-molgenis project): ```molgenis-pipeline-vault-secret``` with key ```addr```. E.g. 'https://192.168.64.161:30221'.
-   (Go to the ```prod-molgenis``` project and select **Resources** --> **Secrets**).
+   (Rancher --> dev-molgenis project): `molgenis-pipeline-vault-secret` with key `addr`. E.g. 'https://192.168.64.161:30221'.
+   (Go to the `prod-molgenis` project and select **Resources** --> **Secrets**).
 
 ## Parameters
 
@@ -120,16 +129,7 @@ Please note you need to fill the authorized redirect urls of the vault ([https:/
 
 ![Configure application](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-configure.png)
 
-#### Obtain the discovery url of Fusion
-You have to configure the discovery url in the vault to access the authentication server. 
-Navigate to the application overview and click on details.
-![Application details button](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-defail-btn.png)
 
-In the details you can see a item which is called *OpenID Connect Discovery*. That contains a values something like this:
-`https://auth.molgenis.org/.well-known/openid-configuration/xxxx-xxx-xxx-xxxx`
-Strip all of the text from `/.well-known/....` and remember: `https://auth.molgenis.org`.
-
-![Application details](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-app-details.png)
 
 ### Configure OID in the Vault
 Obtain the root token from the designated location. Logon to the [https://vault.molgenis.org](https://vault.molgenis.org).
@@ -150,21 +150,42 @@ Configure the OIDC method by:
 
 ![OIDC Configuration](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-configuration.png)
 
-Add the *reader* role via the CLI to the Vault
-
-This is an example of the payload you need to send to configure the role in the Vault:
-```bash
-vault write auth/oidc/role/dev \
-        bound_audiences="xxxx-xxxx-xxxx" \
-        allowed_redirect_uris="https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback" \
-        allowed_redirect_uris="https://vault.molgenis.org/oidc/callback" \
-        user_claim="sub" \
-        policies="secret-reader"
+#### Add roles to OIDC in the vault
+You can define roles in the vault, that get assigned based on the claims in the ID token:
+```
+{
+  "allowed_redirect_uris": [
+    "https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback",
+    "https://vault.molgenis.org/oidc/callback"
+  ],
+  "bound_audiences": [
+    // The ID Provider sets the 'aud' claim in the ID token
+    // to the clientID of the vault application.
+    // The vault must check that it is the intended audience.
+    "7a92e810-fd6b-44ad-b2c9-8461abf5de78"
+  ],
+  "bound_claims": {
+    // This role can only be assumed if the 'roles' claim in the ID token
+    // contains 'dev'
+    "roles": "dev"
+  },
+  "policies": [
+    // these policies are applied
+    "default",
+    "secret-reader",
+    "dev-secret-manager"
+  ],
+  // this claim is mapped to the username
+  "user_claim": "email"
+}
 ```
 
-![Add Auth role](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-add-role.png)
+```bash
+vault write auth/oidc/role/dev @role-dev.json
+vault write auth/oidc/role/ops @role-ops.json
+```
 
-You are now able to authenticate with the authentication server in the Vault.
+
 
 ### Mapping roles from Fusion to the Vault
 You can manage roles and groups in Fusion and use them in the Vault. The following configuration shows you how to do that.
@@ -191,34 +212,6 @@ Select "Vault" and select the applicable role "dev".
 
 ![User registration details](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/fusion-user-registration-details.png)
 
-#### Add groups_claim to role
-Run this command in the browser CLI of the Vault:
-
-```bash
-vault write auth/oidc/role/dev \
-        bound_audiences="xxxxx-xxxx-xxxx" \
-        allowed_redirect_uris="https://vault.molgenis.org/ui/vault/auth/oidc/oidc/callback" \
-        allowed_redirect_uris="https://vault.molgenis.org/oidc/callback" \
-        user_claim="sub" \
-        groups_claim="roles" \
-        policies="secret-reader"
-```
-
-#### Add group to vault
-Navigate to "Access" --> "Groups" --> "Create group"
-- Make it an "external" group
-- Select "policies" to attach to the group
-
-![Create group](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-create-group.png)
-
-#### Add group_alias to group
-Navigate to the created group and select "Add alias"
-
-![Add alias](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-create-group-alias.png)
-
-Select "OIDC" for "Auth backend" and name it the same as the group
-
-![Group alias details](https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-vault/docs/imgs/vault-auth-group-alias-details.png)
 
 You're set to login with OIDC.
         
