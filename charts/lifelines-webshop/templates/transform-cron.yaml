@@ -25,7 +25,11 @@ spec:
                 - mountPath: /usr/src/app/.config
                   name: data-transform-config
                   readOnly: true
+                - mountPath: /usr/src/app/data
+                  name: data-volume
           volumes:
             - name: data-transform-config
               secret:
                 secretName: data-transform-config
+            - name: data-volume
+              emptyDir: {}
