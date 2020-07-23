@@ -15,7 +15,7 @@ transform:
     molgenis:
       hostname: "http://molgenis:8080"
       token: "xxxx"
-    src_dir: "catalog"
+    src_dir: "data/catalog"
     s3:
       accessKey: "xxxx"
       bucket: "ll-catalogue-a"
@@ -23,7 +23,7 @@ transform:
       region: "eu-central-1"
       secretKey: "xxxx"
       secure: true
-    target_dir: "generated"
+    target_dir: "data/generated"
 
 vue-pdfium:
   fullnameOverride: "vue-pdfium"
