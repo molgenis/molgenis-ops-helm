@@ -75,6 +75,13 @@ questions:
   required: true
   group: Armadillo
   description: Used to verify the audience of the ID token
+- variable: server.config.server.servlet.session.timeout
+  label: Session timeout
+  type: string
+  required: true
+  default: 30m
+  group: Armadillo
+  description: If a duration suffix is not specified, seconds will be used.
 - variable: rserver.image.repository
   label: RServer image repository
   type: enum
