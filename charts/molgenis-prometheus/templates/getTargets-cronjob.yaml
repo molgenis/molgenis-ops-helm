@@ -18,18 +18,31 @@ spec:
           containers:
           - name: get-targets
             image: alpine:latest
-            envFrom:
-            - secretRef:
-                name: molgenis-prometheus-github-token
+            env:
+              - name: githubtoken
+                valueFrom:
+                  secretKeyRef:
+                    name: molgenis-prometheus-cronjob-secrets
+                    key: githubtoken
+              - name: serverlistuser
+                valueFrom: 
+                  secretKeyRef:
+                    name: molgenis-prometheus-cronjob-secrets
+                    key: serverlistuser
+              - name: serverlistpassword
+                valueFrom:
+                  secretKeyRef:
+                    name: molgenis-prometheus-cronjob-secrets
+                    key: serverlistpassword
             command: ["/bin/ash"]
             args: ["-c", "apk add curl bash && 
                     curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.5/bin/linux/amd64/kubectl && 
                     chmod +x kubectl && 
                     mv kubectl /usr/local/bin/kubectl && 
-                    TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
-                    wget {{ .Values.secret.GITHUBTOKEN }}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/targetWebGet.sh -O targetWebGet.sh && 
+                    token=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
+                    wget {{ .Values.secret.githubtoken }}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/targetWebGet.sh -O targetWebGet.sh && 
                     chmod +x targetWebGet.sh && 
-                    bash targetWebGet.sh ${GITHUBTOKEN} &&
+                    bash targetWebGet.sh $(echo $githubtoken | base64 -d ) $(echo $serverlistuser | base64 -d ) $(echo $serverlistpassword | base64 -d ) &&
                     rm -rf /mnt/targetWebGet.sh"]
           serviceAccountName: update-configmap-bot
           restartPolicy: OnFailure

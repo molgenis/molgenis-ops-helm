@@ -10,10 +10,20 @@ questions:
     description: "Cluster"
     show_subquestion_if: production
     subquestions:
-    - variable: "secret.GITHUBTOKEN"
+    - variable: "secret.githubtoken"
       required: true
       label: "Github token"
       description: "Github token for MOLGENIS deployments. Only if cluster is set to production. Otherwise set xxxx"
+      type: string
+    - variable: "secret.serverlistuser"
+      required: true
+      label: "Serverlist username"
+      description: "Username for the serverlist server to request token to do the api calls."
+      type: string
+    - variable: "secret.serverlistpassword"
+      required: true
+      label: "Serverlist password"
+      description: "Password from the username for the serverlist server to request token to do the api calls."
       type: string
   - variable: 'prometheus.alertmanagerFiles.alertmanager\.yml.global.slack_api_url'
     required: true
