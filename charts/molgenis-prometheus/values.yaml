@@ -117,5 +117,7 @@ prometheus-blackbox-exporter:
           ip_protocol_fallback: false
 
 secret:
-  GITHUBTOKEN: "xxxx"
+  githubtoken: "xxxx"
+  serverlistuser: "xxxx"
+  serverlistpassword: "xxxx"
 environment: "development"
