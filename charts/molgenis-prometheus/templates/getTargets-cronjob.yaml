@@ -15,6 +15,11 @@ spec:
     spec:
       template:
         spec:
+          dnsPolicy: ClusterFirst
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "2"
           containers:
           - name: get-targets
             image: alpine:latest
