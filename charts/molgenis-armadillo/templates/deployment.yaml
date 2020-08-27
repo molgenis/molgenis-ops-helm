@@ -84,8 +84,14 @@ spec:
           ports:
             - containerPort: 6312
             - containerPort: 6311
+          volumeMounts:
+          - name: pv-rserve-tmp
+            mountPath: /tmp/
           resources:
 {{ toYaml .Values.rserver.resources | indent 12 }}
+      volumes:
+        - name: pv-rserve-tmp
+          emptyDir: {}
 {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
