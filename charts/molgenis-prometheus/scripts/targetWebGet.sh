@@ -16,6 +16,7 @@ prodWebArray=("- targets:")
 serverlisttoken="$(curl -X POST -H "Content-Type: application/json" --data "{\"username\":\"${serverlistuser}\",\"password\":\"${serverlistpassword}\"}" "https://${serverlistServer}/api/v1/login" | cut -d'"' -f4 )"
 echo "Serverlist received"
 echo "Start iteration"
+echo "server id:monitoring"
 for val in $serverlist;
 do
     if [[ $val =~ ['['] ]];
@@ -34,7 +35,8 @@ do
     then
         host=$(echo $val | cut -d'.' -f1)
         monitoring="$(curl -s -H "x-molgenis-token: ${serverlisttoken}" -X GET "https://${serverlistServer}/api/v2/molgenis_serverlist?q=id==${host}&attrs=~id,monitoring" | rev | cut -d'"' -f1 | rev | cut -d':' -f2 | rev | cut -c 4- | rev )"
-        if [[ "$monitoring" =~ "false" ]];
+        echo "${host}:${monitoring}"
+        if [[ "$monitoring" == "false" ]];
         then
             continue
         fi
@@ -86,6 +88,7 @@ do
     fi
 done
 endtoken="$(curl -H "x-molgenis-token: ${serverlisttoken}" -X POST "https://${serverlistServer}/api/v1/logout")"
+echo "done"
 echo "Connection to serverlist closed"
 prodWebArray+=("  - https://www.chromosome6.org/contact")
 prodWebArray+=("  - https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer-Download")
