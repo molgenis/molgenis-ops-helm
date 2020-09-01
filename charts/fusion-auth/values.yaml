@@ -10384,6 +10384,10 @@ fusionauth:
     requests:
       cpu: 100m
       memory: 128Mi
+  dnsConfig:
+    options:
+    - name: ndots
+      value: "1"
 
 elasticsearch:
   fullnameOverride: elasticsearch-master
