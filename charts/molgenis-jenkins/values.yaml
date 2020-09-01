@@ -374,8 +374,27 @@ jenkins:
                   }
                 }
             - script: >
+                pipelineJob('cleanup-excluding-frontend') {
+                  description('Clean up preview deployments (excluding frontend) every night')
+                  definition {
+                    cpsScm {
+                      lightweight()
+                      scm {
+                        github('molgenis/molgenis-ops-helm', 'master')
+                        scriptPath('charts/molgenis-jenkins/resources/cleanup-excluding-frontend/Jenkinsfile')
+                      }
+                    }
+                  }
+                  triggers {
+                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * *')
+                  }
+                  authorization {
+                    permission('hudson.model.Item.Workspace:authenticated')
+                  }
+                }
+            - script: >
                 pipelineJob('cleanup') {
-                  description('Clean up preview deployments every night')
+                  description('Clean up all preview deployments every night')
                   definition {
                     cpsScm {
                       lightweight()
@@ -384,11 +403,11 @@ jenkins:
                         scriptPath('charts/molgenis-jenkins/resources/cleanup/Jenkinsfile')
                       }
                     }
-                  }
-                  triggers {
-                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * *')
-                  }
-                  authorization {
+                }
+                triggers {
+                    cron('@monthly')
+                }
+                authorization {
                     permission('hudson.model.Item.Workspace:authenticated')
                   }
                 }
