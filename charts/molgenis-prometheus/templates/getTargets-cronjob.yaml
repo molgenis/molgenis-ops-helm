@@ -22,7 +22,7 @@ spec:
                 value: "2"
           containers:
           - name: get-targets
-            image: alpine:latest
+            image: python:3.8-alpine3.12
             env:
               - name: githubtoken
                 valueFrom:
@@ -40,15 +40,17 @@ spec:
                     name: molgenis-prometheus-cronjob-secrets
                     key: serverlistpassword
             command: ["/bin/ash"]
-            args: ["-c", "apk add curl bash && 
+            args: ["-c", "cd /tmp &&
+                    apk add curl && 
+                    pip3 install -U pip requests --user &&
                     curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.5/bin/linux/amd64/kubectl && 
                     chmod +x kubectl && 
                     mv kubectl /usr/local/bin/kubectl && 
                     token=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
-                    wget {{ .Values.secret.githubtoken }}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/targetWebGet.sh -O targetWebGet.sh && 
-                    chmod +x targetWebGet.sh && 
-                    bash targetWebGet.sh $(echo $githubtoken | base64 -d ) $(echo $serverlistuser | base64 -d ) $(echo $serverlistpassword | base64 -d ) &&
-                    rm -rf /mnt/targetWebGet.sh"]
+                    wget {{ .Values.secret.githubtoken }}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/serverlistRequester.py &&
+                    python serverlistRequester.py $(echo $serverlistuser | base64 -d ) $(echo $serverlistpassword | base64 -d ) &&
+                    kubectl --token=$token create configmap targets-configmap --from-file node-targets.yml --from-file blackbox-targets.yml -o yaml --dry-run | kubectl --token=$token replace -f - &&
+                    rm -rf /tmp/*"]
           serviceAccountName: update-configmap-bot
           restartPolicy: OnFailure
 {{- end -}}
