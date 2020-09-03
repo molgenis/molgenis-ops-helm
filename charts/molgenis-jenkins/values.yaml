@@ -2,7 +2,7 @@ jenkins:
   clusterZone: "edgecluster.local"
   master:
     image: "jenkins/jenkins"
-    tag: "2.222.4"
+    tag: "2.222.3"
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
@@ -374,27 +374,8 @@ jenkins:
                   }
                 }
             - script: >
-                pipelineJob('cleanup-excluding-frontend') {
-                  description('Clean up preview deployments (excluding frontend) every night')
-                  definition {
-                    cpsScm {
-                      lightweight()
-                      scm {
-                        github('molgenis/molgenis-ops-helm', 'master')
-                        scriptPath('charts/molgenis-jenkins/resources/cleanup-excluding-frontend/Jenkinsfile')
-                      }
-                    }
-                  }
-                  triggers {
-                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * *')
-                  }
-                  authorization {
-                    permission('hudson.model.Item.Workspace:authenticated')
-                  }
-                }
-            - script: >
                 pipelineJob('cleanup') {
-                  description('Clean up all preview deployments on the first day of each month')
+                  description('Clean up preview deployments every night')
                   definition {
                     cpsScm {
                       lightweight()
@@ -405,7 +386,7 @@ jenkins:
                     }
                 }
                 triggers {
-                    cron('0 0 1 * *')
+                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * *')
                 }
                 authorization {
                     permission('hudson.model.Item.Workspace:authenticated')
