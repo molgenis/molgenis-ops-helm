@@ -2,7 +2,7 @@ jenkins:
   clusterZone: "edgecluster.local"
   master:
     image: "jenkins/jenkins"
-    tag: "2.222.3"
+    tag: "2.222.4"
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
@@ -394,7 +394,7 @@ jenkins:
                 }
             - script: >
                 pipelineJob('cleanup') {
-                  description('Clean up all preview deployments every night')
+                  description('Clean up all preview deployments on the first day of each month')
                   definition {
                     cpsScm {
                       lightweight()
@@ -405,7 +405,7 @@ jenkins:
                     }
                 }
                 triggers {
-                    cron('@monthly')
+                    cron('0 0 1 * *')
                 }
                 authorization {
                     permission('hudson.model.Item.Workspace:authenticated')
