@@ -51,6 +51,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "molgenis-armadillo.fullname" . }}
                   key: adminpassword
+            - name: DATASHIELD_OPTIONS_DATASHIELD_SEED
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-armadillo.fullname" . }}
+                  key: seed
             - name: SPRING_SECURITY_USER_NAME
               valueFrom:
                 configMapKeyRef:

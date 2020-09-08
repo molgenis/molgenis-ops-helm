@@ -82,6 +82,12 @@ questions:
   default: 30m
   group: Armadillo
   description: If a duration suffix is not specified, seconds will be used.
+- variable: server.seed
+  label: datashield.seed option
+  description: This is a server-specific secret, used to obfuscate plots and such
+  type: int
+  required: true
+  group: Armadillo
 - variable: rserver.image.repository
   label: RServer image repository
   type: enum
