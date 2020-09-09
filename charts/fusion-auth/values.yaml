@@ -9872,7 +9872,7 @@ fusionauth:
               Prime.Document.query('.date-picker').each(function(e) {
                 new Prime.Widgets.DateTimePicker(e).withDateOnly().initialize();
               });
-              new FusionAuth.OAuth2.LocaleSelect(new Prime.Document.queryById('locale-select'));
+              //new FusionAuth.OAuth2.LocaleSelect(new Prime.Document.queryById('locale-select'));
             });
             FusionAuth.Version = "${version}";
           </script>
@@ -9971,7 +9971,7 @@ fusionauth:
 
         [#-- Below are the social login buttons and helpers --]
         [#macro facebookButton identityProvider clientId]
-        <button id="facebook-login-button" class="facebook login-button" data-permissions="${identityProvider.lookupPermissions(clientId)!''}">
+        <button id="facebook-login-button" class="facebook login-button mt-3" data-permissions="${identityProvider.lookupPermissions(clientId)!''}">
           <div>
             <div class="icon">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216">
@@ -9984,7 +9984,7 @@ fusionauth:
         [/#macro]
 
         [#macro googleButton identityProvider clientId]
-        <button id="google-login-button" class="google login-button" data-scope="${identityProvider.lookupScope(clientId)!''}">
+        <button id="google-login-button" class="google login-button mt-3" data-scope="${identityProvider.lookupScope(clientId)!''}">
           <div>
             <div class="icon">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -10003,7 +10003,7 @@ fusionauth:
         [/#macro]
 
         [#macro twitterButton identityProvider clientId]
-        <button id="twitter-login-button" class="twitter login-button">
+        <button id="twitter-login-button" class="twitter login-button mt-3">
           <div>
             <div class="icon">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
@@ -10022,9 +10022,9 @@ fusionauth:
         [/#macro]
 
         [#macro openIDConnectButton identityProvider clientId]
-        <button class="openid login-button" data-identity-provider-id="${identityProvider.id}">
-          <div>
-            <div class="icon">
+        [#if identityProvider.lookupButtonText(clientId)?trim != 'BUTTON']
+        <button class="openid login-button btn btn-block btn-light p-3" data-identity-provider-id="${identityProvider.id}">
+            <span class="icon">
               [#if identityProvider.lookupButtonImageURL(clientId)?has_content]
                 <img src="${identityProvider.lookupButtonImageURL(clientId)}" title="OpenID Connect Logo" alt="OpenID Connect Logo"/>
               [#else]
@@ -10037,24 +10037,34 @@ fusionauth:
                   </g>
                 </svg>
               [/#if]
-            </div>
-            <div class="text">${identityProvider.lookupButtonText(clientId)?trim}</div>
-          </div>
+            </span>
+            ${identityProvider.lookupButtonText(clientId)?trim}
         </button>
+        [#else]
+        <button class="openid login-button btn btn-block"
+                data-identity-provider-id="${identityProvider.id}">
+          <img src="${identityProvider.lookupButtonImageURL(clientId)}">
+        </button>
+        [/#if]
         [/#macro]
 
         [#macro samlv2Button identityProvider clientId]
-        <button class="samlv2 login-button" data-identity-provider-id="${identityProvider.id}">
-          <div>
-            <div class="icon">
+        <button class="samlv2 login-button btn btn-block btn-light p-3" data-identity-provider-id="${identityProvider.id}">
+            <span class="icon">
               [#if identityProvider.lookupButtonImageURL(clientId)?has_content]
-                <img src="${identityProvider.lookupButtonImageURL(clientId)}" title="SAML Login" alt="SAML Login"/>
+                <img src="${identityProvider.lookupButtonImageURL(clientId)}" title="SAML Logo" alt="SAML Logo"/>
               [#else]
-                <img src="${request.contextPath}/images/identityProviders/samlv2.svg" title="SAML 2 Logo" alt="SAML 2 Logo"/>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                  <g id="g2189">
+                    <g id="g2202">
+                      <path class="cls-1" d="M87.57,39.57c-8.9-5.55-21.38-9-34.95-9C25.18,30.59,3,44.31,3,61.17,3,76.64,21.46,89.34,45.46,91.52v-8.9c-16.12-2-28.24-10.87-28.24-21.45,0-12,15.84-21.9,35.4-21.9,9.78,0,18.6,2.41,24.95,6.43l-9,5.62H96.84V33.8Z"></path>
+                      <path class="cls-2" d="M45.46,15.41v76l14.23-8.9V6.22Z"></path>
+                    </g>
+                  </g>
+                </svg>
               [/#if]
-            </div>
-            <div class="text">${identityProvider.lookupButtonText(clientId)?trim}</div>
-          </div>
+            </span>
+            ${identityProvider.lookupButtonText(clientId)?trim}
         </button>
         [/#macro]
 
@@ -10076,36 +10086,26 @@ fusionauth:
               [/#if]
 
               [#if identityProviders["Facebook"]?has_content]
-              <div class="row col">
                 [@facebookButton identityProvider=identityProviders["Facebook"][0] clientId=clientId /]
-              </div>
               [/#if]
 
               [#if identityProviders["Google"]?has_content]
-              <div class="row col">
                 [@googleButton identityProvider=identityProviders["Google"][0] clientId=clientId/]
-              </div>
               [/#if]
 
               [#if identityProviders["Twitter"]?has_content]
-              <div class="row col">
                 [@twitterButton identityProvider=identityProviders["Twitter"][0] clientId=clientId/]
-              </div>
               [/#if]
 
               [#if identityProviders["OpenIDConnect"]?has_content]
                 [#list identityProviders["OpenIDConnect"] as identityProvider]
-                  <div class="row col">
-                    [@openIDConnectButton identityProvider=identityProvider clientId=clientId/]
-                  </div>
+                  [@openIDConnectButton identityProvider=identityProvider clientId=clientId/]
                 [/#list]
               [/#if]
 
               [#if identityProviders["SAMLv2"]?has_content]
                 [#list identityProviders["SAMLv2"] as identityProvider]
-                  <div class="row col">
-                    [@samlv2Button identityProvider=identityProvider clientId=clientId/]
-                  </div>
+                  [@samlv2Button identityProvider=identityProvider clientId=clientId/]
                 [/#list]
               [/#if]
             </div>
