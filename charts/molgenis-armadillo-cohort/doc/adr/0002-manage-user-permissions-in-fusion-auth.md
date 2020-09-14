@@ -39,3 +39,6 @@ Create an edge service that enforces the permissions and uses an api key to admi
 
 * Need to build the service and a UI
 * Clear specific UIs for the cohort manager and consortium manager
+* The cohort manager UI is deployed within the armadillo-cohort deployment
+* The consortium manager UI is deployed together with the Fusion-auth deployment
+* Only need only 1 Fusion-auth server for a consortium
