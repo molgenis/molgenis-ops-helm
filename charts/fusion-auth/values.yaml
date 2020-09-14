@@ -68,6 +68,10 @@ fusionauth:
           box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.05);
         }
 
+        .icon img,
+        .icon svg {
+          max-height: 24px
+        }
 
         /*!
         * Bootstrap v4.2.1 (https://getbootstrap.com/)
@@ -566,7 +570,7 @@ fusionauth:
         }
 
         .blockquote-footer::before {
-          content: "\2014\00A0";
+          content: "0140A0";
         }
 
         .img-fluid {
