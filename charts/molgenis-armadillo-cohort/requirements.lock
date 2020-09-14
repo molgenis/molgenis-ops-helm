@@ -1,0 +1,6 @@
+dependencies:
+- name: molgenis-armadillo
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.4.0
+digest: sha256:e195605335d34a25fd7d538d7aecf22d6a2a6ca17c7471f712bfab5e7b728af8
+generated: "2020-09-14T11:39:54.005294+02:00"

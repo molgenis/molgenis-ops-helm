@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "molgenis-armadillo-cohort.fullname" . }}-test-connection"
+  labels:
+{{ include "molgenis-armadillo-cohort.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "molgenis-armadillo-cohort.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
