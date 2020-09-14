@@ -63,7 +63,7 @@ questions:
   type: password
   required: true
   group: Armadillo
-- variable: oauth2.resourceserver.jwt.issuer-uri
+- variable: server.config.spring.security.oauth2.resourceserver.jwt.issuer-uri
   required: true
   type: string
   default: https://auth.molgenis.org
