@@ -32,7 +32,7 @@ data:
     fi
 
     gzip -cdq < "${UTA_PGD_FN}" \
-        | PGPASSWORD={{ .Values.postgresql.postgresqlPassword }} psql -1e -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1
+        | PGPASSWORD={{ .Values.postgresql.postgresqlPassword }} psql -e -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1
 
     cat <<EOF
     =======================================================================
