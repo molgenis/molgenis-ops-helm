@@ -24,6 +24,9 @@ spec:
         - name: seqrepo
           image: "{{ .Values.seqrepo.image.repository }}:{{ .Values.seqrepo.image.tag }}"
           imagePullPolicy: {{ .Values.seqrepo.image.pullPolicy }}
+          env:
+            - name: SEQREPO_DATA_RELEASE
+              value: {{ .Values.seqrepo.dataRelease }}
           volumeMounts:
             - mountPath: /usr/local/share/seqrepo
               name: seqrepo
@@ -36,7 +39,7 @@ spec:
               name: seqrepo
           env:
             - name: HGVS_SEQREPO_DIR
-              value: /usr/local/share/seqrepo/{{ .Values.seqrepo.image.tag }}
+              value: /usr/local/share/seqrepo/{{ .Values.seqrepo.dataRelease }}
             - name: UTA_DB_URL
               value: postgresql://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ .Values.postgresql.postgresqlDatabase }}/{{ .Values.uta.version }}
           ports:

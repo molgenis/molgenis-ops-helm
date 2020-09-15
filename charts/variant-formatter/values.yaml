@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 uta:
-  version: "uta_20180821"
+  version: "uta_20190927"
 
 postgresql:
   initdbScriptsConfigMap: "{{ .Release.Name }}-uta-config"
@@ -12,6 +12,7 @@ postgresql:
   postgresqlDatabase: uta
 
 seqrepo:
+  dataRelease: "2019-06-20"
   image:
     # TODO: they have a rest interface too now, consider upgrading
     repository: biocommons/seqrepo
@@ -34,7 +35,7 @@ replicaCount: 1
 
 image:
   repository: molgenis/variant-formatter
-  tag: variant-formatter-release-2019-09-19_11-18-57
+  tag: 1.0.0
   pullPolicy: Always
 
 imagePullSecrets: []
