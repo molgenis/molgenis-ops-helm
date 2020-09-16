@@ -18,8 +18,15 @@ questions:
   - variable: "uta.version"
     group: uta
     label: "UTA version"
-    default: "uta_20180821"
-    description: "Specify which release of the BioCommons Universal Transcript Archive (UTA) to use"
+    default: "uta_20190927"
+    description: "Specify which release of the BioCommons Universal Transcript Archive (UTA) to use, see http://dl.biocommons.org/uta"
+    type: string
+    required: true
+  - variable: "seqrepo.dataRelease"
+    group: seqrepo
+    label: "SeqRepo data release"
+    default: "2019-06-20"
+    description: "Specify which seqrepo data release version to use, see http://dl.biocommons.org/seqrepo"
     type: string
     required: true
   - variable: "seqrepo.image.tag"
@@ -31,7 +38,7 @@ questions:
     required: true
   - variable: "image.tag"
     label: "Variant formatter image tag"
-    default: "variant-formatter-release-2019-09-19_19-06-06"
+    default: "1.0.0"
     description: "Image tag for the variant formatter container"
     type: string
     required: true
