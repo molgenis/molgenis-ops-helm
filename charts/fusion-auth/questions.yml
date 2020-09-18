@@ -18,6 +18,11 @@ questions:
     label: API Key
     required: true
     group: Fusion
+  - variable: fusionauth.environment.FUSIONAUTH_ISSUER_URL
+    type: string
+    label: Public URL to use as issuer
+    required: true
+    group: Fusion
   - variable: postgresql.password
     type: password
     label: Password for PostgreSQL
