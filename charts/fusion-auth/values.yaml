@@ -19,10 +19,11 @@ fusionauth:
         {
           "variables": {
             "openidSigningKey": "#{UUID()}",
-            "defaultThemeId": "#{UUID()}",
+            "defaultThemeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
             "molgenisThemeId": "#{UUID()}",
-            "apiKey": "#{ENV.FUSIONAUTH_API_KEY}"
-            "issuerUrl": "#{ENV.FUSIONAUTH_ISSUER_URL}"
+            "apiKey": "#{ENV.FUSIONAUTH_API_KEY}",
+            "issuerUrl": "#{ENV.FUSIONAUTH_ISSUER_URL}",
+            "tenantId": "#{ENV.FUSIONAUTH_TENANT_ID}"
           },
           "apiKeys": [
             {
@@ -30,50 +31,55 @@ fusionauth:
               "description": "Core API Key"
             }
           ],
-          "requests": [{
-            "method": "POST",
-            "url": "/api/theme/#{molgenisThemeId}",
-            "body": {
-              "sourceThemeId": "#{defaultThemeId}",
-              "theme": {
-                "name": "MOLGENIS Blue"
-              }
-            }
-          }, {
-            "method": "PATCH",
-            "url": "/api/theme/#{molgenisThemeId}",
-            "body": {
-              "theme": {
-                "templates": {
-                  "helpers": "@{helpers.ftl}",
-                  "oauth2Authorize": "@{oauth2Authorize.ftl}",
-                  "oauth2Logout": "@{oauth2Logout.ftl}"
-                },
-                "stylesheet": "@{molgenis-blue.css}"
-              }
-            }, {
-            "method": "POST",
-            "url": "/api/key/generate/#{openidSigningKey}",
-            "body": {
-              "key": {
-                "algorithm": "RS256",
-                "name": "Signing key",
-                "length": "2048"
-              }
-            }, {
-            "method": "PATCH",
-            "url": "/api/tenant/",
-            "body": {
-              "tentant": {
-                "id": "#{ENV.FUSIONAUTH_TENANT_ID}",
-                "issuer": "#{issuerUrl}",
-                "jwtConfiguration": {
-                    "enabled": true,
-                    "accessTokenKeyId": "#{openidSigningKey}",
-                    "idTokenKeyId": "#{openidSigningKey}"
+          "requests": [
+            {
+              "method": "POST",
+              "url": "/api/theme/#{molgenisThemeId}",
+              "body": {
+                "sourceThemeId": "#{defaultThemeId}",
+                "theme": {
+                  "name": "MOLGENIS Blue"
                 }
+              }
+            }, {
+              "method": "PATCH",
+              "url": "/api/theme/#{molgenisThemeId}",
+              "body": {
+                "theme": {
+                  "templates": {
+                    "helpers": "@{helpers.ftl}",
+                    "oauth2Authorize": "@{oauth2Authorize.ftl}",
+                    "oauth2Logout": "@{oauth2Logout.ftl}"
+                  },
+                  "stylesheet": "@{molgenis-blue.css}"
+                }
+              }
+            }, {
+              "method": "POST",
+              "url": "/api/key/generate/#{openidSigningKey}",
+              "body": {
+                "key": {
+                  "algorithm": "RS256",
+                  "name": "Signing key",
+                  "length": "2048"
+                }
+              }
+            }, {
+              "method": "PATCH",
+              "url": "/api/tenant/",
+              "body": {
+                "tentant": {
+                  "id": "#{tenantId}",
+                  "issuer": "#{issuerUrl}",
+                  "jwtConfiguration": {
+                      "enabled": true,
+                      "accessTokenKeyId": "#{openidSigningKey}",
+                      "idTokenKeyId": "#{openidSigningKey}"
+                  }
+                }
+              }
             }
-          }]
+          ]
         }
       molgenis-blue.css: |-
         .logo-top {

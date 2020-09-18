@@ -7,3 +7,4 @@ version: 0.4.1
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/fusion-auth/fusion-auth.png
 maintainers:
 - name: fdlk
+- name: sidohaakma
