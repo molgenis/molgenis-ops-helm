@@ -1,8 +1,8 @@
 apiVersion: v1
-appVersion: "0.14.0"
+appVersion: "3.2.3"
 description: A Helm chart for authenticating users via github with ingress rules
 name: molgenis-oauth2
-version: 0.2.2
+version: 0.3.0
 home: https://github.com/molgenis/molgenis-ops-helm
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-oauth2/catalogIcon-molgenis-oauth2-proxy.png
 maintainers:
