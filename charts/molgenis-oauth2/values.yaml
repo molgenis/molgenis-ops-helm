@@ -17,3 +17,5 @@ oauth2-proxy:
 
   ingress:
     enabled: true
+    hosts:
+      - localhost
