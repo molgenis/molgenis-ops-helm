@@ -66,10 +66,9 @@ fusionauth:
               }
             }, {
               "method": "PATCH",
-              "url": "/api/tenant/",
+              "url": "/api/tenant/#{defaultTenantId}",
               "body": {
-                "tentant": {
-                  "id": "#{defaultTenantId}",
+                "tenant": {
                   "issuer": "#{issuerUrl}",
                   "jwtConfiguration": {
                       "enabled": true,
