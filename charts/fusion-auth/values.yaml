@@ -23,7 +23,7 @@ fusionauth:
             "molgenisThemeId": "#{UUID()}",
             "apiKey": "#{ENV.FUSIONAUTH_API_KEY}",
             "issuerUrl": "#{ENV.FUSIONAUTH_ISSUER_URL}",
-            "tenantId": "#{ENV.FUSIONAUTH_TENANT_ID}"
+            "defaultTenantId": "30663132-6464-6665-3032-326466613934"
           },
           "apiKeys": [
             {
@@ -69,7 +69,7 @@ fusionauth:
               "url": "/api/tenant/",
               "body": {
                 "tentant": {
-                  "id": "#{tenantId}",
+                  "id": "#{defaultTenantId}",
                   "issuer": "#{issuerUrl}",
                   "jwtConfiguration": {
                       "enabled": true,
