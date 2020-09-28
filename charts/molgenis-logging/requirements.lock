@@ -5,5 +5,8 @@ dependencies:
 - name: kibana
   repository: https://helm.elastic.co
   version: 7.5.2
-digest: sha256:b9dfc157739d3df9270952998d747204a7b8099e325a6a96d5cf05431e76576e
-generated: "2020-02-17T15:25:19.067793+01:00"
+- name: elasticsearch-curator
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 2.2.1
+digest: sha256:f708922580a5a20176f34c5f18be6472981c8c8ff375175972ac2da983f96c62
+generated: "2020-09-28T10:01:38.385023+02:00"

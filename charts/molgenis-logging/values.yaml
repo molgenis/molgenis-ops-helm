@@ -49,3 +49,113 @@ kibana:
         secretKeyRef:
           name: "elastic-credentials"
           key: password
+elasticsearch-curator:
+  cronjob:
+    schedule: "0 13 * * 6"
+  dryrun: true
+  configMaps:
+    action_file_yml: |-
+      ---
+      actions:
+        1:
+          action: delete_indices
+          description: "Clean up ES by deleting old indices every saturday"
+          options:
+            timeout_override:
+            continue_if_exception: False
+            disable_action: False
+            ignore_empty_list: True
+          filters:
+          - filtertype: age
+            source: filebeat-*-elasticsearch-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-postgresql-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-rancher-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-rancher-elasticsearch-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-rancher-etcd-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-rancher-molgenis-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-rancher-other-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-system-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: filebeat-*-tomcat-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: age
+            source: metricbeat-*
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 14
+            exclude: False
+          - filtertype: empty
+            exclude: False
+    # Having config_yaml WILL override the other config
+    config_yml: |-
+      ---
+      client:
+        hosts:
+          - elasticsearch-master.host
+        port: 9200
+        # url_prefix:
+        # use_ssl: True
+        # certificate:
+        # client_cert:
+        # client_key:
+        # ssl_no_validate: True
+        # http_auth:
+        # timeout: 30
+        # master_only: False
+      # logging:
+      #   loglevel: INFO
+      #   logfile:
+      #   logformat: default
+      #   blacklist: ['elasticsearch', 'urllib3']
