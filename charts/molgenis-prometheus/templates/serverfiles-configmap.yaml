@@ -9,28 +9,35 @@ data:
       - name: SiteMonitoring
         rules:
           - alert: UnreachableURL
-            expr: up{job="prodWebsites"} == 0 or probe_success{job="prodWebsites"} == 0
+            expr: up{job="blackbox-targets", type="production"} == 0 or probe_success{job="prodWebsites"} == 0
             labels:
               severity: CRITICAL
             annotations:
               summary: {{ printf "\"Site unreachable\"" }}
-              description: {{ printf "\"  Website of instance {{$labels.instance}} is unreachable\\n \"" }}
+              description: {{ printf "\"  Website: {{$labels.instance}} \\n  project: {{$labels.project}} \\n  Type: {{$labels.type}} \\n \"" }}
+          - alert: SSLCertExpiringSoon 
+            expr: probe_ssl_earliest_cert_expiry{job="blackbox-targets", type="production"} - time() < 86400 * 15 
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"SSL certificate {{$labels.instance}} expires within 15 days\"" }}
+              description: {{ printf "\"  SSL certificates from website {{$labels.instance}} expires \\n    project: {{$labels.project}} \\n    type: {{$labels.type}} \\n \"" }}
       - name: virtualmachines
         rules:
           - alert: InstanceProdDown
-            expr: up{job="prodNodes"} == 0
+            expr: up{job="node-targets", type="production"} == 0
             labels:
-              severity: ERROR
+              severity: CRITICAL
             annotations:
-              summary: {{ printf "\"Production instance Down\"" }}
-              description: {{ printf "\"  Instance of {{$labels.instance}} from {{ $labels.type }} is down\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
+              summary: {{ printf "\"Node_exporter production instance Down\"" }}
+              description: {{ printf "\"  Instance: {{$labels.instance}} \\n project: {{ $labels.project }} \\n type: {{$labels.type}} \\n \"" }}
           - alert: ServerlistInstanceDown
             expr: up{job="serverListServer"} == 0
             labels:
-              severity: ERROR
+              severity: CRITICAL
             annotations:
               summary: {{ printf "\"Serverlist server Down\"" }}
-              description: {{ printf "\"  Serverlist server {{$labels.instance}} from 1.0 branch is down\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
+              description: {{ printf "\"  Serverlist server {{$labels.instance}} is down!\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           {{ end }}
       {{ if eq .Values.environment "development" }}
       - name: nodes
@@ -60,56 +67,20 @@ data:
     - /etc/config/alerts
     scrape_configs:
       {{ if eq .Values.environment "production" -}}
-      - job_name: 'prodNodes'
+      - job_name: 'node-targets'
         file_sd_configs:
           - files:
-            - /etc/configProm/prod-target-list.yml
-      - job_name: 'acceptNodes'
-        file_sd_configs:
-          - files:
-            - /etc/configProm/accept-target-list.yml
-      - job_name: 'testNodes'
-        file_sd_configs:
-          - files:
-            - /etc/configProm/test-target-list.yml
-      - job_name: 'prodWebsites'
+            - /etc/configProm/node-targets.yml
+        honor_labels: true
+      - job_name: 'blackbox-targets'
         scrape_interval: 5m
         metrics_path: /probe
+        honor_labels: true
         params:
           module: [http_2xx]
         file_sd_configs:
           - files:
-            - '/etc/configProm/prod-http-list.yml'
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__param_target]
-            target_label: instance
-          - target_label: __address__
-            replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
-      - job_name: 'acceptWebsites'
-        scrape_interval: 5m
-        metrics_path: /probe
-        params:
-          module: [http_2xx]
-        file_sd_configs:
-          - files:
-            - '/etc/configProm/accept-http-list.yml'
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__param_target]
-            target_label: instance
-          - target_label: __address__
-            replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
-      - job_name: 'testWebsites'
-        scrape_interval: 5m
-        metrics_path: /probe
-        params:
-          module: [http_2xx]
-        file_sd_configs:
-          - files:
-            - '/etc/configProm/test-http-list.yml'
+            - '/etc/configProm/blackbox-targets.yml'
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
