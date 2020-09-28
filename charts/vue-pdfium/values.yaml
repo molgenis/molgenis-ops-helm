@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: registry.molgenis.org/molgenis/vue-pdfium
-  tag: master
+  name: "molgenis/vue-pdfium"
+  tag: "latest"
   pullPolicy: Always
 
 imagePullSecrets: []
