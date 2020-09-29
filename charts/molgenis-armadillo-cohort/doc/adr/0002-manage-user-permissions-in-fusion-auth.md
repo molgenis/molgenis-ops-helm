@@ -52,7 +52,7 @@ an api key to administer them through the Fusion Auth API.
 
 This is more coarse-grained, leaves more power with the consortium, less administration for the cohort.
 
-We decided *against* this because of the following flow:
+We decided *against* this because the following flow should *not* be possible:
 
 If a cohort registers a user who is in one study group and then later
 the consortium adds the user to another study group, the user can perform analyses
