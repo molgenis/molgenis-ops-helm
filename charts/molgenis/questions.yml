@@ -1,6 +1,14 @@
 categories:
   - MOLGENIS
 questions:
+  - variable: contact
+    label: Contact person
+    description: "Whom to contact about this deployment"
+    required: true
+  - variable: until
+    label: Keep until
+    description: "Until when must this deployment be kept alive"
+    required: true
   - variable: environment
     label: Environment
     description: "Environment of MOLGENIS instance"
