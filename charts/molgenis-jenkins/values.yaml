@@ -551,7 +551,7 @@ jenkins:
                     secretName: molgenis-pipeline-vault-secret
                     secretKey: addr
             - name: sonar
-              image: "molgenis/sonarqube-scanner:1.0.1
+              image: "molgenis/sonarqube-scanner:1.0.1"
               command: cat
               args: ""
               ttyEnabled: true
