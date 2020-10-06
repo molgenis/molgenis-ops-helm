@@ -3,12 +3,18 @@ categories:
 questions:
   - variable: contact
     label: Contact person
+    type: string
     description: "Whom to contact about this deployment"
     required: true
   - variable: until
-    label: Keep until
+    label: Keep until (expressed in months)
+    type: enum
     description: "Until when must this deployment be kept alive"
     required: true
+    options:
+      - 1
+      - 2
+      - 3
   - variable: environment
     label: Environment
     description: "Environment of MOLGENIS instance"
