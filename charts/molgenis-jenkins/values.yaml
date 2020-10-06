@@ -20,7 +20,6 @@ jenkins:
       - kubernetes-credentials-provider:0.15
       - blueocean:1.24.1
       - pipeline-github-lib:1.0
-      - github-oauth:0.33
       - github-scm-trait-commit-skip:0.4.0
       - ansible:1.0
       - hubot-steps:2.0.5
@@ -29,9 +28,9 @@ jenkins:
       - token-macro:2.12
       - configuration-as-code:1.43
       - job-dsl:1.77
-      - matrix-auth:2.6.3
       - block-queued-job:0.2.0
       - build-token-root:1.7
+      - oic-auth:1.6
     overwritePlugins: true
     resources:
       limits:
@@ -41,10 +40,6 @@ jenkins:
         cpu: 500m
         memory: 2000Mi
     containerEnv:
-      - name: "GITHUB_AUTH_CLIENT_ID"
-        value: "03c6a32798c2b6e12632"
-      - name: "GITHUB_AUTH_CLIENT_SECRET"
-        value: "7b01d91890e00e12bf25e4d9649b0d4664db18bd"
       - name: "PREVIEW_JOB_AUTH_TOKEN"
         value: "ABCDEFG"
       - name: "GITHUB_ORG_NAME"
@@ -57,7 +52,6 @@ jenkins:
     healthProbeReadinessFailureThreshold: 3
     healthProbeLivenessInitialDelay: 300
     healthProbeReadinessInitialDelay: 300
-    enableXmlConfig: true
     additionalConfig:
       org.thoughtslive.jenkins.plugins.hubot.config.GlobalConfig.xml: |-
         <?xml version='1.1' encoding='UTF-8'?>
@@ -349,9 +343,6 @@ jenkins:
                   triggers {
                     cron('TZ=Europe/Amsterdam\nH H(2-5) * * 1-5')
                   }
-                  authorization {
-                    permission('hudson.model.Item.Workspace:authenticated')
-                  }
                 }
             - script: >
                 pipelineJob('test-nightly') {
@@ -367,9 +358,6 @@ jenkins:
                   }
                   triggers {
                     cron('TZ=Europe/Amsterdam\nH H(2-5) * * 1-5')
-                  }
-                  authorization {
-                    permission('hudson.model.Item.Workspace:authenticated')
                   }
                 }
             - script: >
@@ -491,23 +479,14 @@ jenkins:
         security: |
           jenkins:
             securityRealm:
-              github:
-                githubWebUri: "https://github.com"
-                githubApiUri: "https://api.github.com"
-                clientID: "${GITHUB_AUTH_CLIENT_ID}"
-                clientSecret: "${GITHUB_AUTH_CLIENT_SECRET}"
-                oauthScopes: "read:org,user:email"
+              oic:
+                clientId: "9f2260a3-25fb-4e44-bd6a-5f3cb2583af3"
+                clientSecret: "TNk5qOBvAGvTMBw3VZwAVtJj-NTAycvtARLeww8AFUE"
+                automanualconfigure: auto
+                wellKnownOpenIDConfigurationUrl: https://auth.molgenis.org/.well-known/openid-configuration
             authorizationStrategy:
-              github:
-                organizationNames: "molgenis"
-                useRepositoryPermissions: true
-                adminUserNames: "sidohaakma, fdlk, molgenis-jenkins"
-                allowAnonymousJobStatusPermission: true
-                allowAnonymousReadPermission: false
-                allowCcTrayPermission: false
-                allowGithubWebHookPermission: true
-                authenticatedUserCreateJobPermission: false
-                authenticatedUserReadPermission: false
+              loggedInUsersCanDoAnything:
+                allowAnonymousRead: false
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
