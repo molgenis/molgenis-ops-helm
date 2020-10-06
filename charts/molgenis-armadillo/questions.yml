@@ -92,8 +92,8 @@ questions:
   label: RServer image repository
   type: enum
   options:
-    - molgenis/ds-60-rserver-363
-    - registry.molgenis.org/molgenis/ds-60-rserver-363
+    - molgenis/rserver
+    - registry.molgenis.org/molgenis/rserver
   required: true
   default: molgenis/ds-60-rserver-363
   group: R
