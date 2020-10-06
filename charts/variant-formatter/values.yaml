@@ -28,10 +28,14 @@ seqrepo:
     ##
     storageClass: ""
     accessMode: ReadWriteOnce
-    size: 10Gi
+    size: 15Gi
     # existingClaim: ""
 
+# horizontal scaling: number of pods
+# When in doubt, increase replicaCount, see https://stackoverflow.com/questions/51610189/docker-kubernetes-gunicorn-celery-multiple-workers-vs-replicas
 replicaCount: 1
+# vertical scaling: number of worker processes inside the pod
+maxWorkers: 1
 
 image:
   repository: molgenis/variant-formatter
