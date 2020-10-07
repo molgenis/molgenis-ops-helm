@@ -1,3 +1,6 @@
+{{- if contains "molgenis" .Release.Name }}
+  {{ fail "Please choose a release name that does not contain the string 'molgenis'!" }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
