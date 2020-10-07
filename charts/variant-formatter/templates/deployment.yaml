@@ -38,6 +38,8 @@ spec:
             - mountPath: /usr/local/share/seqrepo
               name: seqrepo
           env:
+            - name: MAX_WORKERS
+              value: {{ .Values.maxWorkers | quote }}
             - name: HGVS_SEQREPO_DIR
               value: /usr/local/share/seqrepo/{{ .Values.seqrepo.dataRelease }}
             - name: UTA_DB_URL
