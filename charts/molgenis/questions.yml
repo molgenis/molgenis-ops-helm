@@ -15,6 +15,7 @@ questions:
       - 1
       - 2
       - 3
+      - "na"
   - variable: environment
     label: Environment
     description: "Environment of MOLGENIS instance"
