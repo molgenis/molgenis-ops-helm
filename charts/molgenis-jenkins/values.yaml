@@ -222,6 +222,8 @@ jenkins:
                 automanualconfigure: auto
                 wellKnownOpenIDConfigurationUrl: https://auth.molgenis.org/.well-known/openid-configuration
                 groupsFieldName: roles
+                emailFieldName: email
+                fullNameFieldName: name
             authorizationStrategy:
               roleBased:
                 roles:
