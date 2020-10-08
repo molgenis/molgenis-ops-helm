@@ -40,7 +40,7 @@ questions:
 - variable: jenkins.master.securityRealm.oic.clientSecret
   label: OpenID connect client secret
   required: true
-  type: string
+  type: password
   group: Security
 - variable: jenkins.master.securityRealm.oic.wellKnownOpenIDConfigurationUrl
   label: OpenID connect discovery URL
