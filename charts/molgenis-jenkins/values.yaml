@@ -57,12 +57,13 @@ jenkins:
     JCasC:
       configScripts:
         slack: |-
-          slackNotifier:
-            botUser: false
-            room: "#hubot"
-            sendAsText: false
-            teamDomain: "molgenisdev"
-            tokenCredentialId: "molgenis-jenkins-slack-secret"
+          unclassified:
+            slackNotifier:
+              botUser: false
+              room: "#hubot"
+              sendAsText: false
+              teamDomain: "molgenisdev"
+              tokenCredentialId: "molgenis-jenkins-slack-secret"
         jobs: |-
           jobs:
             - script: >
