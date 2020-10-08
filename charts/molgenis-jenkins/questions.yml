@@ -4,7 +4,7 @@ categories:
 questions:
 - variable: jenkins.master.tag
   label: Version
-  default: "2.249.1"
+  default: "2.249.2"
   type: string
   required: true
   group: "Provisioning"
