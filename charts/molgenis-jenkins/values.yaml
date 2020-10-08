@@ -233,6 +233,13 @@ jenkins:
                         - "Overall/Administer"
                       assignments:
                         - "admin"
+                    - name: "readonly"
+                      description: "Read-only users"
+                      permissions:
+                        - "Overall/Read"
+                        - "Job/Read"
+                      assignments:
+                        - "reader"
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
