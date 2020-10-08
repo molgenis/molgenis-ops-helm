@@ -38,7 +38,7 @@ pipeline {
                         }
                     }
                 }
-                hubotSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
+                slackSend message: "Deployed https://preview-${TAG}.dev.molgenis.org"
             }
         }
         stage("Delete") {
@@ -53,7 +53,7 @@ pipeline {
                 container('rancher') {
                     sh "rancher apps delete preview-${TAG.toLowerCase()}"
                 }
-                hubotSend message: "Deleted preview-${TAG.toLowerCase()}"
+                slackSend message: "Deleted preview-${TAG.toLowerCase()}"
             }
         }
         stage("List") {
@@ -70,7 +70,7 @@ pipeline {
                         env.LIST = sh script: "rancher apps ls", returnStdout: true
                     }
                 }
-                hubotSend message: "Dit draait er allemaal:\n```${LIST}```"
+                slackSend message: "Dit draait er allemaal:\n```${LIST}```"
             }
         }
     }

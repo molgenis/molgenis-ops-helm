@@ -84,6 +84,12 @@ questions:
   type: password
   required: true
   group: "Vault"
+- variable: secret.slack
+  label: Slack integration token
+  description: See https://molgenisdev.slack.com/services/B01C7ENKVRQ
+  type: password
+  required: true
+  group: Accounts
 - variable: secret.gitHub.user
   label: Github bot-account username
   default: molgenis-jenkins
