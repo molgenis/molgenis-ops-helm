@@ -129,3 +129,10 @@ questions:
   type: password
   required: true
   group: "Accounts"
+- variable: secret.slack
+  label: secret.slack
+  description: "Slack secret for integration in Jenkins"
+  default:
+  type: password
+  required: true
+  group: "Accounts"
