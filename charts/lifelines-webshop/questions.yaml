@@ -60,9 +60,15 @@ questions:
     group: "Ingress"
 
   - variable: molgenis.image.tag
-    label: Molgenis version
-    default: "8.3.5"
+    label: Molgenis backend version
     description: "MOLGENIS backend version (check https://hub.docker.com/r/molgenis/molgenis-app/tags for released tags)."
+    type: string
+    required: true
+    group: "MOLGENIS"
+
+  - variable: molgenis.molgenis-frontend.image.tag
+    label: Molgenis frontend version
+    description: "MOLGENIS frontend version (check https://hub.docker.com/r/molgenis/molgenis-frontend/tags for released tags)."
     type: string
     required: true
     group: "MOLGENIS"
