@@ -75,7 +75,7 @@ questions:
 
   - variable: "molgenis.molgenis-frontend.proxy.experimental[0].url"
     label: Webshop URL on unpkg.com
-    default: "https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop"
+    default: "https://unpkg.com/@molgenis-experimental"
     description: "To pin a specific version, include it in the url, e.g. https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@0.22.x/"
     type: string
     required: true
@@ -83,7 +83,7 @@ questions:
 
   - variable: "molgenis.molgenis-frontend.proxy.experimental[0].path"
     label: Webapp proxy path
-    default: "@molgenis-experimental/molgenis-app-lifelines-webshop"
+    default: "@molgenis-experimental"
     type: string
     required: true
     hidden: true
