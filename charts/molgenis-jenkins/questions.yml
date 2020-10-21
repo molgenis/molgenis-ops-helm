@@ -4,7 +4,7 @@ categories:
 questions:
 - variable: jenkins.master.tag
   label: Version
-  default: "2.222.3"
+  default: "2.249.2"
   type: string
   required: true
   group: "Provisioning"
@@ -32,45 +32,39 @@ questions:
   type: string
   label: Existing claim name
   group: "Persistence"
+- variable: jenkins.master.securityRealm.oic.clientId
+  label: OpenID connect client ID
+  required: true
+  type: string
+  group: Security
+- variable: jenkins.master.securityRealm.oic.clientSecret
+  label: OpenID connect client secret
+  required: true
+  type: password
+  group: Security
+- variable: jenkins.master.securityRealm.oic.wellKnownOpenIDConfigurationUrl
+  label: OpenID connect discovery URL
+  required: true
+  type: string
+  default: https://auth.molgenis.org/.well-known/openid-configuration
+  group: Security
 - variable: jenkins.master.containerEnv[0].name
-  default: "GITHUB_AUTH_CLIENT_ID"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[0].value
-  label: Github OAuth Client ID
-  default:
-  type: string
-  required: true
-  group: "Security"
-- variable: jenkins.master.containerEnv[1].name
-  default: "GITHUB_AUTH_CLIENT_SECRET"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[1].value
-  label: Github OAuth Client Secret
-  default:
-  type: string
-  required: true
-  group: "Security"
-- variable: jenkins.master.containerEnv[2].name
   default: "PREVIEW_JOB_AUTH_TOKEN"
   type: string
   required: true
   group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[2].value
+- variable: jenkins.master.containerEnv[0].value
   label: Preview job authentication token
   default:
   type: password
   required: true
   group: "Security"
-- variable: jenkins.master.containerEnv[3].name
+- variable: jenkins.master.containerEnv[1].name
   default: "GITHUB_ORG_NAME"
   type: string
   required: true
   group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[3].value
+- variable: jenkins.master.containerEnv[1].value
   label: Github Organization name
   default: "molgenis"
   type: string
@@ -79,7 +73,7 @@ questions:
 - variable: secret.vault.addr
   label: Vault address
   description: Node port of vault in prod cluster
-  default: 'https://192.168.64.161:32668'
+  default: 'https://x.x.x.x:xxxxx'
   type: string
   required: true
   group: "Vault"
@@ -129,3 +123,9 @@ questions:
   type: password
   required: true
   group: "Accounts"
+- variable: secret.slack
+  label: Slack integration token
+  description: See https://molgenisdev.slack.com/services/B01C7ENKVRQ
+  type: password
+  required: true
+  group: Accounts

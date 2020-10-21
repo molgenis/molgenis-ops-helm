@@ -89,10 +89,10 @@ pipeline {
             }
         }
         unstable {
-            hubotSend message: ':warning: Nightly Commander integration tests failed', site: 'slack-general', status: 'ABORTED'
+            slackSend message: ':warning: Nightly Commander integration tests failed', channel: '#general', color: 'warning'
         }
         failure {
-            hubotSend message: ':x: Nightly Commander integration build failed', site: 'slack-general', status: 'ERROR'
+            slackSend message: ':x: Nightly Commander integration build failed', channel: '#general', color: 'danger'
         }
     }
 }
