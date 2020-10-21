@@ -73,7 +73,7 @@ questions:
 - variable: secret.vault.addr
   label: Vault address
   description: Node port of vault in prod cluster
-  default: 'https://192.168.64.161:32668'
+  default: 'https://x.x.x.x:xxxxx'
   type: string
   required: true
   group: "Vault"
@@ -84,12 +84,6 @@ questions:
   type: password
   required: true
   group: "Vault"
-- variable: secret.slack
-  label: Slack integration token
-  description: See https://molgenisdev.slack.com/services/B01C7ENKVRQ
-  type: password
-  required: true
-  group: Accounts
 - variable: secret.gitHub.user
   label: Github bot-account username
   default: molgenis-jenkins
@@ -130,9 +124,8 @@ questions:
   required: true
   group: "Accounts"
 - variable: secret.slack
-  label: secret.slack
-  description: "Slack secret for integration in Jenkins"
-  default:
+  label: Slack integration token
+  description: See https://molgenisdev.slack.com/services/B01C7ENKVRQ
   type: password
   required: true
-  group: "Accounts"
+  group: Accounts
