@@ -55,6 +55,21 @@ jenkins:
     healthProbeReadinessInitialDelay: 300
     JCasC:
       configScripts:
+        pipelinetools: |
+          unclassified:
+            globalLibraries:
+              libraries:
+              - defaultVersion: "master"
+                implicit: true
+                name: "molgenis-jenkins-pipeline"
+                retriever:
+                  modernSCM:
+                    scm:
+                      git:
+                        credentialsId: "molgenis-jenkins-github-secret"
+                        remote: "https://github.com/molgenis/molgenis-jenkins-pipeline.git"
+                        traits:
+                        - "gitBranchDiscovery"
         slack: |-
           unclassified:
             slackNotifier:

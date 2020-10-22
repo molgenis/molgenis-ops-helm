@@ -73,7 +73,7 @@ questions:
 - variable: secret.vault.addr
   label: Vault address
   description: Node port of vault in prod cluster
-  default: 'https://x.x.x.x:xxxxx'
+  default: 'http://x.x.x.x:xxxxx'
   type: string
   required: true
   group: "Vault"
