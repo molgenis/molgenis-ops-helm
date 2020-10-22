@@ -67,7 +67,7 @@ jenkins:
                     scm:
                       git:
                         credentialsId: "molgenis-jenkins-github-secret"
-                        remote: "https://github.com/molgenis/molgenis-jenkins-pipeline.git" 
+                        remote: "https://github.com/molgenis/molgenis-jenkins-pipeline.git"
                         traits:
                         - "gitBranchDiscovery"
         slack: |-
