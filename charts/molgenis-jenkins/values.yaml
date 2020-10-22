@@ -54,7 +54,7 @@ jenkins:
     healthProbeLivenessInitialDelay: 300
     healthProbeReadinessInitialDelay: 300
     JCasC:
-      configScripts:
+      configScripts:     
         slack: |-
           unclassified:
             slackNotifier:
@@ -241,6 +241,20 @@ jenkins:
                         - "Job/Read"
                       assignments:
                         - "reader"
+        pipelineTools: |
+          globalLibraries:
+            libraries:
+            - defaultVersion: "master"
+                implicit: true
+                name: "molgenis-jenkins-pipeline"
+                retriever:
+                  modernSCM:
+                    scm:
+                      git:
+                        credentialsId: "molgenis-jenkins-github-secret"
+                        remote: "https://github.com/molgenis/molgenis-jenkins-pipeline.git"
+                        traits:
+                        - "gitBranchDiscovery"
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
   rbac:
