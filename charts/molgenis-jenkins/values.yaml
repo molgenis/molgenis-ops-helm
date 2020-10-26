@@ -45,6 +45,10 @@ jenkins:
         value: "ABCDEFG"
       - name: "GITHUB_ORG_NAME"
         value: "molgenis-jenkins"
+      - name: "CLIENT_ID"
+        value: "xxxx"
+      - name: "CLIENT_SECRET"
+        value: "xxxx"
     healthProbesLivenessTimeout: 5
     healthProbesReadinessTimeout: 5
     healthProbeLivenessPeriodSeconds: 10
@@ -232,8 +236,8 @@ jenkins:
           jenkins:
             securityRealm:
               oic:
-                clientId: "9f2260a3-25fb-4e44-bd6a-5f3cb2583af3"
-                clientSecret: "TNk5qOBvAGvTMBw3VZwAVtJj-NTAycvtARLeww8AFUE"
+                clientId: "${CLIENT_ID}"
+                clientSecret: "${CLIENT_SECRET}"
                 automanualconfigure: auto
                 wellKnownOpenIDConfigurationUrl: https://auth.molgenis.org/.well-known/openid-configuration
                 groupsFieldName: roles
