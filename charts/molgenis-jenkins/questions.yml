@@ -32,16 +32,6 @@ questions:
   type: string
   label: Existing claim name
   group: "Persistence"
-- variable: jenkins.master.securityRealm.oic.clientId
-  label: OpenID connect client ID
-  required: true
-  type: string
-  group: Security
-- variable: jenkins.master.securityRealm.oic.clientSecret
-  label: OpenID connect client secret
-  required: true
-  type: password
-  group: Security
 - variable: jenkins.master.securityRealm.oic.wellKnownOpenIDConfigurationUrl
   label: OpenID connect discovery URL
   required: true
@@ -70,6 +60,26 @@ questions:
   type: string
   required: true
   group: "Jobs"
+- variable: jenkins.master.containerEnv[2].name
+  default: "CLIENT_ID"
+  type: string
+  required: true
+  group: "READ-ONLY"
+- variable: jenkins.master.containerEnv[2].value
+  label: OpenID Connect Client ID
+  type: string
+  required: true
+  group: "Security"
+- variable: jenkins.master.containerEnv[3].name
+  default: "CLIENT_SECRET"
+  type: string
+  required: true
+  group: "READ-ONLY"
+- variable: jenkins.master.containerEnv[3].value
+  label: OpenID Connect Client Secret
+  type: password
+  required: true
+  group: "Security"
 - variable: secret.vault.addr
   label: Vault address
   description: Node port of vault in prod cluster
