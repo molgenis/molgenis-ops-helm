@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: rserve
       protocol: TCP
-      name: http
+      name: rserve
   selector:
     app.kubernetes.io/name: {{ include "molgenis-rserve.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
