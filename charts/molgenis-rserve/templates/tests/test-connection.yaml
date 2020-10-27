@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "molgenis-rserve.fullname" . }}-test-connection"
+  labels:
+{{ include "molgenis-rserve.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "molgenis-rserve.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
