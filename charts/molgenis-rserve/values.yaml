@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+strategy: Recreate
 replicaCount: 1
 
 image:
@@ -34,6 +35,8 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 6311
+
+debug: false
 
 ingress:
   enabled: false
