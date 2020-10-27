@@ -3,3 +3,7 @@ dependencies:
     version: 5.0.12
     repository: https://kubernetes-charts.storage.googleapis.com
     condition: minio.enabled
+  - name: molgenis-rserve
+    version: 0.1.2
+    repository: https://registry.molgenis.org/repository/helm
+    condition: molgenis-rserve.enabled
