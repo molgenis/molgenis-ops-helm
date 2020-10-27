@@ -30,19 +30,28 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: rserve
+              containerPort: 6311
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: rserve
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: rserve
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+          - name: pv-rserve-tmp
+            mountPath: /tmp/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: pv-rserve-tmp
+          emptyDir: {}
+          
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

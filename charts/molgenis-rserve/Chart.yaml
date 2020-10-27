@@ -3,7 +3,7 @@ appVersion: "0.1.2"
 description: A Helm chart for MOLGENIS RServe
 home: https://www.rforge.net/Rserve/
 name: molgenis-rserve
-version: 0.1.0
+version: 0.1.1
 sources:
   - https://github.com/molgenis/molgenis-ops-helm.git
   - https://github.com/molgenis/molgenis-ops-docker.git
