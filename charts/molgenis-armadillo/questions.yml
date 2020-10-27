@@ -107,3 +107,27 @@ questions:
   label: Enable debugging
   type: boolean
   group: R
+- variable: rserver.resources.limits.memory
+  label: RServe max memory
+  type: string
+  required: true
+  default: 2Gi
+  group: R
+- variable: rserver.resources.limits.cpu
+  label: RServe max cpu
+  type: string
+  required: true
+  default: 2
+  group: R
+- variable: rserver.resources.requests.memory
+  label: RServe requested memory
+  type: string
+  required: true
+  default: 1Gi
+  group: R
+- variable: rserver.resources.requests.cpu
+  label: RServe requested cpu
+  type: string
+  required: true
+  default: 1
+  group: R

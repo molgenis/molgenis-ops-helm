@@ -5,6 +5,8 @@ metadata:
   labels:
 {{ include "molgenis-armadillo.labels" . | indent 4 }}
 spec:
+  strategy:
+    type: Recreate
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -67,15 +69,17 @@ spec:
                   name: "server-config"
                   key: "application.json"
           livenessProbe:
+            initialDelaySeconds: 60
             httpGet:
               path: /actuator/health
               port: http
           readinessProbe:
+            initialDelaySeconds: 60
             httpGet:
               path: /actuator/health
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.server.resources | nindent 12 }}
 {{- if .Values.rserver.enabled }}
         - name: rserver
           image: {{ .Values.rserver.image.repository }}:{{ .Values.rserver.image.tag }}
