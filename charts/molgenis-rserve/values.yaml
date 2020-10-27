@@ -36,6 +36,8 @@ service:
   type: ClusterIP
   port: 6311
 
+debug: false
+
 ingress:
   enabled: false
   annotations: {}
