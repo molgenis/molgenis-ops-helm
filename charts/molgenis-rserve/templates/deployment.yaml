@@ -5,6 +5,8 @@ metadata:
   labels:
 {{ include "molgenis-rserve.labels" . | indent 4 }}
 spec:
+  strategy:
+    type: {{ .Values.strategy }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
