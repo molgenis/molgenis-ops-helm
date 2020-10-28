@@ -48,6 +48,12 @@ spec:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: secretkey
+{{- if index .Values "molgenis-rserve" "enabled" }}
+            - name: RSERVE_HOST
+              value: {{ include "call-nested" (list $ "molgenis-rserve" "molgenis-rserve.fullname") }}
+            - name: RSERVE_PORT
+              value: {{ index .Values "molgenis-rserve" "service" "port" | quote }}
+{{- end }}              
             - name: SPRING_SECURITY_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -69,39 +75,15 @@ spec:
                   name: "server-config"
                   key: "application.json"
           livenessProbe:
-            initialDelaySeconds: 60
             httpGet:
               path: /actuator/health
               port: http
           readinessProbe:
-            initialDelaySeconds: 60
             httpGet:
               path: /actuator/health
               port: http
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
-{{- if .Values.rserver.enabled }}
-        - name: rserver
-          image: {{ .Values.rserver.image.repository }}:{{ .Values.rserver.image.tag }}
-          tag: 
-          imagePullPolicy: Always
-          {{- if .Values.rserver.debug }}
-          env:
-            - name: "DEBUG"
-              value: "TRUE"
-          {{- end }}
-          ports:
-            - containerPort: 6312
-            - containerPort: 6311
-          volumeMounts:
-          - name: pv-rserve-tmp
-            mountPath: /tmp/
-          resources:
-{{ toYaml .Values.rserver.resources | indent 12 }}
-      volumes:
-        - name: pv-rserve-tmp
-          emptyDir: {}
-{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

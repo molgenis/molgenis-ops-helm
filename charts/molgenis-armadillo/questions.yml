@@ -88,46 +88,52 @@ questions:
   type: int
   required: true
   group: Armadillo
-- variable: rserver.image.repository
-  label: RServer image repository
+- variable: molgenis-rserve.image.repository
+  label: MOLGENIS RServer image repository
   type: enum
   options:
     - molgenis/rserver
     - registry.molgenis.org/molgenis/rserver
   required: true
-  default: molgenis/ds-60-rserver-363
+  default: molgenis/rserver
   group: R
-- variable: rserver.image.tag
-  label: RServer image tag
+- variable: molgenis-rserve.image.tag
+  label: MOLGENIS RServer image tag
   type: string
   required: true
   default: latest
   group: R
-- variable: rserver.debug
+- variable: molgenis-rserve.debug
   label: Enable debugging
   type: boolean
   group: R
-- variable: rserver.resources.limits.memory
+- variable: molgenis-rserve.resources.limits.memory
   label: RServe max memory
   type: string
   required: true
   default: 2Gi
   group: R
-- variable: rserver.resources.limits.cpu
+- variable: molgenis-rserve.resources.limits.cpu
   label: RServe max cpu
   type: string
   required: true
   default: 2
   group: R
-- variable: rserver.resources.requests.memory
+- variable: molgenis-rserve.resources.requests.memory
   label: RServe requested memory
   type: string
   required: true
-  default: 1Gi
+  default: 2Gi
   group: R
-- variable: rserver.resources.requests.cpu
+- variable: molgenis-rserve.resources.requests.cpu
   label: RServe requested cpu
   type: string
+  required: true
+  default: 2
+  group: R
+- variable: molgenis-rserve.replicaCount
+  label: RServe replica count
+  type: int
   required: true
   default: 1
   group: R

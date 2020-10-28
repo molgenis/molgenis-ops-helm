@@ -31,14 +31,12 @@ server:
     username: admin
     password: admin
   resources:
-    # Armadillo itself doesn't need many resources
     limits:
-      # except when booting it needs cpu!
       cpu: 1
-      memory: 256Mi
+      memory: 1Gi
     requests:
       cpu: 1
-      memory: 256Mi
+      memory: 1Gi
   config:
     # You can provide any config you like here
     spring:
@@ -53,18 +51,17 @@ server:
             opaquetoken:
               client-id: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
 
-rserver:
+molgenis-rserve:
   enabled: true
-  image:
-    repository: molgenis/rserver
-    tag: "1.7.0"
   resources:
     limits:
       cpu: 2
       memory: 2Gi
     requests:
-      cpu: 1
-      memory: 1Gi
+      cpu: 2
+      memory: 2Gi
+  nodeSelector:
+    deployPod: "true"
 
 minio:
   image:
