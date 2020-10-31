@@ -554,6 +554,22 @@ jenkins:
               ttyEnabled: true
               command: "cat"
               args: ""
+      r-4.0.3: |
+        - name: r-4.0.3
+          label: r-4.0.3
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: r
+              image: "rocker/verse:4.0.3"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
+            - name: curl
+              image: "appropriate/curl:latest"
+              ttyEnabled: true
+              command: "cat"
+              args: ""
       helm: |
         - name: helm
           label: helm
