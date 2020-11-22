@@ -2,7 +2,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 image:
-  repository: "mswertz/emx2"
+  repository: "molgenis/molgenis-emx2"
   tag: "latest"
   pullPolicy: IfNotPresent
 service:
