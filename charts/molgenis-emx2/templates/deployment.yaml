@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: jdbc
-              value: jdbc:postgresql:molgenis
+              value: -DMOLGENIS_POSTGRES_URI=jdbc:postgresql:molgenis
           #          resources:
           #            requests:
           #              cpu: 1
