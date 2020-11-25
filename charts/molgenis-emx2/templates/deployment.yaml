@@ -21,7 +21,7 @@ spec:
           name: {{ .Chart.Name }}
           imagePullPolicy: Always
           env:
-            - name: jdbc
+            - name: MOLGENIS_POSTGRES_URI
               value: jdbc:postgresql:molgenis
           #          resources:
           #            requests:
