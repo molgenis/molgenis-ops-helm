@@ -28,38 +28,43 @@ def retrieveServerlist():
 def iterateServerlist():
     serverlist_object = json.loads(serverlist)
     for record in serverlist_object['items']:
-        print(record['id'])
-        if 'description' in record:
-            tempProject = f"{record['description']}".replace("'", "").replace("\n", " ")
-        else:
-            tempProject = f"{record['comments']}".replace("'", "").replace("\n", " ")
+        try:
+            if 'description' in record:
+                tempProject = f"{record['description']}".replace("'", "").replace("\n", " ")
+            else:
+                tempProject = f"{record['comments']}".replace("'", "").replace("\n", " ")
 
-        url = f"{record['DNS']}"
-        if "molgenis.org" in url:
-            url = "wiki.gcc.rug.nl"
-        if url.startswith('https://'):
-            url = url[8:]
-        if url.startswith('http://'):
-            url = url[7:]
-        if url.find('/') > 0:
-            url = url.split('/')[0]
-        if url.find(':') > 0:
-            url = url.split(':')[0]
+            url = f"{record['DNS']}"
+            if "molgenis.org" in url:
+                url = "wiki.gcc.rug.nl"
+            if url.startswith('https://'):
+                url = url[8:]
+            if url.startswith('http://'):
+                url = url[7:]
+            if url.find('/') > 0:
+                url = url.split('/')[0]
+            if url.find(':') > 0:
+                url = url.split(':')[0]
 
-        node_exporter_targets.append(f"  - targets: ['{url}:{node_exporter_port}']")
-        node_exporter_targets.append("    labels:")
-        node_exporter_targets.append(f"      project: \'{tempProject}\'")
-        node_exporter_targets.append(f"      type: '{record['DTAP']['type']}'")
+            if 'backend' not in record['id']:
+                node_exporter_targets.append(f"  - targets: ['{url}:{node_exporter_port}']")
+                node_exporter_targets.append("    labels:")
+                node_exporter_targets.append(f"      project: \'{tempProject}\'")
+                node_exporter_targets.append(f"      type: '{record['DTAP']['type']}'")
 
-        tempUrlStore = []
-        tempUrlStore.append(f"{record['DNS']}")
-        for item in record['DNS_alias']:
-            tempUrlStore.append(f"{item['label']}")
+            tempUrlStore = []
+            tempUrlStore.append(f"{record['DNS']}")
+            for item in record['DNS_alias']:
+                tempUrlStore.append(f"{item['label']}")
 
-        blackbox_exporter_urls.append(f"  - targets: {tempUrlStore}")
-        blackbox_exporter_urls.append("    labels:")
-        blackbox_exporter_urls.append(f"      project: \'{tempProject}\'")
-        blackbox_exporter_urls.append(f"      type: '{record['DTAP']['type']}'")
+            blackbox_exporter_urls.append(f"  - targets: {tempUrlStore}")
+            blackbox_exporter_urls.append("    labels:")
+            blackbox_exporter_urls.append(f"      project: \'{tempProject}\'")
+            blackbox_exporter_urls.append(f"      type: '{record['DTAP']['type']}'")
+            print('%s - added' % str(record['id']))
+        except KeyError as e:
+            print('%s - KeyError Exception: %s empty' % (str(record['id']), str(e)))
+            continue
 
 def writeToFile():
     with open('node-targets.yml', 'w') as outputFile:
