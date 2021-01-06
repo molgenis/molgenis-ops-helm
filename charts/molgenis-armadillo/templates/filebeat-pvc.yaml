@@ -1,0 +1,21 @@
+{{- if .Values.server.filebeat.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: filebeat-pvc
+  labels:
+{{ include "molgenis-armadillo.labels" . | indent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.server.filebeat.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.server.filebeat.persistence.size | quote }}
+{{- if .Values.server.filebeat.persistence.storageClass }}
+{{- if (eq "-" .Values.server.filebeat.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.server.filebeat.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}

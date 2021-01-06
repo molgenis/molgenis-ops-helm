@@ -78,6 +78,7 @@ spec:
                   name: "server-config"
                   key: "application.json"
           livenessProbe:
+            initialDelaySeconds: 30
             httpGet:
               path: /actuator/health
               port: http
@@ -93,21 +94,28 @@ spec:
           imagePullPolicy: {{ .Values.server.filebeat.image.pullPolicy }}
           env:
             - name: ELASTICSEARCH_HOSTS
-              value: {{ .Values.server.filebeat.elasticsearch }}
+              value: {{ .Values.server.filebeat.elasticsearch | quote }}
           volumeMounts:
           - name: audit-pv
             mountPath: /usr/share/filebeat/input/
+          - name: filebeat-pv
+            mountPath: /usr/share/filebeat/data/
           - name: filebeat-config-volume
             mountPath: /usr/share/filebeat/filebeat.yml
             subPath: filebeat.yml
-      {{ end -}}
+      {{- end }}
       volumes:
       - name: audit-pv
         persistentVolumeClaim:
           claimName: audit-pvc
+      {{- if .Values.server.filebeat.enabled }}
+      - name: filebeat-pv
+        persistentVolumeClaim:
+          claimName: filebeat-pvc
       - name: filebeat-config-volume
         configMap:
           name: filebeat-config
+      {{- end}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

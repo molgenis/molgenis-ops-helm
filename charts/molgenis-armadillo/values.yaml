@@ -34,12 +34,15 @@ server:
     accessMode: ReadWriteOnce
     size: 100M
   filebeat:
-    enabled: true 
+    enabled: false
     image:
       repository: docker.elastic.co/beats/filebeat-oss
       tag: 7.9.3
       pullPolicy: IfNotPresent
-    elasticsearch: elasticsearch:9200
+    elasticsearch: 'http://elasticsearch:9200'
+    persistence:
+      accessMode: ReadWriteOnce
+      size: 100M
   resources:
     limits:
       cpu: 1
