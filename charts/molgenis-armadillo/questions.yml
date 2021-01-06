@@ -63,6 +63,12 @@ questions:
   type: password
   required: true
   group: Armadillo
+- variable: server.filebeat.elasticsearch
+  label: ElasticSearch server to send audit logging
+  description: "e.g. http://elasticsearch-master.elasticsearch.svc:9200"
+  required: true
+  type: string
+  group: Armadillo
 - variable: server.config.spring.security.oauth2.resourceserver.jwt.issuer-uri
   required: true
   type: string

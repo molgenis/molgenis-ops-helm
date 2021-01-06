@@ -1,0 +1,19 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: audit-pvc
+  labels:
+{{ include "molgenis-armadillo.labels" . | indent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.server.audit.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.server.audit.size | quote }}
+{{- if .Values.server.audit.storageClass }}
+{{- if (eq "-" .Values.server.audit.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.server.audit.storageClass }}"
+{{- end }}
+{{- end }}

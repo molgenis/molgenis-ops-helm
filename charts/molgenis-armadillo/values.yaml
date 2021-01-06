@@ -30,6 +30,16 @@ server:
   admin:
     username: admin
     password: admin
+  audit:
+    accessMode: ReadWriteOnce
+    size: 100M
+  filebeat:
+    enabled: true 
+    image:
+      repository: docker.elastic.co/beats/filebeat-oss
+      tag: 7.9.3
+      pullPolicy: IfNotPresent
+    elasticsearch: elasticsearch:9200
   resources:
     limits:
       cpu: 1
@@ -39,6 +49,11 @@ server:
       memory: 1Gi
   config:
     # You can provide any config you like here
+    logging:
+      config: classpath:logback-file.xml
+    audit:
+      log:
+        path: /app/logs/audit.log
     spring:
       security:
         user:

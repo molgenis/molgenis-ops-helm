@@ -35,6 +35,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          volumeMounts:
+          - name: audit-pv
+            mountPath: /app/logs
           env:
             - name: MINIO_URL
               value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}
@@ -84,6 +87,27 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
+      {{- if .Values.server.filebeat.enabled }}
+        - name: filebeat
+          image: "{{ .Values.server.filebeat.image.repository }}:{{ .Values.server.filebeat.image.tag }}"
+          imagePullPolicy: {{ .Values.server.filebeat.image.pullPolicy }}
+          env:
+            - name: ELASTICSEARCH_HOSTS
+              value: {{ .Values.server.filebeat.elasticsearch }}
+          volumeMounts:
+          - name: audit-pv
+            mountPath: /usr/share/filebeat/input/
+          - name: filebeat-config-volume
+            mountPath: /usr/share/filebeat/filebeat.yml
+            subPath: filebeat.yml
+      {{ end -}}
+      volumes:
+      - name: audit-pv
+        persistentVolumeClaim:
+          claimName: audit-pvc
+      - name: filebeat-config-volume
+        configMap:
+          name: filebeat-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
