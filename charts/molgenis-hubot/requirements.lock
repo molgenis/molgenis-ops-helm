@@ -1,6 +1,6 @@
 dependencies:
 - name: hubot
-  repository: https://kubernetes-charts.storage.googleapis.com
+  repository: https://charts.helm.sh/stable
   version: 1.0.1
-digest: sha256:ed4d7bec4d11be4c42d74c5856f0894981d3c003b3a46b4ebc57f33a4d0a988b
-generated: "2020-01-13T17:56:43.56055+01:00"
+digest: sha256:5b48bf7f5723951ea452713a9623040db39876b6570e989e6af2727f6f7b84f0
+generated: "2021-01-07T14:01:29.239626+01:00"

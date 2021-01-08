@@ -1,9 +1,9 @@
 dependencies:
 - name: prometheus
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 9.7.5
 - name: prometheus-blackbox-exporter
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 3.0.0
-digest: sha256:29d9f66f33f9a89b93adca71d543578753ea3967ec29a7fbbdc96a1d2d410052
-generated: "2020-01-27T10:12:16.046122+01:00"
+digest: sha256:819594c2ba31a6ca13643c0d1ea8704313667c57d756ea8b289e4cb9d47a5f7e
+generated: "2021-01-07T13:54:14.05772+01:00"

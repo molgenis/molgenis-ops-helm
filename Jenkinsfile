@@ -12,7 +12,7 @@ pipeline {
             }
             steps {
                 container('chart-testing') {
-                    sh "helm init --client-only"
+                    sh "helm init --client-only --stable-repo-url https://charts.helm.sh/stable"
                     sh "helm repo add molgenis ${HELM_REPO}"
                     sh "helm repo add elastic https://helm.elastic.co/"
                     sh "helm repo add fusionauth https://fusionauth.github.io/charts"

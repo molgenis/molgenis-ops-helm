@@ -158,9 +158,7 @@ You can you need to know to easily develop and deploy helm-charts
   ```helm init --service-account tiller```  
 
 ## Chart testing
-Jenkins will test the chart for you, but to test it locally you can use the docker image.
-
-`docker run -it --rm --name ct --volume $(pwd):/data quay.io/helmpack/chart-testing:v2.2.0 sh -c "cd /data && helm init --client-only && helm repo add molgenis https://helm.molgenis.org && helm repo add molgenis-helm https://registry.molgenis.org/repository/helm && ct lint --all"`
+Jenkins will test the chart for you, but to test it locally you can use the docker image, see `ct.sh`
 
 ## Persistence
 The manage your pv's you have to make a distinction between retainable pv's and non-retainable pv's.
