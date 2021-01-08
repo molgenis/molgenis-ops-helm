@@ -63,6 +63,20 @@ questions:
   type: password
   required: true
   group: Armadillo
+- variable: server.filebeat.enabled
+  label: Enable Filebeat
+  description: Send audit logging to ElasticSearch
+  required: true
+  type: boolean
+  group: Audit
+  show_subquestion_if: true
+  subquestions:
+  - variable: server.filebeat.elasticsearch 
+    label: ElasticSearch server to send audit logging
+    description: "e.g. http://elasticsearch-master.elasticsearch.svc:9200"
+    required: true
+    type: string
+    group: Audit
 - variable: server.config.spring.security.oauth2.resourceserver.jwt.issuer-uri
   required: true
   type: string
