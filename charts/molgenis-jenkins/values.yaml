@@ -419,6 +419,19 @@ jenkins:
               ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "1Gi"
+      node-fermium: |
+        - name: node-fermium
+          label: node-fermium
+          nodeUsageMode: EXCLUSIVE
+          inheritFrom: shared
+          containers:
+            - name: node
+              image: "molgenis/node-fermium:1.0.0"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
       python: |
         - name: python
           label: python-stretch
