@@ -1,12 +1,12 @@
 dependencies:
 - name: fusionauth
   repository: https://fusionauth.github.io/charts
-  version: 0.4.9
+  version: 0.5.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 8.10.5
 - name: elasticsearch
   repository: https://helm.elastic.co
   version: 7.7.1
-digest: sha256:63b8b66d897e975da0d266144438188fc4ac7309bace28b5c484285a8255390b
-generated: "2020-08-31T15:37:52.189592+02:00"
+digest: sha256:d50796c631c9d50db2c061fa44c38afc5af9d98f4533c9316a8c3500f56e7966
+generated: "2021-01-22T14:52:20.493707+01:00"
