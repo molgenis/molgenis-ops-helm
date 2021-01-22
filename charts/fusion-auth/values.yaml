@@ -1,6 +1,8 @@
 fusionauth:
+  app:
+    memory: 256M
+    runtimeMode: production
   environment:
-    FUSIONAUTH_MEMORY: 256M
     FUSIONAUTH_KICKSTART: /kickstart/kickstart.json
     FUSIONAUTH_API_KEY: "NLNH0X2cuVYKYKIRwl2u7eYZeKi5riBv7Jk4ytIp2PA"
     FUSIONAUTH_ISSUER_URL: ""

@@ -11,7 +11,7 @@ questions:
     type: string
     label: Image tag
     required: true
-    default: "1.18.7"
+    default: "1.22.2"
     group: Fusion
   - variable: fusionauth.environment.FUSIONAUTH_API_KEY
     type: password
