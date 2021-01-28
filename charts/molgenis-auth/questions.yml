@@ -40,8 +40,9 @@ questions:
 - variable: oauth.issuer_uri
   required: true
   type: string
-  default: https://auth.molgenis.org
-  label: FusionAuth OpenID JWT Issuer 
+  default: https://auth.molgenis.org/
+  label: FusionAuth OpenID JWT Issuer
+  description: "FusionAuth OpenID JWT Issuer, make sure you add an additional slash at the end of the uri" 
   group: Authentication
 - variable: oauth.client_id
   label: FusionAuth OpenID Client ID
