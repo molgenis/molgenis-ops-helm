@@ -38,7 +38,7 @@ server:
 
 # properties for the oauth configuration
 oauth: 
-  issuer_uri: https://auth.molgenis.org
+  issuer_uri: https://auth.molgenis.org/
   client_id: xxxxx-xxxxx-xxxxxx
   client_secret: xxxxxx-xxxxxx-xxxxxx
 
