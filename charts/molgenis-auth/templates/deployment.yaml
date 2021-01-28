@@ -41,11 +41,11 @@ spec:
                   name: {{ include "molgenis-auth.fullname" . }}-secretserver
                   key: app_session_secret
             - name: BASE_URL
-              value: "{{ .Values.server.base_url }}"
+              value: "https://{{ template "molgenis-auth.hostname" . }}"
             - name: SERVER_PORT
               value: "{{ .Values.server.port }}"
             - name: REDIRECT_URI
-              value: "{{ .Values.server.redirect_uri }}"
+              value: "https://{{ template "molgenis-auth.hostname" . }}/oauth-callback"
             - name: ISSUER_BASE_URL
               value: "{{ .Values.oauth.issuer_uri }}"
             - name: CLIENT_ID
