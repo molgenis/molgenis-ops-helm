@@ -45,6 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
+Resolve hostname for environment
+*/}}
+{{- define "molgenis-auth.hostname" -}}
+{{- if ne (.Values.environment | default "prod" ) "prod" -}}
+{{- printf "%s.%s.molgenis.org" .Release.Name .Values.environment -}}
+{{- else -}}
+{{- printf "%s.molgenis.org" .Release.Name -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "molgenis-auth.serviceAccountName" -}}
