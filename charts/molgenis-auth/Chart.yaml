@@ -1,0 +1,12 @@
+apiVersion: v1
+name: molgenis-auth
+description: Authentication manager for FusionAuth
+version: 0.1.0
+appVersion: "0.2.0"
+home: https://molgenis.org
+sources:
+- https://github.com/molgenis/molgenis-ops-helm.git
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-auth/catalogIcon-molgenis-auth.png
+maintainers:
+- name: fdlk
+- name: sidohaakma

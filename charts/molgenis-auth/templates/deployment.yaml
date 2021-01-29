@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "molgenis-auth.fullname" . }}
+  labels:
+{{ include "molgenis-auth.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "molgenis-auth.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "molgenis-auth.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ template "molgenis-auth.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: FUSION_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-auth.fullname" . }}-secretserver
+                  key: api_token
+            - name: APP_SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-auth.fullname" . }}-secretserver
+                  key: app_session_secret
+            - name: BASE_URL
+              value: "https://{{ template "molgenis-auth.hostname" . }}"
+            - name: SERVER_PORT
+              value: "{{ .Values.server.port }}"
+            - name: REDIRECT_URI
+              value: "https://{{ template "molgenis-auth.hostname" . }}/oauth-callback"
+            - name: ISSUER_BASE_URL
+              value: "{{ .Values.oauth.issuer_uri }}"
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-auth.fullname" . }}-secretoauth
+                  key: client_id
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-auth.fullname" . }}-secretoauth
+                  key: client_secret
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

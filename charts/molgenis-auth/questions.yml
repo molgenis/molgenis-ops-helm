@@ -1,0 +1,56 @@
+categories:
+- MOLGENIS
+- Armadillo
+- DataSHIELD
+- R
+questions:
+- variable: environment
+  label: Environment
+  description: "Environment of this instance"
+  type: enum
+  options:
+    - edge
+    - dev
+    - test
+    - accept
+    - prod
+  required: true
+  group: Provisioning
+- variable: image.repository
+  label: Server image repository
+  type: enum
+  options:
+    - molgenis/armadillo-auth
+    - registry.molgenis.org/molgenis/armadillo-auth
+  required: true
+  default: "molgenis/armadillo-auth"
+  group: Provisioning
+- variable: image.tag
+  label: Server image tag
+  type: string
+  required: true
+  default: latest
+  group: Authentication
+- variable: server.api_token
+  label: FusionAuth API token
+  description: "API token to manage application in FusionAuth"
+  type: password
+  required: true
+  group: Authentication
+- variable: oauth.issuer_uri
+  required: true
+  type: string
+  default: https://auth.molgenis.org/
+  label: FusionAuth OpenID JWT Issuer
+  description: "FusionAuth OpenID JWT Issuer, make sure you add an additional slash at the end of the uri" 
+  group: Authentication
+- variable: oauth.client_id
+  label: FusionAuth OpenID Client ID
+  type: string
+  required: true
+  group: Authentication
+- variable: oauth.client_secret
+  label: FusionAuth OpenID Client secret
+  type: password
+  required: true
+  group: Authentication
