@@ -202,7 +202,7 @@ hubot:
             msg.reply "Ik kon wel tags vinden maar niet iets waar je wat aan hebt :confused: `#{tags.join("`,`")}`"
           else
             runPreviewJob msg, "install", latest_pr_tag, ->
-              msg.reply "De laatste tag voor PR `#{pr_number}` is `#{latest_pr_tag}` en die ga ik voor je klaarzetten! :rocket: Let op: ik ruim het vannacht weer voor je op."
+              msg.reply "De laatste tag voor PR `#{pr_number}` is `#{latest_pr_tag}` en die ga ik voor je klaarzetten! :rocket: Ruim je het zelf weer netjes op als je er klaar mee bent?"
         , ->
           msg.reply "Ik kan geen enkele tag vinden voor PR `#{pr_number}` :sob:"
 
