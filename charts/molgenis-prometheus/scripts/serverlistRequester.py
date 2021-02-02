@@ -29,6 +29,7 @@ def iterateServerlist():
     serverlist_object = json.loads(serverlist)
     for record in serverlist_object['items']:
         try:
+            tempId = f"{record['id']}"
             if 'description' in record:
                 tempProject = f"{record['description']}".replace("'", "").replace("\n", " ")
             else:
@@ -49,6 +50,7 @@ def iterateServerlist():
             if 'backend' not in record['id']:
                 node_exporter_targets.append(f"  - targets: ['{url}:{node_exporter_port}']")
                 node_exporter_targets.append("    labels:")
+                node_exporter_targets.append(f"      id: \'{tempId}\'")
                 node_exporter_targets.append(f"      project: \'{tempProject}\'")
                 node_exporter_targets.append(f"      type: '{record['DTAP']['type']}'")
 
@@ -59,6 +61,7 @@ def iterateServerlist():
 
             blackbox_exporter_urls.append(f"  - targets: {tempUrlStore}")
             blackbox_exporter_urls.append("    labels:")
+            blackbox_exporter_urls.append(f"      id: \'{tempId}\'")
             blackbox_exporter_urls.append(f"      project: \'{tempProject}\'")
             blackbox_exporter_urls.append(f"      type: '{record['DTAP']['type']}'")
             print('%s - added' % str(record['id']))

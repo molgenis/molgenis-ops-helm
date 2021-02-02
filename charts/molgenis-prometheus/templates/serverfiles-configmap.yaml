@@ -9,35 +9,43 @@ data:
       - name: SiteMonitoring
         rules:
           - alert: UnreachableURL
-            expr: up{job="blackbox-targets", type="production"} == 0 or probe_success{job="prodWebsites"} == 0
+            expr: probe_success{job="blackbox-targets", type="production"} == 0
             labels:
               severity: CRITICAL
             annotations:
               summary: {{ printf "\"Site unreachable\"" }}
-              description: {{ printf "\"  Website: {{$labels.instance}} \\n  project: {{$labels.project}} \\n  Type: {{$labels.type}} \\n \"" }}
-          - alert: SSLCertExpiringSoon 
-            expr: probe_ssl_earliest_cert_expiry{job="blackbox-targets", type="production"} - time() < 86400 * 15 
-            labels:
-              severity: WARN
-            annotations:
-              summary: {{ printf "\"SSL certificate {{$labels.instance}} expires within 15 days\"" }}
-              description: {{ printf "\"  SSL certificates from website {{$labels.instance}} expires \\n    project: {{$labels.project}} \\n    type: {{$labels.type}} \\n \"" }}
+              description: {{ printf "\"  Website: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{$labels.project}} \\n  Type: {{$labels.type}} \\n \"" }}
       - name: virtualmachines
         rules:
-          - alert: InstanceProdDown
+          - alert: InstanceProdDownOldInfra
             expr: up{job="node-targets", type="production"} == 0
             labels:
               severity: CRITICAL
             annotations:
-              summary: {{ printf "\"Node_exporter production instance Down\"" }}
-              description: {{ printf "\"  Instance: {{$labels.instance}} \\n project: {{ $labels.project }} \\n type: {{$labels.type}} \\n \"" }}
+              summary: {{ printf "\"Node_exporter production instance UNREACHABLE on old infra\"" }}
+              description: {{ printf "\"  Instance: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{ $labels.project }} \\n type: {{$labels.type}} \\n \"" }}
+          - alert: InstanceProdDownNewInfra
+            expr: up{job="openstack-sd"} == 0
+            labels:
+              severity: CRITICAL
+            annotations:
+              summary: {{ printf "\"Node_exporter of instance UNREACHABLE on new infra\"" }}
+              description: {{ printf "\"  Instance: {{$labels.instance}} \\n \"" }}
           - alert: ServerlistInstanceDown
             expr: up{job="serverListServer"} == 0
             labels:
               severity: CRITICAL
             annotations:
               summary: {{ printf "\"Serverlist server Down\"" }}
-              description: {{ printf "\"  Serverlist server {{$labels.instance}} is down!\\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
+              description: {{ printf "\"  Serverlist: {{ $labels.id }}/{{ $labels.instance }} is down!\\n    ID: {{ $labels.id }} \\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
+          - alert: OutOfDiskSpace
+            expr: (node_filesystem_avail{device="rootfs"} / node_filesystem_size{device="rootfs"} * 100) < 10
+            for: 5m
+            labels:
+              severity: WARN
+            annotations:
+              summary: {{ printf "\"Out of disk space (instance {{ $labels.instance }}) \"" }}
+              description: {{ printf "\"  Disk is almost full (< 10 percent left)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.id }}/{{ $labels.project }}\\n    Type: {{ $labels.type }}\\n \\n \"" }}
           {{ end }}
       {{ if eq .Values.environment "development" }}
       - name: nodes
@@ -67,6 +75,9 @@ data:
     - /etc/config/alerts
     scrape_configs:
       {{ if eq .Values.environment "production" -}}
+      - job_name: 'prometheus-rancher-prod'
+        static_configs:
+          - targets: ['localhost:9090']
       - job_name: 'node-targets'
         file_sd_configs:
           - files:
@@ -88,6 +99,19 @@ data:
             target_label: instance
           - target_label: __address__
             replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
+      - job_name: prometheus-openstack
+        honor_labels: true
+        metrics_path: /federate
+        params:
+          'match[]':
+            - '{__name__=~"job:.*"}'   # Request all job-level time series
+            - '{job="prometheus"}'
+            - '{job="openstack-sd"}'
+            - '{job="haproxy"}'
+            - '{job="tower"}'
+        static_configs:
+          - targets:
+              - 195.169.22.41:9090
       {{ end -}}
       {{ if eq .Values.environment "development" -}}
       - job_name: elasticsearch
@@ -108,7 +132,7 @@ data:
         scheme: https
         static_configs:
           - targets: ['jenkins.dev.molgenis.org:443']
-      - job_name: prometheus
+      - job_name: prometheus-rancher-dev
         static_configs:
           - targets:
               - localhost:9090
