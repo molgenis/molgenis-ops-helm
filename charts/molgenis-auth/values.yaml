@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: molgenis/armadillo-auth
+  repository: molgenis/molgenis-auth
   tag: 0.2.0
   pullPolicy: IfNotPresent
 
