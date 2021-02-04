@@ -513,6 +513,36 @@ jenkins:
               resourceRequestCpu: "100m"
               resourceRequestMemory: "256Mi"
               resourceLimitMemory: "512Mi"
+      molgenis-emx2: |
+        - name: molgenis-emx2
+          label: molgenis-emx2
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: java
+              image: "openjdk:13-alpine"
+              command: cat
+              args: ""
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+            - name: postgres
+              image: postgres:13-alpine
+              workingDir: ""
+              command: ""
+              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "250Mi"
+              resourceLimitMemory: "250Mi"
+              envVars:
+                - envVar:
+                    key: POSTGRES_USER
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_PASSWORD
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_DB
+                    value: molgenis
       site-gen: |
         - name: site-gen
           label: site-gen
