@@ -531,8 +531,8 @@ jenkins:
               command: ""
               args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
               resourceRequestCpu: "100m"
-              resourceRequestMemory: "250Mi"
-              resourceLimitMemory: "250Mi"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1Gi"
               envVars:
                 - envVar:
                     key: POSTGRES_USER
