@@ -373,6 +373,36 @@ jenkins:
                 - envVar:
                     key: HOME
                     value: /home/jenkins/agent
+      molgenis-jdk13: |
+        - name: molgenis-jdk13
+          label: molgenis-jdk13
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: java
+              image: "openjdk:13-alpine"
+              command: cat
+              args: ""
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+            - name: postgres
+              image: postgres:13-alpine
+              workingDir: ""
+              command: ""
+              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1Gi"
+              envVars:
+                - envVar:
+                    key: POSTGRES_USER
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_PASSWORD
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_DB
+                    value: molgenis
       node: |
         - name: node
           label: node-carbon
@@ -532,6 +562,11 @@ jenkins:
           containers:
             - name: centos-6
               image: "centos:6.10"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: centos-8
+              image: "centos8.3.2011"
               ttyEnabled: true
               command: "/bin/bash"
               args: ""
