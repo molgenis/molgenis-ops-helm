@@ -2,7 +2,7 @@ jenkins:
   clusterZone: "edgecluster.local"
   master:
     image: "jenkins/jenkins"
-    tag: "2.249.2"
+    tag: "2.263.3"
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
