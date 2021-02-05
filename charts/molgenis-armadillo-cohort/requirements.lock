@@ -1,6 +1,12 @@
 dependencies:
 - name: molgenis-armadillo
   repository: https://registry.molgenis.org/repository/helm
-  version: 0.4.0
-digest: sha256:e195605335d34a25fd7d538d7aecf22d6a2a6ca17c7471f712bfab5e7b728af8
-generated: "2020-09-14T11:39:54.005294+02:00"
+  version: 0.8.0
+- name: molgenis-auth
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.1.0
+- name: fusion-auth
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.5.0
+digest: sha256:534fbdb37e6dfda3c8966b8ef0be1dc3aa186a662dd75ad40302862950a93153
+generated: "2021-02-03T10:03:32.875966+01:00"

@@ -1,68 +1,104 @@
-# Default values for molgenis-armadillo-cohort.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# the deployment consists of three subcharts
 
-replicaCount: 1
+armadillo:
+  server:
+    image:
+      repository: registry.molgenis.org/molgenis/datashield-service
+      tag: dev
+      pullPolicy: IfNotPresent
+    admin:
+      username: admin
+      password: admin
+    audit:
+      accessMode: ReadWriteOnce
+      size: 100M
+    filebeat:
+      enabled: false
+    resources:
+      limits:
+        cpu: 1
+        memory: 1Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+    config:
+      spring:
+        security:
+          user:
+            roles:
+              - SU
+          oauth2:
+            resourceserver:
+              jwt:
+                issuer-uri: 'https://auth.molgenis.org'
+              opaquetoken:
+                client-id: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
 
-image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  molgenis-rserve:
+    resources:
+      limits:
+        cpu: 2
+        memory: 2Gi
+      requests:
+        cpu: 2
+        memory: 2Gi
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+  minio:
+    image:
+      repository: minio/minio
+      tag: RELEASE.2020-07-02T00-15-09Z
+    accessKey: datashield
+    secretKey: datashield
+    persistence:
+      enabled: true
+      retain: false
+      size: 5Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
+    environment:
+      MINIO_IDENTITY_OPENID_CLIENT_ID:
+      MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name:
+fusion-auth:
+  fusionauth:
+    app:
+      memory: 256M
+      runtimeMode: production
+    environment:
+      FUSIONAUTH_API_KEY: "NLNH0X2cuVYKYKIRwl2u7eYZeKi5riBv7Jk4ytIp2PA"
+      FUSIONAUTH_ISSUER_URL: ""
+    database:
+      existingSecret: fusion-postgresql
+      user: postgres
+      root:
+        user: postgres
+    ingress:
+      enabled: "true"
+      hosts:
+        - "fusion-auth.dev.molgenis.org"
+      paths:
+        - "/"
 
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+molgenis-auth:
+  image:
+    repository: molgenis/molgenis-auth
+    tag: latest
+    pullPolicy: IfNotPresent
+  server:
+    port: 4000
+    api_token: xxxxxx-xxxxx-xxxxx
+  oauth:
+    issuer_uri: https://auth.molgenis.org/
+    client_id: xxxxx-xxxxx-xxxxxx
+    client_secret: xxxxxx-xxxxxx-xxxxxx
+  ingress:
+    enabled: true
+    annotations: {}
+    hosts:
+      - host: authentication.local
+        paths: []

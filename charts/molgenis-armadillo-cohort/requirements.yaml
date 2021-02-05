@@ -1,4 +1,12 @@
 dependencies:
   - name: molgenis-armadillo
-    version: 0.4.0
+    version: 0.8.0
     repository: https://registry.molgenis.org/repository/helm
+  - name: molgenis-auth
+    version: 0.1.0
+    repository: https://registry.molgenis.org/repository/helm
+    condition: molgenis-auth.enabled
+  - name: fusion-auth
+    version: 0.5.0
+    repository: https://registry.molgenis.org/repository/helm
+    condition: fusion-auth.enabled
