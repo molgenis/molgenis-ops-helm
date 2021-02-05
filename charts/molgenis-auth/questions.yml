@@ -20,8 +20,8 @@ questions:
   label: Server image repository
   type: enum
   options:
-    - molgenis/armadillo-auth
-    - registry.molgenis.org/molgenis/armadillo-auth
+    - molgenis/molgenis-auth
+    - registry.molgenis.org/molgenis/molgenis-auth
   required: true
   default: "molgenis/armadillo-auth"
   group: Provisioning
