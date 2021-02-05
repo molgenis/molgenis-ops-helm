@@ -10,7 +10,7 @@ jenkins:
     serviceType: ClusterIP
     installPlugins:
       - slack:2.45
-      - kubernetes:1.29
+      - kubernetes:1.27.7
       - workflow-aggregator:2.6
       - workflow-job:2.40
       - credentials-binding:1.24
