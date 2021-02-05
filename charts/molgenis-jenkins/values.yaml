@@ -566,10 +566,10 @@ jenkins:
               command: "/bin/bash"
               args: ""
             - name: centos-8
-              image: "centos8.3.2011"
+              image: "centos:centos8.3.2011"
               ttyEnabled: true
               command: "/bin/bash"
-              args: ""
+              args: "--tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup:ro"
       r-3.5.2: |
         - name: r-3.5.2
           label: r-3.5.2
