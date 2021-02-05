@@ -2,31 +2,31 @@ jenkins:
   clusterZone: "edgecluster.local"
   master:
     image: "jenkins/jenkins"
-    tag: "2.249.2"
+    tag: "2.263.3"
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
     jenkinsUrlProtocol: "https"
     serviceType: ClusterIP
     installPlugins:
-      - slack:2.42
-      - kubernetes:1.27.2
+      - slack:2.45
+      - kubernetes:1.27.7
       - workflow-aggregator:2.6
       - workflow-job:2.40
-      - credentials-binding:1.23
+      - credentials-binding:1.24
       - embeddable-build-status:2.0.3
-      - git:4.4.4
-      - github-branch-source:2.9.1
+      - git:4.5.1
+      - github-branch-source:2.9.3
       - basic-branch-build-strategies:1.3.2
       - kubernetes-credentials-provider:0.15
-      - blueocean:1.24.1
+      - blueocean:1.24.3
       - pipeline-github-lib:1.0
       - github-scm-trait-commit-skip:0.4.0
-      - ansible:1.0
-      - prometheus:2.0.7
+      - ansible:1.1
+      - prometheus:2.0.8
       - github-pullrequest:0.2.8
-      - token-macro:2.12
-      - configuration-as-code:1.43
+      - token-macro:2.13
+      - configuration-as-code:1.46
       - job-dsl:1.77
       - block-queued-job:0.2.0
       - build-token-root:1.7
@@ -373,6 +373,36 @@ jenkins:
                 - envVar:
                     key: HOME
                     value: /home/jenkins/agent
+      molgenis-jdk13: |
+        - name: molgenis-jdk13
+          label: molgenis-jdk13
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: java
+              image: "openjdk:13-alpine"
+              command: cat
+              args: ""
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+            - name: postgres
+              image: postgres:13-alpine
+              workingDir: ""
+              command: ""
+              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1Gi"
+              envVars:
+                - envVar:
+                    key: POSTGRES_USER
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_PASSWORD
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_DB
+                    value: molgenis
       node: |
         - name: node
           label: node-carbon
@@ -535,6 +565,11 @@ jenkins:
               ttyEnabled: true
               command: "/bin/bash"
               args: ""
+            - name: centos-8
+              image: "centos:centos8.3.2011"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: "--tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup:ro"
       r-3.5.2: |
         - name: r-3.5.2
           label: r-3.5.2
