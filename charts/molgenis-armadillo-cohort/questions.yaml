@@ -1,0 +1,39 @@
+categories:
+  - authentication
+  - armadillo
+  - minio
+questions:
+  - variable: fusionauth.ingress.hosts[0]
+    type: hostname
+    label: Hostname
+    required: true
+    default: auth.dev.molgenis.org
+    group: Fusion
+  - variable: fusionauth.image.tag
+    type: string
+    label: Image tag
+    required: true
+    default: "1.22.2"
+    group: Fusion
+  - variable: fusionauth.environment.FUSIONAUTH_API_KEY
+    type: password
+    label: API Key
+    required: true
+    group: Fusion
+  - variable: fusionauth.environment.FUSIONAUTH_ISSUER_URL
+    type: string
+    label: Public URL to use as issuer
+    required: true
+    group: Fusion
+  - variable: postgresql.password
+    type: password
+    label: Password for PostgreSQL
+    required: true
+    group: Fusion
+  - variable: postgresql.persistence.existingClaim
+    show_if: "postgresql.persistence.enabled=true"
+    type: string
+    label: Specify existing claim 
+    required: true
+    group: Fusion
+  
