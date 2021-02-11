@@ -11,9 +11,9 @@ data:
   extra-targets.yml: |
     #get replaced with 1.0 branch servers via cronjob
   prod-target-list.yml: |
-    - targets: ['molgenis23.gcc.rug.nl:9100']
+    - targets: ['serverlist.gcc.rug.nl:9100']
       labels:
-        project: "New server: MOLGENIS server list"
-        branch: "2.0"
+        id: "molgenis_backend62"
+        project: "new cmdb serverlijst"
         type: "productie"
   {{ end -}}
