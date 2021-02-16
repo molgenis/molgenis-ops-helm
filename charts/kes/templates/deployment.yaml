@@ -30,10 +30,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
+            - server
+            - --root=disabled
             - --key=/data/server.key
             - --cert=/data/server.cert
-            - --auth=off
-            - --addr "0.0.0.0:7373"
+            - --auth=off 
           ports:
             - name: https
               containerPort: 7373
@@ -44,8 +45,16 @@ spec:
           readinessProbe:
             tcpSocket:
               port: https
+          volumeMounts:
+            - name: tls
+              mountPath: /data
+              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: tls
+          secret:
+            secretName: {{ template "kes.name" . }}-tls
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -54,3 +54,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Generate Self-signed TLS certificate
+*/}}
+{{- define "kes.gen-tls" -}}
+{{- $altNames := list ( printf "%s.%s" (include "kes.name" .) .Release.Namespace ) ( printf "%s.%s.svc" (include "kes.name" .) .Release.Namespace ) -}}
+{{- $ca := genCA "kes-ca" 365 -}}
+{{- $cert := genSignedCert ( include "kes.name" . ) nil $altNames 365 $ca -}}
+server.cert: {{ $cert.Cert | b64enc }}
+server.key: {{ $cert.Key | b64enc }}
+{{- end -}}

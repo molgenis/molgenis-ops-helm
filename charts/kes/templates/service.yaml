@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: https
       protocol: TCP
-      name: http
+      name: https
   selector:
     app.kubernetes.io/name: {{ include "kes.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

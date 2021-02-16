@@ -33,7 +33,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 7373
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -48,7 +48,7 @@ resources: {}
   #   memory: 128Mi
 
 nodeSelector:
-  deployPod: true
+  deployPod: "true"
 
 tolerations: []
 
