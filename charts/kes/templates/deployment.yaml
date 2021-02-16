@@ -31,10 +31,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - server
-            - --root=disabled
-            - --key=/data/server.key
-            - --cert=/data/server.cert
-            - --auth=off 
+            - --config=/etc/kes/server-config.yaml
+            - --auth=off
           ports:
             - name: https
               containerPort: 7373
@@ -47,7 +45,10 @@ spec:
               port: https
           volumeMounts:
             - name: tls
-              mountPath: /data
+              mountPath: /tls
+              readOnly: true
+            - name: kes
+              mountPath: /etc/kes
               readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -55,6 +56,9 @@ spec:
         - name: tls
           secret:
             secretName: {{ template "kes.name" . }}-tls
+        - name: kes
+          configMap:
+            name: {{ template "kes.name" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

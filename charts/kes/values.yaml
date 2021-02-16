@@ -13,6 +13,40 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+root: dd9097c9a460e10b55cad781449ba60315927bb9c5794c8df149f973ecc5b2c3
+policy: |
+  my-app:
+    paths:
+    - /v1/key/create/my-app*
+    - /v1/key/generate/my-app*
+    - /v1/key/decrypt/my-app*
+    identities:
+    - df7281ca3fed4ef7d06297eb7cb9d590a4edc863b4425f4762bb2afaebfd3258
+    - c0ecd5962eaf937422268b80a93dde4786dc9783fb2480ddea0f3e5fe471a731
+keys: |
+  # Hashicorp Vault configuration. The KES server will store/fetch
+  # secret keys at/from Vault's key-value backend.
+  #
+  # For more information take a look at:
+  # https://www.vaultproject.io/api/secret/kv/kv-v1.html
+  # vault:
+  #   endpoint: ""  # The Vault endpoint - e.g. https://127.0.0.1:8200
+  #   engine: ""    # The path of the K/V engine - e.g. secrets. If empty, defaults to: kv. (Vault default)
+  #   namespace: "" # An optional Vault namespace. See: https://www.vaultproject.io/docs/enterprise/namespaces/index.html
+  #   prefix: ""    # An optional K/V prefix. The server will store keys under this prefix.
+  #   approle:    # AppRole credentials. See: https://www.vaultproject.io/docs/auth/approle.html
+  #     engine: ""  # The path of the AppRole engine - e.g. authenticate. If empty, defaults to: approle. (Vault default)
+  #     id: ""      # Your AppRole Role ID
+  #     secret: ""  # Your AppRole Secret ID
+  #     retry: 15s  # Duration until the server tries to re-authenticate after connection loss.
+  #   kubernetes: # Kubernetes credentials. See: https://www.vaultproject.io/docs/auth/kubernetes
+  #     engine: ""  # The path of the Kubernetes engine e.g. authenticate. If empty, defaults to: kubernetes. (Vault default)
+  #     role: ""    # The Kubernetes JWT role
+  #     jwt:  ""    # Either the JWT provided by K8S or a path to a K8S secret containing the JWT.
+  #     retry: 15s  # Duration until the server tries to re-authenticate after connection loss.
+  #   status:     # Vault status configuration. The server will periodically reach out to Vault to check its status.
+  #     ping: 10s   # Duration until the server checks Vault's status again.
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

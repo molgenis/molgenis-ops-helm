@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "kes.name" . }}-config
+data:
+  server-config.yaml: |
+    address: 0.0.0.0:7373
+    root: {{ .Values.root }}
+    tls:
+      key: /tls/server.key
+      cert: /tls/server.cert
+    policy:
+{{ .Values.policy | indent 6 }}
+    cache:
+      expiry:
+        any: 5m0s
+        unused: 20s
+    log:
+      error: on
+      audit: off
+    keys:
+{{ .Values.keys | indent 6 }}
