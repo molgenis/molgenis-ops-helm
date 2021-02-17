@@ -19,4 +19,4 @@ data:
       error: on
       audit: off
     keys:
-{{ .Values.keys | indent 6 }}
+{{ .Values.keys | toYaml | indent 6 }}

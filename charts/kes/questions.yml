@@ -1,0 +1,52 @@
+categories:
+- MinIO
+- Armadillo
+- DataSHIELD
+- KES
+questions:
+- variable: image.tag
+  label: Image tag
+  default: "v0.13.4"
+  description: "Tag of the minio/kes image"
+  type: string
+  required: true
+- variable: root
+  label: Client certificate identity to give root permissions (optional)
+  description: "Run `kes tool identity of blah.cert` to get a certificate's identity"
+  type: string
+  required: true
+  default: disabled
+- variable: policy
+  label: Policy
+  required: true
+  type: multiline
+  default: |
+    # Define what identities can access what key paths, e.g.
+    # gecko:
+    #   paths:
+    #     - /v1/key/create/gecko*
+    #     - /v1/key/generate/gecko*
+    #     - /v1/key/decrypt/gecko*
+    #   identities:
+    #     - dd9097c9a460e10b55cad781449ba60315927bb9c5794c8df149f973ecc5b2c3
+- variable: keys.vault.endpoint
+  label: Vault endpoint
+  required: true
+  type: string
+  default: "http://192.168.64.161:31457"
+- variable: keys.vault.prefix
+  label: Vault keystore prefix
+  type: string
+  required: true
+  default: "kes/dev"
+  group: Vault
+- variable: keys.vault.approle.id
+  label: Vault AppRole Role ID
+  type: password
+  required: true
+  group: Vault
+- variable: keys.vault.approle.secret
+  label: Vault AppRole Secret ID
+  type: password
+  required: true
+  group: Vault
