@@ -24,7 +24,7 @@ securityContext: {}
 server:
   image:
     repository: registry.molgenis.org/molgenis/datashield-service
-    tag: dev
+    tag: latest
     pullPolicy: Always
   debug: false
   admin:
