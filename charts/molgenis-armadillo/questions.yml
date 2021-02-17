@@ -8,7 +8,7 @@ questions:
   label: MinIO image tag
   type: string
   required: true
-  default: RELEASE.2020-07-02T00-15-09Z
+  default: RELEASE.2020-10-09T22-55-05Z
   group: MinIO
 - variable: minio.accessKey
   label: MinIO Access Key

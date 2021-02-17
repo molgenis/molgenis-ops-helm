@@ -84,3 +84,13 @@ Resolve minio hostname for environment
 {{- $template := index . 2 }}
 {{- include $template (dict "Chart" (dict "Name" $subchart) "Values" (index $dot.Values $subchart) "Release" $dot.Release "Capabilities" $dot.Capabilities) }}
 {{- end }}
+
+{{/*
+Generate Self-signed client certificate
+*/}}
+{{- define "armadillo.gen-client-cert" -}}
+{{- $altNames := list ( printf "%s.%s" (include "molgenis-armadillo.name" .) .Release.Namespace ) ( printf "%s.%s.svc" (include "molgenis-armadillo.name" .) .Release.Namespace ) -}}
+{{- $cert := genSelfSignedCert ( include "molgenis-armadillo.name" . ) nil $altNames 365 -}}
+client.cert: {{ $cert.Cert | b64enc }}
+client.key: {{ $cert.Key | b64enc }}
+{{- end -}}

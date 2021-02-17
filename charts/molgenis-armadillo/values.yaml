@@ -83,8 +83,7 @@ molgenis-rserve:
 
 minio:
   image:
-    repository: minio/minio
-    tag: RELEASE.2020-07-02T00-15-09Z
+    tag: RELEASE.2020-10-09T22-55-05Z
   enabled: true
   accessKey: datashield
   secretKey: datashield
@@ -99,8 +98,6 @@ minio:
     limits:
       cpu: 250m
       memory: 256Mi
-  defaultBucket:
-    enabled: false
   minioConfig:
     region: ""
   service:
@@ -108,9 +105,37 @@ minio:
       prometheus.io/scrape: 'true'
       prometheus.io/path: '/minio/prometheus/metrics'
       prometheus.io/port: '9000'
+  trustedCertsSecret: kes-cert
+  kesCert: |
+    -----BEGIN CERTIFICATE-----
+    MIIDCjCCAfKgAwIBAgIRAJcLTE6LhgdWW5lqfrh5q4wwDQYJKoZIhvcNAQELBQAw
+    ETEPMA0GA1UEAxMGa2VzLWNhMB4XDTIxMDIxNzExMjgwOVoXDTIyMDIxNzExMjgw
+    OVowDjEMMAoGA1UEAxMDa2VzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+    AQEAzToEDpV9AVHpHvPjG0sBHG7vAk4tUq0QFcVQceyS5njYgPC0zxBRvPg0yQct
+    aRTOu6tGfw0y7ZbQzEuViQF75O/tTOJeoNlsm7dhoKvAVz/396LTQpbuZ4HZWF6P
+    HKyCvK2lgmqcnkOEpJoE+86kV1HfaTASf3Q2pHImCp3YWJXbayt/2UzoRZ5fS5t6
+    UZKAJqn8MgOuF3/iSXp7HjpacvbsQlD3DK+r1dGUziBK8K92Xxqe/SnzYE6ZwdKQ
+    Xw26vJ0h3OqTEs+HvVTENMMvu7+ZvD5OE/FCT9nkn1pOD1FMxyMOcdITEXkruo5P
+    fbr6utaJ40krL+QKWzSs6NfSmwIDAQABo2AwXjAOBgNVHQ8BAf8EBAMCBaAwHQYD
+    VR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHwYDVR0R
+    BBgwFoIHa2VzLmtlc4ILa2VzLmtlcy5zdmMwDQYJKoZIhvcNAQELBQADggEBAJ1i
+    RBQsiTusb7g1lUgmhwCE5VWYo/CyAV4UMvtpE/XQj9I5kUay7a42rnet/5QacQKs
+    YIbGbohYUAzohujhUKQyWcOKX8eDz62jznyghz89fG6FU5AmS3MYQBg0U647cO0r
+    2tv5JjBN1ljHSJ0jiC2c0ntcVE5uxM4azlIvXISYj/4hIYEctpaxz9vJ1GkxgGiW
+    kRipNSs1UfDWO3HhC1SqsSID+uGOGpf8WSyOoqTS892GeyHzbxWcJfZv3dZrHuRH
+    EsAjwNbsJ7HgLym0oUnyBEOQe+QLY3STIQ8y+rj7CuwoFHowPUkjYUkJNvw6na7D
+    ngklbsxz9iajCsfQ2Xg=
+    -----END CERTIFICATE-----
   environment:
     MINIO_IDENTITY_OPENID_CLIENT_ID:
     MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
+    MINIO_KMS_KES_ENDPOINT: https://kes.kes.svc:7373
+    MINIO_KMS_KES_KEY_NAME: fdlk
+    MINIO_KMS_KES_CERT_FILE: /etc/minio/certs/CAs/client.cert
+    MINIO_KMS_KES_KEY_FILE: /etc/minio/certs/CAs/client.key
+    MINIO_KMS_AUTO_ENCRYPTION: 'on'
+  nodeSelector:
+    deployPod: "true"
 
 service:
   type: ClusterIP
