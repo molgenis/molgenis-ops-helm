@@ -65,7 +65,7 @@ To configure a MinIO deployment you need to [install the `kes` tool](https://git
 MinIO needs to trust the self-signed KES Server certificate, so it must be added to the trusted CA certificate directory.
 The MinIO chart needs to be version 7.2.1 or higher to be able to mount CA keys from an external secret.
 
-In the Armadillo chart, there's a question where you can fill in the KES Server certificate.
+In the Armadillo chart, there's a question where you can fill in the KES Server certificate. The KES-certificate can be found in the secrets of the KES server.
 
 ### MinIO Client certificate
 When you deploy the chart, it generates a TLS client certificate and private key. The KES server needs to know the identity of the client certificate. You can generate this using the KES client.
