@@ -18,6 +18,7 @@ pipeline {
                     sh "helm repo add fusionauth https://fusionauth.github.io/charts"
                     sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                     sh "helm repo add jenkins https://charts.jenkins.io"
+                    sh "helm repo add minio https://helm.min.io"
                     sh "ct lint --all --validate-maintainers=false"
                 }
             }

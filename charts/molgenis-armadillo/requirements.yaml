@@ -1,7 +1,7 @@
 dependencies:
   - name: minio
-    version: 5.0.12
-    repository: https://charts.helm.sh/stable
+    version: 7.2.1
+    repository: https://helm.min.io
     condition: minio.enabled
   - name: molgenis-rserve
     version: 0.1.2
