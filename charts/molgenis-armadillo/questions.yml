@@ -36,6 +36,26 @@ questions:
   required: true
   label: "MinIO KES Certificate"
   description: "TLS Certificate of the KES server"
+  default: |
+    -----BEGIN CERTIFICATE-----
+    MIIDCTCCAfGgAwIBAgIQY+qppkGDdStiMpFT5XS5hTANBgkqhkiG9w0BAQsFADAR
+    MQ8wDQYDVQQDEwZrZXMtY2EwHhcNMjEwMjE4MTMwNjE5WhcNMjIwMjE4MTMwNjE5
+    WjAOMQwwCgYDVQQDEwNrZXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+    AQCYk/y7yXFu8EMJMW0Tdnbvy+yBjyeAU2L/tUHW9l4EbcVQF0ANWXSZtgMmcCiz
+    1fsaESG3MzTr0Pjg8UT3bE3ACMbuelOtKgIaWEJEr5GOogDDp9s0tBuor5bUKC63
+    na8EzZzdfJpwMaZzlP0onPlOR+iUzzT0gXM84cTsRCrlnBQTiiINB6Dqyalenv53
+    2KXfKWqCSCr6DahABl6aDa5krFpRE057QlAI3fDvswb7gy4MCsKhszlgisLejVxL
+    pVB8PI4Q8KtJWu3MSYsp5MImYCICD6CG2yYfThPYCO3a3li01Ftj0pamuJpGe2oM
+    5794oq10Y7lEhA8fSzK8I77BAgMBAAGjYDBeMA4GA1UdDwEB/wQEAwIFoDAdBgNV
+    HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAfBgNVHREE
+    GDAWggdrZXMua2VzggtrZXMua2VzLnN2YzANBgkqhkiG9w0BAQsFAAOCAQEAtJNf
+    ruoFzb+dw6SNX8UIInDqkTtq6Jnz3tJFn1UDRLqonhoSPwKnX2LI0SvCZbxKDE2W
+    5ugjFbcK28kqIr40gfsfvrTgDYcelw2TuWj7unckMFHTDwb4jmC+1FlNlQo3LrNR
+    IlAGnr9GMGaHnUEF6lgRRcpHZZc4Hg/w2TcP8Ys7pqGpI9scEPJVku5ekcnpFb/4
+    p7f3NnFgPKuTUgroULQz4SWc5stu4YrIAvvRjXcLXUy23AKRg7SOuELXw5Lk7B3w
+    x0EUKND3hUm+lD6k4QCkne17eYJ61wse2eC8cfCL6JIA7b9tUJWFmplyp4mwFpJ+
+    LfO5X5atLcegsHVbHA==
+    -----END CERTIFICATE-----
   group: MinIO
 - variable: minio.environment.MINIO_KMS_KES_ENDPOINT
   type: string
@@ -47,7 +67,7 @@ questions:
   type: string
   required: true
   label: "MinIO KES Key name"
-  description: "Name of the KES key used to encrypt the objects"
+  description: "Name of the KES master encryption key used by this deployment"
   group: MinIO
 - variable: minio.environment.MINIO_KMS_AUTO_ENCRYPTION
   label: "MinIO KES Auto encrypt all buckets"
