@@ -1,0 +1,8 @@
+{{ if not .Values.config.nameOverride -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "molgenis-auth.configname" . }}
+data:
+  ISSUER_BASE_URL: "{{ .Values.config.issuer_uri }}"
+{{ end -}}

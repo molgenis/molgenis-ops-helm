@@ -29,38 +29,21 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "molgenis-auth.secretname" . }}
+            - configMapRef:
+                name: {{ include "molgenis-auth.configname" . }}
           env:
-            - name: FUSION_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "molgenis-auth.fullname" . }}-secretserver
-                  key: api_token
-            - name: APP_SESSION_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "molgenis-auth.fullname" . }}-secretserver
-                  key: app_session_secret
             - name: BASE_URL
               value: "https://{{ template "molgenis-auth.hostname" . }}"
             - name: SERVER_PORT
-              value: "{{ .Values.server.port }}"
+              value: "{{ .Values.service.port }}"
             - name: REDIRECT_URI
               value: "https://{{ template "molgenis-auth.hostname" . }}/oauth-callback"
-            - name: ISSUER_BASE_URL
-              value: "{{ .Values.oauth.issuer_uri }}"
-            - name: CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "molgenis-auth.fullname" . }}-secretoauth
-                  key: client_id
-            - name: CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "molgenis-auth.fullname" . }}-secretoauth
-                  key: client_secret
           ports:
             - name: http
-              containerPort: {{ .Values.server.port }}
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:

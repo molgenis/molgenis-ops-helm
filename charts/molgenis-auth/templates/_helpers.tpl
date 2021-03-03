@@ -65,3 +65,25 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+The name of the config.
+*/}}
+{{- define "molgenis-auth.configname" -}}
+{{- if .Values.config.nameOverride -}}
+{{ .Values.config.nameOverride }}
+{{- else -}}
+{{ include "molgenis-auth.fullname" . }}-config
+{{- end -}}
+{{- end -}}
+
+{{/*
+The name of the secret.
+*/}}
+{{- define "molgenis-auth.secretname" -}}
+{{- if .Values.secret.nameOverride -}}
+{{ .Values.secret.nameOverride }}
+{{- else -}}
+{{ include "molgenis-auth.fullname" . }}-secret
+{{- end -}}
+{{- end -}}
