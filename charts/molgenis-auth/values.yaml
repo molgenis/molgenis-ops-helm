@@ -31,14 +31,15 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# properties to configure the server
-server:
-  port: 4000
-  api_token: xxxxxx-xxxxx-xxxxx
-
-# properties for the oauth configuration
-oauth:
+config:
+  # To override, provide name of the config to override with here
+  nameOverride: ""
   issuer_uri: https://auth.molgenis.org/
+
+secret:
+  # To override, provide name of the secret to override with here
+  nameOverride: ""
+  api_token: xxxxxx-xxxxx-xxxxx
   client_id: xxxxx-xxxxx-xxxxxx
   client_secret: xxxxxx-xxxxxx-xxxxxx
 
@@ -72,7 +73,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector: {}
+nodeSelector:
+  deployPod: "true"
 
 tolerations: []
 
