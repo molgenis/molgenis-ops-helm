@@ -383,6 +383,7 @@ jenkins:
               image: "openjdk:13-alpine"
               command: cat
               args: ""
+              ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "1Gi"
             - name: postgres
