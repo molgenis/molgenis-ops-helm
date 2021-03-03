@@ -77,6 +77,17 @@ Resolve minio hostname for environment
 {{- end -}}
 {{- end -}}
 
+{{/*
+Resolve auth UI hostname for environment
+*/}}
+{{- define "armadillo-auth.hostname" -}}
+{{- if ne (.Values.environment | default "prod" ) "prod" -}}
+{{- printf "%s-auth.%s.molgenis.org" .Release.Name .Values.environment -}}
+{{- else -}}
+{{- printf "%s-auth.molgenis.org" .Release.Name -}}
+{{- end -}}
+{{- end -}}
+
 {{/* See https://github.com/helm/helm/issues/4535 */}}
 {{- define "call-nested" }}
 {{- $dot := index . 0 }}
