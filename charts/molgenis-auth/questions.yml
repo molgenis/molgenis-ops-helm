@@ -49,8 +49,3 @@ questions:
   type: string
   required: true
   group: Authentication
-- variable: secret.client_secret
-  label: FusionAuth OpenID Client secret
-  type: password
-  required: true
-  group: Authentication
