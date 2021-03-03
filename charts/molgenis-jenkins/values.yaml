@@ -276,7 +276,7 @@ jenkins:
               args: ""
               ttyEnabled: true
             - name: rancher
-              image: "rancher/cli2:v2.2.0"
+              image: "rancher/cli2:v2.4.10"
               command: cat
               args: ""
               ttyEnabled: true
