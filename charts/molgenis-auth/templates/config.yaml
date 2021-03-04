@@ -5,4 +5,6 @@ metadata:
   name: {{ include "molgenis-auth.configname" . }}
 data:
   ISSUER_BASE_URL: "{{ .Values.config.issuer_uri }}"
+  BASE_URL: "https://{{ template "molgenis-auth.hostname" . }}"
+  REDIRECT_URI: "https://{{ template "molgenis-auth.hostname" . }}/oauth-callback"
 {{ end -}}
