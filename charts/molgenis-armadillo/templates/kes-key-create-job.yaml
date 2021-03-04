@@ -1,0 +1,36 @@
+{{- if eq .Values.minio.environment.MINIO_KMS_AUTO_ENCRYPTION "on" -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kes-create-key
+  labels:
+{{ include "molgenis-armadillo.labels" . | indent 4 }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: kes
+        image: minio/kes:latest
+        args:
+        - key
+        - create
+        - -k
+        - {{ .Values.minio.environment.MINIO_KMS_KES_KEY_NAME }}
+        env:
+        - name: KES_CLIENT_KEY
+          value: /certs/client.key
+        - name: KES_CLIENT_CERT
+          value: /certs/client.cert
+        - name: KES_SERVER
+          value: https://kes.kes.svc:7373
+        volumeMounts:
+        - name: certs
+          mountPath: "/certs"
+          readOnly: true
+      restartPolicy: Never
+      backoffLimit: 1
+      volumes:
+      - name: certs
+        secret:
+          secretName: {{ .Values.minio.trustedCertsSecret }}
+{{- end -}}
