@@ -35,12 +35,8 @@ spec:
             - configMapRef:
                 name: {{ include "molgenis-auth.configname" . }}
           env:
-            - name: BASE_URL
-              value: "https://{{ template "molgenis-auth.hostname" . }}"
             - name: SERVER_PORT
               value: "{{ .Values.service.port }}"
-            - name: REDIRECT_URI
-              value: "https://{{ template "molgenis-auth.hostname" . }}/oauth-callback"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
