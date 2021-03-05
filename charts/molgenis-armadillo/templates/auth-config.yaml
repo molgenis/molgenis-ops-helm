@@ -9,5 +9,4 @@ data:
   # Make sure it contains exactly one trailing slash
   ISSUER_BASE_URL: "{{ trimSuffix "/" .Values.shared.issuerUri }}/"
   BASE_URL: "https://{{ template "armadillo-auth.hostname" . }}"
-  REDIRECT_URI: "https://{{ template "armadillo-auth.hostname" . }}/oauth-callback"
 {{ end -}}
