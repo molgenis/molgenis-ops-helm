@@ -5,5 +5,8 @@ dependencies:
 - name: molgenis-rserve
   repository: https://registry.molgenis.org/repository/helm
   version: 0.1.2
-digest: sha256:edf51a46c2db8202be9af1ce512a41a6b61b1060231b65c4e97e97d46665b6f5
-generated: "2021-02-17T17:51:36.087566+01:00"
+- name: molgenis-auth
+  repository: https://registry.molgenis.org/repository/helm
+  version: 0.2.0
+digest: sha256:feec20a4342e324a3f17e9a4a37edbe5994e61f8ed73da0933ae0853b416fcd5
+generated: "2021-03-03T19:13:10.639091+01:00"

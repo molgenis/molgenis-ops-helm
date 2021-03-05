@@ -1,4 +1,0 @@
-dependencies:
-  - name: molgenis-armadillo
-    version: 0.4.0
-    repository: https://registry.molgenis.org/repository/helm

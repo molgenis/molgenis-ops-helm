@@ -7,3 +7,8 @@ dependencies:
     version: 0.1.2
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-rserve.enabled
+  - name: molgenis-auth
+    version: ^0.1.1
+    repository: https://registry.molgenis.org/repository/helm
+    condition: auth.enabled
+    alias: auth

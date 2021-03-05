@@ -20,17 +20,6 @@ questions:
   type: password
   required: true
   group: MinIO
-- variable: minio.environment.MINIO_IDENTITY_OPENID_CONFIG_URL
-  type: string
-  required: true
-  default: https://auth.molgenis.org/.well-known/openid-configuration
-  label: "MinIO OpenID Config URL"
-  group: MinIO
-- variable: minio.environment.MINIO_IDENTITY_OPENID_CLIENT_ID
-  type: string
-  required: true
-  label: "MinIO OpenID Client ID"
-  group: MinIO
 - variable: minio.kesCert
   type: multiline
   required: true
@@ -77,6 +66,7 @@ questions:
     - 'on'
     - 'off'
   default: 'on'
+  group: MinIO
 - variable: environment
   label: Environment
   description: "Environment of this instance"
@@ -123,18 +113,28 @@ questions:
     required: true
     type: string
     group: Audit
-- variable: server.config.spring.security.oauth2.resourceserver.jwt.issuer-uri
+- variable: shared.issuerUri
   required: true
   type: string
   default: https://auth.molgenis.org
-  label: Armadillo OpenID JWT Issuer 
-  group: Armadillo
-- variable: server.config.spring.security.oauth2.resourceserver.opaquetoken.client-id
-  label: Armadillo OpenID Client ID
+  label: Issuer URI
+  group: OpenID
+- variable: minio.environment.MINIO_IDENTITY_OPENID_CONFIG_URL
   type: string
   required: true
-  group: Armadillo
-  description: Used to verify the audience of the ID token
+  default: https://auth.molgenis.org/.well-known/openid-configuration
+  label: "Config URL"
+  group: OpenID
+- variable: minio.environment.MINIO_IDENTITY_OPENID_CLIENT_ID
+  type: string
+  required: true
+  label: Client ID
+  group: OpenID
+- variable: shared.client_secret
+  label: Client Secret
+  type: password
+  required: true
+  group: OpenID
 - variable: server.config.server.servlet.session.timeout
   label: Session timeout
   type: string
@@ -197,3 +197,32 @@ questions:
   required: true
   default: 1
   group: R
+- variable: auth.enabled
+  label: Deploy Permission Manager
+  required: true
+  default: true
+  type: boolean
+  group: Permission Manager
+  show_subquestion_if: true
+  subquestions:
+  - variable: auth.image.repository
+    label: Permission Manager image repository
+    type: enum
+    options:
+      - molgenis/molgenis-auth
+      - registry.molgenis.org/molgenis/molgenis-auth
+    required: true
+    default: "molgenis/armadillo-auth"
+    group: Permission Manager
+  - variable: auth.image.tag
+    label: Permission Manager image tag
+    type: string
+    required: true
+    default: latest
+    group: Permission Manager
+  - variable: auth.secret.api_token
+    label: FusionAuth API token
+    description: "API token to manage permissions in FusionAuth"
+    type: password
+    required: true
+    group: Permission Manager

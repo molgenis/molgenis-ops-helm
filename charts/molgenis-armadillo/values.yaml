@@ -21,6 +21,10 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+shared:
+  issuerUri: 'https://auth.molgenis.org'
+  client_secret: xxxxxx-xxxxxx-xxxxxx
+
 server:
   image:
     repository: registry.molgenis.org/molgenis/datashield-service
@@ -62,12 +66,6 @@ server:
         user:
           roles:
             - SU
-        oauth2:
-          resourceserver:
-            jwt:
-              issuer-uri: 'https://auth.molgenis.org'
-            opaquetoken:
-              client-id: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
 
 molgenis-rserve:
   enabled: true
@@ -94,10 +92,10 @@ minio:
   resources:
     requests:
       cpu: 250m
-      memory: 256Mi
+      memory: 512Mi
     limits:
       cpu: 250m
-      memory: 256Mi
+      memory: 512Mi
   minioConfig:
     region: ""
   service:
@@ -127,7 +125,7 @@ minio:
     ngklbsxz9iajCsfQ2Xg=
     -----END CERTIFICATE-----
   environment:
-    MINIO_IDENTITY_OPENID_CLIENT_ID:
+    MINIO_IDENTITY_OPENID_CLIENT_ID: "xxx-xxxx-xxx-xxx"
     MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
     MINIO_KMS_KES_ENDPOINT: https://kes.kes.svc:7373
     MINIO_KMS_KES_KEY_NAME: fdlk
@@ -142,6 +140,24 @@ kes:
     repository: minio/kes
     tag: latest
     pullPolicy: IfNotPresent
+
+auth:
+  enabled: true
+  image:
+    repository: molgenis/molgenis-auth
+    tag: latest
+  ingress:
+    enabled: false
+  service:
+    port: 4000
+  config:
+    nameOverride: auth-config
+  secret:
+    nameOverride: auth-secret
+    api_token: xxxxxxxxxx
+  # TODO: resources
+  nodeSelector:
+    deployPod: "true"
 
 service:
   type: ClusterIP
