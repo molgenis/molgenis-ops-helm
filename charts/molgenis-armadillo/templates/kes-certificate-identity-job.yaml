@@ -1,0 +1,33 @@
+{{- if eq .Values.minio.environment.MINIO_KMS_AUTO_ENCRYPTION "on" -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kes-certificate-identity
+  labels:
+{{ include "molgenis-armadillo.labels" . | indent 4 }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: kes
+        image: "{{ .Values.kes.image.repository }}:{{ .Values.kes.image.tag }}"
+        imagePullPolicy: {{ .Values.kes.image.pullPolicy }}
+        args:
+        - tool
+        - identity
+        - of
+        - /certs/client.cert
+        env:
+        - name: KES_CLIENT_CERT
+          value: /certs/client.cert
+        volumeMounts:
+        - name: certs
+          mountPath: "/certs"
+          readOnly: true
+      restartPolicy: Never
+      backoffLimit: 1
+      volumes:
+      - name: certs
+        secret:
+          secretName: {{ .Values.minio.trustedCertsSecret }}
+{{- end -}}

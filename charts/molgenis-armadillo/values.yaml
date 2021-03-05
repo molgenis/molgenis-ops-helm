@@ -137,6 +137,12 @@ minio:
   nodeSelector:
     deployPod: "true"
 
+kes:
+  image:
+    repository: minio/kes
+    tag: latest
+    pullPolicy: IfNotPresent
+
 service:
   type: ClusterIP
   port: 8080
