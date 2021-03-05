@@ -155,9 +155,6 @@ auth:
   secret:
     nameOverride: auth-secret
     api_token: xxxxxxxxxx
-  # TODO: resources
-  nodeSelector:
-    deployPod: "true"
 
 service:
   type: ClusterIP
