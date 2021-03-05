@@ -4,7 +4,7 @@ dependencies:
     repository: https://helm.min.io
     condition: minio.enabled
   - name: molgenis-rserve
-    version: 0.1.2
+    version: ^0.1.2
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-rserve.enabled
   - name: molgenis-auth

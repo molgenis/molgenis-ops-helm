@@ -27,7 +27,7 @@ shared:
 
 server:
   image:
-    repository: registry.molgenis.org/molgenis/datashield-service
+    repository: registry.molgenis.org/molgenis/armadillo
     tag: latest
     pullPolicy: Always
   debug: false
