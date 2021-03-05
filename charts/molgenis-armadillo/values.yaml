@@ -128,7 +128,7 @@ minio:
     MINIO_IDENTITY_OPENID_CLIENT_ID: "xxx-xxxx-xxx-xxx"
     MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
     MINIO_KMS_KES_ENDPOINT: https://kes.kes.svc:7373
-    MINIO_KMS_KES_KEY_NAME: fdlk
+    MINIO_KMS_KES_KEY_NAME: armadillo
     MINIO_KMS_KES_CERT_FILE: /etc/minio/certs/CAs/client.cert
     MINIO_KMS_KES_KEY_FILE: /etc/minio/certs/CAs/client.key
     MINIO_KMS_AUTO_ENCRYPTION: 'on'
