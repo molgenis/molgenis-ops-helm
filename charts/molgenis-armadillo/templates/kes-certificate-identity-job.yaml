@@ -10,7 +10,8 @@ spec:
     spec:
       containers:
       - name: kes
-        image: minio/kes:latest
+        image: "{{ .Values.kes.image.repository }}:{{ .Values.kes.image.tag }}"
+        imagePullPolicy: {{ .Values.kes.image.pullPolicy }}
         args:
         - tool
         - identity
