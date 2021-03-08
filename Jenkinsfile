@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            inheritsFrom 'helm'
+            inheritFrom 'helm'
         }
     }
     stages {
