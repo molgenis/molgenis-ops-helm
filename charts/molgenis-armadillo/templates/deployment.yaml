@@ -67,7 +67,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "molgenis-armadillo.fullname" . }}
                   key: seed
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUE_CLIENTID
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENTID
               valueFrom:
                 configMapKeyRef:
                   name: server-config
