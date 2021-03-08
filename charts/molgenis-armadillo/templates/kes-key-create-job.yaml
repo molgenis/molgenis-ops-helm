@@ -28,7 +28,7 @@ spec:
         - name: certs
           mountPath: "/certs"
           readOnly: true
-      restartPolicy: Never
+      restartPolicy: OnFailure
       backoffLimit: 1
       volumes:
       - name: certs
