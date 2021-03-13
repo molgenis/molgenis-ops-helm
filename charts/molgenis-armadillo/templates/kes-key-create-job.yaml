@@ -29,7 +29,7 @@ spec:
           mountPath: "/certs"
           readOnly: true
       restartPolicy: OnFailure
-      backoffLimit: 1
+      backoffLimit: 20
       volumes:
       - name: certs
         secret:
