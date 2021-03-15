@@ -373,37 +373,45 @@ jenkins:
                 - envVar:
                     key: HOME
                     value: /home/jenkins/agent
-      molgenis-jdk13: |
-        - name: molgenis-jdk13
-          label: molgenis-jdk13
+      molgenis-jdk15: |
+        - name: molgenis-jdk15
+          label: molgenis-jdk15
           inheritFrom: shared
           nodeUsageMode: EXCLUSIVE
           containers:
-            - name: java
-              image: "openjdk:13-alpine"
+            - name: maven
+              image: "molgenis/maven-jdk15:1.0.0"
               command: cat
               args: ""
               ttyEnabled: true
               resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
-            - name: postgres
-              image: postgres:13-alpine
-              workingDir: ""
-              command: ""
-              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "1Gi"
-              resourceLimitMemory: "1Gi"
+              resourceRequestMemory: "4Gi"
               envVars:
                 - envVar:
-                    key: POSTGRES_USER
-                    value: molgenis
+                    key: MAVEN_OPTS
+                    value: "-Duser.home=/home/jenkins/agent"
                 - envVar:
-                    key: POSTGRES_PASSWORD
-                    value: molgenis
+                    key: MAVEN_CONFIG
+                    value: "/home/jenkins/agent/.m2"
                 - envVar:
-                    key: POSTGRES_DB
-                    value: molgenis
+                    key: HOME
+                    value: /home/jenkins/agent
+      molgenis-jdk15-gradle: |
+        - name: molgenis-jdk15-gradle
+          label: molgenis-jdk15-gradle
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: gradle
+              image: "molgenis/gradle-jdk15:1.0.0"
+              command: cat
+              args: ""
+              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "4Gi"
+                - envVar:
+                    key: HOME
+                    value: /home/jenkins/agent
       node: |
         - name: node
           label: node-carbon
@@ -544,6 +552,114 @@ jenkins:
               resourceRequestCpu: "100m"
               resourceRequestMemory: "256Mi"
               resourceLimitMemory: "512Mi"
+      molgenis-it-jdk15: |
+        - name: molgenis-jdk15
+          label: molgenis-jdk15
+          inheritFrom: molgenis-jdk15
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: elasticsearch
+              image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+              workingDir: ""
+              command: ""
+              args: ""
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1500Mi"
+              envVars:
+                - envVar:
+                    key: ES_JAVA_OPTS
+                    value: '-Xms512m -Xmx512m'
+                - envVar:
+                    key: cluster.name
+                    value: molgenis
+                - envVar:
+                    key: bootstrap.memory_lock
+                    value: 'true'
+                - envVar:
+                    key: xpack.security.enabled
+                    value: 'false'
+                - envVar:
+                    key: xpack.monitoring.enabled
+                    value: 'false'
+                - envVar:
+                    key: xpack.watcher.enabled
+                    value: 'false'
+                - envVar:
+                    key: discovery.type
+                    value: single-node
+            - name: postgres
+              image: postgres:13-alpine
+              workingDir: ""
+              command: ""
+              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1Gi"
+              envVars:
+                - envVar:
+                    key: POSTGRES_USER
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_PASSWORD
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_DB
+                    value: molgenis
+      molgenis-it-jdk15-gradle: |
+        - name: molgenis-it-jdk15-gradle
+          label: molgenis-it-jdk15-gradle
+          inheritFrom: molgenis-jdk15-gradle
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: elasticsearch
+              image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+              workingDir: ""
+              command: ""
+              args: ""
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1500Mi"
+              envVars:
+                - envVar:
+                    key: ES_JAVA_OPTS
+                    value: '-Xms512m -Xmx512m'
+                - envVar:
+                    key: cluster.name
+                    value: molgenis
+                - envVar:
+                    key: bootstrap.memory_lock
+                    value: 'true'
+                - envVar:
+                    key: xpack.security.enabled
+                    value: 'false'
+                - envVar:
+                    key: xpack.monitoring.enabled
+                    value: 'false'
+                - envVar:
+                    key: xpack.watcher.enabled
+                    value: 'false'
+                - envVar:
+                    key: discovery.type
+                    value: single-node
+            - name: postgres
+              image: postgres:13-alpine
+              workingDir: ""
+              command: ""
+              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "1Gi"
+              resourceLimitMemory: "1Gi"
+              envVars:
+                - envVar:
+                    key: POSTGRES_USER
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_PASSWORD
+                    value: molgenis
+                - envVar:
+                    key: POSTGRES_DB
+                    value: molgenis
       site-gen: |
         - name: site-gen
           label: site-gen
