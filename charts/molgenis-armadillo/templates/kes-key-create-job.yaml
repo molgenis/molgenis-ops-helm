@@ -6,6 +6,7 @@ metadata:
   labels:
 {{ include "molgenis-armadillo.labels" . | indent 4 }}
 spec:
+  backoffLimit: 20
   template:
     spec:
       containers:
@@ -28,8 +29,7 @@ spec:
         - name: certs
           mountPath: "/certs"
           readOnly: true
-      restartPolicy: Never
-      backoffLimit: 1
+      restartPolicy: OnFailure
       volumes:
       - name: certs
         secret:
