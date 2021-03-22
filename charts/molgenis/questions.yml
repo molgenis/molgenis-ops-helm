@@ -288,13 +288,13 @@ questions:
     required: false
     label: MOLGENIS filestore storage class
     type: storageclass
-  - variable: minio.minioConfig.region
+  - variable: minio.environment.MINIO_REGION_NAME
     show_if: "questions.advanced=true"
     label: Region
     group: "Minio"
     type: string
     default: ""
-  - variable: minio.minioConfig.browser
+  - variable: minio.environment.MINIO_BROWSER
     type: enum
     options:
       - "on"
@@ -335,13 +335,13 @@ questions:
     required: false
     label: Minio storage class
     type: storageclass
-  - variable: "minio.image.tag"
+  - variable: "minio.mcImage.tag"
     show_if: "questions.advanced=true"
     group: "Minio"
     label: "Minio image tag"
     type: string
-    default: "RELEASE.2019-02-12T21-58-47Z"
-  - variable: "minio.image.pullPolicy"
+    default: "RELEASE.2021-03-12T03-36-59Z"
+  - variable: "minio.mcImage.pullPolicy"
     show_if: "questions.advanced=true"
     group: "Minio"
     label: "Minio image pull policy"

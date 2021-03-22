@@ -91,7 +91,7 @@ spec:
             - name: MINIO_BUCKET_NAME
               value: {{ .defaultBucket.name }}
             - name: MINIO_REGION
-              value: {{ .minioConfig.region }}
+              value: {{ .environment.MINIO_REGION_NAME }}
             - name: MINIO_ENDPOINT
               value: http://{{ include "call-nested" (list $ "minio" "minio.fullname") }}:{{ .service.port }}
             {{- end}}
