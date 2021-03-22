@@ -3,7 +3,7 @@ appVersion: "0.0.1-SNAPSHOT"
 description: Hackathon chart for molgenis cafe variome integration
 name: molgenis-cafe
 home: https://molgenis.org
-version: 0.0.1
+version: 0.0.2
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-cafe/catalogIcon-molgenis-cafe.png
