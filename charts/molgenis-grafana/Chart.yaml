@@ -1,3 +1,4 @@
+apiVersion: v1
 name: molgenis-grafana
 home: https://grafana.net
 version: 0.2.14
