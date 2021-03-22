@@ -1,7 +1,7 @@
 apiVersion: v1
 name: molgenis-sentry
 home: https://sentry.io/
-version: 0.4.4
+version: 0.4.5
 appVersion: 9.0.0
 description: Molgenis installation for the Sentry chart.
 sources:
