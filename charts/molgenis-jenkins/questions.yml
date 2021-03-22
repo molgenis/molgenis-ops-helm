@@ -2,13 +2,13 @@
 categories:
 - MOLGENIS
 questions:
-- variable: jenkins.master.tag
+- variable: jenkins.controller.tag
   label: Version
   default: "2.263.3"
   type: string
   required: true
   group: "Provisioning"
-- variable: jenkins.master.ingress.hostName
+- variable: jenkins.controller.ingress.hostName
   label: Hostname
   default: 'jenkins.dev.molgenis.org'
   type: hostname
@@ -32,12 +32,6 @@ questions:
   type: string
   label: Existing claim name
   group: "Persistence"
-- variable: jenkins.master.securityRealm.oic.wellKnownOpenIDConfigurationUrl
-  label: OpenID connect discovery URL
-  required: true
-  type: string
-  default: https://auth.molgenis.org/.well-known/openid-configuration
-  group: Security
 - variable: jenkins.master.containerEnv[0].name
   default: "PREVIEW_JOB_AUTH_TOKEN"
   type: string
@@ -80,6 +74,17 @@ questions:
   type: password
   required: true
   group: "Security"
+- variable: jenkins.master.containerEnv[4].name
+  default: "OIDC_CONFIG_URL"
+  type: string
+  required: true
+  group: "READ-ONLY"
+- variable: jenkins.controller.containerEnv[4].value
+  label: OpenID connect discovery URL
+  required: true
+  type: string
+  default: https://auth.molgenis.org/.well-known/openid-configuration
+  group: Security
 - variable: secret.vault.addr
   label: Vault address
   description: Node port of vault in prod cluster

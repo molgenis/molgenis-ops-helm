@@ -1,38 +1,14 @@
 jenkins:
-  clusterZone: "edgecluster.local"
-  master:
-    image: "jenkins/jenkins"
-    tag: "2.263.3"
+  controller:
+    image: "registry.molgenis.org/molgenis-jenkins"
+    tag: "2.277.1" # TODO
+    imagePullPolicy: IfNotPresent
     ingress:
       enabled: true
       hostName: jenkins.dev.molgenis.org
     jenkinsUrlProtocol: "https"
     serviceType: ClusterIP
-    installPlugins:
-      - slack:2.45
-      - kubernetes:1.27.7
-      - workflow-aggregator:2.6
-      - workflow-job:2.40
-      - credentials-binding:1.24
-      - embeddable-build-status:2.0.3
-      - git:4.5.1
-      - github-branch-source:2.9.3
-      - basic-branch-build-strategies:1.3.2
-      - kubernetes-credentials-provider:0.15
-      - blueocean:1.24.3
-      - pipeline-github-lib:1.0
-      - github-scm-trait-commit-skip:0.4.0
-      - ansible:1.1
-      - prometheus:2.0.8
-      - github-pullrequest:0.2.8
-      - token-macro:2.13
-      - configuration-as-code:1.47
-      - job-dsl:1.77
-      - block-queued-job:0.2.0
-      - build-token-root:1.7
-      - oic-auth:1.8
-      - role-strategy:3.1
-    overwritePlugins: true
+    installPlugins: []
     resources:
       limits:
         cpu: 500m
@@ -49,15 +25,45 @@ jenkins:
         value: "xxxx"
       - name: "CLIENT_SECRET"
         value: "xxxx"
-    healthProbesLivenessTimeout: 5
-    healthProbesReadinessTimeout: 5
-    healthProbeLivenessPeriodSeconds: 10
-    healthProbeReadinessPeriodSeconds: 10
-    healthProbeLivenessFailureThreshold: 15
-    healthProbeReadinessFailureThreshold: 3
-    healthProbeLivenessInitialDelay: 300
-    healthProbeReadinessInitialDelay: 300
+      - name: "OIDC_CONFIG_URL"
+        value: "https://auth.molgenis.org/.well-known/openid-configuration"
+    sidecars:
+      configAutoReload:
+        enabled: true
+    healthProbes: true
+    probes:
+      startupProbe:
+        timeoutSeconds: 5
+        periodSeconds: 10
+        failureThreshold: 45
     JCasC:
+      defaultConfig: true
+      securityRealm: |-
+        oic:
+          clientId: "${CLIENT_ID}"
+          clientSecret: "${CLIENT_SECRET}"
+          automanualconfigure: auto
+          wellKnownOpenIDConfigurationUrl: "${OIDC_CONFIG_URL}"
+          groupsFieldName: roles
+          emailFieldName: email
+          fullNameFieldName: name
+      authorizationStrategy: |-
+        roleBased:
+          roles:
+            global:
+              - name: "admin"
+                description: "Jenkins administrators"
+                permissions:
+                  - "Overall/Administer"
+                assignments:
+                  - "admin"
+              - name: "readonly"
+                description: "Read-only users"
+                permissions:
+                  - "Overall/Read"
+                  - "Job/Read"
+                assignments:
+                  - "reader"
       configScripts:
         pipelinetools: |
           unclassified:
@@ -232,39 +238,15 @@ jenkins:
                 - name: GitHub
                   manageHooks: false
                   credentialsId: "molgenis-jenkins-github-token-secret"
-        security: |
-          jenkins:
-            securityRealm:
-              oic:
-                clientId: "${CLIENT_ID}"
-                clientSecret: "${CLIENT_SECRET}"
-                automanualconfigure: auto
-                wellKnownOpenIDConfigurationUrl: https://auth.molgenis.org/.well-known/openid-configuration
-                groupsFieldName: roles
-                emailFieldName: email
-                fullNameFieldName: name
-            authorizationStrategy:
-              roleBased:
-                roles:
-                  global:
-                    - name: "admin"
-                      description: "Jenkins administrators"
-                      permissions:
-                        - "Overall/Administer"
-                      assignments:
-                        - "admin"
-                    - name: "readonly"
-                      description: "Read-only users"
-                      permissions:
-                        - "Overall/Read"
-                        - "Job/Read"
-                      assignments:
-                        - "reader"
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
+    nodeSelector:
+      deployPod: "true"
   rbac:
+    create: true
     readSecrets: true
   agent:
+    maxRequestsPerHostStr: "32"
     podTemplates:
       shared: |
         - name: shared
@@ -751,6 +733,8 @@ jenkins:
               ttyEnabled: true
               command: "cat"
               args: ""
+    nodeSelector:
+      deployPod: "true"
 
 
 # secret contains configuration for the kubernetes secrets that jenkins can access
