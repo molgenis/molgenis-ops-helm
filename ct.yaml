@@ -1,0 +1,10 @@
+chart-dirs:
+  - charts
+chart-repos:
+  - elastic=https://helm.elastic.co/
+  - fusionauth=https://fusionauth.github.io/charts
+  - bitnami=https://charts.bitnami.com/bitnami
+  - jenkins=https://charts.jenkins.io
+  - minio=https://helm.min.io
+  - molgenis=https://helm.molgenis.org
+  - molgenis-helm=https://registry.molgenis.org/repository/helm
