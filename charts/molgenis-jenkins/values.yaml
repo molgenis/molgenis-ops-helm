@@ -1,7 +1,8 @@
 jenkins:
   controller:
     image: "registry.molgenis.org/molgenis-jenkins"
-    tag: "2.277.1" # TODO
+    # TODO
+    tag: "2.277.1"
     imagePullPolicy: IfNotPresent
     ingress:
       enabled: true
@@ -16,17 +17,6 @@ jenkins:
       requests:
         cpu: 500m
         memory: 2000Mi
-    containerEnv:
-      - name: "PREVIEW_JOB_AUTH_TOKEN"
-        value: "ABCDEFG"
-      - name: "GITHUB_ORG_NAME"
-        value: "molgenis-jenkins"
-      - name: "CLIENT_ID"
-        value: "xxxx"
-      - name: "CLIENT_SECRET"
-        value: "xxxx"
-      - name: "OIDC_CONFIG_URL"
-        value: "https://auth.molgenis.org/.well-known/openid-configuration"
     sidecars:
       configAutoReload:
         enabled: true
@@ -36,6 +26,13 @@ jenkins:
         timeoutSeconds: 5
         periodSeconds: 10
         failureThreshold: 45
+    mounts:
+      - name: secrets
+        mountPath: /run/secrets
+    volumes:
+      - name: secrets
+        secret:
+          secretName: controller-secret
     JCasC:
       defaultConfig: true
       securityRealm: |-
@@ -736,9 +733,15 @@ jenkins:
     nodeSelector:
       deployPod: "true"
 
-
 # secret contains configuration for the kubernetes secrets that jenkins can access
 secret:
+  githubOrg: molgenis-jenkins
+  openID:
+    clientID: "xxxx"
+    clientSecret: "xxxx"
+    configUrl: https://auth.molgenis.org/.well-known/openid-configuration
+  previewJob:
+    authToken: "ABCDE"
   # Jenkins CI integration on slack, see https://molgenisdev.slack.com/services/B01C7ENKVRQ
   slack: 'xxxx'
   # vault configures the vault secret

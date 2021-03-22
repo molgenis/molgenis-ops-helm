@@ -32,54 +32,29 @@ questions:
   type: string
   label: Existing claim name
   group: "Persistence"
-- variable: jenkins.master.containerEnv[0].name
-  default: "PREVIEW_JOB_AUTH_TOKEN"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[0].value
+- variable: secret.previewJob.authToken
   label: Preview job authentication token
   default:
   type: password
   required: true
   group: "Security"
-- variable: jenkins.master.containerEnv[1].name
-  default: "GITHUB_ORG_NAME"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[1].value
+- variable: secret.githubOrg
   label: Github Organization name
   default: "molgenis"
   type: string
   required: true
   group: "Jobs"
-- variable: jenkins.master.containerEnv[2].name
-  default: "CLIENT_ID"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[2].value
+- variable: secret.openID.clientID
   label: OpenID Connect Client ID
   type: string
   required: true
   group: "Security"
-- variable: jenkins.master.containerEnv[3].name
-  default: "CLIENT_SECRET"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.master.containerEnv[3].value
+- variable: secret.openID.clientSecret
   label: OpenID Connect Client Secret
   type: password
   required: true
   group: "Security"
-- variable: jenkins.master.containerEnv[4].name
-  default: "OIDC_CONFIG_URL"
-  type: string
-  required: true
-  group: "READ-ONLY"
-- variable: jenkins.controller.containerEnv[4].value
+- variable: secret.openID.configURL
   label: OpenID connect discovery URL
   required: true
   type: string
