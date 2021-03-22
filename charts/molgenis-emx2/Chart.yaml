@@ -6,3 +6,5 @@ icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts
 home: http://github.com/mswertz/molgenis-emx2
 description: Preview of EMX2
 type: application
+maintainers:
+- name: mswertz
