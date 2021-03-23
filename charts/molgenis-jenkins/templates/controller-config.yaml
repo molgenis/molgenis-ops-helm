@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: controller-config
+  labels:
+    app: {{ template "jenkins.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  OIDC_CONFIG_URL: {{ .Values.secret.openID.configUrl }}
+  CLIENT_ID: {{ .Values.secret.openID.clientID }}
+  GITHUB_ORG_NAME: {{ .Values.secret.githubOrg }}
