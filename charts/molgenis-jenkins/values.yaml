@@ -387,6 +387,7 @@ jenkins:
               ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "4Gi"
+              envVars:
                 - envVar:
                     key: HOME
                     value: /home/jenkins/agent
