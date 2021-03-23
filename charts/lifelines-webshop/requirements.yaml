@@ -1,0 +1,10 @@
+dependencies:
+  - name: molgenis
+    version: "1.12.3"
+    repository: "https://registry.molgenis.org/repository/helm"
+  - name: lifelines-edge
+    version: "2.0.0"
+    repository: "https://registry.molgenis.org/repository/helm"
+  - name: vue-pdfium
+    version: "0.1.0"
+    repository: "https://registry.molgenis.org/repository/helm"

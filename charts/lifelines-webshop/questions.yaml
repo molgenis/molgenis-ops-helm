@@ -1,0 +1,212 @@
+categories:
+  - MOLGENIS
+questions:
+  - variable: "vue-pdfium.image.tag"
+    group: "PDF"
+    label: "Container version"
+    type: string
+    default: "latest"
+
+  - variable: "vue-pdfium.image.repository"
+    group: "PDF"
+    label: "container repository"
+    type: enum
+    default: "molgenis/vue-pdfium"
+    required: true
+    options:
+      - "registry.molgenis.org/molgenis/vue-pdfium"
+      - "molgenis/vue-pdfium"
+
+  - variable: "vue-pdfium.image.pullPolicy"
+    group: "PDF"
+    label: "container pull policy"
+    type: enum
+    default: Always
+    options:
+      - Always
+      - IfNotPresent
+
+  - variable: "vue-pdfium.config.dev"
+    group: "PDF"
+    label: "PDF generator in dev mode"
+    type: boolean
+    default: false
+
+  - variable: "vue-pdfium.config.postLimit"
+    group: "PDF"
+    label: "PDF generator post limit"
+    type: string
+    default: "10mb"
+
+  - variable: "molgenis.molgenis-frontend.environment"
+    label: Environment
+    description: "Environment of this release"
+    type: enum
+    options:
+      - edge
+      - dev
+      - test
+      - accept
+      - prod
+    required: true
+    group: "Ingress"
+
+  - variable: "molgenis.molgenis-frontend.ingress.basicAuth.auth"
+    label: Basic auth secret
+    description: "Create using `htpasswd -bc authfile lifelines <password>`"
+    type: string
+    default: "lifelines:$apr1$xxxx"
+    required: true
+    group: "Ingress"
+
+  - variable: molgenis.image.tag
+    label: Molgenis backend version
+    description: "MOLGENIS backend version (check https://hub.docker.com/r/molgenis/molgenis-app/tags for released tags)."
+    type: string
+    required: true
+    group: "MOLGENIS"
+
+  - variable: molgenis.molgenis-frontend.image.tag
+    label: Molgenis frontend version
+    description: "MOLGENIS frontend version (check https://hub.docker.com/r/molgenis/molgenis-frontend/tags for released tags)."
+    type: string
+    required: true
+    group: "MOLGENIS"
+
+  - variable: "molgenis.molgenis-frontend.proxy.experimental[0].url"
+    label: Webshop URL on unpkg.com
+    default: "https://unpkg.com/@molgenis-experimental"
+    description: "To pin a specific version, include it in the url, e.g. https://unpkg.com/@molgenis-experimental/molgenis-app-lifelines-webshop@0.22.x/"
+    type: string
+    required: true
+    group: "MOLGENIS"
+
+  - variable: "molgenis.molgenis-frontend.proxy.experimental[0].path"
+    label: Webapp proxy path
+    default: "@molgenis-experimental"
+    type: string
+    required: true
+    hidden: true
+    group: "MOLGENIS"
+
+  - variable: "molgenis.molgenis-frontend.proxy.experimental[0].unpkg"
+    label: Webapp proxy use unpkg
+    default: true
+    type: boolean
+    required: true
+    hidden: true
+    group: "MOLGENIS"
+
+  - variable: molgenis.adminPassword
+    label: Administrator password
+    default: ""
+    description: "Enter the administrator password"
+    type: password
+    required: true
+    group: "MOLGENIS"
+
+  - variable: lifelines-edge.image.tag
+    label: Edge server image tag
+    description: See https://hub.docker.com/repository/docker/molgenis/molgenis-node-lifelines-edge/tags
+    default: latest
+    type: string
+    required: true
+    group: EDGE
+
+  - variable: "lifelines-edge.image.repository"
+    group: "EDGE"
+    label: "container repository"
+    type: enum
+    default: "molgenis/molgenis-node-lifelines-edge"
+    required: true
+    options:
+      - "registry.molgenis.org/molgenis/molgenis-node-lifelines-edge"
+      - "molgenis/molgenis-node-lifelines-edge"
+
+  - variable: "lifelines-edge.image.pullPolicy"
+    group: "EDGE"
+    label: "container pull policy"
+    type: enum
+    default: Always
+    options:
+      - Always
+      - IfNotPresent
+
+  - variable: lifelines-edge.molgenis.url
+    label: Molgenis backend url
+    default: http://molgenis:8080
+    type: string
+    required: true
+    group: EDGE
+
+  - variable: lifelines-edge.dataPlatform.url
+    label: Lifelines data platform URL
+    type: string
+    required: true
+    default: "https://acc-dp.lifelines.nl:8080"
+    group: EDGE
+
+  - variable: lifelines-edge.dataPlatform.token
+    label: Token for Lifelines data platform
+    type: password
+    required: true
+    group: EDGE
+
+  - variable: "transform.image.tag"
+    group: "TRANSFORM"
+    label: "Container version"
+    type: string
+    default: "latest"
+
+  - variable: "transform.image.repository"
+    group: "TRANSFORM"
+    label: "container repository"
+    type: enum
+    default: "molgenis/molgenis-py-lifelines-transform"
+    required: true
+    options:
+      - "registry.molgenis.org/molgenis/lifelines-transform"
+      - "molgenis/molgenis-py-lifelines-transform"
+
+  - variable: "transform.image.pullPolicy"
+    group: "TRANSFORM"
+    label: "container pull policy"
+    type: enum
+    default: Always
+    options:
+      - Always
+      - IfNotPresent
+
+  - variable: transform.config.molgenis.token
+    label: Transform job MOLGENIS api token
+    description: "Provide here then create manually in the server"
+    required: true
+    type: password
+    group: TRANSFORM
+
+  - variable: transform.config.catalog_folder
+    group: TRANSFORM
+    label: S3 Object name
+    description: Name of the data folder in the bucket, use "latest" to use the latest one.
+    type: string
+    default: latest
+    required: true
+
+  - variable: transform.config.s3.accessKey
+    group: TRANSFORM
+    label: S3 Access key
+    type: password
+    required: true
+
+  - variable: transform.config.s3.bucket
+    group: TRANSFORM
+    label: S3 Bucket
+    type: string
+    required: true
+    default: "ll-catalogue-a"
+
+  - variable: transform.config.s3.secretKey
+    group: TRANSFORM
+    label: S3 Secret key
+    type: password
+    required: true
