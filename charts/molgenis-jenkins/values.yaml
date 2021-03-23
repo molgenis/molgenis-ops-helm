@@ -25,13 +25,6 @@ jenkins:
         timeoutSeconds: 5
         periodSeconds: 10
         failureThreshold: 45
-    mounts:
-      - name: secrets
-        mountPath: /run/secrets
-    volumes:
-      - name: secrets
-        secret:
-          secretName: controller-secret
     JCasC:
       defaultConfig: true
       securityRealm: |-
@@ -238,6 +231,35 @@ jenkins:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
     nodeSelector:
       deployPod: "true"
+  persistence:
+    mounts:
+      - name: controller-config
+        mountPath: /run/secrets/OIDC_CONFIG_URL
+        subPath: OIDC_CONFIG_URL
+        readOnly: true
+      - name: controller-config
+        mountPath: /run/secrets/CLIENT_ID
+        subPath: CLIENT_ID
+        readOnly: true
+      - name: controller-config
+        mountPath: /run/secrets/GITHUB_ORG_NAME
+        subPath: GITHUB_ORG_NAME
+        readOnly: true
+      - name: controller-secret
+        mountPath: /run/secrets/PREVIEW_JOB_AUTH_TOKEN
+        subPath: PREVIEW_JOB_AUTH_TOKEN
+        readOnly: true
+      - name: controller-secret
+        mountPath: /run/secrets/CLIENT_SECRET
+        subPath: CLIENT_SECRET
+        readOnly: true
+    volumes:
+      - name: controller-secret
+        secret:
+          secretName: controller-secret
+      - name: controller-config
+        configMap:
+          name: controller-config
   rbac:
     create: true
     readSecrets: true
