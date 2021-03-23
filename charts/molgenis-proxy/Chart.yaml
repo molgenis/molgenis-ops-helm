@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "1.0"
 description: Proxies a URL
 name: molgenis-proxy
-version: 0.1.0
+version: 0.1.1
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://github.com/molgenis/molgenis-ops-helm/raw/master/charts/molgenis-proxy/catalogIcon-molgenis-proxy.png

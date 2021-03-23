@@ -10452,6 +10452,7 @@ postgresql:
   postgresqlDatabase: fusionauth
   password: molgenis
   persistence:
+    enabled: true
   # existingClaim:
   existingSecret: fusion-postgresql
   nodeSelector:

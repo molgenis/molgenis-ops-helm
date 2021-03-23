@@ -105,9 +105,10 @@ postgresql:
 
 minio:
   enabled: true
+  mcImage:
+    tag: RELEASE.2021-03-12T03-36-59Z
   persistence:
     enabled: true
-    retain: false
     size: 5Gi
   resources:
     requests:
@@ -119,10 +120,12 @@ minio:
   defaultBucket:
     enabled: true
     name: molgenis
-  minioConfig:
-    region: ""
+  environment:
+    MINIO_REGION_NAME: ""
   service:
     annotations:
       prometheus.io/scrape: 'true'
       prometheus.io/path: '/minio/prometheus/metrics'
       prometheus.io/port: '9000'
+  nodeSelector:
+    deployPod: "true"
