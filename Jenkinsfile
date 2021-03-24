@@ -5,11 +5,7 @@ pipeline {
         }
     }
     stages {
-        stage('Test') {
-            environment {
-                CT_REMOTE='origin'
-                CT_BUILD_ID="${CHANGE_ID}"
-            }
+        stage('Prepare') {
             steps {
                 container('chart-testing') {
                     sh "helm repo add stable https://charts.helm.sh/stable"
@@ -19,6 +15,31 @@ pipeline {
                     sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                     sh "helm repo add jenkins https://charts.jenkins.io"
                     sh "helm repo add minio https://helm.min.io"
+                }
+            }
+        }
+        stage('Test [PR]') {
+            when {
+                changeRequest()
+            }
+            environment {
+                CT_REMOTE='origin'
+                CT_BUILD_ID="${CHANGE_ID}"
+            }
+            steps {
+                container('chart-testing') {
+                    // Fetch the target branch
+                    sh "git fetch --no-tags origin ${CHANGE_TARGET}:refs/remotes/origin/${CHANGE_TARGET}"
+                    sh "ct lint --validate-maintainers=false --target-branch ${CHANGE_TARGET}"
+                }
+            }
+        }
+        stage('Test [master]') {
+            when {
+                branch 'master'
+            }
+            steps {
+                container('chart-testing') {
                     sh "ct lint --all --validate-maintainers=false"
                 }
             }
