@@ -18,7 +18,7 @@ pipeline {
                 }
             }
         }
-        stage('Test [PR]') {
+        stage('Test and package [PR]') {
             when {
                 changeRequest()
             }
@@ -28,25 +28,20 @@ pipeline {
             }
             steps {
                 container('chart-testing') {
-                    // Fetch the target branch
                     sh "git fetch --no-tags origin ${CHANGE_TARGET}:refs/remotes/origin/${CHANGE_TARGET}"
                     sh "ct lint --validate-maintainers=false --target-branch ${CHANGE_TARGET}"
+                    sh 'mkdir target'
+                    sh 'for dir in $(ct list-changed --target-branch ${CHANGE_TARGET}); do helm package --destination target "$dir"; done'
                 }
             }
         }
-        stage('Test [master]') {
+        stage('Test and package [master]') {
             when {
                 branch 'master'
             }
             steps {
                 container('chart-testing') {
                     sh "ct lint --all --validate-maintainers=false"
-                }
-            }
-        }
-        stage('Package') {
-            steps {
-                container('chart-testing'){
                     sh 'mkdir target'
                     sh 'for dir in charts/*; do helm package --destination target "$dir"; done'
                 }
