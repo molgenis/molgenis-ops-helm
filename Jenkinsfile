@@ -5,11 +5,7 @@ pipeline {
         }
     }
     stages {
-        stage('Test') {
-            environment {
-                CT_REMOTE='origin'
-                CT_BUILD_ID="${CHANGE_ID}"
-            }
+        stage('Prepare') {
             steps {
                 container('chart-testing') {
                     sh "helm repo add stable https://charts.helm.sh/stable"
@@ -19,13 +15,33 @@ pipeline {
                     sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                     sh "helm repo add jenkins https://charts.jenkins.io"
                     sh "helm repo add minio https://helm.min.io"
-                    sh "ct lint --all --validate-maintainers=false"
                 }
             }
         }
-        stage('Package') {
+        stage('Test and package [PR]') {
+            when {
+                changeRequest()
+            }
+            environment {
+                CT_REMOTE='origin'
+                CT_BUILD_ID="${CHANGE_ID}"
+            }
             steps {
-                container('chart-testing'){
+                container('chart-testing') {
+                    sh "git fetch --no-tags origin ${CHANGE_TARGET}:refs/remotes/origin/${CHANGE_TARGET}"
+                    sh "ct lint --validate-maintainers=false --target-branch ${CHANGE_TARGET}"
+                    sh 'mkdir target'
+                    sh 'for dir in $(ct list-changed --target-branch ${CHANGE_TARGET}); do helm package --destination target "$dir"; done'
+                }
+            }
+        }
+        stage('Test and package [master]') {
+            when {
+                branch 'master'
+            }
+            steps {
+                container('chart-testing') {
+                    sh "ct lint --all --validate-maintainers=false"
                     sh 'mkdir target'
                     sh 'for dir in charts/*; do helm package --destination target "$dir"; done'
                 }
