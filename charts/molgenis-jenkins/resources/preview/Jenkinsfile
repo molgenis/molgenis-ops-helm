@@ -17,7 +17,7 @@ pipeline {
                 container('rancher') {
                     sh "rancher apps install " +
                             "-n preview-${TAG.toLowerCase()} " +
-                            "cattle-global-data:molgenis-helm-molgenis " +
+                            "p-vx5vf:molgenis-helm3-molgenis " +
                             "preview-${TAG.toLowerCase()} " +
                             "--no-prompt " +
                             "--set runtimeEnvironment=development " +
