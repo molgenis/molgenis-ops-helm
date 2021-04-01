@@ -62,10 +62,10 @@ pipeline {
     }
     post {
         unstable {
-            hubotSend message: 'Build unstable', site: 'slack-general', status: 'WARN'
+            molgenisSlack message: 'Build unstable', channel: '#general', color: 'warning'
         }
         failure {
-            hubotSend message: 'Build failed', site: 'slack-general', status: 'ERROR'
+            molgenisSlack message: 'Build failed', channel: '#general', color: 'danger'
         }
     }
 }
