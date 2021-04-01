@@ -62,10 +62,10 @@ pipeline {
     }
     post {
         unstable {
-            molgenisSlack message: 'Build unstable', channel: '#general', color: 'warning'
+            molgenisSlack message: ':warning: Build unstable', channel: '#general', color: 'warning'
         }
         failure {
-            molgenisSlack message: 'Build failed', channel: '#general', color: 'danger'
+            molgenisSlack message: ':x: Build failed', channel: '#general', color: 'danger'
         }
     }
 }
