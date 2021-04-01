@@ -35,7 +35,7 @@ pipeline {
             steps {
                 container('rancher') {
                     sh "rancher apps install " +
-                            "cattle-global-data:molgenis-helm-molgenis " +
+                            "p-vx5vf:molgenis-helm3-molgenis " +
                             "${TAG} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
