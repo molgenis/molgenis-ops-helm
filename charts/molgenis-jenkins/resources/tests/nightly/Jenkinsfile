@@ -46,7 +46,7 @@ pipeline {
             steps {
                 container('maven') {
                     dir('molgenis-app') {
-                        sh "mvn -q -B dockerfile:build dockerfile:tag dockerfile:push -Ddockerfile.tag=${TAG} -Ddockerfile.repository=${LOCAL_REPOSITORY}"
+                        sh "mvn -q -B jib:build -Djib.tag=${TAG} -Djib.repository=${LOCAL_REPOSITORY}"
                     }
                 }
             }
