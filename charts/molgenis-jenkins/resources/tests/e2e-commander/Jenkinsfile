@@ -89,10 +89,10 @@ pipeline {
             }
         }
         unstable {
-            slackSend message: ':warning: Nightly Commander integration tests failed', channel: '#general', color: 'warning'
+            molgenisSlack message: ':warning: Nightly Commander integration tests failed', channel: '#general', color: 'warning'
         }
         failure {
-            slackSend message: ':x: Nightly Commander integration build failed', channel: '#general', color: 'danger'
+            molgenisSlack message: ':x: Nightly Commander integration build failed', channel: '#general', color: 'danger'
         }
     }
 }
