@@ -36,7 +36,7 @@ spec:
           name: postgres
           args:
             - -c
-            - shared_buffers=256MB
+            - shared_buffers=512MB
             - -c
             - max_locks_per_transaction=1024
           env:
