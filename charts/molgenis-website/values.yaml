@@ -16,6 +16,7 @@ website:
     name: molgenis/website
     tag: latest
     pullPolicy: Always
+    pullSecret: molgenisci
   service:
     name: molgenis-website
     type: ClusterIP

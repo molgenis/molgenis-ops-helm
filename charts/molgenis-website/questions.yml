@@ -9,10 +9,17 @@ questions:
   type: string
   required: true
   group: "Loadbalancing"
-- variable: image.image.tag
+- variable: website.image.tag
   label: Version
   default: "latest"
   description: "Select a MOLGENIS website version (check the registry.molgenis.org or hub.docker.com for released tags)"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: website.image.pullSecret
+  label: Docker pull requests
+  default: "molgenisci"
+  description: "Docker pull secret defined on cluster"
   type: string
   required: true
   group: "Provisioning"
