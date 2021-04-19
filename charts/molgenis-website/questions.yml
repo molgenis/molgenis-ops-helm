@@ -16,10 +16,19 @@ questions:
   type: string
   required: true
   group: "Provisioning"
+- variable: website.image.repository
+  label: Registry
+  default: "registry.hub.docker.com"
+  description: "Select a registry to pull from"
+  type: enum
+  options:
+    - "registry.hub.docker.com"
+    - "registry.molgenis.org"
+  required: true
+  group: "Provisioning"
 - variable: website.image.pullSecret
   label: Docker pull requests
   default: "dockerhub"
   description: "Docker pull secret defined on cluster"
   type: string
-  required: true
   group: "Provisioning"
