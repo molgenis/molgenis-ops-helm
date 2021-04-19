@@ -16,7 +16,7 @@ website:
     name: molgenis/website
     tag: latest
     pullPolicy: Always
-    pullSecret: molgenisci
+    pullSecret: dockerhub
   service:
     name: molgenis-website
     type: ClusterIP

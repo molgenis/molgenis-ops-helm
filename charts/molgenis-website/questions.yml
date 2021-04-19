@@ -18,7 +18,7 @@ questions:
   group: "Provisioning"
 - variable: website.image.pullSecret
   label: Docker pull requests
-  default: "molgenisci"
+  default: "dockerhub"
   description: "Docker pull secret defined on cluster"
   type: string
   required: true
