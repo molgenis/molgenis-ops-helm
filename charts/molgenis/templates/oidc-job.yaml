@@ -1,0 +1,68 @@
+{{- if .Values.oidc.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: oidc-job-{{ template "molgenis.fullname" . }}
+spec:
+  template:
+    metadata:
+      name: oidc-job-{{ template "molgenis.fullname" . }}
+    spec:
+      initContainers:
+        - name: init-molgenis
+          image: fabric8/fabric8-dependency-wait-service
+          env:
+            - name: MOLGENIS_HOST
+              value: {{ template "molgenis.fullname" . }}
+            - name: DEPENDENCY_POLL_INTERVAL
+              value: "11"
+            - name: DEPENDENCY_LOG_VERBOSE
+              value: "true"
+          command: ["/bin/sh"]
+          args: ["-c", "fabric8-dependency-wait-service-linux-amd64 http://$(MOLGENIS_HOST):8080"]
+      containers:
+        - name: molgenis-commander
+          image: {{ .Values.commander.image.repository }}/{{ .Values.commander.image.name }}:{{ .Values.commander.image.tag }}
+          imagePullPolicy: {{ .Values.commander.image.pullPolicy }}
+          env:
+            - name: MOLGENIS_ADMINISTRATOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "molgenis.fullname" $ }}
+                  key: adminpassword
+            - name: MOLGENIS_DOMAIN
+              value: {{ template "molgenis.fullname" . }}
+            - name: COMMANDER_SCRIPT
+              value: oidc_configuration
+          volumeMounts:
+            - name: oidc-config
+              mountPath: /data/sys_set_auth.csv
+              subPath: sys_set_auth.csv
+            - name: oidc-secret
+              mountPath: /data/sys_sec_oidc_Client.csvå
+              subPath: sys_sec_oidc_Client.csv
+            - name: oidc-mcmd
+              mountPath: /root/.mcmd/scripts/oidc_configuration
+              subPath: oidc_configuration
+      volumes:
+        - name: oidc-mcmd
+          configMap:
+            items:
+            - key: oidc_configuration
+              path: oidc_configuration
+            name: oidc-config-{{ template "molgenis.fullname" . }}
+        - name: oidc-secret
+          secret:
+            items:
+            - key: sys_sec_oidc_Client.csv
+              path: sys_sec_oidc_Client.csv
+            secretName: oidc-secret-{{ template "molgenis.fullname" . }}
+        - name: oidc-config
+          configMap:
+            items:
+            - key: sys_set_auth.csv
+              path: sys_set_auth.csv
+            name: oidc-config-{{ template "molgenis.fullname" . }}
+        
+      restartPolicy: Never
+{{- end -}}

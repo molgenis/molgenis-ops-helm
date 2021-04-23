@@ -1,0 +1,18 @@
+{{ if .Values.oidc.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oidc-config-{{ template "molgenis.fullname" . }}
+  labels:
+    app: {{ template "molgenis.name" . }}
+    chart: {{ template "molgenis.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+data:
+  sys_set_auth.csv: |-
+    signup,signup_moderation,oidcClients,sign_in_2fa,id
+    false,true,{{ .Values.oidc.id }},Disabled,auth
+  oidc_configuration: |-
+    import sys_sec_oidc_Client.csv
+    import sys_set_auth.csv
+{{ end -}}

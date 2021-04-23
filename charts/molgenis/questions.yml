@@ -35,6 +35,45 @@ questions:
     type: string
     required: true
     group: "Provisioning"
+  - variable: oidc.enabled
+    label: OIDC enabled
+    default: true
+    description: "Do you want to connect to and ID-provider or authentication service"
+    type: boolean
+    required: true
+    group: "Provisioning - OIDC"
+  - variable: oidc.id
+    label: OpenID connect ID
+    default: "molgenis-auth"
+    description: "Type openid connect ID"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: oidc.name
+    label: OpenID connect name
+    default: "molgenis-auth"
+    description: "Type openid connect name"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"  
+  - variable: oidc.identification.client_id
+    label: Client ID
+    default: ""
+    description: "Type in the client id"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"  
+  - variable: oidc.identification.client_secret
+    label: Client secret
+    default: ""
+    description: "Type in the client secret"
+    type: password
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"  
   - variable: molgenis-frontend.enabled
     label: Frontend enabled
     default: true
