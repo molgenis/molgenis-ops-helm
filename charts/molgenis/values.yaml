@@ -44,7 +44,7 @@ resources:
     cpu: 1
     memory: 2.5Gi
 catalinaOpts: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
-maxFileUploadMiB: 150
+maxFileMB: 150
 
 service:
   type: ClusterIP
