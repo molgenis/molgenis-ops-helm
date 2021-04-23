@@ -114,17 +114,16 @@ spec:
           volumeMounts:
           - name: pv-molgenis
             mountPath: /home/molgenis
-          livenessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 60
-            periodSeconds: 30
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /api/v2/version
               port: 8080
-            initialDelaySeconds: 120
-            periodSeconds: 30
+            failureThreshold: 90
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/v2/version
+              port: 8080
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
