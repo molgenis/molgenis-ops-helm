@@ -105,6 +105,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: secretkey
+            - name: MOLGENIS_MAX_FILE_MB
+              value: {{ .Values.maxFileMB | quote }}
             - name: CATALINA_OPTS
               value: {{ .Values.catalinaOpts }}
           ports:

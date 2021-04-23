@@ -105,6 +105,12 @@ questions:
     type: string
     label: "Catalina options"
     group: "MOLGENIS"
+  - variable: maxFileMB
+    show_if: "questions.advanced=true"
+    default: 150
+    type: int
+    label: "Max file upload size (MiB)"
+    group: "MOLGENIS"
   - variable: molgenis-frontend.proxy.frontend.custom\.conf
     show_if: "molgenis-frontend.enabled=true && questions.advanced=true"
     label: custom.conf proxy config
