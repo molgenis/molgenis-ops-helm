@@ -28,9 +28,9 @@ If you deploy the chart on prod-molgenis, each night a script will run at 6.30 A
 
 ## Secrets
 When deploying the chart for the dev-molgenis on rancher, you'll be asked to fill in
-* the slack api url should look like this: https://molgenisdev.slack.com/services/...
+* the slack api url could be found here for the alerts-rancher: https://api.slack.com/apps/A01TPA5M19D/incoming-webhooks?
 When deploying the chart for the prod-molgenis on rancher, you'll be asked to fill in
-* the slack api url should look like: https://molgenisops.slack.com/services/...
+* the slack api url could be found here for the alerts-molgenis: https://api.slack.com/apps/A01U40F3Y58/incoming-webhooks?
 * the github-token for the molgenis github-user
 
 ## Alerts
