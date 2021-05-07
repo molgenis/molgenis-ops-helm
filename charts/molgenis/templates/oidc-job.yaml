@@ -39,8 +39,8 @@ spec:
               mountPath: /data/sys_set_auth.csv
               subPath: sys_set_auth.csv
             - name: oidc-secret
-              mountPath: /data/sys_sec_oidc_Client.csvå
-              subPath: sys_sec_oidc_Client.csv
+              mountPath: /data/sys_sec_oidc_OidcClient.csv
+              subPath: sys_sec_oidc_OidcClient.csv
             - name: oidc-mcmd
               mountPath: /root/.mcmd/scripts/oidc_configuration
               subPath: oidc_configuration
@@ -54,8 +54,8 @@ spec:
         - name: oidc-secret
           secret:
             items:
-            - key: sys_sec_oidc_Client.csv
-              path: sys_sec_oidc_Client.csv
+            - key: sys_sec_oidc_OidcClient.csv
+              path: sys_sec_oidc_OidcClient.csv
             secretName: oidc-secret-{{ template "molgenis.fullname" . }}
         - name: oidc-config
           configMap:
