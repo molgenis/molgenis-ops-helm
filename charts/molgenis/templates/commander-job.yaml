@@ -31,7 +31,7 @@ spec:
                   name: {{ template "molgenis.fullname" $ }}
                   key: adminpassword
             - name: MOLGENIS_HOST
-              value: {{ template "molgenis.fullname" . }}
+              value: http://{{ template "molgenis.fullname" . }}:8080
           volumeMounts:
           - name: commander-config-{{ template "molgenis.fullname" . }}
             mountPath: /root/.mcmd/scripts/molgenis_prepare

@@ -10,5 +10,6 @@ metadata:
     heritage: {{ .Release.Service | quote }}
 data:
   molgenis_prepare: |-
+    config set host http://{{ template "molgenis.fullname" . }}:8080
     {{ .Values.commander.script }}
 {{ end -}}
