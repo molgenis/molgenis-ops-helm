@@ -30,8 +30,8 @@ spec:
                 secretKeyRef:
                   name: {{ template "molgenis.fullname" $ }}
                   key: adminpassword
-            - name: MOLGENIS_DOMAIN
-              value: {{ template "molgenis.fullname" . }}
+            - name: MOLGENIS_HOST
+              value: http://{{ template "molgenis.fullname" . }}:8080
             - name: COMMANDER_SCRIPT
               value: oidc_configuration
           volumeMounts:
