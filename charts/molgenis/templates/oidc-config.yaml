@@ -13,6 +13,7 @@ data:
     signup,signup_moderation,oidcClients,sign_in_2fa,id
     false,true,{{ .Values.oidc.id }},Disabled,auth
   oidc_configuration: |-
+    config set host http://{{ template "molgenis.fullname" . }}:8080
     import sys_sec_oidc_Client.csv
     import sys_set_auth.csv
 {{ end -}}
