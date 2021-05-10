@@ -73,7 +73,54 @@ questions:
     type: password
     required: true
     show_if: "oidc.enabled=true"
-    group: "Provisioning - OIDC"  
+    group: "Provisioning - OIDC"
+  - variable: oidc.identification.endpoints.authorisation
+    label: Authorization endpoint
+    default: "https://auth.molgenis.org/oauth2/authorize"
+    description: "Specify the authorization endpoint of the ID-provider"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: oidc.identification.endpoints.userinfo
+    label: User information endpoint
+    default: "https://auth.molgenis.org/oauth2/userinfo"
+    description: "Specify the user information endpoint of the ID-provider"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: oidc.identification.endpoints.userinfo
+    label: JWKS endpoint
+    default: "https://auth.molgenis.org/oauth2/jwks.json"
+    description: "Specify the JWKS endpoint of the ID-provider"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: oidc.identification.endpoints.token
+    label: Token endpoint
+    default: "https://auth.molgenis.org/oauth2/token"
+    description: "Specify the token endpoint of the ID-provider"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: commander.enabled
+    label: Commander enabled
+    default: true
+    description: "Enable the commander to bootstrap your MOLGENIS"
+    type: boolean
+    required: true
+    group: "Provisioning - Commander"
+  - variable: commander.script
+    label: Commander script
+    default: ""
+    description: "Give the commander script as it was a script"
+    type: multiline
+    required: true
+    show_if: "commander.enabled=true"
+    group: "Provisioning - Commander"
   - variable: molgenis-frontend.enabled
     label: Frontend enabled
     default: true

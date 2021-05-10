@@ -52,7 +52,7 @@ oidc:
   name: molgenis-auth
   identification:
     endpoints:
-      authorisation: https://auth.molgenis.org/oauth2/authorize
+      authorization: https://auth.molgenis.org/oauth2/authorize
       userinfo: https://auth.molgenis.org/oauth2/userinfo
       jwks: https://auth.molgenis.org/.well-known/jwks.json
       token: https://auth.molgenis.org/oauth2/token
