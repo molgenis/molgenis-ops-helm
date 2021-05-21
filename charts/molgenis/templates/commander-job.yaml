@@ -44,5 +44,4 @@ spec:
             - key: molgenis_prepare
               path: molgenis_prepare
             name: commander-config-{{ template "molgenis.fullname" . }}
-    
 {{- end -}}
