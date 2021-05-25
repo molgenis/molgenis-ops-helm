@@ -24,6 +24,9 @@ spec:
         app: {{ template "molgenis.name" . }}
         release: {{ .Release.Name }}
     spec:
+      securityContext:
+        # Group "molgenis" so filebeat can read the logfile
+        fsGroup: 102
       containers:
         - name: molgenis
           image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
@@ -109,11 +112,19 @@ spec:
               value: {{ .Values.maxFileMB | quote }}
             - name: CATALINA_OPTS
               value: {{ .Values.catalinaOpts }}
+{{- if .Values.audit.enabled }}
+            - name: audit.log.path
+              value: /home/molgenis/audit/audit.log
+{{- end }}
           ports:
             - containerPort: 8080
           volumeMounts:
-          - name: pv-molgenis
-            mountPath: /home/molgenis
+            - name: pv-molgenis
+              mountPath: /home/molgenis
+{{- if .Values.audit.enabled }}
+            - name: audit-logging
+              mountPath: /home/molgenis/audit
+{{- end }}
           startupProbe:
             httpGet:
               path: /api/v2/version
@@ -126,6 +137,23 @@ spec:
               port: 8080
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- if .Values.audit.enabled }}
+        - name: filebeat
+          image: {{ .Values.audit.image.name }}:{{ .Values.audit.image.tag }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: audit-logging
+              mountPath: /usr/share/filebeat/input/
+            - name: filebeat-config
+              mountPath: /usr/share/filebeat/filebeat.yml
+              subPath: filebeat.yml
+{{- end }}
       volumes:
         - name: pv-molgenis
         {{- if .Values.persistence.enabled }}
@@ -134,6 +162,13 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end -}}
+{{- if .Values.audit.enabled }}
+        - name: audit-logging
+          emptyDir: {}
+        - name: filebeat-config
+          configMap:
+            name: filebeat-config
+{{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
