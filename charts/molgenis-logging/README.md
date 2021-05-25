@@ -14,9 +14,5 @@ If the molgenis-logging chart is loaded, there are a couple of questions to be a
 
 Username Elastic user(for cluster)
 Password Elastic password(for cluster)
-htpassword string(<username>:<password hash>
-The htpasswd need to be generated locally on your machine for now. To use it, open command line and type:
-```htpasswd -nb <username> <password>```
-Copy the appearing string and paste it to the htpassword string awnser.
 
 Let rancher launch the molgenis-logging. After a while you can login with the username and unencrypted password.
