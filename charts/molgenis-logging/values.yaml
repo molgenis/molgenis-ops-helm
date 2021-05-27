@@ -49,3 +49,4 @@ kibana:
         secretKeyRef:
           name: "elastic-credentials"
           key: password
+  dashboards: custom

@@ -17,3 +17,11 @@ questions:
     required: true
     default: kibana.molgenis.org
     label: "Host address for kibana to be reachable"
+  - variable: kibana.dashboards
+    type: enum
+    required: true
+    default: custom
+    label: "Kibana dashboard archive to import"
+    options:
+      - custom
+      - audit
