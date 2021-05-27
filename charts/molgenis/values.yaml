@@ -46,6 +46,27 @@ resources:
 catalinaOpts: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
 maxFileMB: 150
 
+oidc:
+  enabled: true
+  id: molgenis-auth
+  name: molgenis-auth
+  identification:
+    issuerUri: https://auth.molgenis.org
+    client_id: xxxxxx-xxxxxx-xxxxxxxx
+    client_secret: xxxxxx-xxxxxx-xxxxxxxx
+  claims:
+    roles: roles
+    vo_group:
+
+commander:
+  enabled: true
+  image:
+    repository: molgenis
+    name: commander
+    tag: latest
+  script: |-
+    import data.csv
+
 service:
   type: ClusterIP
   port: 8080

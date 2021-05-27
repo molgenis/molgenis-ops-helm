@@ -1,0 +1,15 @@
+{{ if .Values.commander.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: commander-config-{{ template "molgenis.fullname" . }}
+  labels:
+    app: {{ template "molgenis.name" . }}
+    chart: {{ template "molgenis.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+data:
+  molgenis_prepare: |-
+    config set host http://{{ template "molgenis.fullname" . }}:8080
+{{ .Values.commander.script | indent 4 }}
+{{ end -}}

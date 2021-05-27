@@ -1,0 +1,47 @@
+{{- if .Values.commander.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "molgenis.fullname" . }}-commander
+spec:
+  template:
+    metadata:
+      name: {{ template "molgenis.fullname" . }}-commander
+    spec:
+      initContainers:
+        - name: init-molgenis
+          image: fabric8/fabric8-dependency-wait-service
+          env:
+            - name: MOLGENIS_HOST
+              value: {{ template "molgenis.fullname" . }}
+            - name: DEPENDENCY_POLL_INTERVAL
+              value: "11"
+            - name: DEPENDENCY_LOG_VERBOSE
+              value: "true"
+          command: ["/bin/sh"]
+          args: ["-c", "fabric8-dependency-wait-service-linux-amd64 http://$(MOLGENIS_HOST):8080"]
+      containers:
+        - name: molgenis-commander
+          image: {{ .Values.commander.image.repository }}/{{ .Values.commander.image.name }}:{{ .Values.commander.image.tag }}
+          imagePullPolicy: {{ .Values.commander.image.pullPolicy }}
+          env:
+            - name: MOLGENIS_ADMINISTRATOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "molgenis.fullname" $ }}
+                  key: adminpassword
+            - name: MOLGENIS_HOST
+              value: http://{{ template "molgenis.fullname" . }}:8080
+          volumeMounts:
+            - name: commander-config
+              mountPath: /root/.mcmd/scripts/molgenis_prepare
+              subPath: molgenis_prepare
+      volumes:
+        - name: commander-config
+          configMap:
+            items: 
+            - key: molgenis_prepare
+              path: molgenis_prepare
+            name: commander-config-{{ template "molgenis.fullname" . }}
+      restartPolicy: Never
+{{- end -}}

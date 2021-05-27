@@ -35,6 +35,87 @@ questions:
     type: string
     required: true
     group: "Provisioning"
+  - variable: oidc.enabled
+    label: OIDC enabled
+    default: true
+    description: "Do you want to connect to and ID-provider or authentication service"
+    type: boolean
+    required: true
+    group: "Provisioning - OIDC"
+  - variable: oidc.id
+    label: OpenID connect ID
+    default: "molgenis-auth"
+    description: "Type openid connect ID"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: oidc.name
+    label: OpenID connect name
+    default: "molgenis-auth"
+    description: "Type openid connect name"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"  
+  - variable: oidc.identification.client_id
+    label: Client ID
+    default: ""
+    description: "Provide the Client ID. This needs to be supplied by the ID-provider (default ID-provider https://auth.molgenis.org)"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"  
+  - variable: oidc.identification.client_secret
+    label: Client secret
+    default: ""
+    description: "Type in the Client secret. This needs to be supplied by the ID-provider (default ID-provider https://auth.molgenis.org)"
+    type: password
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: oidc.identification.issuerUri
+    label: Authorization issuer URI
+    default: "https://auth.molgenis.org"
+    description: "Specify the authorization issuer URI endpoint of the ID-provider"
+    type: string
+    required: true
+    show_if: "oidc.enabled=true"
+    group: "Provisioning - OIDC"
+  - variable: commander.enabled
+    label: Commander enabled
+    default: true
+    description: "Enable the commander to bootstrap your MOLGENIS"
+    type: boolean
+    required: true
+    group: "Provisioning - Commander"
+  - variable: commander.image.repository
+    label: Commander docker repository
+    default: "registry.hub.docker.com"
+    description: "Specify a registry to pull from"
+    type: enum
+    options:
+      - "registry.hub.docker.com"
+      - "registry.molgenis.org"
+    required: true
+    show_if: "commander.enabled=true"
+    group: "Provisioning - Commander"
+  - variable: commander.image.tag
+    default: latest
+    label: Commander version
+    description: "Specify commander container version"
+    type: string
+    required: true
+    show_if: "commander.enabled=true"
+    group: "Provisioning - Commander"
+  - variable: commander.script
+    label: Commander script
+    default: ""
+    description: "Enter the commander script. Make sure you enter the script as script. For example: 'add user bofke'."
+    type: multiline
+    required: true
+    show_if: "commander.enabled=true"
+    group: "Provisioning - Commander"
   - variable: molgenis-frontend.enabled
     label: Frontend enabled
     default: true
