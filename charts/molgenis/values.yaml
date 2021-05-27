@@ -51,11 +51,7 @@ oidc:
   id: molgenis-auth
   name: molgenis-auth
   identification:
-    endpoints:
-      authorization: https://auth.molgenis.org/oauth2/authorize
-      userinfo: https://auth.molgenis.org/oauth2/userinfo
-      jwks: https://auth.molgenis.org/.well-known/jwks.json
-      token: https://auth.molgenis.org/oauth2/token
+    issuerUri: https://auth.molgenis.org
     client_id: xxxxxx-xxxxxx-xxxxxxxx
     client_secret: xxxxxx-xxxxxx-xxxxxxxx
   claims:
@@ -63,13 +59,13 @@ oidc:
     vo_group:
 
 commander:
-  enabled: false
+  enabled: true
   image:
     repository: molgenis
     name: commander
     tag: latest
-# script: |-
-#   import data.csv
+  script: |-
+    import data.csv
 
 service:
   type: ClusterIP

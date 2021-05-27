@@ -33,15 +33,15 @@ spec:
             - name: MOLGENIS_HOST
               value: http://{{ template "molgenis.fullname" . }}:8080
           volumeMounts:
-          - name: commander-config-{{ template "molgenis.fullname" . }}
-            mountPath: /root/.mcmd/scripts/molgenis_prepare
-            subPath: molgenis_prepare
-      restartPolicy: Never
-   volumes:
-        - name: commander-config-{{ template "molgenis.fullname" . }}
+            - name: commander-config
+              mountPath: /root/.mcmd/scripts/molgenis_prepare
+              subPath: molgenis_prepare
+      volumes:
+        - name: commander-config
           configMap:
             items: 
             - key: molgenis_prepare
               path: molgenis_prepare
             name: commander-config-{{ template "molgenis.fullname" . }}
+      restartPolicy: Never
 {{- end -}}

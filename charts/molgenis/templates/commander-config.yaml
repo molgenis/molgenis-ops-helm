@@ -11,5 +11,5 @@ metadata:
 data:
   molgenis_prepare: |-
     config set host http://{{ template "molgenis.fullname" . }}:8080
-    {{ .Values.commander.script }}
+{{ .Values.commander.script | indent 4 }}
 {{ end -}}

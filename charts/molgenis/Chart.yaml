@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "8.7"
 description: MOLGENIS - helm stack
 name: molgenis
-version: 1.14.0
+version: 1.15.0
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis/catalogIcon-molgenis.png
