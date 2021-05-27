@@ -295,6 +295,27 @@ questions:
       - "2"
       - "4"
     default: "1"
+  - variable: audit.enabled
+    show_if: "questions.advanced=true"
+    label: Enable auditing
+    default: false
+    type: boolean
+    required: true
+    group: Auditing
+    show_subquestion_if: true
+    subquestions:
+    - variable: audit.elasticsearch
+      label: Elasticsearch URL
+      description: Where to send the audit log events
+      default: http://elasticsearch-master.audit-logging:9200
+      type: string
+      required: true
+      group: Auditing
+    - variable: audit.image.tag
+      default: 7.9.3
+      type: string
+      required: true
+      group: Auditing
   - variable: "admin.email"
     show_if: "questions.advanced=true"
     group: "Mail"

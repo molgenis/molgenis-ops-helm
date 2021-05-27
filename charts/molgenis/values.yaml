@@ -71,6 +71,13 @@ service:
   type: ClusterIP
   port: 8080
 
+audit:
+  enabled: true
+  elasticsearch: http://elasticsearch-master.audit-logging:9200
+  image:
+    name: docker.elastic.co/beats/filebeat-oss
+    tag: 7.9.3
+
 nodeSelector:
   deployPod: "true"
 tolerations: []
