@@ -61,8 +61,8 @@ oidc:
 commander:
   enabled: true
   image:
-    repository: molgenis
-    name: commander
+    repository: registry.hub.docker.com
+    name: molgenis/commander
     tag: latest
   script: |-
     import data.csv
