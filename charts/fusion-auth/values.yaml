@@ -10452,8 +10452,9 @@ postgresql:
   postgresqlDatabase: fusionauth
   password: molgenis
   persistence:
+    createVolumeClaim: true
     enabled: true
-  # existingClaim:
+    existingClaim: fusionauth-data
   existingSecret: fusion-postgresql
   nodeSelector:
     deployPod: "true"

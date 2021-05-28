@@ -1,0 +1,23 @@
+{{- if and .Values.postgresql.persistence.enabled .Values.postgresql.persistence.createVolumeClaim }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pvc
+  labels:
+{{ include "fusion-auth.labels" . | indent 4 }}
+spec:
+  accessModes:
+  {{- range .Values.postgresql.persistence.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.postgresql.persistence.size | quote }}
+{{- if .Values.postgresql.persistence.storageClass }}
+{{- if (eq "-" .Values.postgresql.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.postgresql.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}

@@ -33,10 +33,18 @@ questions:
     label: Persist data
     required: true
     group: PostgreSQL
+  - variable: postgresql.persistence.createVolumeclaim
+    default: true
+    type: boolean
+    label: Do you want to create a volume claim?
+    required: true
+    group: PostgreSQL
   - variable: postgresql.persistence.existingClaim
-    show_if: "postgresql.persistence.enabled=true"
+    show_if: "postgresql.persistence.createVolumeClaim=false"
     type: string
+    default: fusionauth-data
     label: Specify existing claim 
+    description: You need to specify a name of an exisiting claim!
     required: true
     group: PostgreSQL
   
