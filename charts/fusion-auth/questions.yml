@@ -29,6 +29,7 @@ questions:
     required: true
     group: PostgreSQL
   - variable: postgresql.persistence.enabled
+    default: true
     type: boolean
     label: Persist data
     required: true
@@ -37,6 +38,7 @@ questions:
     default: true
     type: boolean
     label: Do you want to create a volume claim?
+    show_if: "postgresql.persistence.enabled=true"
     required: true
     group: PostgreSQL
   - variable: postgresql.persistence.existingClaim
