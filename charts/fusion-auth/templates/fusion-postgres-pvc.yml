@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-pvc
+  name: {{ .Values.postgresql.persistence.existingClaim }}
   labels:
 {{ include "fusion-auth.labels" . | indent 4 }}
 spec:
