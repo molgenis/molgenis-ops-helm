@@ -41,6 +41,8 @@ spec:
               value: "false"
             - name: xpack.ml.enabled
               value: "false"
+            - name: xpack.graph.enabled
+              value: "false"
             - name: discovery.type
               value: single-node
           ports:
