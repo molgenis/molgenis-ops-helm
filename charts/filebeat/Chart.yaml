@@ -3,8 +3,9 @@ description: Customized Elastic helm chart for Filebeat
 home: https://github.com/elastic/helm-charts
 maintainers:
 - name: akuperus
+- name: christianhilbrands
 name: filebeat
-version: 1.0.2
+version: 1.1.0
 appVersion: 7.5.2
 sources:
   - https://github.com/elastic/beats

@@ -10,6 +10,10 @@ filebeat:
         - '*'
         processors:
         - add_kubernetes_metadata: ~
+        - drop_event:
+          when:
+            contains:
+              elasticsearch.component: "o.e.l.LicenseService"
         multiline:
           pattern: '^[[:blank:]]+(at|\.{3}[[:space:]][[:digit:]]+)|^(<|[[:blank:]]?[[:word:]]+(\.[[:word:]]+)+|Exception:|Caused by:)'
           negate: false
