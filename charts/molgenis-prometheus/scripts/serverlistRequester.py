@@ -2,7 +2,7 @@ from sys import argv
 import json
 import requests
 
-urlAddress = 'molgenis122.gcc.rug.nl'
+urlAddress = 'serverlist.gcc.rug.nl'
 urlUser = argv[1]
 urlPwd = argv[2]
 node_exporter_port = 9100
