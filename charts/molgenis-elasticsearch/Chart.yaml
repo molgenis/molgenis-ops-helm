@@ -2,7 +2,7 @@ apiVersion: v1
 description: Elasticsearch for MOLGENIS
 name: molgenis-elasticsearch
 version: 2.0.3
-appVersion: 5.5.3
+appVersion: 5.6.16
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-elasticsearch/catalogIcon-molgenis-elasticsearch.png
