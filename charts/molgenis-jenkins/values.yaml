@@ -500,7 +500,7 @@ jenkins:
           inheritFrom: molgenis-jdk11
           containers:
             - name: elasticsearch
-              image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+              image: molgenis/molgenis-elasticsearch:1.0.0
               workingDir: ""
               command: ""
               args: ""
@@ -560,7 +560,7 @@ jenkins:
           nodeUsageMode: EXCLUSIVE
           containers:
             - name: elasticsearch
-              image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+              image: molgenis/molgenis-elasticsearch:1.0.0
               workingDir: ""
               command: ""
               args: ""
@@ -614,7 +614,7 @@ jenkins:
           nodeUsageMode: EXCLUSIVE
           containers:
             - name: elasticsearch
-              image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+              image: molgenis/molgenis-elasticsearch:1.0.0
               workingDir: ""
               command: ""
               args: ""
