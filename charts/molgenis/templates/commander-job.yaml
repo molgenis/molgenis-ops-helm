@@ -25,7 +25,9 @@ spec:
           image: {{ .Values.commander.image.repository }}/{{ .Values.commander.image.name }}:{{ .Values.commander.image.tag }}
           imagePullPolicy: {{ .Values.commander.image.pullPolicy }}
           env:
-            - name: MOLGENIS_ADMINISTRATOR_PASSWORD
+            - name: ADMIN_USERNAME
+              value: admin
+            - name: ADMIN_PASSWORD  
               valueFrom:
                 secretKeyRef:
                   name: {{ template "molgenis.fullname" $ }}

@@ -25,15 +25,17 @@ spec:
           image: {{ .Values.commander.image.repository }}/{{ .Values.commander.image.name }}:{{ .Values.commander.image.tag }}
           imagePullPolicy: {{ .Values.commander.image.pullPolicy }}
           env:
-            - name: MOLGENIS_ADMINISTRATOR_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "molgenis.fullname" $ }}
-                  key: adminpassword
             - name: MOLGENIS_HOST
               value: http://{{ template "molgenis.fullname" . }}:8080
             - name: COMMANDER_SCRIPT
               value: oidc_configuration
+            - name: ADMIN_USERNAME
+              value: admin
+            - name: ADMIN_PASSWORD  
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "molgenis.fullname" $ }}
+                  key: adminpassword
           volumeMounts:
             - name: oidc-config
               mountPath: /data/sys_set_auth.csv
