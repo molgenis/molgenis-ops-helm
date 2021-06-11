@@ -47,7 +47,7 @@ catalinaOpts: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnlo
 maxFileMB: 150
 
 oidc:
-  enabled: true
+  enabled: false
   id: molgenis-auth
   name: molgenis-auth
   identification:
@@ -59,7 +59,7 @@ oidc:
     vo_group:
 
 commander:
-  enabled: true
+  enabled: false
   image:
     repository: registry.hub.docker.com
     name: molgenis/commander
