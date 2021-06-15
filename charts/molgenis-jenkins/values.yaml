@@ -683,6 +683,11 @@ jenkins:
               ttyEnabled: true
               command: "/bin/bash"
               args: ""
+            - name: centos-7
+              image: "centos:centos7.9.2009"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
             - name: centos-8
               image: "centos:centos8.3.2011"
               ttyEnabled: true
