@@ -678,16 +678,31 @@ jenkins:
           inheritFrom: shared
           nodeUsageMode: EXCLUSIVE
           containers:
-            - name: centos-6
-              image: "centos:6.10"
+            - name: toolset
+              image: "quay.io/ansible/toolset:3.4.1"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: centos-7
+              image: "centos:centos7.9.2009"
               ttyEnabled: true
               command: "/bin/bash"
               args: ""
             - name: centos-8
               image: "centos:centos8.3.2011"
               ttyEnabled: true
-              command: "/usr/sbin/init"
-              args: "--tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup:ro"
+              command: "/bin/bash"
+              args: ""
+            - name: ubuntu-20
+              image: "ubuntu:focal"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: debian-10
+              image: "debian:buster"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
       r-3.5.2: |
         - name: r-3.5.2
           label: r-3.5.2
