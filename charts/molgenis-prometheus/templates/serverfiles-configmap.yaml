@@ -10,6 +10,7 @@ data:
         rules:
           - alert: UnreachableURL
             expr: probe_success{job="blackbox-targets", type="production"} == 0
+            for: 6m
             labels:
               severity: CRITICAL
             annotations:
@@ -25,12 +26,12 @@ data:
               summary: {{ printf "\"Node_exporter production instance UNREACHABLE on old infra\"" }}
               description: {{ printf "\"  Instance: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{ $labels.project }} \\n type: {{$labels.type}} \\n \"" }}
           - alert: InstanceProdDownNewInfra
-            expr: up{job="openstack-sd"} == 0
+            expr: up{job="openstack23"} == 0
             labels:
               severity: CRITICAL
             annotations:
               summary: {{ printf "\"Node_exporter of instance UNREACHABLE on new infra\"" }}
-              description: {{ printf "\"  Instance: {{$labels.instance}} \\n \"" }}
+              description: {{ printf "\"  Instance: {{$labels.instance}} \\n    ID: {{$labels.id}} \\n    Project: {{$labels.project}} \\n    IP address: {{$labels.ip}} \\n \"" }}
           - alert: ServerlistInstanceDown
             expr: up{job="serverListServer"} == 0
             labels:
@@ -39,7 +40,7 @@ data:
               summary: {{ printf "\"Serverlist server Down\"" }}
               description: {{ printf "\"  Serverlist: {{ $labels.id }}/{{ $labels.instance }} is down!\\n    ID: {{ $labels.id }} \\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
           - alert: OutOfDiskSpace
-            expr: (node_filesystem_avail{device="rootfs"} / node_filesystem_size{device="rootfs"} * 100) < 10
+            expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100) < 10
             for: 5m
             labels:
               severity: WARN
@@ -106,7 +107,7 @@ data:
           'match[]':
             - '{__name__=~"job:.*"}'   # Request all job-level time series
             - '{job="prometheus"}'
-            - '{job="openstack-sd"}'
+            - '{job="openstack23"}'
             - '{job="haproxy"}'
             - '{job="tower"}'
         static_configs:
