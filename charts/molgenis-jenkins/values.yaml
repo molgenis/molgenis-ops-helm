@@ -420,7 +420,7 @@ jenkins:
           inheritFrom: shared
           containers:
             - name: node
-              image: "molgenis/node-carbon:1.1.0"
+              image: "molgenis/node-carbon:1.1.1"
               command: cat
               args: ""
               ttyEnabled: true
@@ -433,7 +433,7 @@ jenkins:
           inheritFrom: shared
           containers:
             - name: node
-              image: "molgenis/node-dubnium:1.1.0"
+              image: "molgenis/node-dubnium:1.1.1"
               command: cat
               args: ""
               ttyEnabled: true
@@ -453,7 +453,7 @@ jenkins:
           inheritFrom: shared
           containers:
             - name: node
-              image: "molgenis/node-erbium:1.1.0"
+              image: "molgenis/node-erbium:1.1.1"
               command: cat
               args: ""
               ttyEnabled: true
@@ -466,7 +466,7 @@ jenkins:
           inheritFrom: shared
           containers:
             - name: node
-              image: "molgenis/node-fermium:1.0.0"
+              image: "molgenis/node-fermium:1.0.1"
               command: cat
               args: ""
               ttyEnabled: true
