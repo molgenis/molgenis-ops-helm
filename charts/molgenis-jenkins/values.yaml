@@ -229,6 +229,7 @@ jenkins:
                   credentialsId: "molgenis-jenkins-github-token-secret"
     scriptApproval:
       - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods replaceAll java.lang.String java.util.regex.Pattern java.lang.String"
+      - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods putAt java.lang.Object java.lang.String java.lang.Object"
     nodeSelector:
       deployPod: "true"
   persistence:
