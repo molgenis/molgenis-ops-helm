@@ -24,6 +24,9 @@ spec:
         - name: molgenis-commander
           image: {{ .Values.commander.image.repository }}/{{ .Values.commander.image.name }}:{{ .Values.commander.image.tag }}
           imagePullPolicy: {{ .Values.commander.image.pullPolicy }}
+          args:
+            - run
+            - molgenis_prepare
           env:
             - name: ADMIN_USERNAME
               value: admin
