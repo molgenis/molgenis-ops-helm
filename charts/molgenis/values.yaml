@@ -63,7 +63,7 @@ commander:
   image:
     repository: registry.hub.docker.com
     name: molgenis/commander
-    tag: latest
+    tag: 2.0.0
   script: |-
     import data.csv
 

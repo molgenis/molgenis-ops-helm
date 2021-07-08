@@ -101,7 +101,7 @@ questions:
     show_if: "commander.enabled=true"
     group: "Provisioning - Commander"
   - variable: commander.image.tag
-    default: latest
+    default: "2.0.0"
     label: Commander version
     description: "Specify commander container version"
     type: string
