@@ -68,6 +68,10 @@ server:
             - SU
 
 molgenis-rserve:
+  image:
+    repository: molgenis/rserver
+    tag: latest
+    pullPolicy: IfNotPresent
   enabled: true
   resources:
     limits:
