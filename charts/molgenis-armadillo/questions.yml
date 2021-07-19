@@ -150,10 +150,7 @@ questions:
   group: Armadillo
 - variable: molgenis-rserve.image.repository
   label: MOLGENIS RServer image repository
-  type: enum
-  options:
-    - molgenis/rserver
-    - registry.molgenis.org/molgenis/rserver
+  type: string
   required: true
   default: molgenis/rserver
   group: R
