@@ -518,15 +518,6 @@ jenkins:
                     key: bootstrap.memory_lock
                     value: 'true'
                 - envVar:
-                    key: xpack.security.enabled
-                    value: 'false'
-                - envVar:
-                    key: xpack.monitoring.enabled
-                    value: 'false'
-                - envVar:
-                    key: xpack.watcher.enabled
-                    value: 'false'
-                - envVar:
                     key: discovery.type
                     value: single-node
             - name: postgres
@@ -578,15 +569,6 @@ jenkins:
                     key: bootstrap.memory_lock
                     value: 'true'
                 - envVar:
-                    key: xpack.security.enabled
-                    value: 'false'
-                - envVar:
-                    key: xpack.monitoring.enabled
-                    value: 'false'
-                - envVar:
-                    key: xpack.watcher.enabled
-                    value: 'false'
-                - envVar:
                     key: discovery.type
                     value: single-node
             - name: postgres
@@ -631,15 +613,6 @@ jenkins:
                 - envVar:
                     key: bootstrap.memory_lock
                     value: 'true'
-                - envVar:
-                    key: xpack.security.enabled
-                    value: 'false'
-                - envVar:
-                    key: xpack.monitoring.enabled
-                    value: 'false'
-                - envVar:
-                    key: xpack.watcher.enabled
-                    value: 'false'
                 - envVar:
                     key: discovery.type
                     value: single-node
