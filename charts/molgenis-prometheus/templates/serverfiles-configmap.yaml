@@ -13,15 +13,26 @@ data:
             for: 6m
             labels:
               severity: CRITICAL
+              frequency: 15m
             annotations:
               summary: {{ printf "\"Site unreachable\"" }}
               description: {{ printf "\"  Website: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{$labels.project}} \\n  Type: {{$labels.type}} \\n \"" }}
       - name: virtualmachines
         rules:
+          - alert: SSLCertExpiringSoon 
+            expr: probe_ssl_earliest_cert_expiry{job="blackbox-targets"} - time() < 86400 * 30 
+            for: 10m
+            labels:
+              severity: WARNING
+              frequency: daily
+            annotations:
+              summary: {{ printf "\"Site SSL EXPIRE WARNING\"" }}
+              description: {{ printf "\"  Website: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{$labels.project}} \\n  Type: {{$labels.type}} \\n \"" }}
           - alert: InstanceProdDownOldInfra
             expr: up{job="node-targets", type="production"} == 0
             labels:
               severity: CRITICAL
+              frequency: 15m
             annotations:
               summary: {{ printf "\"Node_exporter production instance UNREACHABLE on old infra\"" }}
               description: {{ printf "\"  Instance: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{ $labels.project }} \\n type: {{$labels.type}} \\n \"" }}
@@ -29,6 +40,7 @@ data:
             expr: up{job="openstack23"} == 0
             labels:
               severity: CRITICAL
+              frequency: 15m
             annotations:
               summary: {{ printf "\"Node_exporter of instance UNREACHABLE on new infra\"" }}
               description: {{ printf "\"  Instance: {{$labels.instance}} \\n    ID: {{$labels.id}} \\n    Project: {{$labels.project}} \\n    IP address: {{$labels.ip}} \\n \"" }}
@@ -36,6 +48,7 @@ data:
             expr: up{job="serverListServer"} == 0
             labels:
               severity: CRITICAL
+              frequency: 15m
             annotations:
               summary: {{ printf "\"Serverlist server Down\"" }}
               description: {{ printf "\"  Serverlist: {{ $labels.id }}/{{ $labels.instance }} is down!\\n    ID: {{ $labels.id }} \\n    Project: {{ $labels.project }}\\n    DTAP: {{ $labels.type }}\\n \"" }}
@@ -44,6 +57,7 @@ data:
             for: 5m
             labels:
               severity: WARN
+              frequency: 15m
             annotations:
               summary: {{ printf "\"Out of disk space (instance {{ $labels.instance }}) \"" }}
               description: {{ printf "\"  Disk is almost full (< 10 percent left)\\n    VALUE = {{ $value }}\\n    Project: {{ $labels.id }}/{{ $labels.project }}\\n    Type: {{ $labels.type }}\\n \\n \"" }}
