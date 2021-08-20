@@ -1,0 +1,1 @@
+Installed molgenis emx2 catalogue ETL cron job.

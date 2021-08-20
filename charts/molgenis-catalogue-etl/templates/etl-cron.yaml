@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etl
+  labels:
+    {{- include "molgenis-catalogue-etl.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.etl.schedule }}"
+  concurrencyPolicy: Replace
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "molgenis-catalogue-etl.labels" . | nindent 8 }}
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: etl
+            {{- with .Values.etl.image }}
+              image: "{{ .repository }}:{{ .tag }}"
+              imagePullPolicy: {{ .pullPolicy }}
+            {{- end }}
+              env:
+              - name: "MG_CATALOGUE_NETWORKS"
+                value: "LifeCycle, ATHLETE, LongITools"
+              - name: "MG_CATALOGUE_COHORTS"
+                value: "NFBC1966, NFBC1986, KANC"
+              - name: "MG_CATALOGUE_URL_STAGING"
+                value: "https://data-catalogue-staging.molgeniscloud.org/"
+              - name: "MG_CATALOGUE_USERNAME_STAGING"
+                value: "stage-user-xxx"
+              - name: "MG_CATALOGUE_PASSWORD_STAGING"
+                value: "stage-pass-xxx"
+              - name: "MG_CATALOGUE_URL_PROD"
+                value: "https://data-catalogue-staging.molgeniscloud.org/"
+              - name: "MG_CATALOGUE_USERNAME_PROD"
+                value: "prod-user-name-xxx"
+              - name: "MG_CATALOGUE_PASSWORD_PROD"
+                value: "prod-pass-xxx"
+                
