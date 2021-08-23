@@ -23,19 +23,24 @@ spec:
             {{- end }}
               env:
               - name: "MG_CATALOGUE_NETWORKS"
-                value: "LifeCycle, ATHLETE, LongITools"
+                value: "{{ .Values.etl.networks }}"
               - name: "MG_CATALOGUE_COHORTS"
-                value: "NFBC1966, NFBC1986, KANC"
+                value: "{{ .Values.etl.cohorts }}"
               - name: "MG_CATALOGUE_URL_STAGING"
-                value: "https://data-catalogue-staging.molgeniscloud.org/"
+                value: "{{ .Values.etl.staging.url }}"
               - name: "MG_CATALOGUE_USERNAME_STAGING"
-                value: "stage-user-xxx"
+                value: "{{ .Values.etl.staging.username }}"
               - name: "MG_CATALOGUE_PASSWORD_STAGING"
-                value: "stage-pass-xxx"
+                valueFrom:
+                  secretKeyRef:
+                    key:  staging-password
+                    name: etl-secret
               - name: "MG_CATALOGUE_URL_PROD"
-                value: "https://data-catalogue-staging.molgeniscloud.org/"
+                value: "{{ .Values.etl.catalogue.url }}"
               - name: "MG_CATALOGUE_USERNAME_PROD"
-                value: "prod-user-name-xxx"
+                value: "{{ .Values.etl.catalogue.username }}"
               - name: "MG_CATALOGUE_PASSWORD_PROD"
-                value: "prod-pass-xxx"
-                
+                valueFrom:
+                  secretKeyRef:
+                    key:  catalogue-password
+                    name: etl-secret   

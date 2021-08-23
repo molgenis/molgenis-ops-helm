@@ -11,25 +11,14 @@ etl:
     pullPolicy: Always
   networks: LifeCycle, ATHLETE, LongITools
   cohorts: NFBC1966, NFBC1986, KANC
-  staging: 
-    password: xxxx
-  # staging:
-  #   env:
-  #     - name: MG_CATALOGUE_URL_STAGING
-  #       value: https://data-catalogue-staging.molgeniscloud.org/
-  #     - name: MG_CATALOGUE_USERNAME_STAGING
-  #       value: admin
-  #     - name: MG_CATALOGUE_PASSWORD_STAGING
-  #       value: xxxx
-  # catalogue:
-  #   env:
-  #     - name: MG_CATALOGUE_URL_PROD
-  #       value: https://data-catalogue-staging.molgeniscloud.org/
-  #     - name: MG_CATALOGUE_USERNAME_PROD
-  #       value: admin
-  #     - name: MG_CATALOGUE_PASSWORD_PROD
-  #       value: xxxx
-
+  staging:
+    url: https://data-catalogue-staging.molgeniscloud.org/
+    username: admin
+    password: staging-pw-place-holder
+  catalogue:
+    url: https://data-catalogue-staging.molgeniscloud.org/
+    username: admin
+    password: catalogue-pw-place-holder
 
 replicaCount: 1
 
