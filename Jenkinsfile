@@ -15,6 +15,7 @@ pipeline {
                     sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                     sh "helm repo add jenkins https://charts.jenkins.io"
                     sh "helm repo add minio https://helm.min.io"
+                    sh 'helm repo add jupyter https://jupyterhub.github.io/helm-chart'
                 }
             }
         }
