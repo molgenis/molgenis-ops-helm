@@ -11,8 +11,7 @@ To spin up a Jupyter cluster: https://zero-to-jupyterhub.readthedocs.io/en/lates
 `minikube tunnel`
 
 ### Local settings
-Enable `ingress` and change the `callback url` in the `values.yml`.
-Make sure you 
+Enable `ingress`. Make sure you have the `minikube tunnel` open.
 
 ### Install a new release of jupiter
 ```bash
