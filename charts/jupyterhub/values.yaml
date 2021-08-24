@@ -17,8 +17,8 @@ jupyterhub:
           - s.haakma@umcg.nl
         auto_login: false
       GenericOAuthenticator:
-        client_id: fe06abd9-4b1e-4d0f-8f17-cd84c4207cc8
-        client_secret: AYUCDM3Go8CYYXqBu-npw5jxtgnp8Mzyyf-Rr0iG8X8
+        client_id: xxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxx
+        client_secret: xxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxx
         login_service: LifeCycle
         authorize_url: https://auth.molgenis.org/oauth2/authorize
         token_url: https://auth.molgenis.org/oauth2/token
@@ -61,4 +61,4 @@ jupyterhub:
         image: molgenis/rstudio-jupyter:1.3.3
 
   proxy:
-    secretToken: 66f7e278abaf12871e13822276d0243f73e0e4ad83e27dde9b2cf4eebe5ea9a6
+    secretToken: xxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxx
