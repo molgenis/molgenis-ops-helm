@@ -3,9 +3,8 @@ jupyterhub:
     enabled: true
     hosts:
     - jupyter.edge.molgenis.org
-  
+
   hub:
-    # experiment as an admin on jupyter hub
     config:
       JupyterHub:
         admin_access: true
@@ -13,7 +12,7 @@ jupyterhub:
       Authenticator:
         allowed_users:
           - s.haakma@umcg.nl
-        admin_users: 
+        admin_users:
           - s.haakma@umcg.nl
         auto_login: false
       GenericOAuthenticator:
@@ -23,19 +22,19 @@ jupyterhub:
         authorize_url: https://auth.molgenis.org/oauth2/authorize
         token_url: https://auth.molgenis.org/oauth2/token
         userdata_url: https://auth.molgenis.org/oauth2/userinfo
-        userdata_method: GET      
+        userdata_method: GET
         username_key: email
         oauth_callback_url: http://127.0.0.1/hub/oauth_callback
-        scope: 
-         - openid
-         - name
-         - profile
-         - email
+        scope:
+          - openid
+          - name
+          - profile
+          - email
 
   singleuser:
     image:
       name: molgenis/rstudio-jupyter
-      tag: '1.1.0'
+      tag: 1.1.0
     cpu:
       limit: 2
       guarantee: 1
