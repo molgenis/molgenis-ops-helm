@@ -1,0 +1,47 @@
+questions:
+- variable: etl.networks
+  label: Networks
+  default: LifeCycle, Longitools, Athlete
+  description: Define the network(s) you want to migrate data from 
+  type: string
+  required: true
+- variable: etl.cohorts
+  label: Cohorts
+  default: NFBC1966, NFBC1986, KANC
+  description: Define the cohort(s) you want to migrate data from 
+  type: string
+  required: true
+- variable: etl.staging.url
+  label: Location
+  default: https://data-catalogue-staging.molgeniscloud.org/
+  type: string
+  required: true
+  group: Staging
+- variable: etl.staging.username
+  label: Username
+  default: admin
+  type: string
+  required: true
+  group: Staging
+- variable: etl.staging.password
+  label: Password
+  type: password
+  required: true
+  group: Staging
+- variable: etl.production.url
+  label: Location
+  default: https://data-catalogue.molgeniscloud.org/
+  type: string
+  required: true
+  group: Production
+- variable: etl.production.username
+  label: Username
+  default: admin
+  type: string
+  required: true
+  group: Production
+- variable: etl.production.password
+  label: Password
+  type: password
+  required: true
+  group: Production
