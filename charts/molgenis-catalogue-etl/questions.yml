@@ -28,20 +28,20 @@ questions:
   type: password
   required: true
   group: Staging
-- variable: etl.production.url
+- variable: etl.catalogue.url
   label: Location
   default: https://data-catalogue.molgeniscloud.org/
   type: string
   required: true
-  group: Production
-- variable: etl.production.username
+  group: Catalogue
+- variable: etl.catalogue.username
   label: Username
   default: admin
   type: string
   required: true
-  group: Production
-- variable: etl.production.password
+  group: Catalogue
+- variable: etl.catalogue.password
   label: Password
   type: password
   required: true
-  group: Production
+  group: Catalogue

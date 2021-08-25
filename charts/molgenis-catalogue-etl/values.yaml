@@ -14,10 +14,10 @@ etl:
     url: https://data-catalogue-staging.molgeniscloud.org/
     username: admin
     password: staging-pw-place-holder
-  production:
+  catalogue:
     url: https://data-catalogue.molgeniscloud.org/
     username: admin
-    password: production-pw-place-holder
+    password: catalogue-pw-place-holder
 
 replicaCount: 1
 
