@@ -11,6 +11,11 @@ questions:
   description: Define the cohort(s) you want to migrate data from 
   type: string
   required: true
+- variable: etl.schedule
+  label: Schedule
+  default: "*/5 * * * *"
+  type: string
+  required: true
 - variable: etl.staging.url
   label: Location
   default: https://data-catalogue-staging.molgeniscloud.org/
