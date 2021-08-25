@@ -1,0 +1,46 @@
+apiVersion: batch/v1beta1 #batch/v1
+kind: CronJob
+metadata:
+  name: etl
+  labels:
+    {{- include "molgenis-catalogue-etl.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.etl.schedule }}"
+  concurrencyPolicy: Replace
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "molgenis-catalogue-etl.labels" . | nindent 8 }}
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: etl
+            {{- with .Values.etl.image }}
+              image: "{{ .repository }}:{{ .tag }}"
+              imagePullPolicy: {{ .pullPolicy }}
+            {{- end }}
+              env:
+              - name: "MG_CATALOGUE_NETWORKS"
+                value: "{{ .Values.etl.networks }}"
+              - name: "MG_CATALOGUE_COHORTS"
+                value: "{{ .Values.etl.cohorts }}"
+              - name: "MG_CATALOGUE_URL_STAGING"
+                value: "{{ .Values.etl.staging.url }}"
+              - name: "MG_CATALOGUE_USERNAME_STAGING"
+                value: "{{ .Values.etl.staging.username }}"
+              - name: "MG_CATALOGUE_PASSWORD_STAGING"
+                valueFrom:
+                  secretKeyRef:
+                    key:  staging-password
+                    name: etl-secret
+              - name: "MG_CATALOGUE_URL_PROD"
+                value: "{{ .Values.etl.catalogue.url }}"
+              - name: "MG_CATALOGUE_USERNAME_PROD"
+                value: "{{ .Values.etl.catalogue.username }}"
+              - name: "MG_CATALOGUE_PASSWORD_PROD"
+                valueFrom:
+                  secretKeyRef:
+                    key:  catalogue-password
+                    name: etl-secret   

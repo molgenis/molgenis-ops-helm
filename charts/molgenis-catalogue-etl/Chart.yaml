@@ -1,0 +1,6 @@
+apiVersion: v2
+name: molgenis-catalogue-etl
+description: Running scheduled extract tranform load (etl) job, moving data from staging area into data catalogue
+type: application
+version: 0.1.1
+appVersion: "1.0.12"
