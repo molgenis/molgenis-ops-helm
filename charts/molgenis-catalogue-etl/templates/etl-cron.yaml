@@ -42,5 +42,5 @@ spec:
               - name: "MG_CATALOGUE_PASSWORD_PROD"
                 valueFrom:
                   secretKeyRef:
-                    key:  catalogue-password
+                    key:  production-password
                     name: etl-secret   
