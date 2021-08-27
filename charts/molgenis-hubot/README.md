@@ -27,8 +27,16 @@ Fill it in in the form `user:token`.
 It would be better if this token was also a secret but that would require changing the subchart.
 
 ### Scripts
-`hubot.hubot.scripts` includes jenkins chatops scripts copied from [`https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts`](https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts).
+`hubot.hubot.scripts` in the values.yaml includes jenkins chatops scripts copied from 
+[`https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts`](https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts).
 You can add your own scripts here.
+
+The scripts get put in a configmap `molgenis-hubot-scripts` which you can edit after it's deployed to quickly change the scripts.
+The hubot pod can be stopped and started whenever you need, it's stateless.
+
+### Development
+You can develop locally by checking out and running https://github.com/ThoughtsLive/hubot-base.
+It picks up the scripts you put in the scripts folder.
 
 ### Tokens
 #### `hubot.hubot.slackToken`
