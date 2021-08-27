@@ -16,6 +16,79 @@ hubot:
 
   # scripts are copied from https://github.com/jenkinsci/hubot-steps-plugin/tree/master/scripts, feel free to add or update!
   scripts:
+    cleanup.coffee: |-
+    # Description:
+    #   Verwijder previews van Rancher
+    #
+    # Dependencies:
+    #   None
+    #
+    # Configuration:
+    #   HUBOT_JENKINS_URL
+    #   HUBOT_JENKINS_AUTH
+    #   HUBOT_REGISTRY_URL
+    #
+    #   Auth should be in the "user:password" format.
+    #   password can be a token (which can be obtained from the jenkins user configuration)
+    #
+    # Commands:
+    #   hubot clean  <bbmri | fronted | empty> <pr-nummer> - ruimt preview op voor bbmri / frontend / molgenis
+    #
+    # Author:
+    #   Jelmer Veen, based on preview.coffee of fldk
+    querystring = require "querystring"
+
+    callback = (onSuccess, ifNotFound) -> (err, res, body) ->
+      if err
+        console.log("Something went wrong:\n```#{err}```")
+      else if 200 <= res.statusCode < 400
+        onSuccess(body)
+      else if 404 == res.statusCode
+        ifNotFound()
+      else
+        console.log("Something went wrong\n```#{res.statusCode} #{body}```")
+
+    createRequest = (msg, url) ->
+      req = msg.http(url)
+      if url.startsWith(process.env.HUBOT_JENKINS_URL) && process.env.HUBOT_JENKINS_AUTH
+        auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString("base64")
+      req.header("Content-Length", 0)
+      return req
+
+    runPreviewJob = (msg, action, tag, onSuccess) ->
+      url = "#{process.env.HUBOT_JENKINS_URL}/buildByToken/buildWithParameters?job=preview&ACTION=#{action}&TAG=#{querystring.escape(tag)}&token=#{process.env.JENKINS_PREVIEW_JOB_AUTH}"
+      req = createRequest msg, url
+      req.post() callback(onSuccess, -> msg.reply "Ik verwacht een parameterized preview job in Jenkins, misschien kan een echt mens die even configureren.")
+
+    #"rancher apps delete preview-${TAG.toLowerCase()}"
+    cleanup = (msg) ->
+      # match is an array, 0 is full command, 0 is what (.+) captured 
+      command = msg.match[1]
+      parameters = command.split(' ')
+      prefix = 'unknown'
+      prNumber = ''
+
+      if parameters.length == 1
+        prefix = ''
+        prNumber = parameters[0]
+      else
+        prNumber = parameters[1]
+
+      if parameters[0] == 'bbmri'
+        prefix = 'bbmri-pr-'
+      else if parameters[0] == 'frontend'
+        prefix = 'frontend-pr-'
+      else if prefix == 'unknown'
+        msg.reply ":owl: Sorry, ik ken die repository (nog) niet helaas."
+
+      if prefix != 'unknown' and prNumber.match(/^[\d]*$/gi) != null
+        tag = "#{prefix}#{prNumber}"
+        runPreviewJob msg, "delete", tag, () ->
+          cleanNamespaces = if Math.random() < 0.2 then "\nVergeet je niet ook de namespace nog zelf even te verwijderen?" else ""
+          msg.reply ":lizard: Preview weggooien? Ga ik regelen voor je! #{tag} wordt opgeruimd! :broom:#{cleanNamespaces}"
+    module.exports = (robot) ->
+      robot.respond /clean (.+)/i, (msg) -> cleanup(msg)
+
     notify.coffee: |-
       # Description:
       #   Interact with hubot itself.
