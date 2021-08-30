@@ -32,7 +32,7 @@ hubot:
       #   password can be a token (which can be obtained from the jenkins user configuration)
       #
       # Commands:
-      #   hubot clean  <bbmri | fronted | empty> <pr-nummer> - ruimt preview op voor bbmri / frontend / molgenis
+      #   hubot clean  <bbmri | frontend | empty> <pr-nummer> - ruimt preview op voor bbmri / frontend / molgenis
       #
       # Author:
       #   Jelmer Veen, based on preview.coffee of fldk
