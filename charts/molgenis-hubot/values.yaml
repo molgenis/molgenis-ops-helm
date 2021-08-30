@@ -62,7 +62,7 @@ hubot:
 
       #"rancher apps delete preview-${TAG.toLowerCase()}"
       cleanup = (msg) ->
-        # match is an array, 0 is full command, 0 is what (.+) captured 
+        # match is an array, 0 is full command, 0 is what (.+) captured
         command = msg.match[1]
         parameters = command.split(' ')
         prefix = 'unknown'
