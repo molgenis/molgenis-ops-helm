@@ -10,8 +10,6 @@ jupyterhub:
         admin_access: true
         authenticator_class: generic-oauth
       Authenticator:
-        allowed_users:
-          - s.haakma@umcg.nl
         admin_users:
           - s.haakma@umcg.nl
         auto_login: false
