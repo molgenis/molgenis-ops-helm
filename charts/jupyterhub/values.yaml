@@ -2,7 +2,7 @@ jupyterhub:
   ingress:
     enabled: true
     hosts:
-    - jupyter.edge.molgenis.org
+    - jupyter.molgenis.org
 
   hub:
     config:
@@ -14,9 +14,9 @@ jupyterhub:
           - s.haakma@umcg.nl
         auto_login: false
       GenericOAuthenticator:
-        client_id: xxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxx
-        client_secret: xxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxx
-        login_service: LifeCycle
+        client_id: xxxxxxxxx-xxxxxxxxxx-xxxxxxxxxxxx
+        client_secret: xxxxxxxxx-xxxxxxxxxx-xxxxxxxxxxxx
+        login_service: MOLGENIS
         authorize_url: https://auth.molgenis.org/oauth2/authorize
         token_url: https://auth.molgenis.org/oauth2/token
         userdata_url: https://auth.molgenis.org/oauth2/userinfo
@@ -28,6 +28,14 @@ jupyterhub:
           - name
           - profile
           - email
+    extraConfig:
+      checkRolesConfig: |
+        def check_roles(authenticator, handler, authentication):
+            if ("roles" in authentication["auth_state"]["oauth_user"] and "USER" in authentication["auth_state"]["oauth_user"]["roles"]):
+                return authentication
+            else:
+                return None
+        c.Authenticator.post_auth_hook = check_roles
 
   singleuser:
     image:
@@ -44,18 +52,10 @@ jupyterhub:
       PASSWORD: "admin"
       USER: "rstudio"
     profileList:
-    - display_name: "DataSHIELD - dsBase v6.0 - default"
-      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.0.1)"
+    - display_name: "DataSHIELD - dsBase v6.1.x - default"
+      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.1.x)"
       kubespawner_override:
         image: molgenis/rstudio-jupyter:1.1.0
-    - display_name: "DataSHIELD - dsBase v6.1"
-      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.1.0)"
-      kubespawner_override:
-        image: molgenis/rstudio-jupyter:1.2.0
-    - display_name: "DataSHIELD - dsBase v6.1 / dsExposome v1.0"
-      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.1.0) | dsExposome (v1.0.1)"
-      kubespawner_override:
-        image: molgenis/rstudio-jupyter:1.3.3
 
   proxy:
-    secretToken: xxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxx
+    secretToken: xxxxxxxxxzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
