@@ -1,7 +1,7 @@
 categories:
   - JupyterHub
 questions:
-  - variable: jupyterhub.ingress.host
+  - variable: jupyterhub.ingress.hosts[0]
     default: "jupyter.molgenis.org"
     description: "JupyterHub hostname"
     type: hostname
@@ -9,7 +9,7 @@ questions:
     label: Hostname
     group: General
   - variable: jupyterhub.proxy.secretToken
-    default: "xxxxx-xxxx-xxxxx-xxxxxxxxx-xxxxxxx"
+    default: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     description: "Security token (use 'openssl rand -hex 32' to generate one)"
     type: string
     required: true
