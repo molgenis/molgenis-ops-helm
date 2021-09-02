@@ -31,7 +31,7 @@ jupyterhub:
         def check_roles(authenticator, handler, authentication):
             if ("roles" in authentication["auth_state"]["oauth_user"]):
                 if ("ADMIN" in authentication["auth_state"]["oauth_user"]["roles"]):
-                    authentication["admin"]: True
+                    authentication["admin"] = True
                     return authentication
                 elif ("USER" in authentication["auth_state"]["oauth_user"]["roles"]):
                     return authentication
@@ -46,12 +46,12 @@ jupyterhub:
       name: molgenis/rstudio-jupyter
       tag: 1.1.0
     cpu:
-      limit: 1
-      guarantee: 1
+      limit: 2
+      guarantee: 2
     memory:
       limit: 1G
       guarantee: 1G
-    startTimeout: 400
+    startTimeout: 10000
     extraEnv:
       PASSWORD: "admin"
       USER: "rstudio"
