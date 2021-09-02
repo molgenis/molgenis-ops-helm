@@ -24,10 +24,16 @@ helm upgrade --cleanup-on-fail \
 ```
 
 The instance will exposed on http://127.0.0.1.
+### OIDC roles in JupyterHub
+In the ID-provider you can supply a set of roles. At this moment in JupyterHub we support 2 roles:
 
+- **USER**: can see all profiles and use them
+- **ADMIN**: can administrate JupyterHub
+
+With the `ADMIN` role you can appoint administrators on the cluster. The `USER` role people can access the profiles defined in the cluster.
+
+> IMPORTANT: once you gave someone the `ADMIN` role you need to remove it in JupyterHub as well.
 ## Troubleshooting
-Some things you can get across when you 
-
 ### Generating the proxy token
 You can generate proxy token: `openssl rand -hex 32`
 
@@ -37,3 +43,7 @@ If the container logging does not work can run it locally by executing:
 `docker run -ti molgenis/rstudio-jupyter:x.x.x /usr/lib/rstudio-server/bin/rserver`
 You check the output for errors.
 
+### Timeout during image pulls
+Sometimes a cluster takes too long to pull the image of RStudio. The images of RStudio are rather large. Most of them are between 1G and 1.5G. This takes approximatly 7 minutes. This is often too long ofor Rancher.
+
+You deploy the image first in a simple deployment and then deploy the JupyterHub (or extra profiles). This way the deployment of JupyterHub does not crash.
