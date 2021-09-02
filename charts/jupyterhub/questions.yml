@@ -1,0 +1,97 @@
+categories:
+  - JupyterHub
+questions:
+  - variable: jupyterhub.ingress.hosts[0]
+    default: "jupyter.molgenis.org"
+    description: "JupyterHub hostname"
+    type: hostname
+    required: true
+    label: Hostname
+    group: General
+  - variable: jupyterhub.proxy.secretToken
+    default: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    description: "Security token (use 'openssl rand -hex 32' to generate one)"
+    type: password
+    required: true
+    label: Security token
+    group: General
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.authorize_url
+    default: "https://auth.molgenis.org/oauth2/authorize"
+    description: "Authentication server authorize endpoint"
+    type: string
+    required: true
+    label: Authorization endpoint
+    group: Authentication
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.token_url
+    default: "https://auth.molgenis.org/oauth2/token"
+    description: "Authentication server token endpoint"
+    type: string
+    required: true
+    label: Token endpoint
+    group: Authentication
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.userdata_url
+    default: "https://auth.molgenis.org/oauth2/userinfo"
+    description: "Authentication server userinfo endpoint"
+    type: string
+    required: true
+    label: Userinfo endpoint
+    group: Authentication
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.oauth_callback_url
+    default: "https://same-as-hostname/hub/oauth_callback"
+    description: "Callback endpoint of the JupyterHub"
+    type: string
+    required: true
+    label: Callback endpoint (JupyterHub)
+    group: Authentication
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.login_service
+    default: "MOLGENIS"
+    description: "Name of the authentication service"
+    type: string
+    required: true
+    label: Service name
+    group: Authentication
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.client_id
+    default: "xxxxxxx-xxxxxxxxx-xxxxxxx"
+    description: "Client ID of the authentication service"
+    type: string
+    required: true
+    label: Client ID
+    group: Authentication
+  - variable: jupyterhub.hub.config.GenericOAuthenticator.client_secret
+    default: "xxxxxxx-xxxxxxxxx-xxxxxxx"
+    description: "Client secret of the authentication service"
+    type: password
+    required: true
+    label: Client secret
+    group: Authentication
+  - variable: jupyterhub.singleuser.profileList[0].display_name
+    default: DataSHIELD - dsBase v6.0.x - default
+    type: string
+    required: true
+    group: Profiles
+  - variable: jupyterhub.singleuser.profileList[0].description
+    default: RStudio analysis environment with DataSHIELD | dsBase (v6.0.x)
+    type: string
+    required: true
+    group: Profiles
+  - variable: jupyterhub.singleuser.profileList[0].kubespawner_override.image
+    default: molgenis/rstudio-jupyter:1.1.0
+    type: string
+    required: true
+    group: Profiles
+  - variable: jupyterhub.singleuser.profileList[1].display_name
+    default: DataSHIELD - dsBase v6.1.x - default
+    type: string
+    required: true
+    group: Profiles
+  - variable: jupyterhub.singleuser.profileList[1].description
+    default: RStudio analysis environment with DataSHIELD | dsBase (v6.1.x)
+    type: string
+    required: true
+    group: Profiles
+  - variable: jupyterhub.singleuser.profileList[1].kubespawner_override.image
+    default: molgenis/rstudio-jupyter:1.3.0
+    type: string
+    required: true
+    group: Profiles
+          

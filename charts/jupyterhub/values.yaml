@@ -1,0 +1,69 @@
+jupyterhub:
+  ingress:
+    enabled: true
+    hosts:
+      - jupyter.molgenis.org
+
+  hub:
+    config:
+      JupyterHub:
+        admin_access: true
+        authenticator_class: generic-oauth
+      Authenticator:
+        auto_login: false
+      GenericOAuthenticator:
+        client_id: xxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx
+        client_secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        login_service: MOLGENIS
+        authorize_url: https://auth.molgenis.org/oauth2/authorize
+        token_url: https://auth.molgenis.org/oauth2/token
+        userdata_url: https://auth.molgenis.org/oauth2/userinfo
+        userdata_method: GET
+        username_key: email
+        oauth_callback_url: http://127.0.0.1/hub/oauth_callback
+        scope:
+          - openid
+          - name
+          - profile
+          - email
+    extraConfig:
+      checkRolesConfig: |
+        def check_roles(authenticator, handler, authentication):
+            if ("roles" in authentication["auth_state"]["oauth_user"]):
+                if ("ADMIN" in authentication["auth_state"]["oauth_user"]["roles"]):
+                    authentication["admin"] = True
+                    return authentication
+                elif ("USER" in authentication["auth_state"]["oauth_user"]["roles"]):
+                    return authentication
+                else:
+                    return None
+            else:
+                return None
+        c.Authenticator.post_auth_hook = check_roles
+
+  singleuser:
+    image:
+      name: molgenis/rstudio-jupyter
+      tag: 1.1.0
+    cpu:
+      limit: 2
+      guarantee: 2
+    memory:
+      limit: 1G
+      guarantee: 1G
+    startTimeout: 10000
+    extraEnv:
+      PASSWORD: "admin"
+      USER: "rstudio"
+    profileList:
+    - display_name: "DataSHIELD - dsBase v6.0.x - default"
+      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.0.x)"
+      kubespawner_override:
+        image: molgenis/rstudio-jupyter:1.1.0
+    - display_name: "DataSHIELD - dsBase v6.1.x - default"
+      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.1.x)"
+      kubespawner_override:
+        image: molgenis/rstudio-jupyter:1.3.0
+
+  proxy:
+    secretToken: xxxxxxxxxzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
