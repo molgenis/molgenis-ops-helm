@@ -44,26 +44,23 @@ jupyterhub:
   singleuser:
     image:
       name: molgenis/rstudio-jupyter
-      tag: 1.1.0
+      tag: 1.0.1
     cpu:
       limit: 2
       guarantee: 2
     memory:
       limit: 1G
       guarantee: 1G
-    startTimeout: 10000
-    extraEnv:
-      PASSWORD: "admin"
-      USER: "rstudio"
+    startTimeout: 600
     profileList:
-    - display_name: "DataSHIELD - dsBase v6.0.x - default"
-      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.0.x)"
+    - display_name: "DataSHIELD - dsBaseClient v6.1.0"
+      description: "RStudio analysis environment with | dsBaseClient v6.1.0"
       kubespawner_override:
-        image: molgenis/rstudio-jupyter:1.1.0
-    - display_name: "DataSHIELD - dsBase v6.1.x - default"
-      description: "RStudio analysis environment with DataSHIELD | dsBase (v6.1.x)"
+        image: molgenis/rstudio-jupyter:1.0.1
+    - display_name: "DataSHIELD - dsExposome v1.0.1"
+      description: "RStudio analysis environment with | dsExposome v1.0.1 (based upon the dsBase 6.1.0 environment)"
       kubespawner_override:
-        image: molgenis/rstudio-jupyter:1.3.0
+        image: molgenis/rstudio-jupyter:1.0.1
 
   proxy:
     secretToken: xxxxxxxxxzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
