@@ -17,17 +17,25 @@ def initiateConnection():
     global token
     token = response.json()['token']
 
-def retrieveServerlist():
-    url = f'https://{urlAddress}/api/v2/molgenis_serverlist?q=monitoring==true&num=1000\
-            &attrs=~id,description,comments,DTAP,DNS,DNS_alias'
+def retrieveOSServerlist():
+    urlOS = f'https://{urlAddress}/api/v2/molgenis_serverlist?q=monitoring_os==true&num=1000\
+            &attrs=~id,description,comments,DTAP,DNS'
     header = {'x-molgenis-token': '%s' % token}
-    response = requests.get(url, headers=header)
-    global serverlist
-    serverlist = response.text
+    responseOS = requests.get(urlOS, headers=header)
+    global serverlistOS
+    serverlistOS = responseOS.text
 
-def iterateServerlist():
-    serverlist_object = json.loads(serverlist)
-    for record in serverlist_object['items']:
+def retrieveWebServerlist():
+    urlWeb = f'https://{urlAddress}/api/v2/molgenis_serverlist?q=monitoring_web==true&num=1000\
+            &attrs=~id,description,comments,DTAP,monitoring_url'
+    header = {'x-molgenis-token': '%s' % token}
+    responseWeb = requests.get(urlWeb, headers=header)
+    global serverlistWeb
+    serverlistWeb = responseWeb.text
+
+def iterateServerlistOS():
+    serverlistOS_object = json.loads(serverlistOS)
+    for record in serverlistOS_object['items']:
         try:
             tempId = f"{record['id']}"
             if 'description' in record:
@@ -53,20 +61,30 @@ def iterateServerlist():
                 node_exporter_targets.append(f"      id: \'{tempId}\'")
                 node_exporter_targets.append(f"      project: \'{tempProject}\'")
                 node_exporter_targets.append(f"      type: '{record['DTAP']['type']}'")
+                print('%s - node added' % str(record['id']))
+        except KeyError as e:
+            print('%s - node KeyError Exception: %s empty' % (str(record['id']), str(e)))
+            continue
 
-            tempUrlStore = []
-            tempUrlStore.append(f"{record['DNS']}")
-            for item in record['DNS_alias']:
-                tempUrlStore.append(f"{item['label']}")
+def iterateServerlistWeb():
+    serverlistWeb_object = json.loads(serverlistWeb)
+    for record in serverlistWeb_object['items']:
+        try:
+            tempId = f"{record['id']}"
+            if 'description' in record:
+                tempProject = f"{record['description']}".replace("'", "").replace("\n", " ")
+            else:
+                tempProject = f"{record['comments']}".replace("'", "").replace("\n", " ")
+            url = f"{record['monitoring_url']}"
 
-            blackbox_exporter_urls.append(f"  - targets: {tempUrlStore}")
+            blackbox_exporter_urls.append(f"  - targets: ['{url}']")
             blackbox_exporter_urls.append("    labels:")
             blackbox_exporter_urls.append(f"      id: \'{tempId}\'")
             blackbox_exporter_urls.append(f"      project: \'{tempProject}\'")
             blackbox_exporter_urls.append(f"      type: '{record['DTAP']['type']}'")
-            print('%s - added' % str(record['id']))
+            print('%s:%s - website added' % (str(record['id']), url))
         except KeyError as e:
-            print('%s - KeyError Exception: %s empty' % (str(record['id']), str(e)))
+            print('%s - Website KeyError Exception: %s empty' % (str(record['id']), str(e)))
             continue
 
 def writeToFile():
@@ -83,7 +101,9 @@ def closeConnection():
 
 
 initiateConnection()
-retrieveServerlist()
-iterateServerlist()
+retrieveOSServerlist()
+iterateServerlistOS()
+retrieveWebServerlist()
+iterateServerlistWeb()
 writeToFile()
 closeConnection()
