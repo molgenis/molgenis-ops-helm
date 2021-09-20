@@ -3,7 +3,6 @@ jupyterhub:
     enabled: true
     hosts:
       - jupyter.molgenis.org
-
   hub:
     config:
       JupyterHub:
@@ -40,7 +39,6 @@ jupyterhub:
             else:
                 return None
         c.Authenticator.post_auth_hook = check_roles
-
   singleuser:
     image:
       name: datashield/rstudio-jupyter
@@ -62,11 +60,8 @@ jupyterhub:
       description: "RStudio analysis environment with | dsExposome v1.0.1 (based upon the dsBase 6.1.0 environment)"
       kubespawner_override:
         image: datashield/rstudio-jupyter-exposome:1.0.0
-
   proxy:
     secretToken: xxxxxxxxxzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
   prePuller:
     hook:
       podSchedulingWaitDuration: -1
-
