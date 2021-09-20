@@ -1,0 +1,10 @@
+apiVersion: v1
+description: Wrapper around NFS helm chart
+home: https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
+maintainers:
+- name: eschaberg
+name: nfswrapper
+version: 1.0.0
+appVersion: 4.0.2
+sources:
+  - https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/tree/master/charts/nfs-subdir-external-provisioner
