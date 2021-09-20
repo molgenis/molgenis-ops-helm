@@ -1,0 +1,11 @@
+questions:
+  - variable: 'nfs-subdir-external-provisioner.nfs.server'
+    type: string
+    required: true
+    default: "192.168.64.160"
+    label: "IP address of NFS server"
+  - variable: 'nfs-subdir-external-provisioner.nfs.path'
+    type: string
+    required: true
+    default: "/"
+    label: "path of nfs sub dir"
