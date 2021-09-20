@@ -65,3 +65,8 @@ jupyterhub:
 
   proxy:
     secretToken: xxxxxxxxxzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  prePuller:
+    hook:
+      podSchedulingWaitDuration: -1
+
