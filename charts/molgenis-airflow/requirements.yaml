@@ -1,0 +1,5 @@
+dependencies:
+  - name: airflow
+    version: "8.0.4"
+    repository: "https://airflow-helm.github.io/charts"
+  
