@@ -182,7 +182,7 @@ questions:
     group: "Provisioning"
   - variable: catalinaOpts
     show_if: "questions.advanced=true"
-    default: "-XX:MaxRAMPercentage=80 -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+    default: "-XX:MaxRAMPercentage=80"
     type: string
     label: "Catalina options"
     group: "MOLGENIS"
