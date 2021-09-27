@@ -1,0 +1,73 @@
+categories:
+  - jobs
+questions:
+  - variable: airflow.ingress.enabled
+    type: boolean
+    label: Ingress enabled
+    required: true
+    default: true
+    group: Provisioning
+  - variable: airflow.ingress.web.host
+    type: string
+    label: Airflow host
+    required: true
+    default: airflow.molgenis.org
+    group: Provisioning
+  - variable: airflow.ingress.flower.host
+    type: string
+    label: Flower host
+    required: true
+    default: airflow.molgenis.org
+    group: Provisioning
+  - variable: airflow.airflow.config.AIRFLOW__WEBSERVER__BASE_URL
+    type: string
+    label: Webserver URL (same as Airflow host)
+    required: true
+    default: https://airflow.molgenis.org
+    group: Provisioning
+  - variable: airflow.airflow.extraEnv[0].name
+    type: string
+    label: FusionAuth ClientID
+    required: true
+    default: FUSION_AUTH_CLIENT_ID
+    group: Authentication
+  - variable: airflow.airflow.extraEnv[0].value
+    type: string
+    label: ClientID
+    required: true
+    default: xxxxx
+    group: Authentication
+  - variable: airflow.airflow.extraEnv[1].name
+    type: string
+    label: FusionAuth Client Secret
+    required: true
+    default: FUSION_AUTH_CLIENT_SECRET
+    group: Authentication
+  - variable: airflow.airflow.extraEnv[1].value
+    type: password
+    label: Client secret
+    required: true
+    default: xxxxx
+    group: Authentication
+  - variable: airflow.airflow.extraEnv[2].name
+    type: string
+    label: FusionAuth domain
+    required: true
+    default: FUSION_AUTH_DOMAIN
+    group: Authentication
+  - variable: airflow.airflow.extraEnv[2].value
+    type: string
+    label: Authentication server
+    required: true
+    default: https://auth.molgenis.org
+    group: Authentication
+  - variable: airflow.airflow.fernetKey
+    type: password
+    label: Generate "core" fernetkey using | python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
+    required: true
+    group: Security
+  - variable: airflow.airflow.webserverSecretKey
+    type: password
+    label: Generate "webserver" fernetkey using | python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
+    required: true
+    group: Security

@@ -1,0 +1,104 @@
+airflow:
+
+  airflow:
+    config:
+      AIRFLOW__WEBSERVER__BASE_URL: https://airflow.molgenis.org
+      AIRFLOW__CELERY__FLOWER_URL_PREFIX: /flower
+      AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: 'True'
+    # generate the key with this code:
+    # python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
+    fernetKey: xxxxx
+    # generate the key with this code:
+    # python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
+    webserverSecretKey: xxxxx
+    extraEnv:
+      - name: FUSION_AUTH_CLIENT_ID
+        value: xxxxxx-xxxxxxx-xxxxxxx-xxxxxxx
+      - name: FUSION_AUTH_CLIENT_SECRET
+        value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - name: FUSION_AUTH_DOMAIN
+        value: https://auth.molgenis.org
+
+  web:
+    extraPipPackages:
+      - "Flask-AppBuilder~=3.3.0"
+      - "Authlib~=0.15.3"
+
+    webserverConfig:
+      stringOverride: |-
+        import os
+        import logging
+        from airflow.www.security import AirflowSecurityManager
+        from flask_appbuilder.security.manager import AUTH_OAUTH
+
+        log = logging.getLogger()
+
+        class FusionAuthSecurityManager(AirflowSecurityManager):
+          def get_oauth_user_info(self, provider, resp):
+            if provider == 'fusionauth':
+              log.debug("FusionAuth response received : {0}".format(resp))
+              id_token = resp["id_token"]
+              log.debug(str(id_token))
+              data = self._azure_jwt_token_parse(id_token)
+              log.debug("Parse JWT token : {0}".format(data))
+              return {
+                "name": data["username"],
+                "email": data["email"],
+                "id": data["sub"],
+                "username": data["username"],
+                "role_keys": data["roles"]
+              }
+            else:
+              return {}
+
+        SECURITY_MANAGER_CLASS = FusionAuthSecurityManager
+
+        AUTH_TYPE = AUTH_OAUTH
+
+        # the list of providers which the user can choose from
+        OAUTH_PROVIDERS = [
+          {
+            'name': 'fusionauth',
+            'icon': 'fa-circle-o',
+            'token_key': 'access_token',
+            'remote_app': {
+              'client_id': os.environ.get('FUSION_AUTH_CLIENT_ID'),
+              'client_secret': os.environ.get('FUSION_AUTH_CLIENT_SECRET'),
+              'api_base_url': os.environ.get('FUSION_AUTH_DOMAIN'),
+              'client_kwargs': {
+                'scope': 'openid profile email groups'
+              },
+              'request_token_url': None,
+              'access_token_url': os.environ.get('FUSION_AUTH_DOMAIN') + '/oauth2/token',
+              'authorize_url': os.environ.get('FUSION_AUTH_DOMAIN') + '/oauth2/authorize'
+            }
+          }
+        ]
+
+        AUTH_ROLE_ADMIN = 'Admin'
+        AUTH_USER_REGISTRATION = True
+        AUTH_USER_REGISTRATION_ROLE = 'Public'
+        AUTH_ROLES_SYNC_AT_LOGIN = True
+
+        AUTH_ROLES_MAPPING = {
+          'USER': ['User'],
+          'ADMIN': ['Admin']
+        }
+
+        PERMANENT_SESSION_LIFETIME = 1800
+
+  dags:
+    gitSync:
+      enabled: true
+      repo: https://github.com/molgenis/molgenis-tools-airflow
+      branch: main
+      subPath: "dags"
+
+  ingress:
+    enabled: true
+    web:
+      path: ''
+      host: airflow.molgenis.org
+    flower:
+      path: /flower
+      host: airflow.molgenis.org

@@ -17,6 +17,7 @@ pipeline {
                     sh "helm repo add minio https://helm.min.io"
                     sh 'helm repo add jupyter https://jupyterhub.github.io/helm-chart'
                     sh 'helm repo add nfs https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner'
+                    sh "helm repo add airflow https://airflow-helm.github.io/charts"
                 }
             }
         }
