@@ -1,12 +1,14 @@
 pipeline {
     agent {
         kubernetes {
-            inheritFrom 'molgenis-jdk11'
+            inheritFrom 'shared'
+            // maven jdk17 pod template defined in molgenis/molgenis-jenkins-pipeline library
+            yaml libraryResource("pod-templates/maven-jdk17.yaml")
         }
     }
     environment {
         LOCAL_REPOSITORY = "${LOCAL_REGISTRY}/molgenis/molgenis-app"
-        CHART_VERSION = '1.13.0'
+        CHART_VERSION = '1.15.8'
         BRANCH_NAME = 'master'
         TIMESTAMP = sh(returnStdout: true, script: "date -u +'%F_%H-%M-%S'").trim()
     }
