@@ -3,7 +3,7 @@ appVersion: "2.0.1"
 description: Rancher wrapper around airflow
 name: airflow
 home: https://airflow.apache.org
-version: 0.1.0
+version: 0.2.0
 maintainers:
 - name: connoratrug
 - name: sidohaakma
