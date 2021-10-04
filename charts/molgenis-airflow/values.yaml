@@ -5,6 +5,8 @@ airflow:
       AIRFLOW__WEBSERVER__BASE_URL: https://airflow.molgenis.org
       AIRFLOW__CELERY__FLOWER_URL_PREFIX: /flower
       AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: 'True'
+      AIRFLOW__KUBERNETES__DELETE_WORKER_PODS: 'True'
+      AIRFLOW__KUBERNETES__DELETE_WORKER_PODS_ON_FAILURE: 'True'
     # generate the key with this code:
     # python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
     fernetKey: xxxxx
