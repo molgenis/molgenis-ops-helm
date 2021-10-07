@@ -20,6 +20,10 @@ spec:
       labels:
         app: {{ template "molgenis-elasticsearch.name" . }}
         release: {{ .Release.Name }}
+      annotations:
+        {{- if .Values.esConfig }}
+        configchecksum: {{ include (print .Template.BasePath "/config.yaml") . | sha256sum | trunc 63 }}
+        {{- end }}
     spec:
       containers:
         - name: elasticsearch
@@ -27,12 +31,16 @@ spec:
           image: "{{ .image.repository }}:{{ .image.tag }}"
           imagePullPolicy: {{ .image.pullPolicy }}
           env:
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: cluster.name
               value: {{ .clusterName }}
-            - name: bootstrap.memory_lock
-              value: "false"
+            {{- if .javaOpts  }}
             - name: ES_JAVA_OPTS
               value: "{{ .javaOpts }}"
+            {{- end }}
             - name: discovery.type
               value: single-node
           ports:
@@ -41,6 +49,11 @@ spec:
           volumeMounts:
           - name: pv-elasticsearch
             mountPath: /usr/share/elasticsearch/data
+          {{- range $path, $config := .esConfig }}
+          - name: esconfig
+            mountPath: /usr/share/elasticsearch/config/{{ $path }}
+            subPath: {{ $path }}
+          {{- end }}
           resources:
 {{ toYaml .resources | indent 12 }}
         {{- end }}
@@ -53,6 +66,11 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end -}}
+        {{- if .Values.esConfig }}
+        - name: esconfig
+          configMap:
+            name: {{ template "molgenis-elasticsearch.fullname" . }}-config
+        {{- end }}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:

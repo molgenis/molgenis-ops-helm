@@ -1,4 +1,4 @@
-# Default values for molgenis.
+clusterName: molgenis
 
 replicaCount: 1
 
@@ -15,11 +15,21 @@ ingress:
   tls: []
 
 image:
-  repository: molgenis/molgenis-elasticsearch
-  tag: 1.0.0
+  repository: docker.elastic.co/elasticsearch/elasticsearch
+  tag: 7.15.0
   pullPolicy: IfNotPresent
-clusterName: molgenis
+
 javaOpts: "-Xms1g -Xmx1g"
+
+# Allows you to add any config files in /usr/share/elasticsearch/config/
+# such as elasticsearch.yml and log4j2.properties
+esConfig: {}
+#  elasticsearch.yml: |
+#    key:
+#      nestedkey: value
+#  log4j2.properties: |
+#    key = value
+
 resources:
   limits:
     cpu: 1

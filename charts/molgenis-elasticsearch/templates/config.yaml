@@ -1,0 +1,16 @@
+{{- if .Values.esConfig }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "molgenis-elasticsearch.fullname" . }}-config
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "molgenis-elasticsearch.chart" . }}
+    app: {{ template "molgenis-elasticsearch.name" . }}
+data:
+{{- range $path, $config := .Values.esConfig }}
+  {{ $path }}: |
+{{ $config | indent 4 -}}
+{{- end -}}
+{{- end -}}
