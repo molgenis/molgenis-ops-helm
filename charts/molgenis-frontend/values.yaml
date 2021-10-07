@@ -38,7 +38,7 @@ proxy:
   #
   #    url: https://master.dev.molgenis.org
 
-  frontend:
+  frontend: {}
     # Add and replace files in the conf.d dir of the frontend container
     # custom.conf: |-
     #   location /my-app/ {
