@@ -38,8 +38,8 @@ spec:
               value: /home/molgenis
             - name: opencpu.uri.host
               value: {{ .Values.opencpu }}
-            - name: elasticsearch.transport.addresses
-              value: {{ include "call-nested" (list . "molgenis-elasticsearch" "molgenis-elasticsearch.fullname") }}:9300
+            - name: elasticsearch.hosts
+              value: {{ include "call-nested" (list . "molgenis-elasticsearch" "molgenis-elasticsearch.fullname") }}:9200
             - name: elasticsearch.cluster.name
               value: {{ index .Values "molgenis-elasticsearch" "clusterName" }}
             - name: db_uri
