@@ -1,0 +1,18 @@
+categories:
+  - MOLGENIS
+questions:
+  - variable: image.repository
+    label: Image Repository
+    type: string
+    description: "Repository of the docker image"
+    default: "docker.elastic.co/elasticsearch/elasticsearch"
+    required: true
+  - variable: image.tag
+    label: Image Tag
+    type: string
+    description: "Tag of the docker image"
+    default: "7.15.0"
+    required: true
+  - variable: esConfig.elasticsearch\.yml
+    label: elasticsearch.yml config file
+    type: multiline
