@@ -13,8 +13,21 @@ https://github.com/biocommons/uta/blob/master/misc/docker/load-uta.sh
 It downloads a database export from http://dl.biocommons.org/uta/ and imports it
 into the uta database.
 The `uta.version` value allows you to specify which version is downloaded.
-
 N.B. There also is a UTA REST service that we should consider upgrading to.
+
+### latest versions are really slow
+See https://github.com/biocommons/uta/issues/228
+The uta repo still does get updated but the postgres script distributed in that repo has a couple
+of really expensive `REFRESH MATERIALIZED VIEW` statements that take hours to complete.
+
+They say they will fix it eventually but haven't yet.
+A workaround would be to remove the statements from the import script,
+as described in https://github.com/biocommons/uta/issues/228#issuecomment-734134693
+
+```
+gzip -cdq uta_${UTA_VERSION}.pgd.gz | grep -v "^REFRESH MATERIALIZED VIEW" | psql -h localhost -U uta_admin --echo-errors --single-transaction -v ON_ERROR_STOP=1 -d uta
+```
+
 
 ## seqrepo
 The pod contains an init container that runs the biocommons/seqrepo container.
