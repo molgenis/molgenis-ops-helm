@@ -86,7 +86,7 @@ grafana:
         url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/Blackbox-Exporter-Overview.json
         datasource: k8-prometheus
       Total-UP-websites:
-        url: https://raw.githubusercontent.com/christianhilbrands/molgenis-ops-helm/enhance/grafana-dashboard-total-up/charts/molgenis-grafana/dashboards/Total-UP-websites.json
+        url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/Total-UP-websites.json
         datasource: k8-prometheus
       ElasticSearch:
         url: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/dashboards/ElasticSearch.json
