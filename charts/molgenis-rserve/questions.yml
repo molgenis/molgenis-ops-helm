@@ -1,0 +1,60 @@
+
+categories:
+- Armadillo
+questions:
+- variable: image.repository
+  label: Repository of the RServe environment
+  default: "datashield/armadillo-rserver"
+  description: "Select the RServe repository and image"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: image.tag
+  label: Version of the RServe environment
+  default: "latest"
+  description: "Select the RServe environment version of the image"
+  type: string
+  required: true
+  group: "Provisioning"
+- variable: resources.limits.cpu
+  label: Limits CPU
+  default: 2
+  description: "Select the ammount of CPU's that are available to the RServe environment"
+  type: string
+  required: true
+  group: "Resources"
+- variable: resources.limits.memory
+  label: Limits memory
+  default: 2Gi
+  description: "Select the ammount of memory that is available to the RServe environment"
+  type: string
+  required: true
+  group: "Resources"
+- variable: resources.requests.cpu
+  label: Requests CPU
+  default: 2
+  description: "Select the ammount of CPU's that are reserved for the RServe environment"
+  type: string
+  required: true
+  group: "Resources"
+- variable: resources.requests.memory
+  label: Requests memory
+  default: 2Gi
+  description: "Select the ammount of memory that is reserved for the RServe environment"
+  type: string
+  required: true
+  group: "Resources"
+- variable: replicaCount
+  label: Number of instances of the REnvironment
+  default: 2
+  description: "Select number of instances of the REnvironment"
+  type: string
+  required: true
+  group: "RServe environment"
+- variable: debug
+  label: Turn on deubg
+  default: false
+  description: "Turn on debugging for RServe environment"
+  type: boolean
+  required: true
+  group: "RServe environment"
