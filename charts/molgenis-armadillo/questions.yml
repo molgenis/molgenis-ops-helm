@@ -135,7 +135,7 @@ questions:
   type: password
   required: true
   group: OpenID
-- variable: server.config.server.servlet.session.timeout
+- variable: server.session.timeout
   label: Session timeout
   type: string
   required: true
@@ -216,22 +216,12 @@ questions:
           environment: "default"
           whitelist:
             - "dsBase"
-            - "dsOmics"
-            - "resourcer"
           options:
             seed: "123456789"
-        - name: "exposome"
-          environment: "default"
-          whitelist:
-            - "dsBase"
-            - "dsOmics"
-            - "resourcer"
-          options:
-            seed: "123456780"
     rserve:
       environments:
         - name: "default"
-          host: "armadillo-molgenis-rserve"
+          host: "service.namespace.svc"
           port: 6311
 - variable: molgenis-auth.enabled
   label: Deploy Permission Manager

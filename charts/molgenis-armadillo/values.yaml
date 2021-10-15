@@ -27,10 +27,12 @@ shared:
 
 server:
   image:
-    repository: registry.molgenis.org/molgenis/armadillo
+    repository: molgenis/armadillo
     tag: latest
     pullPolicy: Always
   debug: false
+  session:
+    timeout: 60
   admin:
     username: admin
     password: admin
@@ -59,7 +61,7 @@ server:
 
 molgenis-rserve:
   image:
-    repository: molgenis/rserver
+    repository: datashield/armadillo-rserver
     tag: latest
     pullPolicy: IfNotPresent
   enabled: true
