@@ -52,10 +52,10 @@ server:
   resources:
     limits:
       cpu: 1
-      memory: 1Gi
+      memory: 1500Mi
     requests:
       cpu: 1
-      memory: 1Gi
+      memory: 1500Mi
   config:
     # You can provide any config you like here
 
