@@ -19,28 +19,28 @@ questions:
 - variable: resources.limits.cpu
   label: Limits CPU
   default: 2
-  description: "Select the ammount of CPU's that are available to the RServe environment"
+  description: "Select the amount of CPU's that are available to the RServe environment"
   type: string
   required: true
   group: "Resources"
 - variable: resources.limits.memory
   label: Limits memory
   default: 2Gi
-  description: "Select the ammount of memory that is available to the RServe environment"
+  description: "Select the amount of memory that is available to the RServe environment"
   type: string
   required: true
   group: "Resources"
 - variable: resources.requests.cpu
   label: Requests CPU
   default: 2
-  description: "Select the ammount of CPU's that are reserved for the RServe environment"
+  description: "Select the amount of CPU's that are reserved for the RServe environment"
   type: string
   required: true
   group: "Resources"
 - variable: resources.requests.memory
   label: Requests memory
   default: 2Gi
-  description: "Select the ammount of memory that is reserved for the RServe environment"
+  description: "Select the amount of memory that is reserved for the RServe environment"
   type: string
   required: true
   group: "Resources"
