@@ -37,6 +37,7 @@ pipeline {
                     sh "rancher apps install " +
                             "p-vx5vf:molgenis-helm3-molgenis " +
                             "${TAG} " +
+                            "-n ${TAG} " +
                             "--no-prompt " +
                             "--set adminPassword=admin " +
                             "--set molgenis-frontend.environment=dev " +
