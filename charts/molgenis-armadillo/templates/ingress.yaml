@@ -33,13 +33,13 @@ spec:
             backend:
               serviceName: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
               servicePort: {{ .Values.minio.service.port }}
-{{- if .Values.auth.enabled }}
+{{- if index .Values "molgenis-auth" "enabled" }}
     - host: {{ template "armadillo-auth.hostname" . }}
       http:
         paths:
           - path: /
             backend:
-              serviceName: {{ include "call-nested" (list $ "auth" "molgenis-auth.fullname") }}
-              servicePort: {{ .Values.auth.service.port }}
+              serviceName: {{ include "call-nested" (list $ "molgenis-auth" "molgenis-auth.fullname") }}
+              servicePort: {{ index .Values "molgenis-auth" "service" "port" }}
 {{- end }}
 {{- end }}

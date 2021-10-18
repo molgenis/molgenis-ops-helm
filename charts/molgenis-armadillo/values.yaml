@@ -145,7 +145,7 @@ kes:
     tag: latest
     pullPolicy: IfNotPresent
 
-auth:
+molgenis-auth:
   enabled: true
   image:
     repository: molgenis/molgenis-auth
