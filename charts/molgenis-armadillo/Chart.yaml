@@ -3,10 +3,14 @@ appVersion: "2"
 description: A Helm chart for MOLGENIS Armadillo
 name: molgenis-armadillo
 <<<<<<< HEAD
+<<<<<<< HEAD
 version: 0.13.2
 =======
 version: 0.14.0
 >>>>>>> 3a29b84... feat(armadillo): add profiles
+=======
+version: 0.14.0
+>>>>>>> de343a2... feat(armadillo): add profiles
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 - https://github.com/molgenis/molgenis-service-armadillo.git

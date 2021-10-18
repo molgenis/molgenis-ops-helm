@@ -63,6 +63,11 @@ spec:
                   name: {{ include "molgenis-armadillo.fullname" . }}
                   key: seed
 {{- end }}
+<<<<<<< HEAD
+=======
+            - name: SERVER_SERVLET_SESSION_TIMEOUT
+              value: {{ .Values.server.servlet.session.timeout }}
+>>>>>>> de343a2... feat(armadillo): add profiles
             - name: LOGGING_CONFIG
               value: classpath:logback-file.xml
             - name: AUDIT_LOG_Path
@@ -72,11 +77,14 @@ spec:
                 secretKeyRef:
                   name: {{ include "molgenis-armadillo.fullname" . }}
                   key: adminpassword
+<<<<<<< HEAD
             - name: SERVER_SERVLET_SESSION_TIMEOUT
               valueFrom:
                 configMapKeyRef:
                   name: server-config
                   key: session_timeout
+=======
+>>>>>>> de343a2... feat(armadillo): add profiles
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENTID
               valueFrom:
                 configMapKeyRef:

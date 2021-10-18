@@ -206,9 +206,10 @@ questions:
       group: Default profile
 - variable: server.config
   label: Profile config
+  description: You can specify environments (RServe deployments) and profiles on those environments
   type: multiline
   required: false
-  show_if: "rserve.enabled=false"
+  show_if: "molgenis-rserve.enabled=false"
   default: |-
     datashield:
       profiles:
