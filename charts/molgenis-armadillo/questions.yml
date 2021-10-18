@@ -142,58 +142,97 @@ questions:
   default: 30m
   group: Armadillo
   description: If a duration suffix is not specified, seconds will be used.
-- variable: server.seed
-  label: datashield.seed option
-  description: This is a server-specific secret, used to obfuscate plots and such
-  type: int
-  required: true
-  group: Armadillo
-- variable: molgenis-rserve.image.repository
-  label: MOLGENIS RServer image repository
-  type: string
-  required: true
-  default: molgenis/rserver
-  group: R
-- variable: molgenis-rserve.image.tag
-  label: MOLGENIS RServer image tag
-  type: string
-  required: true
-  default: latest
-  group: R
-- variable: molgenis-rserve.debug
-  label: Enable debugging
+- variable: molgenis-rserve.enabled
+  label: Deploy Default RServe environment
+  description: Deploys an Rserve environment to use with this server
   type: boolean
-  group: R
-- variable: molgenis-rserve.resources.limits.memory
-  label: RServe max memory
-  type: string
   required: true
-  default: 2Gi
-  group: R
-- variable: molgenis-rserve.resources.limits.cpu
-  label: RServe max cpu
-  type: string
-  required: true
-  default: 2
-  group: R
-- variable: molgenis-rserve.resources.requests.memory
-  label: RServe requested memory
-  type: string
-  required: true
-  default: 2Gi
-  group: R
-- variable: molgenis-rserve.resources.requests.cpu
-  label: RServe requested cpu
-  type: string
-  required: true
-  default: 2
-  group: R
-- variable: molgenis-rserve.replicaCount
-  label: RServe replica count
-  type: int
-  required: true
-  default: 1
-  group: R
+  default: true
+  group: Default RServe environment
+  show_subquestion_if: true
+  subquestions:
+    - variable: molgenis-rserve.image.repository
+      label: MOLGENIS RServer image repository for the default environment
+      type: string
+      required: true
+      default: molgenis/rserver
+      group: Default RServe environment
+    - variable: molgenis-rserve.image.tag
+      label: MOLGENIS RServer image tag for the default environment
+      type: string
+      required: true
+      default: latest
+      group: Default RServe environment
+    - variable: molgenis-rserve.debug
+      label: Enable debugging
+      type: boolean
+      group: Default RServe environment
+    - variable: molgenis-rserve.resources.limits.memory
+      label: RServe max memory
+      type: string
+      required: true
+      default: 2Gi
+      group: Default RServe environment
+    - variable: molgenis-rserve.resources.limits.cpu
+      label: RServe max cpu
+      type: string
+      required: true
+      default: 2
+      group: Default RServe environment
+    - variable: molgenis-rserve.resources.requests.memory
+      label: RServe requested memory
+      type: string
+      required: true
+      default: 2Gi
+      group: Default RServe environment
+    - variable: molgenis-rserve.resources.requests.cpu
+      label: RServe requested cpu
+      type: string
+      required: true
+      default: 2
+      group: Default RServe environment
+    - variable: molgenis-rserve.replicaCount
+      label: RServe replica count
+      type: int
+      required: true
+      default: 1
+      group: Default RServe environment
+    - variable: server.seed
+      label: datashield.seed option
+      description: The seed of the default profile, used to obfuscate plots and such
+      type: int
+      required: true
+      default: 1
+      group: Default profile
+- variable: server.config
+  label: Profile config
+  type: multiline
+  required: false
+  show_if: "rserve.enabled=false"
+  default: |-
+    datashield:
+      profiles:
+        - name: "default"
+          environment: "default"
+          whitelist:
+            - "dsBase"
+            - "dsOmics"
+            - "resourcer"
+          options:
+            seed: "123456789"
+        - name: "exposome"
+          environment: "default"
+          whitelist:
+            - "dsBase"
+            - "dsOmics"
+            - "resourcer"
+          options:
+            seed: "123456780"
+    rserve:
+      environments:
+        - name: "default"
+          host: "armadillo-molgenis-rserve"
+          port: 6311
 - variable: molgenis-auth.enabled
   label: Deploy Permission Manager
   required: true

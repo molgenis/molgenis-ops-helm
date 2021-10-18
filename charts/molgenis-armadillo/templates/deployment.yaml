@@ -52,21 +52,28 @@ spec:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: secretkey
 {{- if index .Values "molgenis-rserve" "enabled" }}
-            - name: RSERVE_HOST
+            #  https://github.com/spring-projects/spring-boot/wiki/Relaxed-Binding-2.0#lists-1
+            - name: RSERVE_ENVIRONMENTS_0_HOST
               value: {{ include "call-nested" (list $ "molgenis-rserve" "molgenis-rserve.fullname") }}
-            - name: RSERVE_PORT
+            - name: RSERVE_ENVIRONMENTS_0_PORT
               value: {{ index .Values "molgenis-rserve" "service" "port" | quote }}
-{{- end }}              
+            - name: DATASHIELD_PROFILES_0_OPTIONS_SEED
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-armadillo.fullname" . }}
+                  key: seed
+{{- end }}
+            - name: SERVER_SERVLET_SESSION_TIMEOUT
+              value: {{ .Values.server.servlet.session.timeout }}
+            - name: LOGGING_CONFIG
+              value: classpath:logback-file.xml
+            - name: AUDIT_LOG_Path
+              value: /app/logs/audit.log
             - name: SPRING_SECURITY_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "molgenis-armadillo.fullname" . }}
                   key: adminpassword
-            - name: DATASHIELD_OPTIONS_DATASHIELD_SEED
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "molgenis-armadillo.fullname" . }}
-                  key: seed
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENTID
               valueFrom:
                 configMapKeyRef:

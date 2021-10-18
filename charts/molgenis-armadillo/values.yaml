@@ -56,16 +56,6 @@ server:
       memory: 1Gi
   config:
     # You can provide any config you like here
-    logging:
-      config: classpath:logback-file.xml
-    audit:
-      log:
-        path: /app/logs/audit.log
-    spring:
-      security:
-        user:
-          roles:
-            - SU
 
 molgenis-rserve:
   image:
