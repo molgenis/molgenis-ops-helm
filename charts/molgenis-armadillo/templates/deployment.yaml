@@ -65,7 +65,7 @@ spec:
 {{- end }}
             - name: LOGGING_CONFIG
               value: classpath:logback-file.xml
-            - name: AUDIT_LOG_Path
+            - name: AUDIT_LOG_PATH
               value: /app/logs/audit.log
             - name: SPRING_SECURITY_USER_PASSWORD
               valueFrom:
@@ -92,6 +92,8 @@ spec:
                 configMapKeyRef:
                   name: "server-config"
                   key: adminusername
+            - name: SPRING_SECURITY_USER_ROLES_0
+              value: SU
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:
