@@ -211,19 +211,19 @@ questions:
   required: false
   show_if: "molgenis-rserve.enabled=false"
   default: |-
-    datashield:
-      profiles:
-        - name: "default"
-          environment: "default"
-          whitelist:
+    "datashield":
+      "profiles":
+        - "name": "default"
+          "environment": "default"
+          "whitelist":
             - "dsBase"
-          options:
-            seed: "123456789"
-    rserve:
-      environments:
-        - name: "default"
-          host: "service.namespace.svc"
-          port: 6311
+          "options":
+            "seed": "123456789"
+    "rserve":
+      "environments":
+        - "name": "default"
+          "host": "service.namespace.svc"
+          "port": "6311"
 - variable: molgenis-auth.enabled
   label: Deploy Permission Manager
   required: true

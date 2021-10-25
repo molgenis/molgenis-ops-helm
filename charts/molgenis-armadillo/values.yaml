@@ -57,7 +57,7 @@ server:
       cpu: 1
       memory: 1500Mi
   config:
-    # You can provide any config you like here
+    # You can provide any config you like here (use quotes!)
 
 molgenis-rserve:
   image:
