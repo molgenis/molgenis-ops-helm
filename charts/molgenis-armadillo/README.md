@@ -36,4 +36,38 @@ After six tries the job gives up. But if you delete the failed job pods it will 
 If the key has already been created, it will fail but with a message that says so.
 The jobs are only there for your convenience, feel free to delete them once everything is set up correctly.
 
+## Profiles
+When you deactivate the embedded RServe environment you can configure profiles. The mechanism consists of 2 components.
+- RServe environments
+- DataSHIELD profiles
+
+You can have have one or more RServe environments and one or more profiles. Each profile points to an RServe environment. Multiple profiles can be pointed to 1 RServe environment.
+
+An example config looks like this:
+
+```yaml
+   datashield:
+      profiles:
+        - name: "default"
+          environment: "default"
+          whitelist:
+            - "dsBase"
+          options:
+            seed: "123456789"
+        - name: "exposome"
+          environment: "exposome"
+          whitelist:
+            - "dsBase"
+          options:
+            seed: "123456789"
+    rserve:
+      environments:
+        - name: "default"
+          host: "service.namespace.svc"
+          port: 6311
+        - name: "exposome"
+          host: "exposome-service.exposome-namespace.svc"
+          port: 6311
+```
+
 > We use the Armadillo icon from: [Armadillo vectors by vecteezy](https://www.vecteezy.com/free-vector/armadillo)

@@ -52,21 +52,39 @@ spec:
                   name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
                   key: secretkey
 {{- if index .Values "molgenis-rserve" "enabled" }}
-            - name: RSERVE_HOST
+            #  https://github.com/spring-projects/spring-boot/wiki/Relaxed-Binding-2.0#lists-1
+            - name: RSERVE_ENVIRONMENTS_0_NAME
+              value: default
+            - name: RSERVE_ENVIRONMENTS_0_HOST
               value: {{ include "call-nested" (list $ "molgenis-rserve" "molgenis-rserve.fullname") }}
-            - name: RSERVE_PORT
+            - name: RSERVE_ENVIRONMENTS_0_PORT
               value: {{ index .Values "molgenis-rserve" "service" "port" | quote }}
-{{- end }}              
+            - name: DATASHIELD_PROFILES_0_NAME
+              value: default
+            - name: DATASHIELD_PROFILES_0_ENVIRONMENT
+              value: default
+            - name: DATASHIELD_PROFILES_0_WHITELIST
+              value: {{ .Values.server.whitelist }}
+            - name: DATASHIELD_PROFILES_0_OPTIONS_SEED
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "molgenis-armadillo.fullname" . }}
+                  key: seed
+{{- end }}
+            - name: LOGGING_CONFIG
+              value: classpath:logback-file.xml
+            - name: AUDIT_LOG_PATH
+              value: /app/logs/audit.log
             - name: SPRING_SECURITY_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "molgenis-armadillo.fullname" . }}
                   key: adminpassword
-            - name: DATASHIELD_OPTIONS_DATASHIELD_SEED
+            - name: SERVER_SERVLET_SESSION_TIMEOUT
               valueFrom:
-                secretKeyRef:
-                  name: {{ include "molgenis-armadillo.fullname" . }}
-                  key: seed
+                configMapKeyRef:
+                  name: server-config
+                  key: session_timeout
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENTID
               valueFrom:
                 configMapKeyRef:
@@ -82,11 +100,15 @@ spec:
                 configMapKeyRef:
                   name: "server-config"
                   key: adminusername
+            - name: SPRING_SECURITY_USER_ROLES_0
+              value: SU
+{{- if .Values.server.config }}
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:
                   name: "server-config"
                   key: "application.json"
+{{- end }}
           livenessProbe:
             initialDelaySeconds: 30
             httpGet:

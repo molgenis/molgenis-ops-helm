@@ -27,10 +27,12 @@ shared:
 
 server:
   image:
-    repository: registry.molgenis.org/molgenis/armadillo
+    repository: molgenis/armadillo
     tag: latest
     pullPolicy: Always
   debug: false
+  session:
+    timeout: 60
   admin:
     username: admin
     password: admin
@@ -47,29 +49,23 @@ server:
     persistence:
       accessMode: ReadWriteOnce
       size: 100M
+    # DataSHIELD property used for calculating plots
+    seed: 12345678
+    # DataSHIELD whitelisted packages (comma separated list)
+    whitelist: dsBase
   resources:
     limits:
       cpu: 1
-      memory: 1Gi
+      memory: 1500Mi
     requests:
       cpu: 1
-      memory: 1Gi
+      memory: 1500Mi
   config:
     # You can provide any config you like here
-    logging:
-      config: classpath:logback-file.xml
-    audit:
-      log:
-        path: /app/logs/audit.log
-    spring:
-      security:
-        user:
-          roles:
-            - SU
 
 molgenis-rserve:
   image:
-    repository: molgenis/rserver
+    repository: datashield/armadillo-rserver
     tag: latest
     pullPolicy: IfNotPresent
   enabled: true
