@@ -239,7 +239,7 @@ questions:
       - molgenis/molgenis-auth
       - registry.molgenis.org/molgenis/molgenis-auth
     required: true
-    default: "molgenis/armadillo-auth"
+    default: "molgenis/molgenis-auth"
     group: Permission Manager
   - variable: molgenis-auth.image.tag
     label: Permission Manager image tag
