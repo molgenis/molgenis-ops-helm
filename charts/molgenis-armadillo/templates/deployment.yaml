@@ -53,10 +53,18 @@ spec:
                   key: secretkey
 {{- if index .Values "molgenis-rserve" "enabled" }}
             #  https://github.com/spring-projects/spring-boot/wiki/Relaxed-Binding-2.0#lists-1
+            - name: RSERVE_ENVIRONMENTS_0_NAME
+              value: default
             - name: RSERVE_ENVIRONMENTS_0_HOST
               value: {{ include "call-nested" (list $ "molgenis-rserve" "molgenis-rserve.fullname") }}
             - name: RSERVE_ENVIRONMENTS_0_PORT
               value: {{ index .Values "molgenis-rserve" "service" "port" | quote }}
+            - name: DATASHIELD_PROFILES_0_NAME
+              value: default
+            - name: DATASHIELD_PROFILES_0_ENVIRONMENT
+              value: default
+            - name: DATASHIELD_PROFILES_0_WHITELIST
+              value: {{ .Values.server.whitelist }}
             - name: DATASHIELD_PROFILES_0_OPTIONS_SEED
               valueFrom:
                 secretKeyRef:
@@ -94,13 +102,13 @@ spec:
                   key: adminusername
             - name: SPRING_SECURITY_USER_ROLES_0
               value: SU
-{{- if .Values.server.config }}            
+{{- if .Values.server.config }}
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:
                   name: "server-config"
                   key: "application.json"
-{{- end -}}
+{{- end }}
           livenessProbe:
             initialDelaySeconds: 30
             httpGet:

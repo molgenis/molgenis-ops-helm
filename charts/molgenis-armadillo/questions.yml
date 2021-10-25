@@ -155,7 +155,7 @@ questions:
       label: MOLGENIS RServer image repository for the default environment
       type: string
       required: true
-      default: molgenis/rserver
+      default: datashield/armadillo-rserver
       group: Default RServe environment
     - variable: molgenis-rserve.image.tag
       label: MOLGENIS RServer image tag for the default environment
@@ -204,16 +204,20 @@ questions:
       required: true
       default: 1
       group: Default profile
+    - variable: server.whitelist
+      label: Whitelisted packages 
+      description: Only methods of these packages are allowed on the RServer, this is a comma separated list
+      type: string
+      required: true
+      default: dsBase
+      group: Default profile
 - variable: server.config
-  label: Profile config (use the YAML Editor)
-  description: |-
-    IMPORTANT | use the YAML Editor. 
-    You can specify environments (RServe deployments) and profiles on those environments.
+  label: Profile config
+  description: You can specify environments (RServe deployments) and profiles on those environments.
   type: multiline
   required: false
   show_if: "molgenis-rserve.enabled=false"
   default: |-
-    # copy contents to YAML editor
     datashield:
       profiles:
         - name: default

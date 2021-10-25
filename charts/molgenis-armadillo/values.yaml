@@ -49,6 +49,10 @@ server:
     persistence:
       accessMode: ReadWriteOnce
       size: 100M
+    # DataSHIELD property used for calculating plots
+    seed: 12345678
+    # DataSHIELD whitelisted packages (comma separated list)
+    whitelist: dsBase
   resources:
     limits:
       cpu: 1
