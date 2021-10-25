@@ -8,5 +8,5 @@ metadata:
 data:
   # Make sure it contains exactly one trailing slash
   ISSUER_BASE_URL: "{{ trimSuffix "/" .Values.shared.issuerUri }}/"
-  BASE_URL: "https://{{ template "armadillo-auth.hostname" . }}"
+  BASE_URL: "https://{{ template "molgenis-auth.hostname" . }}"
 {{ end -}}
