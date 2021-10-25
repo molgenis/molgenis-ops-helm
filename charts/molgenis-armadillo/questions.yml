@@ -231,6 +231,7 @@ questions:
         - name: default
           host: service.namespace.svc
           port: 6311
+  group: RServe cluster environment
 - variable: molgenis-auth.enabled
   label: Deploy Permission Manager
   required: true
