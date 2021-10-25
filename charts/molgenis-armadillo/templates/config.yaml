@@ -9,4 +9,6 @@ data:
   client_id: {{ .Values.minio.environment.MINIO_IDENTITY_OPENID_CLIENT_ID }}
   issuer_uri: {{ .Values.shared.issuerUri | quote }}
   session_timeout: {{ .Values.server.session.timeout | quote }}
-  "application.json": {{ toJson .Values.server.config }}
+{{- if .Values.server.config -}}
+  "application.json": {{ toJson .Values.server.config | quote }}
+{{- end -}}

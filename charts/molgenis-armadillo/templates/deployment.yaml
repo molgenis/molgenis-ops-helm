@@ -94,11 +94,13 @@ spec:
                   key: adminusername
             - name: SPRING_SECURITY_USER_ROLES_0
               value: SU
+{{- if .Values.server.config }}            
             - name: SPRING_APPLICATION_JSON
               valueFrom:
                 configMapKeyRef:
                   name: "server-config"
                   key: "application.json"
+{{- end -}}
           livenessProbe:
             initialDelaySeconds: 30
             httpGet:

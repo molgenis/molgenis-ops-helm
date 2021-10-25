@@ -205,25 +205,28 @@ questions:
       default: 1
       group: Default profile
 - variable: server.config
-  label: Profile config
-  description: You can specify environments (RServe deployments) and profiles on those environments
+  label: Profile config (use the YAML Editor)
+  description: |-
+    IMPORTANT | use the YAML Editor. 
+    You can specify environments (RServe deployments) and profiles on those environments.
   type: multiline
   required: false
   show_if: "molgenis-rserve.enabled=false"
   default: |-
-    "datashield":
-      "profiles":
-        - "name": "default"
-          "environment": "default"
-          "whitelist":
-            - "dsBase"
-          "options":
-            "seed": "123456789"
-    "rserve":
-      "environments":
-        - "name": "default"
-          "host": "service.namespace.svc"
-          "port": "6311"
+    # copy contents to YAML editor
+    datashield:
+      profiles:
+        - name: default
+          environment: default
+          whitelist:
+            - dsBase
+          options:
+            seed: 123456789
+    rserve:
+      environments:
+        - name: default
+          host: service.namespace.svc
+          port: 6311
 - variable: molgenis-auth.enabled
   label: Deploy Permission Manager
   required: true
