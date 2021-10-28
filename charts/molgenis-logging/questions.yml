@@ -1,9 +1,9 @@
 questions:
-  - variable: elasticsearch.ingress.hosts[0]
+  - variable: logstash.ingress.hosts[0]
     type: string
     required: true
     default: logging.molgenis.org
-    label: "Host address for ElasticSearch to be reachable"
+    label: "Host address for logstash to be reachable"
   - variable: elasticsearch.authentication.username
     type: string
     required: true

@@ -1,6 +1,10 @@
 elasticsearch:
-  image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  image: "docker.elastic.co/elasticsearch/elasticsearch"
   esJavaOpts: "-Xmx2560m -Xms2560m"
+  ingress:
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/proxy-body-size: 50m
   resources:
     requests:
       cpu: "1000m"
@@ -8,13 +12,6 @@ elasticsearch:
     limits:
       cpu: "1000m"
       memory: "3Gi"
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: "nginx"
-      nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
-      nginx.ingress.kubernetes.io/proxy-body-size: 10m
-    paths: /
   extraEnvs:
     - name: ELASTIC_PASSWORD
       valueFrom:
@@ -29,8 +26,28 @@ elasticsearch:
   authentication:
     username: xxxx
     password: xxxx
+logstash:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
+      nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    paths: /
+  logstashPipeline: {}
+  logstash.conf: |-
+    input {
+      beats {
+        port => "5044"
+      }
+    }
+    output { 
+      elasticsearch {
+        hosts => ["http://elasticsearch-master:9200"]
+      }
+    }
 kibana:
-  image: "docker.elastic.co/kibana/kibana-oss"
+  image: "docker.elastic.co/kibana/kibana"
   ingress:
     enabled: true
     annotations:

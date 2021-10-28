@@ -1,9 +1,12 @@
 dependencies:
 - name: elasticsearch
   repository: https://helm.elastic.co
-  version: 7.5.2
+  version: 7.15.0
 - name: kibana
   repository: https://helm.elastic.co
-  version: 7.5.2
-digest: sha256:b9dfc157739d3df9270952998d747204a7b8099e325a6a96d5cf05431e76576e
-generated: "2020-02-17T15:25:19.067793+01:00"
+  version: 7.15.0
+- name: logstash
+  repository: https://helm.elastic.co
+  version: 7.15.0
+digest: sha256:8458aec4634db67d44f856222ca436cd13a8c18c95afe9f460a86b3ed8f3ac41
+generated: "2021-10-28T11:22:50.038422+02:00"
