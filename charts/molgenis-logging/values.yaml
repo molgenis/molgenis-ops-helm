@@ -33,7 +33,11 @@ logstash:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
       nginx.ingress.kubernetes.io/proxy-body-size: 50m
-    paths: /
+    hosts:
+      - host: logging.molgenis.org
+        paths:
+          - path: /
+            servicePort: 5044
   logstashPipeline: {}
   logstash.conf: |-
     input {
