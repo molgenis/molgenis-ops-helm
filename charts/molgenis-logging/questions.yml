@@ -1,11 +1,20 @@
 questions:
-  - variable: logstash.ingress.hosts[0].host
-    type: string
+  - variable: 'environment'
     required: true
-    default: logging.molgenis.org
-    label: "Host address for logstash to be reachable"
-    show_subquestion_if: \!logging.molgenis.org
+    label: environment
+    default: "production"
+    type: enum
+    options:
+      - production
+      - custom
+    description: "Default is logging.molgenis.org, select custom for custom ingress"
+    show_subquestion_if: custom
     subquestions:
+    - variable: logstash.ingress.hosts[0].host
+      type: string
+      required: true
+      default: logging.molgenis.org
+      label: "Host address for logstash to be reachable"
     - variable: logstash.ingress.hosts[0].paths[0].path
       type: string
       required: true
