@@ -28,7 +28,7 @@ elasticsearch:
     password: xxxx
 logstash:
   service:
-    type: externalName #ClusterIP
+    type: ExternalName #ClusterIP
     externalName: logging.molgenis.org
     loadBalancerIP: ""
     annotations:
