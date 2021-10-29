@@ -4,17 +4,16 @@ questions:
     required: true
     default: logging.molgenis.org
     label: "Host address for logstash to be reachable"
-    subquestions:
-    - variable: logstash.ingress.hosts[0].paths[0].path
-      type: string
-      required: true
-      default: /
-      label: "Path to logstash service(should not have to be changed)"
-    - variable: logstash.ingress.hosts[0].paths[0].servicePort
-      type: int
-      required: true
-      default: 5044
-      label: "Port to logstash service(should not have to be changed)"
+  - variable: logstash.ingress.hosts[0].paths[0].path
+    type: string
+    required: true
+    default: /
+    label: "Path to logstash service(should not have to be changed)"
+  - variable: logstash.ingress.hosts[0].paths[0].servicePort
+    type: int
+    required: true
+    default: 5044
+    label: "Port to logstash service(should not have to be changed)"
   - variable: elasticsearch.authentication.username
     type: string
     required: true
