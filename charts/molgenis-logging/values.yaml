@@ -50,18 +50,25 @@ logstash:
   #       paths:
   #         - path: /
   #           servicePort: 5044
-  logstashPipeline: {}
-  logstash.conf: |-
-    input {
-      beats {
-        port => "5044"
+  logstashConfig:
+    logstash.yml: |
+      http.host: 0.0.0.0
+      xpack.monitoring.elasticsearch.url: "http://elasticsearch-master:9200"
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        beats {
+          port => "5044"
+        }
       }
-    }
-    output { 
-      elasticsearch {
-        hosts => ["http://elasticsearch-master:9200"]
+      output { 
+        elasticsearch {
+          hosts => ["http://elasticsearch-master:9200"]
+        }
+        stdout {
+          codec => rubydebug
+        }
       }
-    }
 kibana:
   image: "docker.elastic.co/kibana/kibana"
   ingress:
