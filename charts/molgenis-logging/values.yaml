@@ -29,7 +29,7 @@ elasticsearch:
 logstash:
   service:
     type: ExternalName #ClusterIP
-    externalName: logging.molgenis.org
+    externalName: "logging.molgenis.org"
     loadBalancerIP: ""
     annotations:
       kubernetes.io/ingress.class: "nginx"
