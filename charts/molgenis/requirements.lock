@@ -1,7 +1,7 @@
 dependencies:
 - name: molgenis-elasticsearch
   repository: https://registry.molgenis.org/repository/helm
-  version: 2.0.4
+  version: 2.1.0
 - name: molgenis-frontend
   repository: https://registry.molgenis.org/repository/helm
   version: 1.6.0
@@ -11,5 +11,5 @@ dependencies:
 - name: minio
   repository: https://helm.min.io/
   version: 8.0.10
-digest: sha256:27c63253184abab9aa006b2f923bf32a33932bcb0f23d6de61b77c19eecc24da
-generated: "2021-06-11T14:09:33.319247+02:00"
+digest: sha256:68a91a6ab3d1406b1a015fcb3c90c5554884e00802975c5e17cd68b68861c9be
+generated: "2021-10-07T16:13:41.705678187+02:00"

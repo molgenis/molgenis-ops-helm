@@ -89,12 +89,25 @@ molgenis-frontend:
     tag: latest
     repository: registry.hub.docker.com
   proxy:
+    frontend: {}
     backend:
       service:
         enabled: true
 
 molgenis-elasticsearch:
   enabled: true
+  image:
+    repository: docker.elastic.co/elasticsearch/elasticsearch
+    tag: 7.15.0
+  esConfig:
+    elasticsearch.yml: |
+      # Allow access from other pods, not just localhost
+      network.host: 0.0.0.0
+      bootstrap.memory_lock: false
+      indices.query.bool.max_clause_count: 4096
+      xpack.security.enabled: false
+  service:
+    port: 9200
   persistence:
     size: 5Gi
   resources:
