@@ -1,5 +1,5 @@
 questions:
-  - variable: logstash.service.externalName
+  - variable: logstash.ingress.hosts[0].host
     type: string
     required: true
     default: logging.molgenis.org
