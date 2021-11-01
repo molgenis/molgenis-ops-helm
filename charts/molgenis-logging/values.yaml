@@ -64,6 +64,8 @@ logstash:
       output { 
         elasticsearch {
           hosts => ["http://elasticsearch-master:9200"]
+          loadbalance => true
+          index => "filebeat-%{[agent.version]}-%{[service.type]}-%{+yyyy.MM}"
         }
         stdout {
           codec => rubydebug
