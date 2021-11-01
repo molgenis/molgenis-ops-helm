@@ -52,7 +52,7 @@ questions:
   required: true
   group: "RServe environment"
 - variable: debug
-  label: Turn on deubg
+  label: Turn on debug
   default: false
   description: "Turn on debugging for RServe environment"
   type: boolean
