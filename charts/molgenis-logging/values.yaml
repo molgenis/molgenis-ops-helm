@@ -27,18 +27,18 @@ elasticsearch:
     username: xxxx
     password: xxxx
 logstash:
-  # service:
-  #   type: ClusterIP
-  #   loadBalancerIP: ""
-  #   annotations:
-  #     kubernetes.io/ingress.class: "nginx"
-  #     nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
-  #     nginx.ingress.kubernetes.io/proxy-body-size: 50m
-  #   ports:
-  #     - name: beats
-  #       port: 5044
-  #       protocol: TCP
-  #       targetPort: 5044
+  service:
+    type: ClusterIP
+    loadBalancerIP: ""
+#    annotations:
+#      kubernetes.io/ingress.class: "nginx"
+#      nginx.ingress.kubernetes.io/whitelist-source-range: 195.169.22.0/23
+#      nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    ports:
+      - name: beats
+        port: 15044
+        protocol: TCP
+        targetPort: 5044
   ingress:
     enabled: true
     annotations:
@@ -49,7 +49,7 @@ logstash:
       - host: logging.molgenis.org
         paths:
           - path: / 
-            servicePort: 9600
+            servicePort: 15044
   logstashConfig:
     logstash.yml: |
       http.host: 0.0.0.0
