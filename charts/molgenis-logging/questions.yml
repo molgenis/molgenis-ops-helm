@@ -23,7 +23,7 @@ questions:
     - variable: logstash.ingress.hosts[0].paths[0].servicePort
       type: int
       required: true
-      default: 15044
+      default: 55044
       label: "Port to logstash service(should not have to be changed)"
   - variable: elasticsearch.authentication.username
     type: string
