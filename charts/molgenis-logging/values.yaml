@@ -63,6 +63,7 @@ logstash:
         }
         http {
           port => 9200
+          codec => json
         }
       }
       output { 
