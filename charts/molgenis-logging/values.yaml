@@ -37,7 +37,7 @@ logstash:
     ports:
       - name: beats
         port: 80 #55044
-        protocol: http #TCP
+        protocol: TCP
         targetPort: 80 #5044
   ingress:
     enabled: true
