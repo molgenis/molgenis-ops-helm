@@ -38,7 +38,7 @@ logstash:
       - name: beats
         port: 80 #55044
         protocol: TCP
-        targetPort: 80 #5044
+        targetPort: 9200 #5044
   ingress:
     enabled: true
     annotations:
@@ -62,7 +62,7 @@ logstash:
           ssl => false
         }
         http {
-          port => 80
+          port => 9200
         }
       }
       output { 
