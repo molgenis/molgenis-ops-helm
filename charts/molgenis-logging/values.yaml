@@ -58,6 +58,7 @@ logstash:
     logstash.conf: |
       input {
         beats {
+          host  => "0.0.0.0"
           port => "5044"
           ssl => false
         }
