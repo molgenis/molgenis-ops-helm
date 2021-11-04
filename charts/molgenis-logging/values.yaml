@@ -62,7 +62,6 @@ logstash:
           ssl => false
         }
         http {
-          host => "0.0.0.0"
           port => 80
         }
       }
