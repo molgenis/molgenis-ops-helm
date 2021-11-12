@@ -139,9 +139,37 @@ questions:
   label: Session timeout
   type: string
   required: true
-  default: 30m
+  default: 60m
   group: Armadillo
   description: If a duration suffix is not specified, seconds will be used.
+- variable: server.resources.limits.cpu
+  label: CPU limit
+  type: string
+  required: true
+  default: 1
+  group: Armadillo
+  description: CPU limit of the Armadillo server
+- variable: server.resources.requests.cpu
+  label: CPU reservation
+  type: string
+  required: true
+  default: 1
+  group: Armadillo
+  description: CPU reservation of the Armadillo server
+- variable: server.resources.limits.memory
+  label: Memory limit
+  type: string
+  required: true
+  default: 1500Mi
+  group: Armadillo
+  description: Memory limit of the Armadillo server
+- variable: server.resources.requests.memory
+  label: Memory reservation
+  type: string
+  required: true
+  default: 1500Mi
+  group: Armadillo
+  description: Memory reservation of the Armadillo server
 - variable: molgenis-rserve.enabled
   label: Deploy Default RServe environment
   description: Deploys an Rserve environment to use with this server
@@ -225,7 +253,7 @@ questions:
           whitelist:
             - dsBase
           options:
-            seed: 123456789
+            seed: #random-generated-9-digits-number#
     rserve:
       environments:
         - name: default
