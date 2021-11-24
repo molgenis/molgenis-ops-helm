@@ -61,6 +61,7 @@ logstash:
           host  => "0.0.0.0"
           port => "5044"
           ssl => false
+          client_inactivity_timeout => 40000
         }
         http {
           port => 9200
