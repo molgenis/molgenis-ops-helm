@@ -36,7 +36,7 @@ logstash:
 #      nginx.ingress.kubernetes.io/proxy-body-size: 50m
     ports:
       - name: beats
-        port: 80
+        port: 443
         protocol: TCP
         targetPort: 5044
   ingress:
@@ -49,7 +49,7 @@ logstash:
       - host: logging.molgenis.org
         paths:
           - path: / 
-            servicePort: 80
+            servicePort: 443
   logstashConfig:
     logstash.yml: |
       http.host: 0.0.0.0
