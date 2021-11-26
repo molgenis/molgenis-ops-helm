@@ -38,7 +38,7 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
-mariadb: 
+mariadb:
   db:
     user: drugis
     password: xxxxx
