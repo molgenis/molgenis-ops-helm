@@ -50,8 +50,7 @@ tolerations: []
 affinity: {}
 
 mariadb: 
-  auth: 
-    forcePassword: false
-    database: "drugis"
-    username: "matomoDrugis"
+  db:
+    user: "matomoDrugis"
     password: "test"
+    name: drugis
