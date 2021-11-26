@@ -1,6 +1,6 @@
 dependencies:
-- name: mysql
-  repository: https://charts.bitnami.com/bitnami
-  version: 8.8.12
-digest: sha256:594e56e927b5b5bdbd5c2281749baf591fa8950756d1eab6d66e94f48067c544
-generated: "2021-11-25T16:48:53.185613025+01:00"
+- name: mariadb
+  repository: https://charts.helm.sh/stable
+  version: 7.3.14
+digest: sha256:7e3d58b3cf88c9d4611e89b4538a0bdebae41a0c7afbb7f0908d492506214341
+generated: "2021-11-26T14:09:47.952403+01:00"
