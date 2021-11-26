@@ -51,6 +51,6 @@ affinity: {}
 
 mariadb: 
   db:
-    user: "matomoDrugis"
-    password: "test"
+    user: matomoDrugis
+    password: test
     name: drugis

@@ -23,14 +23,14 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: MATOMO_DATABASE_USERNAME
+            - name: MATOMO_DATABASE_USER
               value: {{ .Values.mariadb.db.user }}
             - name: MATOMO_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
                   key: mariadb-password
-            - name: MATOMO_DATABASE_DBNAME
+            - name: MATOMO_DATABASE_NAME
               value: {{ .Values.mariadb.db.name }}
             - name: MATOMO_DATABASE_HOST
               value: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
