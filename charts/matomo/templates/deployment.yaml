@@ -34,6 +34,13 @@ spec:
               value: {{ .Values.mariadb.db.name }}
             - name: MATOMO_DATABASE_HOST
               value: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
+            - name: MARIADB_HOST
+              value: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
+                  key: mariadb-root-password
           ports:
             - name: http
               containerPort: 80
