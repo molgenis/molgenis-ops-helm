@@ -1,5 +1,8 @@
 replicaCount: 1
 
+user: drugis
+password: xxxxx
+
 image:
   repository: bitnami/matomo
   pullPolicy: IfNotPresent
@@ -35,6 +38,12 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
+mariadb: 
+  db:
+    user: drugis
+    password: xxxxx
+    name: drugis
+
 resources: {}
 
 autoscaling:
@@ -48,9 +57,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-mariadb: 
-  db:
-    user: matomoDrugis
-    password: test
-    name: drugis

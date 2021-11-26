@@ -1,0 +1,49 @@
+ategories:
+  - analytics
+questions:
+  - variable: user
+    type: string
+    label: Matomo username
+    required: true
+    default: drugis
+    group: Matomo
+  - variable: password
+    type: password
+    label: Matomo password
+    required: true
+    group: Matomo
+  - variable: ingress.enabled
+    type: boolean
+    label: Ingress enabled
+    required: true
+    default: true
+    group: Provisioning
+  - variable: ingress.hosts[0].host
+    type: string
+    label: Matomo host
+    required: true
+    default: analystics.drugis.org
+    group: Provisioning
+  - variable: image.repository
+    type: string
+    label: Matomo image repository
+    required: true
+    default: bitnami/matomo
+    group: Provisioning
+  - variable: image.tag
+    type: string
+    label: Matomo image tag
+    required: true
+    default: 4.5.0
+    group: Provisioning
+  - variable: mariadb.db.user
+    type: string
+    label: Username for MariaDB
+    required: true
+    default: drugis
+    group: Database
+  - variable: mariadb.db.password
+    type: password
+    label: Password for MariaDB
+    required: true
+    group: Database

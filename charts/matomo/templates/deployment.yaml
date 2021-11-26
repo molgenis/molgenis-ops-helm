@@ -23,6 +23,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: MATOMO_USERNAME
+              value: {{ .Values.user }}
+            - name: MATOMO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-{{ include "matomo.fullname" . }}
+                  key: matomo-password  
             - name: MATOMO_DATABASE_USER
               value: {{ .Values.mariadb.db.user }}
             - name: MATOMO_DATABASE_PASSWORD
