@@ -12,6 +12,18 @@ questions:
     label: Matomo password
     required: true
     group: Matomo
+  - variable: image.repository
+    type: string
+    label: Matomo image repository
+    required: true
+    default: bitnami/matomo
+    group: Matomo
+  - variable: image.tag
+    type: string
+    label: Matomo image tag
+    required: true
+    default: 4.5.0
+    group: Matomo
   - variable: ingress.enabled
     type: boolean
     label: Ingress enabled
@@ -24,17 +36,17 @@ questions:
     required: true
     default: analystics.drugis.org
     group: Provisioning
-  - variable: image.repository
+  - variable: ingress.hosts[0].paths[0].path
     type: string
-    label: Matomo image repository
+    label: Matomo host path
     required: true
-    default: bitnami/matomo
+    default: /
     group: Provisioning
-  - variable: image.tag
+  - variable: ingress.hosts[0].paths[0].pathType
     type: string
-    label: Matomo image tag
+    label: Matomo host pathtype
     required: true
-    default: 4.5.0
+    default: ImplementationSpecific
     group: Provisioning
   - variable: mariadb.db.user
     type: string
