@@ -41,9 +41,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
                   key: mariadb-root-password
+            - name: MATOMO_WEBSITE_HOST
+              value: http://{{ .Values.ingress.hosts[0].host }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:

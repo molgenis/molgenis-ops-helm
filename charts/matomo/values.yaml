@@ -22,14 +22,14 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: false
   className: ""
   annotations: {}
   hosts:
-    - host: chart-example.local
+    - host: analytics.drugis.org
       paths:
         - path: /
           pathType: ImplementationSpecific
