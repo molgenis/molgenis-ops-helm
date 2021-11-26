@@ -1,7 +1,10 @@
 apiVersion: v1
+appVersion: "4.5.0"
+version: 1.0.0
 name: matomo
 description: A Helm chart for deploying the Matomo service
-type: application
-version: 1.0.0
-appVersion: "4.5.0"
+home: https://matomo.org/
 icon: https://static.matomo.org/wp-content/uploads/2018/11/DefaultIcon.png
+maintainers:
+- name: chinook25
+- name: sidohaakma
