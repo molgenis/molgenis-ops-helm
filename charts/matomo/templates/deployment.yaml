@@ -36,7 +36,7 @@ spec:
               value: {{ include "call-nested" (list $ "mariadb" "mariadb.fullname") }}
           ports:
             - name: http
-              containerPort: 1337
+              containerPort: 80
               protocol: TCP
           livenessProbe:
             httpGet:
