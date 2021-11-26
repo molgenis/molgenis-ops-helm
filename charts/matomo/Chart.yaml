@@ -4,3 +4,4 @@ description: A Helm chart for deploying the Matomo service
 type: application
 version: 0.1.0
 appVersion: "4.5.0"
+icon: https://static.matomo.org/wp-content/uploads/2018/11/DefaultIcon.png
