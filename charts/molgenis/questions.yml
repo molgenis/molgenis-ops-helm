@@ -553,7 +553,7 @@ questions:
     group: "Index"
     label: "ES_JAVA_OPTS value"
     type: string
-    default: "-Xms1g -Xmx1g"
+    default: "-Xms1g -Xmx1g -Dlog4j2.formatMsgNoLookups=true"
     description: "Don't set max stack size higher than half the container max memory. See https://www.elastic.co/guide/en/elasticsearch/reference/5.6/heap-size.html"
   - variable: "molgenis-elasticsearch.resources.requests.memory"
     show_if: "questions.advanced=true"
