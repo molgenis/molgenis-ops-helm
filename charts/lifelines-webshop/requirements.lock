@@ -1,12 +1,12 @@
 dependencies:
 - name: molgenis
   repository: https://registry.molgenis.org/repository/helm
-  version: 1.12.3
+  version: 1.16.2
 - name: lifelines-edge
   repository: https://registry.molgenis.org/repository/helm
   version: 2.0.0
 - name: vue-pdfium
   repository: https://registry.molgenis.org/repository/helm
   version: 0.1.0
-digest: sha256:a2b6f70c6612c7d88533b634bee2586043d5f017aacb5bbd6dcda9c6900e6796
-generated: "2021-03-23T12:20:41.739801+01:00"
+digest: sha256:bb05d48dc5e3fbd596c6dc7242f112fd4148c3d2d36257b305811d80b20d192b
+generated: "2021-12-12T19:16:27.446219+01:00"

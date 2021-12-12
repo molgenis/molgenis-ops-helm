@@ -1,6 +1,6 @@
 dependencies:
   - name: molgenis
-    version: "1.12.3"
+    version: "1.16.2"
     repository: "https://registry.molgenis.org/repository/helm"
   - name: lifelines-edge
     version: "2.0.0"
