@@ -1,6 +1,6 @@
 dependencies:
   - name: molgenis-elasticsearch
-    version: 2.1.0
+    version: 2.1.1
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-elasticsearch.enabled
   - name: molgenis-frontend
