@@ -1,6 +1,6 @@
 elasticsearch:
   image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
-  esJavaOpts: "-Xmx2560m -Xms2560m"
+  esJavaOpts: "-Xmx2560m -Xms2560m -Dlog4j2.formatMsgNoLookups=true"
   resources:
     requests:
       cpu: "1000m"
