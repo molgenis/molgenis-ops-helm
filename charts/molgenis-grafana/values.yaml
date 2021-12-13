@@ -96,12 +96,14 @@ grafana:
         datasource: k8-prometheus
 
   grafana.ini:
+    log:
+      level: debug
     auth.generic_oauth:
       enabled: true
       allow_sign_up: false
       client_id: xxxx
       client_secret: xxxx
-      name: Auth0
+      name: MolgenisAuth
       scopes: openid profile email
       auth_url: https://auth.molgenis.org/oauth2/authorize
       token_url: https://auth.molgenis.org/oauth2/token
