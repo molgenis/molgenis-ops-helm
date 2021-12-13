@@ -110,7 +110,7 @@ grafana:
       api_url: https://auth.molgenis.org/oauth2/userinfo
       use_pkce: true
       role_attribute_strict: true
-      role_attribute_path: contains(info.roles[*], 'admin') && 'Admin' || contains(info.roles[*], 'viewer') && 'Viewer'
+      role_attribute_path: contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'viewer') && 'Viewer'
 
     server:
       root_url: "https://grafana.dev.molgenis.org"
