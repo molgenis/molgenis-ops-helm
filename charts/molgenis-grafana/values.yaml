@@ -96,17 +96,19 @@ grafana:
         datasource: k8-prometheus
 
   grafana.ini:
-    auth.github:
+    auth.generic_oauth:
       enabled: true
-      allow_sign_up: true
+      allow_sign_up: false
       client_id: xxxx
       client_secret: xxxx
-      scopes: user:email,read:org
-      auth_url: https://github.com/login/oauth/authorize
-      token_url: https://github.com/login/oauth/access_token
-      api_url: https://api.github.com/user
-      team_ids: 3794189,3794269
-#     allowed_organizations: molgenis
+      name: Auth0
+      scopes: openid profile email
+      auth_url: https://auth.molgenis.org/oauth2/authorize
+      token_url: https://auth.molgenis.org/oauth2/token
+      api_url: https://auth.molgenis.org/oauth2/userinfo
+      use_pkce: true
+      role_attribute_strict: true
+      role_attribute_path: contains(info.roles[*], 'admin') && 'Admin' || contains(info.roles[*], 'viewer') && 'Viewer'
 
     server:
       root_url: "https://grafana.dev.molgenis.org"

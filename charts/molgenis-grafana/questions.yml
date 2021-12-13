@@ -3,30 +3,29 @@ questions:
     type: password
     required: true
     label: "Admin password"
-  - variable: grafana.grafana\.ini.auth\.github.enabled
+  - variable: grafana.grafana\.ini.auth\.generic_oauth.enabled
     default: true
     type: boolean
-    label: "Enable GitHub Authentication"
-    group: "Github Authentication"
-    description: "Allow users to authenticate using GitHub. Configured on https://github.com/organizations/molgenis/settings/applications/955390 (dev) or https://github.com/organizations/molgenis/settings/applications/1269446 (prod)"
+    label: "Enable OAuth Authentication"
+    group: "Authentication"
     required: true
     show_subquestion_if: true
     subquestions:
-      - variable: grafana.grafana\.ini.auth\.github.client_id
+      - variable: grafana.grafana\.ini.auth\.generic_oauth.client_id
         label: "Client ID"
         group: "Github Authentication"
         type: string
         required: true
-      - variable: grafana.grafana\.ini.auth\.github.client_secret
+      - variable: grafana.grafana\.ini.auth\.generic_oauth.client_secret
         label: "Client Secret"
-        group: "Github Authentication"
-        type: string
+        group: "Authentication"
+        type: password
         required: true
       - variable: grafana.grafana\.ini.server.root_url
         default: "https://grafana.dev.molgenis.org"
-        label: "Return address(MUST be same as Hostname and have https://)"
-        group: "Github Authentication"
-        description: "For prod cluster fill in: https://grafana.molgenis.org"
+        label: "Root URL"
+        group: "Authentication"
+        description: "MUST be same as Hostname and have the protocol: 'https://' (for prod cluster fill in: https://grafana.molgenis.org)"
         type: string
         required: true
   - variable: "grafana.ingress.hosts[0]"
