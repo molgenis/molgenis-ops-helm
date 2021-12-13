@@ -3,6 +3,25 @@ questions:
     type: password
     required: true
     label: "Admin password"
+    group: Provisioning
+  - variable: "grafana.ingress.hosts[0]"
+    default: "grafana.dev.molgenis.org"
+    type: string
+    label: "Hostname"
+    group: Provisioning
+  - variable: grafana.grafana\.ini.log.level
+    default: info
+    type: string
+    label: Set log level
+    required: true
+    group: Provisioning
+  - variable: grafana.grafana\.ini.server.root_url
+    default: "https://grafana.dev.molgenis.org"
+    label: "Root URL"
+    description: "MUST be same as Hostname and have the protocol: 'https://' (for prod cluster fill in: https://grafana.molgenis.org)"
+    type: string
+    required: true
+    group: Provisioning
   - variable: grafana.grafana\.ini.auth\.generic_oauth.enabled
     default: true
     type: boolean
@@ -21,14 +40,3 @@ questions:
         group: "Authentication"
         type: password
         required: true
-      - variable: grafana.grafana\.ini.server.root_url
-        default: "https://grafana.dev.molgenis.org"
-        label: "Root URL"
-        group: "Authentication"
-        description: "MUST be same as Hostname and have the protocol: 'https://' (for prod cluster fill in: https://grafana.molgenis.org)"
-        type: string
-        required: true
-  - variable: "grafana.ingress.hosts[0]"
-    default: "grafana.dev.molgenis.org"
-    type: string
-    label: "Hostname"
