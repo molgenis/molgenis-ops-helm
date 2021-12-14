@@ -30,6 +30,14 @@ You need to configure an application to be able to login via the MOLGENIS authen
   - Add the "admin" role and check the “Super role” checkbox
 - Click on save
 
+### Enable ID-provider for application
+- Navigate to the "Settings" (leftside of the screen)
+- Navigate to "Identity Providers"
+- Click on "umcg"
+- Scroll all the way down
+- Click on "Enable" for the Grafana app
+- Disable on "Create registration" for Grafana app
+
 ### Configure the application in the Grafana deployment
 There are several values in the `values.yml` you need to fill in based upon the Application you create in https://auth.molgenis.org.
 
