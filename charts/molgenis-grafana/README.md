@@ -13,9 +13,10 @@ You need to perform 2 steps.
 2. Configure the application in the deployment of Grafana
 
 ### Configure application in FusionAuth
-Navigate to the central authentication server: https://#project#-auth.molgenis.org and login using ELIXIR → UMC Groningen.
+You need to configure an application to be able to login via the MOLGENIS authentication server. Follow the steps below.
 
-- Navigate to https://auth.molgenis.org
+- Navigate to the central authentication server: https://auth.molgenis.org 
+- Login using ELIXIR → UMC Groningen.
 - Applications (on the left side of the screen)
   - Parameters:
     - Name / Description
@@ -32,7 +33,7 @@ Navigate to the central authentication server: https://#project#-auth.molgenis.o
 ### Configure the application in the Grafana deployment
 There are several values in the `values.yml` you need to fill in based upon the Application you create in https://auth.molgenis.org.
 
-These are the only properties you need to configuration
+These are the only properties you need to configure the following properties.
 
 ```ini
 grafana.grafana\.ini.auth\.github.client_id=client id
