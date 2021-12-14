@@ -12,12 +12,13 @@ pipeline {
                     sh "helm repo add molgenis https://helm.molgenis.org"
                     sh "helm repo add elastic https://helm.elastic.co/"
                     sh "helm repo add fusionauth https://fusionauth.github.io/charts"
-//                    sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
+                    sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                     sh "helm repo add jenkins https://charts.jenkins.io"
                     sh "helm repo add minio https://helm.min.io"
                     sh 'helm repo add jupyter https://jupyterhub.github.io/helm-chart'
                     sh 'helm repo add nfs https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner'
                     sh "helm repo add airflow https://airflow-helm.github.io/charts"
+                    sh "helm repo add grafana https://grafana.github.io/helm-charts"
                 }
             }
         }
