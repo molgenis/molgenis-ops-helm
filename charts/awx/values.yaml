@@ -1,0 +1,7 @@
+services:
+  kube:
+    config: |
+      xxxxxxx
+  cmdb:
+    username: xxxxx
+    password: xxxxx

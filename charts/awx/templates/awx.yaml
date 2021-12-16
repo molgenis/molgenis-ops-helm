@@ -1,0 +1,19 @@
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+namespace: awx
+metadata:
+  name: awx
+spec:
+  ingress_type: ingress
+  service_type: nodeport
+  projects_persistence: true
+  projects_storage_access_mode: ReadWriteOnce
+  admin_user: admin
+  admin_email: operations-support@umcg.nl
+#  web_extra_volume_mounts: |
+#    - name: static-data
+#      mountPath: /var/lib/awx/public
+  extra_volumes: |
+    - name: static-data
+      persistentVolumeClaim:
+        claimName: public-static-data-pvc
