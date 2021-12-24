@@ -16,10 +16,10 @@ ingress:
 
 image:
   repository: docker.elastic.co/elasticsearch/elasticsearch
-  tag: 7.15.0
+  tag: 7.16.2
   pullPolicy: IfNotPresent
 
-javaOpts: "-Xms1g -Xmx1g -Dlog4j2.formatMsgNoLookups=true"
+javaOpts: "-Xms1g -Xmx1g"
 
 # Allows you to add any config files in /usr/share/elasticsearch/config/
 # such as elasticsearch.yml and log4j2.properties
