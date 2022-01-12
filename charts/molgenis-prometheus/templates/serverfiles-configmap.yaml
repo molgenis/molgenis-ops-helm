@@ -21,6 +21,7 @@ data:
         rules:
           - alert: InstanceProdDownOldInfra
             expr: up{job="node-targets", type="production"} == 0
+            for: 5m
             labels:
               severity: CRITICAL
               frequency: 15m
@@ -29,6 +30,7 @@ data:
               description: {{ printf "\"  Instance: {{$labels.instance}} \\n  ID: {{ $labels.id }} \\n  project: {{ $labels.project }} \\n type: {{$labels.type}} \\n \"" }}
           - alert: InstanceProdDownNewInfra
             expr: up{job="openstack23"} == 0
+            for: 5m
             labels:
               severity: CRITICAL
               frequency: 15m
@@ -37,6 +39,7 @@ data:
               description: {{ printf "\"  Instance: {{$labels.instance}} \\n    ID: {{$labels.id}} \\n    Project: {{$labels.project}} \\n    IP address: {{$labels.ip}} \\n \"" }}
           - alert: ServerlistInstanceDown
             expr: up{job="serverListServer"} == 0
+            for: 5m
             labels:
               severity: CRITICAL
               frequency: 15m
