@@ -61,7 +61,22 @@ server:
       cpu: 1
       memory: 1500Mi
   config:
-    # You can provide any config you like here
+    # You can provide any datashield profiles and environment configuration
+    # This is an example configuration for both datashield profiles as well as the environments
+    # datashield:
+    #   profiles:
+    #     - name: default
+    #       environment: default
+    #       whitelist:
+    #         - dsBase
+    #       options:
+    #         datashield:
+    #           seed: #random-generated-9-digits-number#
+    #   rserve:
+    #     environments:
+    #       - name: default
+    #         host: service.namespace.svc
+    #         port: 6311
 
 molgenis-rserve:
   image:

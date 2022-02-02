@@ -253,7 +253,8 @@ questions:
           whitelist:
             - dsBase
           options:
-            seed: #random-generated-9-digits-number#
+            datashield:
+              seed: #random-generated-9-digits-number#
     rserve:
       environments:
         - name: default
