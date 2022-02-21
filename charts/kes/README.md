@@ -31,7 +31,6 @@ For more background on app roles, HashiCorp has an [AppRole Pull Authentication 
 ![AppRole workflow](https://learn.hashicorp.com/img/vault-approle-workflow.png)
 
 ### Create the policy
-
 You need to be logged in on the vault using a token that can manage policies.
 The `kes-dev` policy is
 ```
@@ -66,17 +65,31 @@ To configure a MinIO deployment you need to [install the `kes` command line tool
 MinIO needs to trust the self-signed KES Server certificate, so it must be added to the trusted CA certificate directory.
 The MinIO chart needs to be version 7.2.1 or higher to be able to mount CA keys from an external secret.
 
-In the Armadillo chart, there's a question where you can fill in the KES Server certificate. The KES-certificate can be found in the secrets of the KES server.
+In the Armadillo chart, there's a question where you can fill in the KES server certificate. The KES-certificate can be found in the secrets of the KES server.
 
 ### Decide on master encryption key name
 The armadillo chart asks for the master encryption key name when you deploy it.
 
-### Determine identity of MinIO Client certificate
+### Determine identity of MinIO client certificate
+
+**Manually**
+
 When you deploy the chart, it generates a TLS client certificate and private key. The KES server policy grants permissions to the client based on the identity of the client certificate. If you copy the client certificate to a local file `client.cert`, you can compute its identity using
 
 ```
 > kes tool identity of client.cert
 ```
+
+**Automatically**
+
+The Armadillo chart is now capable to render the identity in a job. 
+* Navigate to https://rancher.molgenis.org:7777
+* Navigate to `molgenis-prod`
+* Navigate to `prod-molgenis`
+* Navigate to the `armadillo` deployment
+* Navigate to the `kes-identity` job and check the logs
+* Copy the string from the logs
+* Follow the [Add policy to KES server](#add-policy-to-kes-server) manual
 
 ### Add policy to KES server
 Then you add a policy fragment to the KES Server deployment, granting the MinIO client permissions on the master encryption key:
@@ -92,6 +105,9 @@ Then you add a policy fragment to the KES Server deployment, granting the MinIO 
 And restart the KES pods.
 
 ### Create Master encryption key on the KES server
+This process needs to be performed once. It can be done automatically and manually.
+
+**Manually**
 
 To create the key, you need to
 * port-forward a kes pod's 7373 port to localhost (This is nontrivial to set up, but out of the scope of this document. Use `rancher kubectl port-forward` or if `kubectl` works you can use `k9s`)
@@ -106,10 +122,34 @@ To create the key, you need to
 > kes key create -k <keyname>
 ```
 
+**Automatically**
+If you deploy an Armadillo chart and configure the KES server in the chart the key will be created automatically in the KES server.
+
 ## When a KES Server certificate expires
 The KES Server certificate is valid for 365 days. When it expires you can simply delete and redeploy the kes server, since it is stateless.
-* Copy the KES Server policy before you delete it, as it contains the identities of the Application client certificates.
-* When the KES Server is redeployed, a new certificate is generated. You need to fill it in in the MinIO deployments.
+* Navigate to https://rancher.molgenis.org:7777
+* Navigate to `molgenis-prod`
+* Navigate to `prod-molgenis`
+* Navigate to `Workloads` --> `Secrets` and search for `kes`
+* Navigate to `kes-tls` within the `kes` namespace
+* Download the `client.crt` key from the secret
+* Check if the end date is really the problem
+* Download the `kes.crt` from the configmap of the kes application
+* Execute `cat ~/kes.crt | openssl x509 -noout -enddate`
+* After verification, navigate to `Apps`
+* Search for `kes`
+* Click on `kes`
+* Search for the config-map `kes-config`
+* Copy and save the contents (which contains the KES Server policy), as it contains the identities of the Application client certificates
+* Delete the deployment and the namespace
+* When the KES Server is redeployed, a new certificate is generated. 
+* You need to fill it in in the MinIO deployments.
+* Enter the vault keystore prefix
+  * Production: `kes/prod`
+  * Development: `kes/dev`
+* Enter the Vault App Role ID and App Role Secret
+* Copy the policies
+* Click on `Launch`
 
 ## When a MinIO client certificate expires
 The MinIO deployments are not stateless. It is probably easiest to generate a new certificate by hand and fill it in in the config map. Restart the MinIO pods. Make sure to update the identity in the KES Server policy.
