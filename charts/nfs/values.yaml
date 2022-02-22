@@ -10,5 +10,6 @@ nfs-subdir-external-provisioner:
 
 storage:
   archived:
+    mountPath: /persistentvolumes
     cleanup:
       enabled: true

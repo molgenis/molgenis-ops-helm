@@ -1,8 +1,8 @@
 {{ if .Values.storage.archived.cleanup.enabled }}
-apiVersion: batch/v1
+apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: storage-archived-cleanup-{{ index .Values "nfs-subdir-external-provisioner" "fullName" }}
+  name: storage-archived-cleanup
 spec:
   schedule: "* * * * *"
   jobTemplate:
@@ -17,6 +17,9 @@ spec:
             - /bin/sh
             - -c
             - date; echo Hello from the Kubernetes cluster; sleep 120;
+            volumeMounts:
+            - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
+              mountPath: {{ .Values.storage.archived.mountPath }}
           restartPolicy: OnFailure
           volumes:
           - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
