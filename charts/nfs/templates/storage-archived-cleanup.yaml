@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: storage-archived-cleanup-{{ .Values.nfs-subdir-external-provisioner.fullName }}
+  name: storage-archived-cleanup-{{ index .Values "nfs-subdir-external-provisioner" "fullName" }}
 spec:
   schedule: "* * * * *"
   jobTemplate:
@@ -19,15 +19,15 @@ spec:
             - date; echo Hello from the Kubernetes cluster; sleep 120;
           restartPolicy: OnFailure
           volumes:
-          - name: {{ .Values.nfs-subdir-external-provisioner.nfs.volumeName }}
-{{- if .Values.nfs-subdir-external-provisioner.buildMode }}
+          - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
+          {{- if index .Values "nfs-subdir-external-provisioner" "buildMode" }}
             emptyDir: {}
-{{- else if .Values.nfs-subdir-external-provisioner.nfs.mountOptions }}
+          {{- else if index .Values "nfs-subdir-external-provisioner" "nfs" "mountOptions" }}
             persistentVolumeClaim:
-              claimName: pvc-{{ template "nfs-subdir-external-provisioner.fullname" . }}
-{{- else }}
+              claimName: pvc-{{ index .Values "nfs-subdir-external-provisioner" "fullName" }}
+          {{- else }}
             nfs:
-              server: {{ .Values.nfs-subdir-external-provisioner.nfs.server }}
-              path: {{ .Values.nfs-subdir-external-provisioner.nfs.path }}
-{{- end }}
+              server: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "server" }}
+              path: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "path" }}
+          {{- end }}
 {{- end }}
