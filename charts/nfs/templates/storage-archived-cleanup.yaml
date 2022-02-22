@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: storage-archived-cleanup
 spec:
-  schedule: "* * * * *"
+  schedule: "*/20 * * * *"
   jobTemplate:
     spec:
       template:
@@ -16,7 +16,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - date; echo Hello from the Kubernetes cluster; sleep 120;
+            - date; find /persistentvolumes/ -name “archived-*” -type d -prune -mtime +30 -print;
             volumeMounts:
             - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
               mountPath: {{ .Values.storage.archived.mountPath }}
