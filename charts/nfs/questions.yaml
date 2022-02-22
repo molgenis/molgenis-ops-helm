@@ -1,14 +1,21 @@
 questions:
-  - variable: 'nfs-subdir-external-provisioner.nfs.server'
-    type: string
+  - variable: 'nfs-subdir-external-provisioner.enabled'
+    type: boolean
     required: true
-    default: "192.168.64.160"
-    label: "IP address of NFS server"
-  - variable: 'nfs-subdir-external-provisioner.nfs.path'
-    type: string
-    required: true
-    default: "/"
-    label: "Path of NFS server subdirectory"
+    default: true
+    label: "Is NFS client provisioner enabled?"
+    show_subquestion_if: true
+    subquestions:
+    - variable: 'nfs-subdir-external-provisioner.nfs.server'
+      type: string
+      required: true
+      default: "192.168.64.160"
+      label: "IP address of NFS server"
+    - variable: 'nfs-subdir-external-provisioner.nfs.path'
+      type: string
+      required: true
+      default: "/"
+      label: "Path of NFS server subdirectory"
   - variable: 'storage.archived.cleanup.enabled'
     type: boolean
     required: true

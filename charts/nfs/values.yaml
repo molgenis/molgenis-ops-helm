@@ -1,5 +1,6 @@
 ---
 nfs-subdir-external-provisioner:
+  enabled: true
   nfs:
     server: 192.168.64.160
     path: /
