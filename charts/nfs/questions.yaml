@@ -8,4 +8,10 @@ questions:
     type: string
     required: true
     default: "/"
-    label: "path of nfs sub dir"
+    label: "Path of NFS server subdirectory"
+  - variable: 'storage.archived.cleanup.enabled'
+    type: boolean
+    required: true
+    default: false
+    label: "Is cleanup for archived storage enabled?"
+    

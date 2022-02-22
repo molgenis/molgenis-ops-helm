@@ -1,8 +1,8 @@
-{{ if .Values.pv.cleanup.enabled }}
+{{ if .Values.storage.archived.cleanup.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: pv-cleanup-{{ .Values.nfs-subdir-external-provisioner.fullName }}
+  name: storage-archived-cleanup-{{ .Values.nfs-subdir-external-provisioner.fullName }}
 spec:
   schedule: "* * * * *"
   jobTemplate:
@@ -10,7 +10,7 @@ spec:
       template:
         spec:
           containers:
-          - name: pv-cleanup
+          - name: storage-archived-cleanup
             image: busybox
             imagePullPolicy: IfNotPresent
             command:
