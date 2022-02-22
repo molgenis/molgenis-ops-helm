@@ -16,7 +16,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - date; find /persistentvolumes/ -name “archived-*” -type d -prune -mtime +30 -print;
+            - date; find /persistentvolumes/ -name “archived-*” -type d -maxdepth 1 -mtime +30 -print;
             volumeMounts:
             - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
               mountPath: {{ .Values.storage.archived.mountPath }}
