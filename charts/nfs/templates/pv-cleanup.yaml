@@ -1,0 +1,33 @@
+{{ if .Values.pv.cleanup.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pv-cleanup-{{ .Values.nfs-subdir-external-provisioner.fullName }}
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pv-cleanup
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster; sleep 120;
+          restartPolicy: OnFailure
+          volumes:
+          - name: {{ .Values.nfs-subdir-external-provisioner.nfs.volumeName }}
+{{- if .Values.nfs-subdir-external-provisioner.buildMode }}
+            emptyDir: {}
+{{- else if .Values.nfs-subdir-external-provisioner.nfs.mountOptions }}
+            persistentVolumeClaim:
+              claimName: pvc-{{ template "nfs-subdir-external-provisioner.fullname" . }}
+{{- else }}
+            nfs:
+              server: {{ .Values.nfs-subdir-external-provisioner.nfs.server }}
+              path: {{ .Values.nfs-subdir-external-provisioner.nfs.path }}
+{{- end }}
+{{- end }}
