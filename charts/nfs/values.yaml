@@ -1,8 +1,16 @@
 ---
 nfs-subdir-external-provisioner:
+  enabled: true
   nfs:
     server: 192.168.64.160
     path: /
   storageClass:
     defaultClass: true
-    pathPattern:
+
+storage:
+  archived:
+    mountPath: /persistentvolumes
+    cleanup:
+      cron: "2 1 * * *"
+      days_to_keep: 30
+      enabled: true

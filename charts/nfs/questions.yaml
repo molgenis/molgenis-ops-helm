@@ -1,11 +1,42 @@
 questions:
-  - variable: 'nfs-subdir-external-provisioner.nfs.server'
-    type: string
+  - variable: 'nfs-subdir-external-provisioner.enabled'
+    type: boolean
     required: true
-    default: "192.168.64.160"
-    label: "IP address of NFS server"
-  - variable: 'nfs-subdir-external-provisioner.nfs.path'
-    type: string
+    default: true
+    label: "Is NFS client provisioner enabled?"
+    show_subquestion_if: true
+    group: NFS client provisioner
+    subquestions:
+    - variable: 'nfs-subdir-external-provisioner.nfs.server'
+      type: string
+      required: true
+      default: "192.168.64.160"
+      label: "IP address of NFS server"
+      group: NFS client provisioner
+    - variable: 'nfs-subdir-external-provisioner.nfs.path'
+      type: string
+      required: true
+      default: "/"
+      label: "Path of NFS server subdirectory"
+      group: NFS client provisioner
+  - variable: 'storage.archived.cleanup.enabled'
+    type: boolean
     required: true
-    default: "/"
-    label: "path of nfs sub dir"
+    default: false
+    label: "Is cleanup for archived storage enabled?"
+    show_subquestion_if: true
+    group: Persistent volume cleanup
+    subquestions: 
+    - variable: 'storage.archived.cleanup.cron'
+      type: string
+      required: true
+      default: "2 1 * * *"
+      label: "Cron schedule for cleanup persistent volumes"
+      group: Persistent volume cleanup
+    - variable: 'storage.archived.cleanup.days_to_keep'
+      type: int
+      required: true
+      default: 30
+      label: "Days to keep the archived persistent volumes"
+      group: Persistent volume cleanup
+    

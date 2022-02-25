@@ -1,0 +1,36 @@
+{{ if .Values.storage.archived.cleanup.enabled }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: storage-archived-cleanup
+spec:
+  schedule: "{{ .Values.storage.archived.cleanup.cron }}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: storage-archived-cleanup
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; find /persistentvolumes/ -name "archived-*" -type d -maxdepth 1 -mtime +{{ .Values.storage.archived.cleanup.days_to_keep }} -print | xargs rm -rfv
+            volumeMounts:
+            - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
+              mountPath: {{ .Values.storage.archived.mountPath }}
+          restartPolicy: OnFailure
+          volumes:
+          - name: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "volumeName" }}
+          {{- if index .Values "nfs-subdir-external-provisioner" "buildMode" }}
+            emptyDir: {}
+          {{- else if index .Values "nfs-subdir-external-provisioner" "nfs" "mountOptions" }}
+            persistentVolumeClaim:
+              claimName: pvc-{{ index .Values "nfs-subdir-external-provisioner" "fullName" }}
+          {{- else }}
+            nfs:
+              server: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "server" }}
+              path: {{ index .Values "nfs-subdir-external-provisioner" "nfs" "path" }}
+          {{- end }}
+{{- end }}
