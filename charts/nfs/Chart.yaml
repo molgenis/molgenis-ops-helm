@@ -1,9 +1,11 @@
 apiVersion: v1
-description: Wrapper around NFS helm chart
+description: NFS management services to be able to provision NFS share as persistent volumes
 home: https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
 maintainers:
 - name: eschaberg
-name: nfswrapper
+- name: sidohaakma
+name: nfs-management-service
+icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/nfs/catalogIcon-nfs.png
 version: 1.1.0
 appVersion: 4.0.2
 sources:

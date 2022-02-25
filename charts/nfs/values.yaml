@@ -6,10 +6,11 @@ nfs-subdir-external-provisioner:
     path: /
   storageClass:
     defaultClass: true
-    pathPattern:
 
 storage:
   archived:
     mountPath: /persistentvolumes
     cleanup:
+      cron: "*/20 * * * *"
+      days_to_keep: 30
       enabled: true
