@@ -3,6 +3,7 @@ description: Customized chart for additional resources to deploy AWX
 home: https://github.com/ansible/awx-operator
 maintainers:
 - name: sidohaakma
+- name: ChristianHilbrands
 name: AWX
 version: 0.0.1
 appVersion: 0.15.0
