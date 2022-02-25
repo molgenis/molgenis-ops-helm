@@ -11,6 +11,6 @@ storage:
   archived:
     mountPath: /persistentvolumes
     cleanup:
-      cron: "*/20 * * * *"
+      cron: "2 1 * * *"
       days_to_keep: 30
       enabled: true
