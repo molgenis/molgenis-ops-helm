@@ -30,7 +30,7 @@ questions:
     - variable: 'storage.archived.cleanup.cron'
       type: string
       required: true
-      default: "*/20 * * * *"
+      default: "2 1 * * *"
       label: "Cron schedule for cleanup persistent volumes"
       group: Persistent volume cleanup
     - variable: 'storage.archived.cleanup.days_to_keep'
