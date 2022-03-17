@@ -1,7 +1,7 @@
 jenkins:
   controller:
     image: "molgenis/jenkins"
-    tag: "1.0.3"
+    tag: "1.1.0"
     imagePullPolicy: IfNotPresent
     ingress:
       enabled: true
@@ -88,22 +88,6 @@ jenkins:
                       scm {
                         github('molgenis/molgenis-ops-helm', 'master')
                         scriptPath('charts/molgenis-jenkins/resources/tests/e2e-commander/Jenkinsfile')
-                      }
-                    }
-                  }
-                  triggers {
-                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * 1-5')
-                  }
-                }
-            - script: >
-                pipelineJob('test-nightly') {
-                  description('The nightly build for MOLGENIS')
-                  definition {
-                    cpsScm {
-                      lightweight()
-                      scm {
-                        github('molgenis/molgenis-ops-helm', 'master')
-                        scriptPath('charts/molgenis-jenkins/resources/tests/nightly/Jenkinsfile')
                       }
                     }
                   }
@@ -275,11 +259,19 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "1Gi"
             - name: rancher
               image: "rancher/cli2:v2.4.10"
               command: cat
               args: ""
               ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "1Gi"
               envVars:
                 - envVar:
                     key: HOME
@@ -289,6 +281,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "1Gi"
               envVars:
                 - envVar:
                     key: VAULT_SKIP_VERIFY
@@ -306,6 +302,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+              resourceLimitCpu: "2"
+              resourceLimitMemory: "4Gi"
           envVars:
             - envVar:
                 key: "npm_config_registry"
@@ -340,6 +340,8 @@ jenkins:
               ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "4Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "4Gi"
               envVars:
                 - envVar:
                     key: MAVEN_OPTS
@@ -363,6 +365,8 @@ jenkins:
               ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "4Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "4Gi"
               envVars:
                 - envVar:
                     key: MAVEN_OPTS
@@ -373,79 +377,6 @@ jenkins:
                 - envVar:
                     key: HOME
                     value: /home/jenkins/agent
-      molgenis-jdk15: |
-        - name: molgenis-jdk15
-          label: molgenis-jdk15
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: maven
-              image: "molgenis/maven-jdk15:1.0.0"
-              command: cat
-              args: ""
-              ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "4Gi"
-              envVars:
-                - envVar:
-                    key: MAVEN_OPTS
-                    value: "-Duser.home=/home/jenkins/agent"
-                - envVar:
-                    key: MAVEN_CONFIG
-                    value: "/home/jenkins/agent/.m2"
-                - envVar:
-                    key: HOME
-                    value: /home/jenkins/agent
-      molgenis-jdk15-gradle: |
-        - name: molgenis-jdk15-gradle
-          label: molgenis-jdk15-gradle
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: gradle
-              image: "molgenis/gradle-jdk15:1.0.0"
-              command: cat
-              args: ""
-              ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "4Gi"
-              envVars:
-                - envVar:
-                    key: HOME
-                    value: /home/jenkins/agent
-      node: |
-        - name: node
-          label: node-carbon
-          nodeUsageMode: EXCLUSIVE
-          inheritFrom: shared
-          containers:
-            - name: node
-              image: "molgenis/node-carbon:1.1.1"
-              command: cat
-              args: ""
-              ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
-      node-dubnium: |
-        - name: node-dubnium
-          label: node-dubnium
-          nodeUsageMode: EXCLUSIVE
-          inheritFrom: shared
-          containers:
-            - name: node
-              image: "molgenis/node-dubnium:1.1.1"
-              command: cat
-              args: ""
-              ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
-          envVars:
-            - envVar:
-                key: NPM_REGISTRY
-                value: registry.npmjs.org
-            - envVar:
-                key: NPM_LOCAL_REGISTRY
-                value: registry.molgenis.org/repository/npm-hosted
       node-erbium: |
         - name: node-erbium
           label: node-erbium
@@ -459,6 +390,8 @@ jenkins:
               ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "1Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "2Gi"
       node-fermium: |
         - name: node-fermium
           label: node-fermium
@@ -472,168 +405,8 @@ jenkins:
               ttyEnabled: true
               resourceRequestCpu: "1"
               resourceRequestMemory: "1Gi"
-      python: |
-        - name: python
-          label: python-stretch
-          nodeUsageMode: EXCLUSIVE
-          inheritFrom: shared
-          containers:
-            - name: python
-              image: "python:stretch"
-              command: cat
-              args: ""
-              ttyEnabled: true
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "250Mi"
-              resourceLimitMemory: "512Mi"
-          envVars:
-            - envVar:
-                key: PYPI_REGISTRY
-                value: https://upload.pypi.org/legacy/
-            - envVar:
-                key: PYPI_LOCAL_REGISTRY
-                value: https://registry.molgenis.org/repository/pypi/
-      molgenis-it-jdk11: |
-        - name: molgenis-it-jdk11
-          label: molgenis-it-jdk11
-          nodeUsageMode: EXCLUSIVE
-          inheritFrom: molgenis-jdk11
-          containers:
-            - name: elasticsearch
-              image: molgenis/molgenis-elasticsearch:1.0.0
-              workingDir: ""
-              command: ""
-              args: ""
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "1Gi"
-              resourceLimitMemory: "1500Mi"
-              envVars:
-                - envVar:
-                    key: ES_JAVA_OPTS
-                    value: '-Xms512m -Xmx512m'
-                - envVar:
-                    key: cluster.name
-                    value: molgenis
-                - envVar:
-                    key: bootstrap.memory_lock
-                    value: 'true'
-                - envVar:
-                    key: discovery.type
-                    value: single-node
-            - name: postgres
-              image: postgres:11-alpine
-              workingDir: ""
-              command: ""
-              args: ""
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "250Mi"
-              resourceLimitMemory: "250Mi"
-              envVars:
-                - envVar:
-                    key: POSTGRES_USER
-                    value: molgenis
-                - envVar:
-                    key: POSTGRES_PASSWORD
-                    value: molgenis
-                - envVar:
-                    key: POSTGRES_DB
-                    value: molgenis
-            - name: opencpu
-              image: "molgenis/opencpu:opencpu-release-2019-03-06_08-18-10"
-              ttyEnabled: true
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "256Mi"
-              resourceLimitMemory: "512Mi"
-      molgenis-it-jdk15: |
-        - name: molgenis-jdk15
-          label: molgenis-jdk15
-          inheritFrom: molgenis-jdk15
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: elasticsearch
-              image: molgenis/molgenis-elasticsearch:1.0.0
-              workingDir: ""
-              command: ""
-              args: ""
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "1Gi"
-              resourceLimitMemory: "1500Mi"
-              envVars:
-                - envVar:
-                    key: ES_JAVA_OPTS
-                    value: '-Xms512m -Xmx512m'
-                - envVar:
-                    key: cluster.name
-                    value: molgenis
-                - envVar:
-                    key: bootstrap.memory_lock
-                    value: 'true'
-                - envVar:
-                    key: discovery.type
-                    value: single-node
-            - name: postgres
-              image: postgres:13-alpine
-              workingDir: ""
-              command: ""
-              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "1Gi"
-              resourceLimitMemory: "1Gi"
-              envVars:
-                - envVar:
-                    key: POSTGRES_USER
-                    value: molgenis
-                - envVar:
-                    key: POSTGRES_PASSWORD
-                    value: molgenis
-                - envVar:
-                    key: POSTGRES_DB
-                    value: molgenis
-      molgenis-it-jdk15-gradle: |
-        - name: molgenis-it-jdk15-gradle
-          label: molgenis-it-jdk15-gradle
-          inheritFrom: molgenis-jdk15-gradle
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: elasticsearch
-              image: molgenis/molgenis-elasticsearch:1.0.0
-              workingDir: ""
-              command: ""
-              args: ""
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "1Gi"
-              resourceLimitMemory: "1500Mi"
-              envVars:
-                - envVar:
-                    key: ES_JAVA_OPTS
-                    value: '-Xms512m -Xmx512m'
-                - envVar:
-                    key: cluster.name
-                    value: molgenis
-                - envVar:
-                    key: bootstrap.memory_lock
-                    value: 'true'
-                - envVar:
-                    key: discovery.type
-                    value: single-node
-            - name: postgres
-              image: postgres:13-alpine
-              workingDir: ""
-              command: ""
-              args: "-c shared_buffers=256MB -c max_locks_per_transaction=1024"
-              resourceRequestCpu: "100m"
-              resourceRequestMemory: "1Gi"
-              resourceLimitMemory: "1Gi"
-              envVars:
-                - envVar:
-                    key: POSTGRES_USER
-                    value: molgenis
-                - envVar:
-                    key: POSTGRES_PASSWORD
-                    value: molgenis
-                - envVar:
-                    key: POSTGRES_DB
-                    value: molgenis
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "4Gi"
       site-gen: |
         - name: site-gen
           label: site-gen
@@ -643,101 +416,10 @@ jenkins:
             - name: jekyll
               image: "molgenis/jekyll:jekyll-release-2019-03-06_08-18-10"
               ttyEnabled: true
-              command: "cat"
-              args: ""
-      ansible: |
-        - name: ansible
-          label: ansible
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: toolset
-              image: "quay.io/ansible/toolset:3.4.1"
-              ttyEnabled: true
-              command: "/bin/bash"
-              args: ""
-            - name: centos-7
-              image: "centos:centos7.9.2009"
-              ttyEnabled: true
-              command: "/bin/bash"
-              args: ""
-            - name: centos-8
-              image: "centos:centos8.3.2011"
-              ttyEnabled: true
-              command: "/bin/bash"
-              args: ""
-            - name: ubuntu-20
-              image: "ubuntu:focal"
-              ttyEnabled: true
-              command: "/bin/bash"
-              args: ""
-            - name: debian-10
-              image: "debian:buster"
-              ttyEnabled: true
-              command: "/bin/bash"
-              args: ""
-      r-3.5.2: |
-        - name: r-3.5.2
-          label: r-3.5.2
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: r
-              image: "rocker/verse:3.5.2"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-            - name: curl
-              image: "appropriate/curl:latest"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-      r-3.6.2: |
-        - name: r-3.6.2
-          label: r-3.6.2
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: r
-              image: "rocker/verse:3.6.2"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-            - name: curl
-              image: "appropriate/curl:latest"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-      r-4.0.3: |
-        - name: r-4.0.3
-          label: r-4.0.3
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: r
-              image: "rocker/verse:4.0.3"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-            - name: curl
-              image: "appropriate/curl:latest"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-      helm: |
-        - name: helm
-          label: helm
-          inheritFrom: shared
-          nodeUsageMode: EXCLUSIVE
-          containers:
-            - name: chart-testing
-              image: "quay.io/helmpack/chart-testing:v3.3.1"
-              ttyEnabled: true
-              command: "cat"
-              args: ""
-            - name: alpine
-              image: "spotify/alpine"
-              ttyEnabled: true
+              resourceRequestCpu: "1"
+              resourceRequestMemory: "1Gi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "2Gi"
               command: "cat"
               args: ""
     nodeSelector:
