@@ -3,7 +3,7 @@ pipeline {
         kubernetes {
             // the shared pod template defined on the Jenkins server config
             inheritFrom 'shared'
-            // r pod template defined in molgenis/molgenis-jenkins-pipeline repository
+            // helm pod template defined in molgenis/molgenis-jenkins-pipeline repository
             yaml libraryResource("pod-templates/helm.yaml")
         }
     }
