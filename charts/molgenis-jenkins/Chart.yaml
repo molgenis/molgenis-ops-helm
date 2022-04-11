@@ -2,7 +2,7 @@ apiVersion: v1
 name: molgenis-jenkins
 home: https://jenkins.io/
 version: 1.16.0
-appVersion: "2.332.1"
+appVersion: "2.332.2"
 description: Molgenis installation for the jenkins chart.
 sources:
   - https://github.com/molgenis/molgenis-ops-helm.git

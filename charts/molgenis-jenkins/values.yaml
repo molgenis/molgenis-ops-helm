@@ -1,7 +1,7 @@
 jenkins:
   controller:
     image: "molgenis/jenkins"
-    tag: "1.1.0"
+    tag: "1.1.1"
     imagePullPolicy: IfNotPresent
     ingress:
       enabled: true
