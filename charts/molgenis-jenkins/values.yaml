@@ -259,8 +259,8 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
+              resourceRequestCpu: "250m"
+              resourceRequestMemory: "250Mi"
               resourceLimitCpu: "1"
               resourceLimitMemory: "1Gi"
             - name: rancher
@@ -268,10 +268,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
-              resourceLimitCpu: "1"
-              resourceLimitMemory: "1Gi"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "250Mi"
+              resourceLimitCpu: "250m"
+              resourceLimitMemory: "500Mi"
               envVars:
                 - envVar:
                     key: HOME
@@ -281,10 +281,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
-              resourceLimitCpu: "1"
-              resourceLimitMemory: "1Gi"
+              resourceRequestCpu: "100m"
+              resourceRequestMemory: "100Mi"
+              resourceLimitCpu: "250m"
+              resourceLimitMemory: "250Mi"
               envVars:
                 - envVar:
                     key: VAULT_SKIP_VERIFY
@@ -302,10 +302,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
+              resourceRequestCpu: "500m"
+              resourceRequestMemory: "500Mi"
               resourceLimitCpu: "2"
-              resourceLimitMemory: "4Gi"
+              resourceLimitMemory: "3Gi"
           envVars:
             - envVar:
                 key: "npm_config_registry"
@@ -338,10 +338,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "4Gi"
+              resourceRequestCpu: "250m"
+              resourceRequestMemory: "1Gi"
               resourceLimitCpu: "1"
-              resourceLimitMemory: "4Gi"
+              resourceLimitMemory: "3Gi"
               envVars:
                 - envVar:
                     key: MAVEN_OPTS
@@ -363,10 +363,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "4Gi"
+              resourceRequestCpu: "250m"
+              resourceRequestMemory: "1Gi"
               resourceLimitCpu: "1"
-              resourceLimitMemory: "4Gi"
+              resourceLimitMemory: "3Gi"
               envVars:
                 - envVar:
                     key: MAVEN_OPTS
@@ -388,8 +388,8 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
+              resourceRequestCpu: "250m"
+              resourceRequestMemory: "500Mi"
               resourceLimitCpu: "1"
               resourceLimitMemory: "2Gi"
       node-fermium: |
@@ -403,10 +403,10 @@ jenkins:
               command: cat
               args: ""
               ttyEnabled: true
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
+              resourceRequestCpu: "250m"
+              resourceRequestMemory: "500Mi"
               resourceLimitCpu: "1"
-              resourceLimitMemory: "4Gi"
+              resourceLimitMemory: "2Gi"
       site-gen: |
         - name: site-gen
           label: site-gen
@@ -418,10 +418,10 @@ jenkins:
               ttyEnabled: true
               command: "cat"
               args: ""
-              resourceRequestCpu: "1"
-              resourceRequestMemory: "1Gi"
-              resourceLimitCpu: "1"
-              resourceLimitMemory: "2Gi"
+              resourceRequestCpu: "250m"
+              resourceRequestMemory: "500Mi"
+              resourceLimitCpu: "500m"
+              resourceLimitMemory: "1500Mi"
     nodeSelector:
       deployPod: "true"
 
