@@ -422,6 +422,42 @@ jenkins:
               resourceRequestMemory: "500Mi"
               resourceLimitCpu: "500m"
               resourceLimitMemory: "1500Mi"
+      ansible: |
+        - name: ansible
+          label: ansible
+          inheritFrom: shared
+          nodeUsageMode: EXCLUSIVE
+          containers:
+            - name: toolset
+              image: "quay.io/ansible/toolset:3.4.1"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: centos-7
+              image: "centos:centos7.9.2009"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: centos-8
+              image: "centos:centos8.3.2011"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: ubuntu-20
+              image: "ubuntu:focal"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: ubuntu-22
+              image: "ubuntu:jammy"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
+            - name: debian-10
+              image: "debian:buster"
+              ttyEnabled: true
+              command: "/bin/bash"
+              args: ""
     nodeSelector:
       deployPod: "true"
 
