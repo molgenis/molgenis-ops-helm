@@ -101,8 +101,8 @@ def closeConnection():
 
 
 initiateConnection()
-retrieveOSServerlist()
-iterateServerlistOS()
+# retrieveOSServerlist()
+# iterateServerlistOS()
 retrieveWebServerlist()
 iterateServerlistWeb()
 writeToFile()
