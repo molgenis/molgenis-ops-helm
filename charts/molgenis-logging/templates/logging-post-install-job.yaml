@@ -1,0 +1,676 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-post-elasticsearch-stack"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-until-elasticsearch-stack-initiated
+          image: curlimages/curl:latest
+          env:
+            - name: ELASTICSEARCH_CLUSTER_HOST
+              value: {{ include "call-nested" (list $ "elasticsearch" "elasticsearch.uname") }}
+          command: ["/bin/sh","-c"]
+          args: ["while [ $(curl -sw '%{http_code}' http://${ELASTICSEARCH_CLUSTER_HOST}:9200 -o /dev/null) -ne 200 ]; do sleep 2; echo 'Waiting for elasticsearch cluster started...'; done"]
+      containers:
+      - name: elasticsearch-stack-post-initiation-job
+        image: "alpine:latest"
+        env:
+          - name: ELASTICSEARCH_CLUSTER_HOST
+            value: {{ include "call-nested" (list $ "elasticsearch" "elasticsearch.uname") }}
+        command:
+          - /bin/ash
+          - -c
+          - |
+            #!/bin/ash
+            apk add curl
+            ES_URL=http://$(ELASTICSEARCH_CLUSTER_HOST):9200
+            curl -XPOST "$ES_URL/_ilm/stop"
+            curl -XPUT "$ES_URL/_ilm/policy/molgenis-logging-lifecycle-policy" -H 'Content-Type: application/json' -d'
+            {
+              "policy": {
+                "phases": {
+                  "hot": {
+                    "actions": {
+                      "rollover": {
+                        "max_age": "7d",
+                        "max_primary_shard_size": "10gb"
+                      }
+                    }
+                  },
+                  "warm": {
+                    "min_age": "8d",
+                    "actions": {
+                      "unfollow": { },
+                      "migrate": { },
+                      "allocate": {
+                        "number_of_replicas": 1
+                      },
+                      "shrink": {
+                        "number_of_shards": 1
+                      },
+                      "forcemerge": {
+                        "max_num_segments": 1
+                      },
+                      "readonly": { }
+                    }
+                  },
+                  "delete": {
+                    "min_age": "14d",
+                    "actions": {
+                      "delete": {}
+                    }
+                  }
+                }
+              }
+            }'
+            curl -XPUT "$ES_URL/_ilm/policy/web-logging-lifecycle-policy" -H 'Content-Type: application/json' -d'
+            {
+              "policy": {
+                "phases": {
+                  "hot": {
+                    "actions": {
+                      "rollover": {
+                        "max_age": "7d",
+                        "max_primary_shard_size": "10gb"
+                      }
+                    }
+                  },
+                  "warm": {
+                    "min_age": "31d",
+                    "actions": {
+                      "unfollow": { },
+                      "migrate": { },
+                      "allocate": {
+                        "number_of_replicas": 1
+                      },
+                      "shrink": {
+                        "number_of_shards": 1
+                      },
+                      "forcemerge": {
+                        "max_num_segments": 1
+                      },
+                      "readonly": { }
+                    }
+                  },
+                  "delete": {
+                    "min_age": "365d",
+                    "actions": {
+                      "delete": {}
+                    }
+                  }
+                }
+              }
+            }'
+            curl -XPUT "$ES_URL/_ilm/policy/databases-logging-lifecycle-policy" -H 'Content-Type: application/json' -d'
+            {
+              "policy": {
+                "phases": {
+                  "hot": {
+                    "actions": {
+                      "rollover": {
+                        "max_age": "7d",
+                        "max_primary_shard_size": "10gb"
+                      }
+                    }
+                  },
+                  "warm": {
+                    "min_age": "8d",
+                    "actions": {
+                      "unfollow": { },
+                      "migrate": { },
+                      "allocate": {
+                        "number_of_replicas": 1
+                      },
+                      "shrink": {
+                        "number_of_shards": 1
+                      },
+                      "forcemerge": {
+                        "max_num_segments": 1
+                      },
+                      "readonly": { }
+                    }
+                  },
+                  "delete": {
+                    "min_age": "31d",
+                    "actions": {
+                      "delete": {}
+                    }
+                  }
+                }
+              }
+            }'
+            curl -XPUT "$ES_URL/_ilm/policy/elasticsearch-logging-lifecycle-policy" -H 'Content-Type: application/json' -d'
+            {
+              "policy": {
+                "phases": {
+                  "hot": {
+                    "actions": {
+                      "rollover": {
+                        "max_age": "7d",
+                        "max_primary_shard_size": "10gb"
+                      }
+                    }
+                  },
+                  "warm": {
+                    "min_age": "8d",
+                    "actions": {
+                      "unfollow": { },
+                      "migrate": { },
+                      "allocate": {
+                        "number_of_replicas": 1
+                      },
+                      "shrink": {
+                        "number_of_shards": 1
+                      },
+                      "forcemerge": {
+                        "max_num_segments": 1
+                      },
+                      "readonly": { }
+                    }
+                  },
+                  "delete": {
+                    "min_age": "31d",
+                    "actions": {
+                      "delete": {}
+                    }
+                  }
+                }
+              }
+            }'
+            curl -XPUT "$ES_URL/_ilm/policy/system-logging-lifecycle-policy" -H 'Content-Type: application/json' -d'
+            {
+              "policy": {
+                "phases": {
+                  "hot": {
+                    "actions": {
+                      "rollover": {
+                        "max_age": "7d",
+                        "max_primary_shard_size": "10gb"
+                      }
+                    }
+                  },
+                  "warm": {
+                    "min_age": "8d",
+                    "actions": {
+                      "unfollow": { },
+                      "migrate": { },
+                      "allocate": {
+                        "number_of_replicas": 1
+                      },
+                      "shrink": {
+                        "number_of_shards": 1
+                      },
+                      "forcemerge": {
+                        "max_num_segments": 1
+                      },
+                      "readonly": { }
+                    }
+                  },
+                  "delete": {
+                    "min_age": "31d",
+                    "actions": {
+                      "delete": {}
+                    }
+                  }
+                }
+              }
+            }'
+            curl -XPUT "$ES_URL/_component_template/molgenis-logging-default-settings" -H 'Content-Type: application/json' -d'
+            {
+              "template": {
+                "mappings": {
+                  "properties": {
+                    "@timestamp": {
+                      "type": "date",
+                      "format": "date_optional_time"
+                    },
+                    "message": {
+                      "type": "wildcard"
+                    },
+                    "geoip" : {
+                      "type" :"object",
+                      "dynamic": "true",
+                      "properties": {
+                        "location" : {
+                          "type" : "geo_point"
+                        }
+                      }
+                    }
+                  } 
+                },
+                "settings": {
+                  "index":{
+                    "lifecycle.name": "molgenis-logging-lifecycle-policy",
+                    "number_of_shards": 3,
+                    "number_of_replicas": 2
+                  }
+                }
+              },
+              "_meta": {
+                "description": "Settings for Molgenis(Molgenis, Emx2, Tomcat) ILM"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_ingest/pipeline/geoip-info" -H 'Content-Type: application/json' -d'
+            {
+              "description": "Add geoip info",
+              "processors": [
+                {
+                  "geoip": {
+                    "field": "client.ip",
+                    "target_field": "client.geo",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "database_file": "GeoLite2-ASN.mmdb",
+                    "field": "client.ip",
+                    "target_field": "client.as",
+                    "properties": [
+                      "asn",
+                      "organization_name"
+                    ],
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "field": "source.ip",
+                    "target_field": "source.geo",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "database_file": "GeoLite2-ASN.mmdb",
+                    "field": "source.ip",
+                    "target_field": "source.as",
+                    "properties": [
+                      "asn",
+                      "organization_name"
+                    ],
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "field": "destination.ip",
+                    "target_field": "destination.geo",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "database_file": "GeoLite2-ASN.mmdb",
+                    "field": "destination.ip",
+                    "target_field": "destination.as",
+                    "properties": [
+                      "asn",
+                      "organization_name"
+                    ],
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "field": "server.ip",
+                    "target_field": "server.geo",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "database_file": "GeoLite2-ASN.mmdb",
+                    "field": "server.ip",
+                    "target_field": "server.as",
+                    "properties": [
+                      "asn",
+                      "organization_name"
+                    ],
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "geoip": {
+                    "field": "host.ip",
+                    "target_field": "host.geo",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "server.as.asn",
+                    "target_field": "server.as.number",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "server.as.organization_name",
+                    "target_field": "server.as.organization.name",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "client.as.asn",
+                    "target_field": "client.as.number",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "client.as.organization_name",
+                    "target_field": "client.as.organization.name",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "source.as.asn",
+                    "target_field": "source.as.number",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "source.as.organization_name",
+                    "target_field": "source.as.organization.name",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "destination.as.asn",
+                    "target_field": "destination.as.number",
+                    "ignore_missing": true
+                  }
+                },
+                {
+                  "rename": {
+                    "field": "destination.as.organization_name",
+                    "target_field": "destination.as.organization.name",
+                    "ignore_missing": true
+                  }
+                }
+              ]
+            }'
+            curl -XPUT "$ES_URL/_component_template/web-logging-default-settings" -H 'Content-Type: application/json' -d'
+            {
+              "template": {
+                "mappings": {
+                  "properties": {
+                    "@timestamp": {
+                      "type": "date",
+                      "format": "date_optional_time"
+                    },
+                    "message": {
+                      "type": "wildcard"
+                    },
+                    "geoip" : {
+                      "type" :"object",
+                      "dynamic": "true",
+                      "properties": {
+                        "location" : {
+                          "type" : "geo_point"
+                        }
+                      }
+                    }
+                  } 
+                },
+                "settings": {
+                  "index":{
+                    "lifecycle.name": "web-logging-lifecycle-policy",
+                    "number_of_shards": 3,
+                    "number_of_replicas": 2
+                  }
+                }
+              },
+              "_meta": {
+                "description": "Settings for web(Apache, HTTPD, NGINX, HAProxy) ILM"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_component_template/elasticsearch-logging-default-settings" -H 'Content-Type: application/json' -d'
+            {
+              "template": {
+                "mappings": {
+                  "properties": {
+                    "@timestamp": {
+                      "type": "date",
+                      "format": "date_optional_time"
+                    },
+                    "message": {
+                      "type": "wildcard"
+                    },
+                    "geoip" : {
+                      "type" :"object",
+                      "dynamic": "true",
+                      "properties": {
+                        "location" : {
+                          "type" : "geo_point"
+                        }
+                      }
+                    }
+                  } 
+                },
+                "settings": {
+                  "index":{
+                    "lifecycle.name": "elasticsearch-logging-lifecycle-policy",
+                    "number_of_shards": 3,
+                    "number_of_replicas": 2
+                  }
+                }
+              },
+              "_meta": {
+                "description": "Settings for Elasticsearch ILM"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_component_template/postgresql-logging-default-settings" -H 'Content-Type: application/json' -d'
+            {
+              "template": {
+                "mappings": {
+                  "properties": {
+                    "@timestamp": {
+                      "type": "date",
+                      "format": "date_optional_time"
+                    },
+                    "message": {
+                      "type": "wildcard"
+                    },
+                    "geoip" : {
+                      "type" :"object",
+                      "dynamic": "true",
+                      "properties": {
+                        "location" : {
+                          "type" : "geo_point"
+                        }
+                      }
+                    }
+                  } 
+                },
+                "settings": {
+                  "index":{
+                    "lifecycle.name": "databases-logging-lifecycle-policy",
+                    "number_of_shards": 3,
+                    "number_of_replicas": 2
+                  }
+                }
+              },
+              "_meta": {
+                "description": "Settings for PostGreSQL ILM"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_component_template/system-logging-default-settings" -H 'Content-Type: application/json' -d'
+            {
+              "template": {
+                "mappings": {
+                  "properties": {
+                    "@timestamp": {
+                      "type": "date",
+                      "format": "date_optional_time"
+                    },
+                    "message": {
+                      "type": "wildcard"
+                    },
+                    "geoip" : {
+                      "type" :"object",
+                      "dynamic": "true",
+                      "properties": {
+                        "location" : {
+                          "type" : "geo_point"
+                        }
+                      }
+                    }
+                  } 
+                },
+                "settings": {
+                  "index":{
+                    "lifecycle.name": "system-logging-lifecycle-policy",
+                    "number_of_shards": 3,
+                    "number_of_replicas": 2
+                  }
+                }
+              },
+              "_meta": {
+                "description": "Settings for system ILM"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/nginx-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["nginx*"],
+              "data_stream": { },
+              "composed_of": [ "web-logging-default-settings" ],
+              "priority": 500,
+              "_meta": {
+                "description": "Template for nginx time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/system-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["system*"],
+              "data_stream": { },
+              "composed_of": [ "system-logging-default-settings" ],
+              "priority": 450,
+              "_meta": {
+                "description": "Template for system time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/molgenis-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["molgenis*"],
+              "data_stream": {  },
+              "composed_of": [ "molgenis-logging-default-settings" ],
+              "priority": 575,
+              "_meta": {
+                "description": "Template for molgenis time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/emx2-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["emx2*"],
+              "data_stream": {  },
+              "composed_of": [ "molgenis-logging-default-settings" ],
+              "priority": 600,
+              "_meta": {
+                "description": "Template for emx2 time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/haproxy-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["haproxy*"],
+              "data_stream": {  },
+              "composed_of": [ "web-logging-default-settings" ],
+              "priority": 400,
+              "_meta": {
+                "description": "Template for HAProxy time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/httpd-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["httpd*"],
+              "data_stream": {  },
+              "composed_of": [ "web-logging-default-settings" ],
+              "priority": 475,
+              "_meta": {
+                "description": "Template for httpd time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/apache-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["apache*"],
+              "data_stream": {  },
+              "composed_of": [ "web-logging-default-settings" ],
+              "priority": 375,
+              "_meta": {
+                "description": "Template for apache time series data"
+              }
+            }'
+            curl -XPUT "$ES_URL/_index_template/elasticsearch-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["elasticsearch*"],
+              "data_stream": {  },
+              "composed_of": [ "elasticsearch-logging-default-settings" ],
+              "priority": 440,
+              "_meta": {
+                "description": "Template for elasticsearch time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/postgresql-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["postgresql*"],
+              "data_stream": {  },
+              "composed_of": [ "postgresql-logging-default-settings" ],
+              "priority": 430,
+              "_meta": {
+                "description": "Template for PostGreSQL time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_index_template/tomcat-index-template" -H 'Content-Type: application/json' -d'
+            {
+              "index_patterns": ["tomcat*"],
+              "data_stream": {  },
+              "composed_of": [ "molgenis-logging-default-settings" ],
+              "priority": 550,
+              "_meta": {
+                "description": "Template for tomcat time series data"
+              },
+              "version": 1.0
+            }'
+            curl -XPUT "$ES_URL/_data_stream/elasticsearch-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/postgresql-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/apache-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/httpd-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/haproxy-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/emx2-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/molgenis-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/system-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/nginx-data-stream"
+            curl -XPUT "$ES_URL/_data_stream/tomcat-data-stream"
+            curl -XPOST "$ES_URL/_ilm/start"

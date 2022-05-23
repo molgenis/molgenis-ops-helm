@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-post-kibana"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-for-kibana-to-start
+          image: curlimages/curl:latest
+          env:
+            - name: KIBANA_HOST
+              value: {{ include "call-nested" (list $ "kibana" "kibana.fullname") }}
+          command: ["/bin/sh","-c"]
+          args: ["while [ $(curl -sw '%{http_code}' ${KIBANA_HOST}:5601/api/status -o /dev/null) -ne 200 ]; do sleep 2; echo 'Waiting for kibana container to start...'; done"]
+      containers:
+      - name: kibana-post-start-job
+        image: "alpine:latest"
+        env:
+          - name: KIBANA_HOST
+            value: {{ include "call-nested" (list $ "kibana" "kibana.fullname") }}
+        command:
+          - /bin/ash
+          - -c
+          - |
+            #!/bin/ash
+            apk add curl
+            KI_URL=http://$(KIBANA_HOST):5601
+            wget https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-logging/import_job_bootstrap_files/default_dashboards.ndjson
+            curl -XPOST "$KI_URL/api/saved_objects/_import?overwrite=true" -H "kbn-xsrf: true" --form file=@default_dashboards.ndjson

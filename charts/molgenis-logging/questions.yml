@@ -1,9 +1,14 @@
 questions:
-  - variable: elasticsearch.ingress.hosts[0]
+  - variable: elasticsearch.ingress.hosts[0].host
     type: string
     required: true
     default: logging.molgenis.org
     label: "Host address for ElasticSearch to be reachable"
+  - variable: elasticsearch.ingress.hosts[0].paths[0].path
+    type: string
+    required: true
+    default: /
+    label: "URL extension for ElasticSearch to be reachable"
   - variable: elasticsearch.authentication.username
     type: string
     required: true
@@ -12,16 +17,13 @@ questions:
     type: password
     required: true
     label: "Password Elastic password (for cluster)"
-  - variable: kibana.ingress.hosts[0]
+  - variable: kibana.ingress.hosts[0].host
     type: string
     required: true
     default: kibana.molgenis.org
     label: "Host address for kibana to be reachable"
-  - variable: kibana.dashboards
-    type: enum
+  - variable: kibana.ingress.hosts[0].paths[0].path
+    type: string
     required: true
-    default: custom
-    label: "Kibana dashboard archive to import"
-    options:
-      - custom
-      - audit
+    default: /
+    label: "URL extension for kibana to be reachable"

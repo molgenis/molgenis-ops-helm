@@ -1,8 +1,20 @@
 # Molgenis logging Helm chart
 
-This chart is used for logging of the molgenis instances. In the case of logging where logging the access and the error log of the httpd.
+## version >= 1.0.0
 
-* Note: for this helm chart is htpasswd necessary to be used!
+This chart with this version is used for central storing of logs of the molgenis instances. We are logging:
+- tomcat logs
+- postgresql logs
+- elasticsearch logs
+- web server logs
+- molgenis logs
+- emx2 logs
+
+## version < 1.0.0
+
+This chart with this version is used for central storing of logs of all the rancher pods. We are logging all the different pods on the rancher dev cluster.
+
+* Note: for both this two versions of helm chart is htpasswd necessary to be used!
 
 ## To start molgenis-logging
 ### Install htpasswd
