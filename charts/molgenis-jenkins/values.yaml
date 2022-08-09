@@ -80,22 +80,6 @@ jenkins:
         jobs: |-
           jobs:
             - script: >
-                pipelineJob('test-e2e-commander') {
-                  description('The nightly MOLGENIS Commander integration tests')
-                  definition {
-                    cpsScm {
-                      lightweight()
-                      scm {
-                        github('molgenis/molgenis-ops-helm', 'master')
-                        scriptPath('charts/molgenis-jenkins/resources/tests/e2e-commander/Jenkinsfile')
-                      }
-                    }
-                  }
-                  triggers {
-                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * 1-5')
-                  }
-                }
-            - script: >
                 pipelineJob('preview') {
                   description('Preview a molgenis PR')
                   parameters {
