@@ -1,7 +1,7 @@
 apiVersion: v2
 name: molgenis-grafana
 home: https://grafana.net
-version: 1.0.0
+version: 1.0.1
 appVersion: 8.3.1
 description: Molgenis installation for the Grafana chart.
 sources:
