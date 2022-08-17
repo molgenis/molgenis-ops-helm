@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: molgenis-grafana
 home: https://grafana.net
 version: 1.0.0
@@ -7,6 +7,10 @@ description: Molgenis installation for the Grafana chart.
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-grafana/catalogIcon-molgenis-grafana.png
+dependencies:
+  - name: grafana
+    version: 6.19.1
+    repository: https://grafana.github.io/helm-charts
 maintainers:
 - name: fdlk
 - name: sidohaakma
