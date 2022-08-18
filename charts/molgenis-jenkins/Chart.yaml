@@ -1,12 +1,16 @@
-apiVersion: v1
+apiVersion: v2
 name: molgenis-jenkins
 home: https://jenkins.io/
-version: 1.15.10
+version: 1.15.11
 appVersion: "2.289"
 description: Molgenis installation for the jenkins chart.
 sources:
   - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-jenkins/catalogIcon-molgenis-jenkins.png
+dependencies:
+  - name: jenkins
+    version: ^3.2.5
+    repository: https://charts.jenkins.io
 maintainers:
   - name: fdlk
   - name: sidohaakma
