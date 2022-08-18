@@ -118,7 +118,7 @@ jenkins:
                   description('MOLGENIS projects in the MOLGENIS organization')
                   displayName('${GITHUB_ORG_NAME}')
                   triggers {
-                      periodic(86400)
+                      cron('0 0 1 2/* *')
                   }
                   organizations {
                     github {
@@ -162,7 +162,7 @@ jenkins:
                   description('Non-MOLGENIS projects in the MOLGENIS organization')
                   displayName('Other')
                   triggers {
-                      periodic(86400)
+                      cron('0 0 1 2/* *')
                   }
                   organizations {
                     github {
