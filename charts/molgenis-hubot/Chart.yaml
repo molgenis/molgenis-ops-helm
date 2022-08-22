@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "3.3.2"
 description: A Hubot for MOLGENIS
 name: molgenis-hubot
@@ -6,7 +6,11 @@ sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 home: https://hubot.github.com/
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-hubot/catalogIcon-molgenis-hubot.png
-version: 1.1.0
+version: 1.1.1
+dependencies:
+  - name: hubot
+    version: 1.0.1
+    repository: https://charts.helm.sh/stable
 maintainers:
 - name: fdlk
 - name: sidohaakma
