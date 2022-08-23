@@ -19,6 +19,25 @@ questions:
       default: "/"
       label: "Path of NFS server subdirectory"
       group: NFS client provisioner
+    - variable: 'nfs-subdir-external-provisioner.nfs.reclaimPolicy'
+      type: string
+      required: true
+      default: "/"
+      label: "Reclaim policy of storage class"
+      description: Can also be "Delete". This will remove archived directories instantly.
+      group: NFS client provisioner
+    - variable: 'nfs-subdir-external-provisioner.storageClass.defaultClass'
+      type: boolean
+      required: true
+      default: false
+      label: "Is storage class default?"
+      group: NFS client provisioner
+    - variable: 'nfs-subdir-external-provisioner.storageClass.name'
+      type: string
+      required: true
+      default: nfs-client
+      label: "Name of the NFS client"
+      group: NFS client provisioner
   - variable: 'storage.archived.cleanup.enabled'
     type: boolean
     required: true
@@ -39,4 +58,3 @@ questions:
       default: 30
       label: "Days to keep the archived persistent volumes"
       group: Persistent volume cleanup
-    
