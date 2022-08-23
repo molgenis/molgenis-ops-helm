@@ -4,8 +4,11 @@ nfs-subdir-external-provisioner:
   nfs:
     server: 192.168.64.160
     path: /
+    reclaimPolicy: Retain
   storageClass:
-    defaultClass: true
+    defaultClass: false
+    name: nfs-client
+
 
 storage:
   archived:
