@@ -114,4 +114,23 @@ questions:
     type: boolean
     required: true
     group: Profile 2
-          
+  - variable: jupyterhub.cull.enabled
+    label: Culling enabled
+    default: true
+    type: boolean
+    required: true
+    group: Sessions
+    show_subquestion_if: true
+    subquestions:
+    - variable: jupyterhub.cull.timeout
+      label: Timeout for RStudio sessions (in seconds)
+      type: enum
+      default: 3600
+      required: true
+      group: Sessions
+    - variable: jupyterhub.cull.every
+      label: Check for inactivity (in seconds)
+      type: enum
+      default: 2400
+      required: true
+      group: Sessions

@@ -65,3 +65,12 @@ jupyterhub:
   prePuller:
     hook:
       podSchedulingWaitDuration: -1
+  # https://github.com/jupyterhub/jupyterhub-idle-culler#as-a-standalone-script
+  cull:
+    enabled: true
+    users: false
+    removeNamedServers: false
+    timeout: 3600
+    every: 2400
+    concurrency: 10
+    maxAge: 0
