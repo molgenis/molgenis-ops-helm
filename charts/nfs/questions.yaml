@@ -22,7 +22,7 @@ questions:
     - variable: 'nfs-subdir-external-provisioner.nfs.reclaimPolicy'
       type: string
       required: true
-      default: "/"
+      default: "Retain"
       label: "Reclaim policy of storage class"
       description: Can also be "Delete". This will remove archived directories instantly.
       group: NFS client provisioner

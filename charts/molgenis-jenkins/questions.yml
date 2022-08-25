@@ -4,7 +4,7 @@ categories:
 questions:
 - variable: jenkins.controller.tag
   label: Version
-  default: "1.0.3"
+  default: "1.1.1"
   type: string
   required: true
   group: "Provisioning"

@@ -1,7 +1,7 @@
 jenkins:
   controller:
     image: "molgenis/jenkins"
-    tag: "1.0.3"
+    tag: "1.1.1"
     imagePullPolicy: IfNotPresent
     ingress:
       enabled: true
@@ -80,22 +80,6 @@ jenkins:
         jobs: |-
           jobs:
             - script: >
-                pipelineJob('test-e2e-commander') {
-                  description('The nightly MOLGENIS Commander integration tests')
-                  definition {
-                    cpsScm {
-                      lightweight()
-                      scm {
-                        github('molgenis/molgenis-ops-helm', 'master')
-                        scriptPath('charts/molgenis-jenkins/resources/tests/e2e-commander/Jenkinsfile')
-                      }
-                    }
-                  }
-                  triggers {
-                    cron('TZ=Europe/Amsterdam\nH H(2-5) * * 1-5')
-                  }
-                }
-            - script: >
                 pipelineJob('preview') {
                   description('Preview a molgenis PR')
                   parameters {
@@ -118,7 +102,7 @@ jenkins:
                   description('MOLGENIS projects in the MOLGENIS organization')
                   displayName('${GITHUB_ORG_NAME}')
                   triggers {
-                      periodic(86400)
+                      cron('0 0 1 2/*')
                   }
                   organizations {
                     github {
@@ -162,7 +146,7 @@ jenkins:
                   description('Non-MOLGENIS projects in the MOLGENIS organization')
                   displayName('Other')
                   triggers {
-                      periodic(86400)
+                      cron('0 1 1 2/*')
                   }
                   organizations {
                     github {
