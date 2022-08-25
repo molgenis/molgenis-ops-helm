@@ -1,0 +1,6 @@
+dependencies:
+- name: hubot
+  repository: https://charts.helm.sh/stable
+  version: 1.0.2
+digest: sha256:d148ebf88e7d709515abae01a2c72bdfea4a1ecc83262576b35bf885adaa5fdf
+generated: "2022-08-25T09:54:19.715159164+02:00"
