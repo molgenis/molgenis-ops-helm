@@ -48,7 +48,7 @@ pipeline {
             }
             steps {
                 container('chart-testing') {
-                    sh "ct lint --all --validate-maintainers=false"
+                    // sh "ct lint --all --validate-maintainers=false"
                     sh 'mkdir target'
                     sh 'for dir in charts/*; do helm package --destination target "$dir"; done'
                 }
