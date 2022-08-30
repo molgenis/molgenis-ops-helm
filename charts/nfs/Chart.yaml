@@ -1,12 +1,17 @@
-apiVersion: v1
+apiVersion: v2
 description: NFS management services to be able to provision NFS share as persistent volumes
+dependencies:
+- name: nfs-subdir-external-provisioner
+  version: 4.0.16
+  repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+  condition: nfs-subdir-external-provisioner.enabled
 home: https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
 maintainers:
 - name: eschaberg
 - name: sidohaakma
 name: nfs-management-service
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/nfs/catalogIcon-nfs.png
-version: 1.1.1
+version: 1.1.2
 appVersion: 4.0.2
 sources:
   - https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/tree/master/charts/nfs-subdir-external-provisioner

@@ -3,4 +3,4 @@ dependencies:
   repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
   version: 4.0.16
 digest: sha256:f628c6ac41cbb591b3663981fae870f904eacff77133d2baea7da89a97b05e79
-generated: "2022-02-25T10:55:22.631046+01:00"
+generated: "2022-08-30T08:19:36.459626+02:00"
