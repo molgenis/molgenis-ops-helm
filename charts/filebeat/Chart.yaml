@@ -1,11 +1,15 @@
-apiVersion: v1
+apiVersion: v2
 description: Customized Elastic helm chart for Filebeat
 home: https://github.com/elastic/helm-charts
 maintainers:
 - name: akuperus
 name: filebeat
-version: 1.0.2
+version: 1.1.0
 appVersion: 7.5.2
+dependencies:
+- name: filebeat
+  version: 7.5.2
+  repository: https://helm.elastic.co
 sources:
   - https://github.com/elastic/beats
 icon: https://helm.elastic.co/icons/beats.png
