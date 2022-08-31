@@ -1,8 +1,15 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "7.16.3"
+dependencies:
+- name: elasticsearch
+  version: 7.16.3
+  repository: https://helm.elastic.co
+- name: kibana
+  version: 7.16.3
+  repository: https://helm.elastic.co
 description: A Helm chart for elesticsearch and kibana configured for getting logs from the Molgenis instances
 name: molgenis-logging
-version: 1.0.0
+version: 1.1.0
 home: https://github.com/molgenis/molgenis-ops-helm
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-logging/catalogIcon-molgenis-logging.png
 maintainers:
