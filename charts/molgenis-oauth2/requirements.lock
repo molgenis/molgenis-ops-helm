@@ -1,6 +1,0 @@
-dependencies:
-- name: oauth2-proxy
-  repository: https://charts.helm.sh/stable
-  version: 3.2.3
-digest: sha256:ad2f8e459ea8c3ae8d4b75a243b6e4448fa0522ae71e5fc41a550d9e2173a792
-generated: "2021-01-07T13:55:19.98007+01:00"
