@@ -7,6 +7,6 @@ dependencies:
   version: 0.1.2
 - name: molgenis-auth
   repository: https://registry.molgenis.org/repository/helm
-  version: 0.3.1
-digest: sha256:65f85ffb74c3fe98a045bb8fe445880463cd41bdb12a3328fef6182a8967b7b4
-generated: "2021-03-05T17:47:47.221174+01:00"
+  version: 0.1.1
+digest: sha256:7f4174b34d0297c3890349d2a3e0591e25ce2e7b914790d48fca0297ed8aa77d
+generated: "2022-09-27T11:32:01.045378+02:00"

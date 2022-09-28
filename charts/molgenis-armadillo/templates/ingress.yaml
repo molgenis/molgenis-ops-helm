@@ -1,10 +1,10 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "molgenis-armadillo.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
-{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+apiVersion: networking.k8s.io/v1
 {{- else -}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
@@ -23,23 +23,32 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
     - host: {{ template "armadillo-minio.hostname" . }}
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
-              servicePort: {{ .Values.minio.service.port }}
+              service:
+                name: {{ include "call-nested" (list $ "minio" "minio.fullname") }}
+                port:
+                  number: {{ .Values.minio.service.port }}
 {{- if index .Values "molgenis-auth" "enabled" }}
     - host: {{ template "armadillo-auth.hostname" . }}
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: {{ include "call-nested" (list $ "molgenis-auth" "molgenis-auth.fullname") }}
-              servicePort: {{ index .Values "molgenis-auth" "service" "port" }}
+              service:
+                name: {{ include "call-nested" (list $ "molgenis-auth" "molgenis-auth.fullname") }}
+                port:
+                  number: {{ index .Values "molgenis-auth" "service" "port" }}
 {{- end }}
 {{- end }}

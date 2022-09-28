@@ -1,8 +1,22 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "2"
 description: A Helm chart for MOLGENIS Armadillo
 name: molgenis-armadillo
-version: 0.15.1
+version: 0.16.0
+dependencies:
+  - name: minio
+    version: 7.2.1
+    repository: https://helm.min.io
+    condition: minio.enabled
+  - name: molgenis-rserve
+    version: ^0.1.2
+    repository: https://registry.molgenis.org/repository/helm
+    condition: molgenis-rserve.enabled
+  - name: molgenis-auth
+    version: ^0.1.1
+    repository: https://registry.molgenis.org/repository/helm
+    condition: auth.enabled
+    alias: auth
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 - https://github.com/molgenis/molgenis-service-armadillo.git
