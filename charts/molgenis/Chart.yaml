@@ -2,14 +2,14 @@ apiVersion: v2
 appVersion: "10"
 description: MOLGENIS - helm stack
 name: molgenis
-version: 1.17.0
+version: 1.17.1
 dependencies:
   - name: molgenis-elasticsearch
     version: 2.1.1
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-elasticsearch.enabled
   - name: molgenis-frontend
-    version: 1.6.0
+    version: 1.7.0
     repository: https://registry.molgenis.org/repository/helm
     condition: molgenis-frontend.enabled
   - name: postgresql
