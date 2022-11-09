@@ -19,15 +19,15 @@
       Authenticator:
         auto_login: false
       GenericOAuthenticator:
-        client_id: abaa320f-9e12-487d-b484-ea4c5b71dbef
-        client_secret: QfMUyyQl30I-tGQDK6v6gY45JTXUmiQ62r7mL9vZ5nw 
+        client_id: %CLIENTID%
+        client_secret: %CLIENTSECRETID%
         login_service: MOLGENIS
-        authorize_url: https://lifecycle-auth.molgenis.org/oauth2/authorize
-        token_url: https://lifecycle-auth.molgenis.org/oauth2/token
-        userdata_url: https://lifecycle-auth.molgenis.org/oauth2/userinfo
+        authorize_url: https://auth.molgenis.net/oauth2/authorize
+        token_url: https://auth.molgenis.net/oauth2/token
+        userdata_url: https://auth.molgenis.net/oauth2/userinfo
         userdata_method: GET
         username_key: email
-        oauth_callback_url: http://jupyter.koudekoffie.nl/hub/oauth_callback
+        oauth_callback_url: http://jupyter.molgenis.net/hub/oauth_callback
         scope:
           - openid
           - name
@@ -98,7 +98,7 @@
           default: false
   
   proxy:
-    secretToken: 5489299be53215ff02e83080fa95546b7ed9029bf8b0371b5ed8b16b5acfe832
+    secretToken: %PROXYSECRETTOKEN%
     service:
       type: NodePort
   prePuller:
