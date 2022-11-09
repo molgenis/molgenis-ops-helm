@@ -2,13 +2,13 @@
   ingress:
     enabled: true
     hosts:
-      - jupyter.koudekoffie.nl
+      - jupyter.molgenis.net
     annotations:
       kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt
     tls:
       - hosts:
-        - jupyter.koudekoffie.nl
+        - jupyter.molgenis.net
         secretName: jupyterhub-secret
       
   hub:
