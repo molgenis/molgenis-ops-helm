@@ -19,8 +19,8 @@
       Authenticator:
         auto_login: false
       GenericOAuthenticator:
-        client_id: %CLIENTID%
-        client_secret: %CLIENTSECRETID%
+        client_id: CLIENTID
+        client_secret: CLIENTSECRETID
         login_service: MOLGENIS
         authorize_url: https://auth.molgenis.net/oauth2/authorize
         token_url: https://auth.molgenis.net/oauth2/token
@@ -98,7 +98,7 @@
           default: false
   
   proxy:
-    secretToken: %PROXYSECRETTOKEN%
+    secretToken: PROXYSECRETTOKEN
     service:
       type: NodePort
   prePuller:
