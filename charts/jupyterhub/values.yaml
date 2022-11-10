@@ -1,4 +1,4 @@
-#jupyterhub:
+# jupyterhub:
 ingress:
   enabled: true
   hosts:
@@ -10,7 +10,6 @@ ingress:
     - hosts:
       - jupyter.molgenis.net
       secretName: jupyterhub-secret
-    
 hub:
   config:
     JupyterHub:
