@@ -1,76 +1,114 @@
-jupyterhub:
-  ingress:
-    enabled: true
-    hosts:
-      - jupyter.molgenis.org
-  hub:
-    config:
-      JupyterHub:
-        admin_access: true
-        authenticator_class: generic-oauth
-      Authenticator:
-        auto_login: false
-      GenericOAuthenticator:
-        client_id: xxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx
-        client_secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        login_service: MOLGENIS
-        authorize_url: https://auth.molgenis.org/oauth2/authorize
-        token_url: https://auth.molgenis.org/oauth2/token
-        userdata_url: https://auth.molgenis.org/oauth2/userinfo
-        userdata_method: GET
-        username_key: email
-        oauth_callback_url: http://127.0.0.1/hub/oauth_callback
-        scope:
-          - openid
-          - name
-          - profile
-          - email
-    extraConfig:
-      checkRolesConfig: |
-        def check_roles(authenticator, handler, authentication):
-            if ("roles" in authentication["auth_state"]["oauth_user"]):
-                if ("ADMIN" in authentication["auth_state"]["oauth_user"]["roles"]):
-                    authentication["admin"] = True
-                    return authentication
-                elif ("USER" in authentication["auth_state"]["oauth_user"]["roles"]):
-                    return authentication
-                else:
-                    return None
-            else:
-                return None
-        c.Authenticator.post_auth_hook = check_roles
-  singleuser:
-    image:
-      name: datashield/rstudio-jupyter
-      tag: 1.0.1
-    cpu:
-      limit: 2
-      guarantee: 2
-    memory:
-      limit: 1G
-      guarantee: 1G
-    startTimeout: 600
-    profileList:
-    - display_name: "DataSHIELD - dsBaseClient v6.1.0"
-      description: "RStudio analysis environment with | dsBaseClient v6.1.0"
+# jupyterhub:
+ingress:
+  enabled: true
+  hosts:
+    - jupyter.molgenis.net
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt
+  tls:
+    - hosts:
+      - jupyter.molgenis.net
+      secretName: jupyterhub-secret
+hub:
+  config:
+    JupyterHub:
+      admin_access: true
+      authenticator_class: generic-oauth
+    Authenticator:
+      auto_login: false
+    GenericOAuthenticator:
+      client_id: CLIENTID
+      client_secret: CLIENTSECRETID
+      login_service: MOLGENIS
+      authorize_url: https://auth.molgenis.net/oauth2/authorize
+      token_url: https://auth.molgenis.net/oauth2/token
+      userdata_url: https://auth.molgenis.net/oauth2/userinfo
+      userdata_method: GET
+      username_key: email
+      oauth_callback_url: http://jupyter.molgenis.net/hub/oauth_callback
+      scope:
+        - openid
+        - name
+        - profile
+        - email
+  extraConfig:
+    checkRolesConfig: |
+      def check_roles(authenticator, handler, authentication):
+          if ("roles" in authentication["auth_state"]["oauth_user"]):
+              if ("ADMIN" in authentication["auth_state"]["oauth_user"]["roles"]):
+                  authentication["admin"] = True
+                  return authentication
+              elif ("USER" in authentication["auth_state"]["oauth_user"]["roles"]):
+                  return authentication
+              else:
+                  return None
+          else:
+              return None
+      c.Authenticator.post_auth_hook = check_roles
+
+      #  scheduling:
+      #    userScheduler:
+      #      enabled: true
+      #    podPriority:
+      #      enabled: true
+      #    userPlaceholder:
+      #      enabled: true
+      #      replicas: 3
+      #    userPods:
+      #      nodeAffinity:
+      #        matchNodePurpose: require
+
+singleuser:
+  image:
+    name: datashield/rstudio-jupyter
+    tag: 1.2.0
+  cpu:
+    limit: 2
+    guarantee: 2
+  memory:
+    limit: 3G
+    guarantee: 1500M
+  startTimeout: 800
+  profileList:
+    -
+      display_name: "DataSHIELD - dsBaseClient v6.1.0"
+      description: "RStudio analysis environment dsBaseClient v6.1.0"
       kubespawner_override:
-        image: datashield/rstudio-jupyter:1.0.1
+        image: "datashield/rstudio-jupyter:1.2.0"
       default: true
-    - display_name: "DataSHIELD - dsExposome v1.0.1"
-      description: "RStudio analysis environment with | dsExposome v1.0.1 (based upon the dsBase 6.1.0 environment)"
+    -
+      display_name: "DataSHIELD - dsExposomeClient 2.0.1"
+      description: "RStudio analysis environment dsExposomeClient 2.0.1 | based upon dsBaseClient 6.1.1"
       kubespawner_override:
-        image: datashield/rstudio-jupyter-exposome:1.0.0
-  proxy:
-    secretToken: xxxxxxxxxzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  prePuller:
-    hook:
-      podSchedulingWaitDuration: -1
-  # https://github.com/jupyterhub/jupyterhub-idle-culler#as-a-standalone-script
-  cull:
-    enabled: true
-    users: false
-    removeNamedServers: false
-    timeout: 3600
-    every: 2400
-    concurrency: 10
-    maxAge: 0
+        image: "brgelab/rstudio-jupyter-exposome:2"
+      default: false
+    -
+      display_name: "DataSHIELD - dsMediationClient v0.0.3-dev"
+      description: "RStudio analysis environment dsMediationClient v0.0.3-dev | based upon dsBaseClient 6.1.0"
+      kubespawner_override:
+        image: "datashield/rstudio-jupyter-mediation:1.2.0"
+      default: false
+    -
+      display_name: "DataSHIELD - dsBaseClient v6.2.0 development"
+      description: "RStudio analysis environment dsBaseClient v6.2.0 development"
+      kubespawner_override:
+        image: "datashield/rstudio-jupyter-dev:1.0.4"
+      default: false
+
+proxy:
+  secretToken: PROXYSECRETTOKEN
+  service:
+    type: NodePort
+prePuller:
+  hook:
+    podSchedulingWaitDuration: -1
+# https://github.com/jupyterhub/jupyterhub-idle-culler#as-a-standalone-script
+cull:
+  enabled: true
+  users: false
+  removeNamedServers: false
+  timeout: 3600
+  every: 2400
+  concurrency: 10
+  maxAge: 0
