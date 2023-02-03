@@ -98,7 +98,7 @@ molgenis-elasticsearch:
   enabled: true
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
-    tag: 7.15.0
+    tag: 7.16.2
   esConfig:
     elasticsearch.yml: |
       # Allow access from other pods, not just localhost
