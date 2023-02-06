@@ -43,7 +43,7 @@ spec:
             - name: HGVS_SEQREPO_DIR
               value: /usr/local/share/seqrepo/{{ .Values.seqrepo.dataRelease }}
             - name: UTA_DB_URL
-              value: postgresql://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ include "call-nested" (list . "postgresql" "postgresql.fullname") }}/{{ .Values.postgresql.postgresqlDatabase }}/{{ .Values.uta.version }}
+              value: postgresql://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ .Release.Name }}-postgresql/{{ .Values.postgresql.postgresqlDatabase }}/{{ .Values.uta.version }}
           ports:
             - name: http
               containerPort: 1234
