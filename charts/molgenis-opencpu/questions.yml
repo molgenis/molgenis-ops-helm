@@ -62,7 +62,7 @@ questions:
   show_if: "ingress.firewall.enabled=true"
 - variable: ingress.firewall.rules[3]
   label: Specify firewall rule
-  default: "20.229.238.25/32"
+  default: "20.229.238.251/32"
   type: string
   description: "Specify the ip-range (for instance 192.168.1.1/24)"
   required: true

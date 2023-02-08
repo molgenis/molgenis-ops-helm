@@ -1,12 +1,13 @@
 apiVersion: v2
 description: Opencpu stack for MOLGENIS
 name: molgenis-opencpu
-version: 0.7.0
+version: 0.7.1
 appVersion: "v2.1.4"
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-opencpu/catalogIcon-molgenis-opencpu.png
 home: https://www.opencpu.org
 maintainers:
-- name: sidohaakma
-- name: fdlk
+- name: christianhilbrands
+- name: erikschaberg
+- name: DickPostma
