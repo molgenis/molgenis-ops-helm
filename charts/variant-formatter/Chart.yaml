@@ -1,11 +1,16 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "1.1"
 description: Format variants using biocommons tools
 name: variant-formatter
 home: https://github.com/biocommons/hgvs
-version: 0.3.1
+version: 0.4.0
 icon: https://raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/variant-formatter/catalogIcon-variant-formatter.png
 maintainers:
 - name: fdlk
 sources:
 - https://github.com/molgenis/molgenis-ops-helm.git
+dependencies:
+- name: postgresql
+  version: 11.1.9 
+  repository: https://charts.bitnami.com/bitnami 
+

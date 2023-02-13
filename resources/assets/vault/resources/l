@@ -1,0 +1,9 @@
+10.10.12.4 armadillo_backend04 :
+  armadillopft.molgeniscloud.org 
+  armadillopft-auth.molgeniscloud.org 
+  armadillopft-storage.molgeniscloud.org 
+  armadillopft-storage-console.molgeniscloud.org 
+
+10.10.12.5 armadillo_backend05 :
+  opalpft.molgeniscloud.org 
+

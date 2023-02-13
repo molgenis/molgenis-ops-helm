@@ -6,6 +6,10 @@ uta:
   version: "uta_20190927"
 
 postgresql:
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: "11.9.0-debian-10-r16"
   initdbScriptsConfigMap: "{{ .Release.Name }}-uta-config"
   postgresqlUsername: uta_admin
   postgresqlPassword: uta_admin
