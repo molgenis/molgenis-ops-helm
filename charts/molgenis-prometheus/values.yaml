@@ -49,7 +49,7 @@ prometheus:
   prometheus-node-exporter:
     enabled: false
 
-  pushgateway:
+  prometheus-pushgateway:
     nodeSelector:
       deployPod: "true"
     resources:
