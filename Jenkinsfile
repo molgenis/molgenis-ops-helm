@@ -22,6 +22,7 @@ pipeline {
                     sh 'helm repo add nfs https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner'
                     sh "helm repo add airflow https://airflow-helm.github.io/charts"
                     sh "helm repo add grafana https://grafana.github.io/helm-charts"
+                    sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
                 }
             }
         }

@@ -9,34 +9,32 @@ prometheus:
       requests:
         cpu: 10m
         memory: 32Mi
-  alertmanagerFiles:
-    alertmanager.yml:
-      global:
-        slack_api_url: ''
-      receivers:
-        - name: default-receiver
-          slack_configs:
-            - channel: '#alerts'
-              send_resolved: true
-              text: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ .Annotations.description }}\n{{ end }}"
-      route:
-        group_wait: 10s
-        group_interval: 5m
-        receiver: default-receiver
-        repeat_interval: 3h
-        routes:
-          - receiver: default-receiver
-            match:
-              frequency: daily
-            continue: false
-            repeat_interval: 24h
-          - receiver: default-receiver
-            match:
-              frequency: 15m
-            continue: false
-            repeat_interval: 15m
+    global:
+      slack_api_url: ''
+    receivers:
+      - name: default-receiver
+        slack_configs:
+          - channel: '#alerts'
+            send_resolved: true
+            text: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ .Annotations.description }}\n{{ end }}"
+    route:
+      group_wait: 10s
+      group_interval: 5m
+      receiver: default-receiver
+      repeat_interval: 3h
+      routes:
+        - receiver: default-receiver
+          match:
+            frequency: daily
+          continue: false
+          repeat_interval: 24h
+        - receiver: default-receiver
+          match:
+            frequency: 15m
+          continue: false
+          repeat_interval: 15m
 
-  kubeStateMetrics:
+  kube-state-metrics:
     enabled: true
     nodeSelector:
       deployPod: "true"
@@ -48,19 +46,10 @@ prometheus:
         cpu: 20m
         memory: 128Mi
 
-  nodeExporter:
+  prometheus-node-exporter:
     enabled: false
-    nodeSelector:
-      deployPod: "true"
-    resources:
-      limits:
-        cpu: 200m
-        memory: 50Mi
-      requests:
-        cpu: 100m
-        memory: 30Mi
 
-  pushgateway:
+  prometheus-pushgateway:
     nodeSelector:
       deployPod: "true"
     resources:
@@ -81,10 +70,10 @@ prometheus:
       requests:
         cpu: 1
         memory: 6Gi
-    configMapOverrideName: "serverfiles-configmap"
+    configMapOverrideName: "serverFiles-configmap"
     extraConfigmapMounts:
       - name: targets-configmap
-        mountPath: /etc/configProm
+        mountPath: /etc/targets
         subPath: ""
         configMap: targets-configmap
         readOnly: true
@@ -99,7 +88,7 @@ prometheus:
         memory: 64Mi
     extraConfigmapMounts:
       - name: targets-configmap
-        mountPath: /etc/configProm
+        mountPath: /etc/targets
         subPath: ""
         configMap: targets-configmap
         readOnly: true
@@ -131,4 +120,3 @@ secret:
   githubtoken: "xxxx"
   serverlistuser: "xxxx"
   serverlistpassword: "xxxx"
-environment: "development"
