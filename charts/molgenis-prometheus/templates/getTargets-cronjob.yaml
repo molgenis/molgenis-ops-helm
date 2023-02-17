@@ -1,5 +1,4 @@
-{{- if eq .Values.environment "production" -}}
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: molgenis-prometheus-cronjob
@@ -53,4 +52,3 @@ spec:
                     rm -rf /tmp/*"]
           serviceAccountName: update-configmap-bot
           restartPolicy: OnFailure
-{{- end -}}

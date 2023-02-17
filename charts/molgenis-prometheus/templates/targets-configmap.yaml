@@ -6,7 +6,7 @@ data:
   {{ if eq .Values.environment "production" -}}
   node-targets.yml: |
     #get replaced with master branch server via cronjob
-  blackbox-targets.yml: |
+  website-targets.yml: |
     #get replaced with 2.0 branch servers via cronjob
   extra-targets.yml: |
     #get replaced with 1.0 branch servers via cronjob

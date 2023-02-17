@@ -56,6 +56,40 @@ data:
       - job_name: 'prometheus-rancher-prod'
         static_configs:
           - targets: ['localhost:9090']
+      - job_name: 'node-targets'
+        file_sd_configs:
+          - files:
+            - /etc/configProm/node-targets.yml
+        honor_labels: true
+      - job_name: 'blackbox-targets'
+        scrape_interval: 5m
+        metrics_path: /probe
+        honor_labels: true
+        params:
+          module: [http_2xx]
+        file_sd_configs:
+          - files:
+            - '/etc/configProm/website-targets.yml'
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: molgenis-prometheus-prometheus-blackbox-exporter:9115
+      - job_name: prometheus-openstack
+        honor_labels: true
+        metrics_path: /federate
+        params:
+          'match[]':
+            - '{__name__=~"job:.*"}'   # Request all job-level time series
+            - '{job="prometheus"}'
+            - '{job="openstack23"}'
+            - '{job="haproxy"}'
+            - '{job="tower"}'
+        static_configs:
+          - targets:
+              - 195.169.22.41:9090
     alerting:
       alertmanagers:
       - kubernetes_sd_configs:
