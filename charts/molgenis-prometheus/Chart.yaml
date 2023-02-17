@@ -6,7 +6,7 @@ appVersion: 2.41.0
 description: Molgenis installation for the Prometheus chart.
 dependencies:
   - name: prometheus
-    version: 19.3.3
+    version: 19.6.0
     repository: https://prometheus-community.github.io/helm-charts
   - name: prometheus-blackbox-exporter
     version: 7.5.0
