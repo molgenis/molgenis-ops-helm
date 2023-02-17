@@ -48,7 +48,7 @@ spec:
                     token=$(cat /run/secrets/kubernetes.io/serviceaccount/token) && 
                     wget {{ .Values.secret.githubtoken }}@raw.githubusercontent.com/molgenis/molgenis-ops-helm/master/charts/molgenis-prometheus/scripts/serverlistRequester.py &&
                     python serverlistRequester.py $(echo $serverlistuser | base64 -d ) $(echo $serverlistpassword | base64 -d ) &&
-                    kubectl --token=$token create configmap targets-configmap --from-file node-targets.yml --from-file blackbox-targets.yml -o yaml --dry-run | kubectl --token=$token replace -f - &&
+                    kubectl --token=$token create configmap targets-configmap --from-file node-targets.yml --from-file website-targets.yml -o yaml --dry-run | kubectl --token=$token replace -f - &&
                     rm -rf /tmp/*"]
           serviceAccountName: update-configmap-bot
           restartPolicy: OnFailure

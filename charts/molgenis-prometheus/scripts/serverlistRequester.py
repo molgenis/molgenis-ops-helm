@@ -90,7 +90,7 @@ def iterateServerlistWeb():
 def writeToFile():
     with open('node-targets.yml', 'w') as outputFile:
         outputFile.write("\n".join(str(item) for item in node_exporter_targets))
-    with open('blackbox-targets.yml', 'w') as outputFile:
+    with open('website-targets.yml', 'w') as outputFile:
         outputFile.write("\n".join(str(item) for item in blackbox_exporter_urls))
 
 def closeConnection():
