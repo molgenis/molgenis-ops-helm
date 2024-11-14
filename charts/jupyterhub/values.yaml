@@ -99,10 +99,10 @@
             image: "datashield/rstudio-jupyter:1.2.0"
           default: false 
         - 
-          display_name: "DataSHIELD - Workshop" 
-          description: "RStudio analysis environment dsBaseClient v6.1.0"
+          display_name: "DataSHIELD - Donkey-Lemon Dev 1.0.0 
+          description: "RStudio analysis environment dsBaseClient v6.3.1"
           kubespawner_override:
-            image: "datashield/rstudio-jupyter-workshop"
+            image: "datashield/rstudio-jupyter-donkey-lemon"
           default: false 
 
   
